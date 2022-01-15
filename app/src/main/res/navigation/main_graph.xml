@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@+id/navigation_top">
+
+    <fragment
+        android:id="@+id/navigation_top"
+        android:name="com.jp_funda.todomind.view.top.TopFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/top_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_todo"
+        android:name="com.jp_funda.todomind.view.todo.TodoFragment"
+        android:label="@string/todo"
+        tools:layout="@layout/todo_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_mind_map"
+        android:name="com.jp_funda.todomind.view.mindmap.MindMapFragment"
+        android:label="@string/mind_map"
+        tools:layout="@layout/mind_map_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_record"
+        android:name="com.jp_funda.todomind.view.record.RecordFragment"
+        android:label="@string/record"
+        tools:layout="@layout/record_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.jp_funda.todomind.view.settings.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/settings_fragment" />
+
+</navigation>
