@@ -5,9 +5,15 @@
       <map>
         <entry key="app/src/main/res/drawable/bg_gradient.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/drawable/bg_icon.xml" value="0.19166666666666668" />
+        <entry key="app/src/main/res/drawable/bg_main.xml" value="0.2893584728240967" />
+        <entry key="app/src/main/res/drawable/bottom_navigation_colors.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.20833333333333334" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.12815338042381433" />
+        <entry key="app/src/main/res/drawable/ic_meteor.xml" value="0.33" />
+        <entry key="app/src/main/res/drawable/ic_polygon_luminary.xml" value="0.3881511746680286" />
+        <entry key="app/src/main/res/drawable/ic_shiny_overlay.xml" value="0.22864583333333333" />
+        <entry key="app/src/main/res/drawable/ic_sprinkle.xml" value="0.3958333333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.23765977640405705" />
         <entry key="app/src/main/res/layout/record_fragment.xml" value="0.11503623188405797" />
         <entry key="app/src/main/res/layout/settings_fragment.xml" value="0.13647830474268416" />
         <entry key="app/src/main/res/layout/top_fragment.xml" value="0.13647830474268416" />
