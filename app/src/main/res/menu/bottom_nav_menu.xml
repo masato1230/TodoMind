@@ -18,7 +18,7 @@
 
     <item
         android:id="@+id/navigation_top"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/ic_top_24dp"
         android:title="@string/top" />
 
     <item
@@ -28,17 +28,17 @@
 
     <item
         android:id="@+id/navigation_mind_map"
-        android:icon="@drawable/ic_mind_map_24"
+        android:icon="@drawable/ic_mind_map_24dp"
         android:title="@string/mind_map" />
 
     <item
         android:id="@+id/navigation_record"
-        android:icon="@drawable/ic_record_24"
+        android:icon="@drawable/ic_record_24dp"
         android:title="@string/record" />
 
     <item
         android:id="@+id/navigation_settings"
-        android:icon="@drawable/ic_settings_24"
+        android:icon="@drawable/ic_settings_24dp"
         android:title="@string/settings" />
 
 </menu>
