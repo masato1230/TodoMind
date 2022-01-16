@@ -13,11 +13,16 @@
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="20dp"
-        app:cardBackgroundColor="@color/light_purple"
+        app:cardBackgroundColor="@color/dark_blue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <!--    TODO fill design    -->
+        <ImageView
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_animated_shape" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
