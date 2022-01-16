@@ -22,9 +22,9 @@
         android:title="@string/top" />
 
     <item
-        android:id="@+id/navigation_todo"
+        android:id="@+id/navigation_task"
         android:icon="@drawable/ic_todo_24dp"
-        android:title="@string/todo" />
+        android:title="@string/task" />
 
     <item
         android:id="@+id/navigation_mind_map"

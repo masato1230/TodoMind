@@ -1,7 +1,7 @@
-package com.jp_funda.todomind.view.todo
+package com.jp_funda.todomind.view.task
 
 import androidx.lifecycle.ViewModel
 
-class TodoViewModel : ViewModel() {
+class TaskViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }
