@@ -12,6 +12,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.4"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "io.realm:realm-gradle-plugin:10.9.0"
 
         // Hilt
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
