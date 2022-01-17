@@ -14,14 +14,14 @@ enum class TaskStatus(val state: String) {
 open class Task(
     // General fields
     @PrimaryKey var id: UUID = UUID.randomUUID(),
-    // TODO add mind map realm object
+    var mindMap: MindMap,
     var title: String,
-    var description: String,
+    var description: String?,
     var createdDate: Date,
     var updatedDate: Date,
 
     // To-Do list fields
-    var dueDate: Date,
+    var dueDate: Date?,
 
     // Mind Map fields
     var hierarchy: Int,
