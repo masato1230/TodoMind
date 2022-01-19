@@ -20,30 +20,6 @@ class TaskRepository {
         }
     }
 
-    fun updateTask(updatedTask: Task): Single<Task> {
-        return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
-                realm.copyToRealmOrUpdate(updatedTask)
-            }, {
-                emitter.onSuccess(updatedTask)
-            }, {
-                emitter.onError(it)
-            })
-        }
-    }
-
-    fun deleteTask(task: Task): Single<Task> {
-        return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
-                task.deleteFromRealm()
-            }, {
-                emitter.onSuccess(task)
-            }, {
-                emitter.onError(it)
-            })
-        }
-    }
-
     fun getAllTasks(): Single<List<Task>> {
         var result = emptyList<Task>()
         return Single.create { emitter ->
@@ -64,6 +40,30 @@ class TaskRepository {
                 result = realm.where<Task>().findAll()
             }, {
                 emitter.onSuccess(result)
+            }, {
+                emitter.onError(it)
+            })
+        }
+    }
+
+    fun updateTask(updatedTask: Task): Single<Task> {
+        return Single.create { emitter ->
+            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
+                realm.copyToRealmOrUpdate(updatedTask)
+            }, {
+                emitter.onSuccess(updatedTask)
+            }, {
+                emitter.onError(it)
+            })
+        }
+    }
+
+    fun deleteTask(task: Task): Single<Task> {
+        return Single.create { emitter ->
+            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
+                task.deleteFromRealm()
+            }, {
+                emitter.onSuccess(task)
             }, {
                 emitter.onError(it)
             })
