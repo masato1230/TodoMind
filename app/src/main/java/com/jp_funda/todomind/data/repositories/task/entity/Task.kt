@@ -1,7 +1,7 @@
 package com.jp_funda.todomind.data.database.dataentities
 
+import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import io.realm.RealmObject
-import io.realm.annotations.Index
 import io.realm.annotations.PrimaryKey
 import java.util.*
 

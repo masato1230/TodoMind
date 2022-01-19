@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.data.database.dataentities
+package com.jp_funda.todomind.data.repositories.mind_map.entity
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
