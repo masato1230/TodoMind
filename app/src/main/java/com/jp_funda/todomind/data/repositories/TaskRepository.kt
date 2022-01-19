@@ -32,7 +32,17 @@ class TaskRepository {
         }
     }
 
-    // TODO create deleteTask()
+    fun deleteTask(task: Task): Single<Task> {
+        return Single.create { emitter ->
+            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
+                task.deleteFromRealm()
+            }, {
+                emitter.onSuccess(task)
+            }, {
+                emitter.onError(it)
+            })
+        }
+    }
 
     fun getAllTasks(): Single<List<Task>> {
         var result = emptyList<Task>()
