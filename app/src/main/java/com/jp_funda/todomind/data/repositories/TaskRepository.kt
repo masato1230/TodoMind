@@ -20,7 +20,18 @@ class TaskRepository {
         }
     }
 
-    // TODO create updateTask()
+    fun updateTask(updatedTask: Task): Single<Task> {
+        return Single.create { emitter ->
+            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
+                realm.copyToRealmOrUpdate(updatedTask)
+            }, {
+                emitter.onSuccess(updatedTask)
+            }, {
+                emitter.onError(it)
+            })
+        }
+    }
+
     // TODO create deleteTask()
 
     fun getAllTasks(): Single<List<Task>> {
