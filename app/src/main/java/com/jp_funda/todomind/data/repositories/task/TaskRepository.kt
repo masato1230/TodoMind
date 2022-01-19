@@ -44,7 +44,7 @@ class TaskRepository {
         }
     }
 
-    fun fetchAllTasks(): Single<List<Task>> {
+    fun getAllTasks(): Single<List<Task>> {
         var result = emptyList<Task>()
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync({ realm ->
@@ -57,7 +57,7 @@ class TaskRepository {
         }
     }
 
-    fun fetchTasksInAMindMap(mindMap: MindMap): Single<List<Task>> {
+    fun getTasksInAMindMap(mindMap: MindMap): Single<List<Task>> {
         var result = emptyList<Task>()
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync({ realm ->
