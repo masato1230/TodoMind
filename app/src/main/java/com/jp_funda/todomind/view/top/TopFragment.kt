@@ -70,7 +70,7 @@ class TopFragment : Fragment() {
                 style = MaterialTheme.typography.h6
             )
 
-            LazyRow(modifier = Modifier.padding(bottom = 40.dp)) {
+            LazyRow(modifier = Modifier.padding(bottom = 30.dp)) {
                 // todo fill with data
                 items(items = List<String>(5) { "d" }) { str ->
                     MindMapCard()

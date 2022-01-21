@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.data.database.dataentities
+package com.jp_funda.todomind.data.repositories.task.entity
 
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import io.realm.RealmObject
@@ -14,19 +14,19 @@ enum class TaskStatus(val state: String) {
 open class Task(
     // General fields
     @PrimaryKey var id: UUID = UUID.randomUUID(),
-    var mindMap: MindMap,
-    var title: String,
-    var description: String?,
-    var createdDate: Date,
-    var updatedDate: Date,
+    var mindMap: MindMap? = null,
+    var title: String? = null,
+    var description: String? = null,
+    var createdDate: Date? = null,
+    var updatedDate: Date? = null,
 
     // To-Do list fields
-    var dueDate: Date?,
+    var dueDate: Date? = null,
 
     // Mind Map fields
-    var hierarchy: Int,
+    var hierarchy: Int? = null,
     var parentTask: Task? = null,
-    var positionNumber: Int,
+    var positionNumber: Int? = null,
 
     ) : RealmObject() {
     private var status: String = TaskStatus.Open.state

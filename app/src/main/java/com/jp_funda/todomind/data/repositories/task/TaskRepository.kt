@@ -1,12 +1,12 @@
 package com.jp_funda.todomind.data.repositories.task
 
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.data.database.dataentities.Task
+import com.jp_funda.todomind.data.repositories.task.entity.Task
 import io.reactivex.rxjava3.core.Single
 import io.realm.Realm
 import io.realm.kotlin.where
 
-class TaskRepository {
+object TaskRepository {
 
     fun createTask(task: Task): Single<Task> {
         return Single.create<Task> { emitter ->

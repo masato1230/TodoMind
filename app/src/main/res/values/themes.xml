@@ -4,7 +4,7 @@
         <item name="android:textColor">#ffffff</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/teal_200</item>
-        <item name="colorPrimaryVariant">@color/deep_purple</item>
+        <item name="colorPrimaryVariant">@color/crimson</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -17,15 +17,6 @@
     </style>
 
     <style name="Custom.ActionBar" parent="Widget.MaterialComponents.Light.ActionBar.Solid">
-        <item name="background">@drawable/bg_gradient</item>
+        <item name="background">@color/black</item>
     </style>
-
-    <style name="Theme.TodoMind.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Theme.TodoMind.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.TodoMind.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

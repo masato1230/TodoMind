@@ -5,7 +5,7 @@ import io.reactivex.rxjava3.core.Single
 import io.realm.Realm
 import io.realm.kotlin.where
 
-class MindMapRepository {
+object MindMapRepository {
 
     fun createMindMap(mindMap: MindMap): Single<MindMap> {
         return Single.create { emitter ->
@@ -43,7 +43,7 @@ class MindMapRepository {
             })
         }
     }
-    
+
     fun deleteMindMap(mindMap: MindMap): Single<MindMap> {
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync({ realm ->

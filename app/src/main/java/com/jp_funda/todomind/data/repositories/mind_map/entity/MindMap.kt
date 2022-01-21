@@ -6,10 +6,10 @@ import java.util.*
 
 open class MindMap(
     @PrimaryKey var id: UUID = UUID.randomUUID(),
-    var title: String,
-    var description: String?,
-    var createdDate: Date,
-    var updatedDate: Date,
-    var isCompleted: Boolean,
+    var title: String? = null,
+    var description: String? = null,
+    var createdDate: Date? = null,
+    var updatedDate: Date? = null,
+    var isCompleted: Boolean? = null,
 ) : RealmObject() {
 }
