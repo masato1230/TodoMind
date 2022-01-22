@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.view.components.TaskRow
 
 class TopFragment : Fragment() {
 
@@ -105,17 +106,5 @@ class TopFragment : Fragment() {
                 TaskRow()
             }
         }
-    }
-
-    @Composable
-    fun TaskRow() {
-        AndroidView(
-            factory = {
-                View.inflate(it, R.layout.row_task, null)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 10.dp),
-        )
     }
 }
