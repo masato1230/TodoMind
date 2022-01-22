@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.view.components.MindMapCard
 import com.jp_funda.todomind.view.components.TaskRow
 
 class TopFragment : Fragment() {
@@ -91,14 +92,6 @@ class TopFragment : Fragment() {
     }
 
     // TopComponents
-
-    @Composable
-    fun MindMapCard() {
-        AndroidView(factory = {
-            View.inflate(it, R.layout.card_mind_map, null)
-        })
-    }
-
     @Composable
     fun TaskList() {
         Column(modifier = Modifier.padding(horizontal = 20.dp)) {

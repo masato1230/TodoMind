@@ -5,9 +5,13 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="task">Task</string>
-    <string name="mind_map">MindMap</string>
+    <string name="mind_map">Mind Map</string>
     <string name="record">Record</string>
     <string name="settings">Settings</string>
     <string name="top">Top</string>
     <string name="title_activity_temp">TempActivity</string>
+    <string name="progress">Progress</string>
+    <string name="detail">Detail</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
