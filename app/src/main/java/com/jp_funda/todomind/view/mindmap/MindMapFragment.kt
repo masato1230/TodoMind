@@ -2,6 +2,7 @@ package com.jp_funda.todomind.view.mindmap
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.components.MindMapCard
 
@@ -60,7 +62,13 @@ class MindMapFragment : Fragment() {
                 color = Color.White,
                 style = MaterialTheme.typography.h6,
             )
-            MindMapCard(modifier = Modifier.padding(bottom = 20.dp))
+            MindMapCard(
+                modifier = Modifier.padding(bottom = 20.dp),
+                onClick = {
+                    Log.d("Move", "move")
+                    findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+                }
+            )
 
             // Mind Maps Section
             Text(
@@ -89,7 +97,7 @@ class MindMapFragment : Fragment() {
         LazyRow(modifier = Modifier.padding(bottom = 20.dp)) {
             // todo fill with data
             items(items = List<String>(5) { "d" }) { str ->
-                MindMapCard()
+                MindMapCard(onClick = {}) // todo create onClick
             }
         }
     }

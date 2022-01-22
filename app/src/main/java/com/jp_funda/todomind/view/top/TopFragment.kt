@@ -75,7 +75,7 @@ class TopFragment : Fragment() {
             LazyRow(modifier = Modifier.padding(bottom = 30.dp)) {
                 // todo fill with data
                 items(items = List<String>(5) { "d" }) { str ->
-                    MindMapCard()
+                    MindMapCard({}) // todo create onClick
                 }
             }
 

@@ -21,7 +21,12 @@
         android:id="@+id/navigation_mind_map"
         android:name="com.jp_funda.todomind.view.mindmap.MindMapFragment"
         android:label="@string/mind_map"
-        tools:layout="@layout/mind_map_fragment" />
+        tools:layout="@layout/mind_map_fragment" >
+        <action
+            android:id="@+id/action_navigation_mind_map_to_navigation_mind_map_detail"
+            app:destination="@id/navigation_mind_map_detail"
+            app:popUpTo="@id/navigation_settings" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_record"
@@ -34,5 +39,10 @@
         android:name="com.jp_funda.todomind.view.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/settings_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_mind_map_detail"
+        android:name="com.jp_funda.todomind.view.mindmap.MindMapDetailFragment" >
+    </fragment>
 
 </navigation>
