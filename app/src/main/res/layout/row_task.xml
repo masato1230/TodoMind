@@ -36,32 +36,55 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Task Title"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintStart_toEndOf="@+id/checkbox"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView2"
-            style="@style/Subhead2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxWidth="150dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:layout_marginTop="5dp"
-            android:text="description description description description"
-            android:textColor="@color/grey"
-            app:layout_constraintStart_toStartOf="@+id/materialTextView"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="5dp"
-            style="@style/TextLabel"
-            android:text="Fri 10/20 10:15PM"
-            app:layout_constraintStart_toEndOf="@+id/materialTextView2"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="-10dp"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/checkbox"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView">
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView2"
+                style="@style/Subhead2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxWidth="140dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="description description description description"
+                android:textColor="@color/grey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fri 10/20 22:15"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/materialTextView2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
