@@ -55,18 +55,18 @@ class TaskFragment : Fragment() {
                 contentColor = Color.White,
             ) {
                 Tab(
-                    selected = selectedTabIndex == 1,
-                    onClick = {
-                        // todo add filtering
-                        selectedTabIndex = 1
-                    },
-                    text = { Text("In Progress") }
-                )
-                Tab(
                     selected = selectedTabIndex == 0,
                     onClick = {
                         // todo add filtering
                         selectedTabIndex = 0
+                    },
+                    text = { Text("In Progress") }
+                )
+                Tab(
+                    selected = selectedTabIndex == 1,
+                    onClick = {
+                        // todo add filtering
+                        selectedTabIndex = 1
                     },
                     text = { Text("Open") }
                 )
