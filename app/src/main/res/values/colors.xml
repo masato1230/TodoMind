@@ -6,8 +6,11 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="dark">#13151a</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#4E4E4E</color>
+    <color name="grey">#A5A5AB</color>
+    <color name="jeremy">#e1e1e5</color>
     <color name="crimson">#dc143c</color>
     <color name="tomato">#ff6347</color>
     <color name="purple_gray">#272a42</color>
