@@ -13,11 +13,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -56,9 +56,18 @@ class MindMapDetailFragment : Fragment() {
     @Preview
     @Composable
     fun MindMapDetailContent() {
-        LazyColumn(modifier = Modifier
-            .padding(horizontal = 20.dp)) {
+        LazyColumn(
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+        ) {
             item {
+                // Title
+                Text(
+                    text = "Mind Map Title",
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    style = MaterialTheme.typography.h6,
+                    color = Color.White
+                ) // TODO add click listener to edit view
                 // Thumbnail Section
                 Image(
                     painter = painterResource(
@@ -70,18 +79,9 @@ class MindMapDetailFragment : Fragment() {
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(20.dp)),
                     contentScale = ContentScale.Crop,
-                )
+                ) // TODO add click listener to go to mind map edit view
 
                 Spacer(modifier = Modifier.height(20.dp))
-
-                // Description Section
-                // Title
-                Text(
-                    text = "Mind Map Title",
-                    modifier = Modifier.padding(bottom = 10.dp),
-                    style = MaterialTheme.typography.h6,
-                    color = Color.White
-                ) // TODO add click listener to edit view
 
                 // Description
                 Text(
@@ -89,7 +89,7 @@ class MindMapDetailFragment : Fragment() {
                     modifier = Modifier.padding(bottom = 10.dp),
                     style = MaterialTheme.typography.body2,
                     color = Color.LightGray,
-                ) // TODO add click listener to edit view
+                ) // TODO add click listener to edit descriptions view
 
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -115,7 +115,35 @@ class MindMapDetailFragment : Fragment() {
                 // Progress bar
                 RoundedProgressBar(percent = 70)
 
-                // Date Section
+                Spacer(modifier = Modifier.height(15.dp))
+
+                // Date and Edit Mind Map Button Section
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    // Date
+                    Text(
+                        text = "Created on: Fri 10/20",
+                        style = MaterialTheme.typography.subtitle1,
+                        color = Color.White
+                    )
+                    // Edit Mind Map Button
+                    Button(
+                        onClick = {},
+                        modifier = Modifier.clip(RoundedCornerShape(1000.dp)),
+                        colors = ButtonDefaults.buttonColors(Color.White)
+                    ) { // TODO set OnClick
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(text = "Mind Map")
+                            Image(
+                                imageVector = Icons.Default.ArrowForward,
+                                contentDescription = "Next",
+                            )
+                        }
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(10.dp))
 
