@@ -14,15 +14,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.components.*
 
 class TopFragment : Fragment() {
@@ -41,7 +41,18 @@ class TopFragment : Fragment() {
 //        return inflater.inflate(R.layout.top_fragment, container, false)
         return ComposeView(requireContext()).apply {
             setContent {
-                TopContent()
+                Scaffold(
+                    floatingActionButton = {
+                        ExtendedFloatingActionButton(
+                            text = { Text(text = "New task") },
+                            onClick = {}, // TODO navigate user to add task screen
+                            icon = { Icon(Icons.Filled.Add, "") }
+                        )
+                    },
+                    backgroundColor = colorResource(id = R.color.deep_purple)
+                ) {
+                    TopContent()
+                }
             }
         }
     }
@@ -66,6 +77,11 @@ class TopFragment : Fragment() {
             // todo fill with data
             items(items = List(10) { "d" }) { str ->
                 TaskRow(modifier = Modifier.padding(horizontal = 20.dp))
+            }
+            
+            // Bottom padding to avoid fab overlay causing overlay bug
+            item { 
+                Spacer(modifier = Modifier.height(100.dp))
             }
         }
     }
