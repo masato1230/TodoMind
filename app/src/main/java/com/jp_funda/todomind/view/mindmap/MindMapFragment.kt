@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.components.MindMapCard
+import com.jp_funda.todomind.view.components.RecentMindMapSection
 
 class MindMapFragment : Fragment() {
 
@@ -53,22 +54,7 @@ class MindMapFragment : Fragment() {
         Column(
             modifier = Modifier.verticalScroll(scrollState)
         ) {
-            // Recent Activity Section
-            Text(
-                text = "The Mind Map you are working on recently...",
-                modifier = Modifier
-                    .padding(15.dp)
-                    .width(250.dp),
-                color = Color.White,
-                style = MaterialTheme.typography.h6,
-            )
-            MindMapCard(
-                modifier = Modifier.padding(bottom = 20.dp),
-                onClick = {
-                    Log.d("Move", "move")
-                    findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
-                }
-            )
+            RecentMindMapSection(fragment = this@MindMapFragment)
 
             // Mind Maps Section
             Text(

@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.components.MindMapCard
+import com.jp_funda.todomind.view.components.RecentMindMapSection
 import com.jp_funda.todomind.view.components.TaskLists
 import com.jp_funda.todomind.view.components.TaskRow
 
@@ -59,24 +60,25 @@ class TopFragment : Fragment() {
     fun TopContent() {
         LazyColumn {
             item {
-                // Section Projects
-                Text(
-                    text = "Mind Maps",
-                    modifier = Modifier.padding(
-                        top = 40.dp,
-                        start = 20.dp,
-                        bottom = 20.dp,
-                    ),
-                    color = Color.White,
-                    style = MaterialTheme.typography.h6
-                )
-
-                LazyRow(modifier = Modifier.padding(bottom = 30.dp)) {
-                    // todo fill with data
-                    items(items = List<String>(5) { "d" }) { str ->
-                        MindMapCard({}) // todo create onClick
-                    }
-                }
+                // Section Recent Mind Map
+                RecentMindMapSection(fragment = this@TopFragment)
+//                Text(
+//                    text = "Mind Maps",
+//                    modifier = Modifier.padding(
+//                        top = 40.dp,
+//                        start = 20.dp,
+//                        bottom = 20.dp,
+//                    ),
+//                    color = Color.White,
+//                    style = MaterialTheme.typography.h6
+//                )
+//
+//                LazyRow(modifier = Modifier.padding(bottom = 30.dp)) {
+//                    // todo fill with data
+//                    items(items = List<String>(5) { "d" }) { str ->
+//                        MindMapCard({}) // todo create onClick
+//                    }
+//                }
 
                 // Section Tasks
                 var selectedTabIndex by remember { mutableStateOf(0) }
