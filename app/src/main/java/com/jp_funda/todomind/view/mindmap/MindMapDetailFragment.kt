@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -24,7 +25,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.view.components.TaskLists
 
+// TODO add delete button to action bar
 class MindMapDetailFragment : Fragment() {
 
     companion object {
@@ -71,17 +74,19 @@ class MindMapDetailFragment : Fragment() {
                 modifier = Modifier.padding(bottom = 10.dp),
                 style = MaterialTheme.typography.h6,
                 color = Color.White
-            )
+            ) // TODO add click listener to edit view
+
             // Description
             Text(
                 text = "This is description of the mind map. this is description of mind map. this is description of mind map",
                 modifier = Modifier.padding(bottom = 10.dp),
                 style = MaterialTheme.typography.body2,
                 color = Color.LightGray,
-            )
+            ) // TODO add click listener to edit view
 
             Spacer(modifier = Modifier.height(10.dp))
 
+            // Progress Section
             // Progress description
             Row(
                 modifier = Modifier
@@ -100,12 +105,13 @@ class MindMapDetailFragment : Fragment() {
                     color = Color.White
                 )
             }
-
             // Progress bar
             RoundedProgressBar(percent = 70)
-            // Created Date and Last Updated Date
+
+            // Date Section
 
             // Task list Section
+            TaskLists()
         }
     }
 
