@@ -20,9 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.components.*
 
 class TopFragment : Fragment() {
@@ -41,16 +39,7 @@ class TopFragment : Fragment() {
 //        return inflater.inflate(R.layout.top_fragment, container, false)
         return ComposeView(requireContext()).apply {
             setContent {
-                Scaffold(
-                    floatingActionButton = {
-                        ExtendedFloatingActionButton(
-                            text = { Text(text = "New task") },
-                            onClick = {}, // TODO navigate user to add task screen
-                            icon = { Icon(Icons.Filled.Add, "") }
-                        )
-                    },
-                    backgroundColor = colorResource(id = R.color.deep_purple)
-                ) {
+                NewTaskFAB(onClick = {}) { // TODO set onClick to new task screen
                     TopContent()
                 }
             }
