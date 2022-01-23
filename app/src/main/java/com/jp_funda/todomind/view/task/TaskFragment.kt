@@ -17,9 +17,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.view.components.TaskRow
+import com.jp_funda.todomind.R
+import com.jp_funda.todomind.view.components.TaskLists
 
 class TaskFragment : Fragment() {
 
@@ -46,51 +49,6 @@ class TaskFragment : Fragment() {
     @Preview
     @Composable
     fun TaskContent() {
-        var selectedTabIndex by remember { mutableStateOf(0) }
-
-        Column {
-            TabRow(
-                selectedTabIndex = selectedTabIndex,
-                backgroundColor = Color.Black,
-                contentColor = Color.White,
-            ) {
-                Tab(
-                    selected = selectedTabIndex == 0,
-                    onClick = {
-                        // todo add filtering
-                        selectedTabIndex = 0
-                    },
-                    text = { Text("In Progress") }
-                )
-                Tab(
-                    selected = selectedTabIndex == 1,
-                    onClick = {
-                        // todo add filtering
-                        selectedTabIndex = 1
-                    },
-                    text = { Text("Open") }
-                )
-                Tab(
-                    selected = selectedTabIndex == 2,
-                    onClick = {
-                        // todo add filtering
-                        selectedTabIndex = 2
-                    },
-                    text = { Text("Closed") }
-                )
-            }
-
-            TaskList()
-        }
-    }
-
-    @Composable
-    fun TaskList() {
-        LazyColumn(modifier = Modifier.padding(horizontal = 20.dp)) {
-            // todo fill with data
-            items(items = List(10) { "d" }) { str ->
-                TaskRow()
-            }
-        }
+        TaskLists()
     }
 }

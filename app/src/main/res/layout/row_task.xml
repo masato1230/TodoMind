@@ -20,7 +20,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="30dp"
             android:button="@drawable/checkbox_circle"
-            android:buttonTint="@color/white"
+            android:buttonTint="@color/teal_200"
             android:scaleX="1.50"
             android:scaleY="1.50"
             app:layout_constraintBottom_toBottomOf="parent"

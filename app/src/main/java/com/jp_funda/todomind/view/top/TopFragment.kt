@@ -18,16 +18,21 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.components.MindMapCard
+import com.jp_funda.todomind.view.components.RecentMindMapSection
+import com.jp_funda.todomind.view.components.TaskLists
 import com.jp_funda.todomind.view.components.TaskRow
 
 class TopFragment : Fragment() {
@@ -53,50 +58,70 @@ class TopFragment : Fragment() {
 
     @Composable
     fun TopContent() {
+        LazyColumn {
+            item {
+                // Section Recent Mind Map
+                RecentMindMapSection(fragment = this@TopFragment)
+//                Text(
+//                    text = "Mind Maps",
+//                    modifier = Modifier.padding(
+//                        top = 40.dp,
+//                        start = 20.dp,
+//                        bottom = 20.dp,
+//                    ),
+//                    color = Color.White,
+//                    style = MaterialTheme.typography.h6
+//                )
+//
+//                LazyRow(modifier = Modifier.padding(bottom = 30.dp)) {
+//                    // todo fill with data
+//                    items(items = List<String>(5) { "d" }) { str ->
+//                        MindMapCard({}) // todo create onClick
+//                    }
+//                }
 
-        val scrollState = rememberScrollState()
-
-        Column(
-            modifier = Modifier.verticalScroll(scrollState)
-        ) {
-            // Section Projects
-            Text(
-                text = "Mind Maps",
-                modifier = Modifier.padding(
-                    top = 40.dp,
-                    bottom = 20.dp,
-                    start = 20.dp,
-                    end = 20.dp
-                ),
-                color = Color.White,
-                style = MaterialTheme.typography.h6
-            )
-
-            LazyRow(modifier = Modifier.padding(bottom = 30.dp)) {
-                // todo fill with data
-                items(items = List<String>(5) { "d" }) { str ->
-                    MindMapCard()
+                // Section Tasks
+                var selectedTabIndex by remember { mutableStateOf(0) }
+                Text(
+                    text = "Tasks",
+                    modifier = Modifier.padding(start = 20.dp),
+                    color = Color.White,
+                    style = MaterialTheme.typography.h6,
+                )
+                TabRow(
+                    selectedTabIndex = selectedTabIndex,
+                    backgroundColor = colorResource(id = R.color.deep_purple),
+                    contentColor = Color.White,
+                ) {
+                    Tab(
+                        selected = selectedTabIndex == 0,
+                        onClick = {
+                            // todo add filtering
+                            selectedTabIndex = 0
+                        },
+                        text = { Text("In Progress") }
+                    )
+                    Tab(
+                        selected = selectedTabIndex == 1,
+                        onClick = {
+                            // todo add filtering
+                            selectedTabIndex = 1
+                        },
+                        text = { Text("Open") }
+                    )
+                    Tab(
+                        selected = selectedTabIndex == 2,
+                        onClick = {
+                            // todo add filtering
+                            selectedTabIndex = 2
+                        },
+                        text = { Text("Closed") }
+                    )
                 }
             }
-
-            // Section Todos
-            Text(
-                text = "Tasks",
-                modifier = Modifier.padding(15.dp),
-                color = Color.White,
-                style = MaterialTheme.typography.h6,
-            )
-
-            TaskList()
-        }
-    }
-
-    // TopComponents
-    @Composable
-    fun TaskList() {
-        Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-            List(5) { "d" }.forEach { str ->
-                TaskRow()
+            // todo fill with data
+            items(items = List(10) { "d" }) { str ->
+                TaskRow(modifier = Modifier.padding(horizontal = 20.dp))
             }
         }
     }
