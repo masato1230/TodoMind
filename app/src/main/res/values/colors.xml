@@ -19,5 +19,7 @@
     <color name="deep_purple">#18181c</color>
     <color name="light_purple">#3f1b66</color>
     <color name="dark_blue">#152247</color>
+    <color name="navy_blue">#263140</color>
+    <color name="aqua">#35475d</color>
     <color name="transparent">#00ffffff</color>
 </resources>

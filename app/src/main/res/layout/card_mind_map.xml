@@ -91,7 +91,7 @@
                 android:textAlignment="center"
                 android:text="@string/detail"
                 style="@style/CaptionSB"
-                android:textColor="@color/crimson"
+                android:textColor="@color/deep_purple"
                 android:background="@drawable/bg_top_right_bottom_right_rounded_white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
