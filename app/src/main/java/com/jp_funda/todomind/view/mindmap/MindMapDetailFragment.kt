@@ -83,6 +83,36 @@ class MindMapDetailFragment : Fragment() {
 
                 Spacer(modifier = Modifier.height(20.dp))
 
+                // Date and Edit Mind Map Button Section
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    // Date
+                    Text(
+                        text = "Created on: Fri 10/20",
+                        style = MaterialTheme.typography.subtitle1,
+                        color = Color.White
+                    )
+                    // Edit Mind Map Button
+                    Button(
+                        onClick = {},
+                        modifier = Modifier.clip(RoundedCornerShape(1000.dp)),
+                        colors = ButtonDefaults.buttonColors(Color.White)
+                    ) { // TODO set OnClick
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(text = "Mind Map")
+                            Image(
+                                imageVector = Icons.Default.ArrowForward,
+                                contentDescription = "Next",
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(15.dp))
+
                 // Description
                 Text(
                     text = "This is description of the mind map. this is description of mind map. this is description of mind map",
@@ -114,36 +144,6 @@ class MindMapDetailFragment : Fragment() {
                 }
                 // Progress bar
                 RoundedProgressBar(percent = 70)
-
-                Spacer(modifier = Modifier.height(15.dp))
-
-                // Date and Edit Mind Map Button Section
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    // Date
-                    Text(
-                        text = "Created on: Fri 10/20",
-                        style = MaterialTheme.typography.subtitle1,
-                        color = Color.White
-                    )
-                    // Edit Mind Map Button
-                    Button(
-                        onClick = {},
-                        modifier = Modifier.clip(RoundedCornerShape(1000.dp)),
-                        colors = ButtonDefaults.buttonColors(Color.White)
-                    ) { // TODO set OnClick
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(text = "Mind Map")
-                            Image(
-                                imageVector = Icons.Default.ArrowForward,
-                                contentDescription = "Next",
-                            )
-                        }
-                    }
-                }
 
                 Spacer(modifier = Modifier.height(10.dp))
 
