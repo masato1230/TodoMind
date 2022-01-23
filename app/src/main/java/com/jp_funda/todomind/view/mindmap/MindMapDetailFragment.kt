@@ -62,14 +62,15 @@ class MindMapDetailFragment : Fragment() {
                 contentScale = ContentScale.Crop,
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             // Description Section
             // Title
             Text(
                 text = "Mind Map Title",
                 modifier = Modifier.padding(bottom = 10.dp),
-                style = MaterialTheme.typography.h6, color = Color.White
+                style = MaterialTheme.typography.h6,
+                color = Color.White
             )
             // Description
             Text(
@@ -78,7 +79,28 @@ class MindMapDetailFragment : Fragment() {
                 style = MaterialTheme.typography.body2,
                 color = Color.LightGray,
             )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
             // Progress description
+            Row(
+                modifier = Modifier
+                    .padding(start = 10.dp, bottom = 5.dp)
+                    .fillMaxWidth(),
+            ) {
+                Text(
+                    text = "Progress: ",
+                    style = MaterialTheme.typography.body1,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = "70%",
+                    style = MaterialTheme.typography.body1,
+                    color = Color.White
+                )
+            }
+
             // Progress bar
             RoundedProgressBar(percent = 70)
             // Created Date and Last Updated Date
