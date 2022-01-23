@@ -111,7 +111,7 @@ class MindMapDetailFragment : Fragment() {
             // Date Section
 
             // Task list Section
-            TaskLists()
+            TaskLists(listPadding = 0)
         }
     }
 

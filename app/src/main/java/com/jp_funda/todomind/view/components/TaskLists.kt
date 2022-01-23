@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.R
 
 @Composable
-fun TaskLists() {
+fun TaskLists(listPadding: Int = 20) {
     var selectedTabIndex by remember { mutableStateOf(0) }
 
     Column {
@@ -50,13 +50,13 @@ fun TaskLists() {
             )
         }
 
-        TaskList()
+        TaskList(listPadding = listPadding)
     }
 }
 
 @Composable
-fun TaskList() {
-    LazyColumn(modifier = Modifier.padding(horizontal = 20.dp)) {
+fun TaskList(listPadding: Int) {
+    LazyColumn(modifier = Modifier.padding(horizontal = listPadding.dp)) {
         // todo fill with data
         items(items = List(10) { "d" }) { str ->
             TaskRow()
