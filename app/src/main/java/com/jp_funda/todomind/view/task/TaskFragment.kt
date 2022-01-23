@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.view.components.TaskRow
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.view.components.NewTaskFAB
 import com.jp_funda.todomind.view.components.TaskLists
 
 class TaskFragment : Fragment() {
@@ -41,7 +42,9 @@ class TaskFragment : Fragment() {
 
         return ComposeView(requireContext()).apply {
             setContent {
-                TaskContent()
+                NewTaskFAB(onClick = {}) { // TODO add navigation to new task screen
+                    TaskContent()
+                }
             }
         }
     }
