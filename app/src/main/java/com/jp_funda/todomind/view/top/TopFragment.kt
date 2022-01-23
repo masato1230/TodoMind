@@ -30,10 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.view.components.MindMapCard
-import com.jp_funda.todomind.view.components.RecentMindMapSection
-import com.jp_funda.todomind.view.components.TaskLists
-import com.jp_funda.todomind.view.components.TaskRow
+import com.jp_funda.todomind.view.components.*
 
 class TopFragment : Fragment() {
 
@@ -62,23 +59,6 @@ class TopFragment : Fragment() {
             item {
                 // Section Recent Mind Map
                 RecentMindMapSection(fragment = this@TopFragment)
-//                Text(
-//                    text = "Mind Maps",
-//                    modifier = Modifier.padding(
-//                        top = 40.dp,
-//                        start = 20.dp,
-//                        bottom = 20.dp,
-//                    ),
-//                    color = Color.White,
-//                    style = MaterialTheme.typography.h6
-//                )
-//
-//                LazyRow(modifier = Modifier.padding(bottom = 30.dp)) {
-//                    // todo fill with data
-//                    items(items = List<String>(5) { "d" }) { str ->
-//                        MindMapCard({}) // todo create onClick
-//                    }
-//                }
 
                 // Section Tasks
                 var selectedTabIndex by remember { mutableStateOf(0) }
@@ -88,36 +68,7 @@ class TopFragment : Fragment() {
                     color = Color.White,
                     style = MaterialTheme.typography.h6,
                 )
-                TabRow(
-                    selectedTabIndex = selectedTabIndex,
-                    backgroundColor = colorResource(id = R.color.deep_purple),
-                    contentColor = Color.White,
-                ) {
-                    Tab(
-                        selected = selectedTabIndex == 0,
-                        onClick = {
-                            // todo add filtering
-                            selectedTabIndex = 0
-                        },
-                        text = { Text("In Progress") }
-                    )
-                    Tab(
-                        selected = selectedTabIndex == 1,
-                        onClick = {
-                            // todo add filtering
-                            selectedTabIndex = 1
-                        },
-                        text = { Text("Open") }
-                    )
-                    Tab(
-                        selected = selectedTabIndex == 2,
-                        onClick = {
-                            // todo add filtering
-                            selectedTabIndex = 2
-                        },
-                        text = { Text("Closed") }
-                    )
-                }
+                TaskTab()
             }
             // todo fill with data
             items(items = List(10) { "d" }) { str ->
