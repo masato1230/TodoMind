@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.components.TaskRow
+import com.jp_funda.todomind.view.components.TaskTab
 
 // TODO add delete button to action bar
 class MindMapDetailFragment : Fragment() {
@@ -151,36 +152,7 @@ class MindMapDetailFragment : Fragment() {
                     color = Color.White,
                     style = MaterialTheme.typography.h6
                 )
-                TabRow(
-                    selectedTabIndex = selectedTabIndex,
-                    backgroundColor = colorResource(id = R.color.deep_purple),
-                    contentColor = Color.White,
-                ) {
-                    Tab(
-                        selected = selectedTabIndex == 0,
-                        onClick = {
-                            // todo add filtering
-                            selectedTabIndex = 0
-                        },
-                        text = { Text("In Progress") }
-                    )
-                    Tab(
-                        selected = selectedTabIndex == 1,
-                        onClick = {
-                            // todo add filtering
-                            selectedTabIndex = 1
-                        },
-                        text = { Text("Open") }
-                    )
-                    Tab(
-                        selected = selectedTabIndex == 2,
-                        onClick = {
-                            // todo add filtering
-                            selectedTabIndex = 2
-                        },
-                        text = { Text("Closed") }
-                    )
-                }
+                TaskTab()
             }
             items(items = List(10) { "d" }) { str ->
                 TaskRow()
