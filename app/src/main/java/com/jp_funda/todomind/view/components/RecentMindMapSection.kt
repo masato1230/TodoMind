@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.view.mindmap.MindMapFragment
+import com.jp_funda.todomind.view.top.TopFragment
 
 @Composable
 fun RecentMindMapSection(fragment: Fragment) {
@@ -28,8 +30,10 @@ fun RecentMindMapSection(fragment: Fragment) {
     MindMapCard(
         modifier = Modifier.padding(bottom = 20.dp),
         onClick = {
-            Log.d("Move", "move")
-            findNavController(fragment).navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+            when (fragment) {
+                is TopFragment ->findNavController(fragment).navigate(R.id.action_navigation_top_to_navigation_mind_map_detail)
+                is MindMapFragment -> findNavController(fragment).navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+            }
         }
     )
 }
