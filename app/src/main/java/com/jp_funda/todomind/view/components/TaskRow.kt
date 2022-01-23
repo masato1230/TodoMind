@@ -10,12 +10,12 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.jp_funda.todomind.R
 
 @Composable
-fun TaskRow() {
+fun TaskRow(modifier: Modifier = Modifier) {
     AndroidView(
         factory = {
             View.inflate(it, R.layout.row_task, null)
         },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 10.dp),
     )
