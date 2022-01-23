@@ -145,10 +145,15 @@ class MindMapDetailFragment : Fragment() {
                 // Progress bar
                 RoundedProgressBar(percent = 70)
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(30.dp))
 
                 // Task list Section
                 var selectedTabIndex by remember { mutableStateOf(0) }
+                Text(
+                    text = "Tasks - Mind Map Title",
+                    color = Color.White,
+                    style = MaterialTheme.typography.h6
+                )
                 TabRow(
                     selectedTabIndex = selectedTabIndex,
                     backgroundColor = colorResource(id = R.color.deep_purple),
