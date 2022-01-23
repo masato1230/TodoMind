@@ -1,7 +1,6 @@
 package com.jp_funda.todomind.view.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Tab
@@ -16,8 +15,6 @@ import com.jp_funda.todomind.R
 
 @Composable
 fun TaskLists(listPadding: Int = 20) {
-    var selectedTabIndex by remember { mutableStateOf(0) }
-
     Column {
         TaskTab()
 
@@ -31,6 +28,10 @@ fun TaskList(listPadding: Int) {
         // todo fill with data
         items(items = List(10) { "d" }) { str ->
             TaskRow()
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(100.dp))
         }
     }
 }
