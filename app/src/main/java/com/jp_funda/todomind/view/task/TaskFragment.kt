@@ -20,25 +20,29 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.viewModels
 import com.jp_funda.todomind.view.components.TaskRow
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.components.NewTaskFAB
 import com.jp_funda.todomind.view.components.TaskLists
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class TaskFragment : Fragment() {
+
+    private val viewModel by viewModels<TaskViewModel>()
 
     companion object {
         fun newInstance() = TaskFragment()
     }
 
-    private lateinit var viewModel: TaskViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        viewModel = ViewModelProvider(this).get(TaskViewModel::class.java)
+        viewModel.logging()
 
         return ComposeView(requireContext()).apply {
             setContent {
