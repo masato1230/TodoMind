@@ -5,8 +5,9 @@ import com.jp_funda.todomind.data.repositories.task.entity.Task
 import io.reactivex.rxjava3.core.Single
 import io.realm.Realm
 import io.realm.kotlin.where
+import javax.inject.Inject
 
-object TaskRepository {
+class TaskRepository @Inject constructor() {
 
     fun createTask(task: Task): Single<Task> {
         return Single.create<Task> { emitter ->
