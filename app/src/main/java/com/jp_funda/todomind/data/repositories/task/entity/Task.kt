@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.data.repositories.task.entity
 
+import android.graphics.Color
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -27,6 +28,7 @@ open class Task(
     var hierarchy: Int? = null,
     var parentTask: Task? = null,
     var positionNumber: Int? = null,
+    var color: String? = null, // Color Hex
 
     ) : RealmObject() {
     private var status: String = TaskStatus.Open.state
@@ -43,4 +45,4 @@ open class Task(
             // users set state using a FrogState, but it is saved as a string internally
             status = value.state
         }
-    }
+}
