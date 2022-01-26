@@ -10,6 +10,7 @@ import javax.inject.Inject
 
 class TaskRepository @Inject constructor() {
 
+    // CREATE
     fun createTask(task: Task): Single<Task> {
         return Single.create<Task> { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync({ realm ->
@@ -22,6 +23,7 @@ class TaskRepository @Inject constructor() {
         }
     }
 
+    // READ
     fun getAllTasks(): Single<List<Task>> {
         var result = emptyList<Task>()
         return Single.create { emitter ->
@@ -39,7 +41,7 @@ class TaskRepository @Inject constructor() {
         var result = emptyList<Task>()
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync({ realm ->
-                result = realm.where<Task>().equalTo("mindmap.id", mindMap.id) .findAll()
+                result = realm.where<Task>().equalTo("mindmap.id", mindMap.id).findAll()
             }, {
                 emitter.onSuccess(result)
             }, {
@@ -48,6 +50,21 @@ class TaskRepository @Inject constructor() {
         }
     }
 
+    fun getTasksFilterByStatus(status: TaskStatus): Single<List<Task>> {
+        var result = emptyList<Task>()
+        return Single.create { emitter ->
+            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
+                result =
+                    realm.where<Task>().equalTo("status", status.state).findAll()
+            }, {
+                emitter.onSuccess(result)
+            }, {
+                emitter.onError(it)
+            })
+        }
+    }
+
+    // UPDATE
     fun updateTask(updatedTask: Task): Single<Task> {
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync({ realm ->
@@ -60,6 +77,7 @@ class TaskRepository @Inject constructor() {
         }
     }
 
+    // DELETE
     fun deleteTask(task: Task): Single<Task> {
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync({ realm ->

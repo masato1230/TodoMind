@@ -26,12 +26,13 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.components.NewTaskFAB
 import com.jp_funda.todomind.view.components.TaskLists
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class TaskFragment : Fragment() {
 
-    private val viewModel by viewModels<TaskViewModel>()
+    private val taskViewModel by viewModels<TaskViewModel>()
 
     companion object {
         fun newInstance() = TaskFragment()
@@ -41,9 +42,6 @@ class TaskFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        viewModel.logging()
-
         return ComposeView(requireContext()).apply {
             setContent {
                 NewTaskFAB(onClick = {}) { // TODO add navigation to new task screen
@@ -51,6 +49,12 @@ class TaskFragment : Fragment() {
                 }
             }
         }
+    }
+
+    fun bindViewModel() {
+        val subscription = CompositeDisposable()
+
+        subscription.add(taskViewModel.getTasks())
     }
 
     @Preview
