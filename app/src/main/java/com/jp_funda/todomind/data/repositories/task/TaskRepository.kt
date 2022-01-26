@@ -2,6 +2,7 @@ package com.jp_funda.todomind.data.repositories.task
 
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import io.reactivex.rxjava3.core.Single
 import io.realm.Realm
 import io.realm.kotlin.where
@@ -38,7 +39,7 @@ class TaskRepository @Inject constructor() {
         var result = emptyList<Task>()
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync({ realm ->
-                result = realm.where<Task>().findAll()
+                result = realm.where<Task>().equalTo("mindmap.id", mindMap.id) .findAll()
             }, {
                 emitter.onSuccess(result)
             }, {
