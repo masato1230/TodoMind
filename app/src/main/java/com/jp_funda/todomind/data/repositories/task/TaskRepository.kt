@@ -50,7 +50,7 @@ class TaskRepository @Inject constructor() {
         }
     }
 
-    fun getTasksFilterByStatus(status: TaskStatus): Single<List<Task>> {
+    fun getTasksFilteredByStatus(status: TaskStatus): Single<List<Task>> {
         var result = emptyList<Task>()
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync({ realm ->
