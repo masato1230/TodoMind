@@ -21,7 +21,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.task.TaskViewModel
 
 class TopFragment : Fragment() {
 
@@ -30,12 +32,14 @@ class TopFragment : Fragment() {
     }
 
     private lateinit var viewModel: TopViewModel
+    private lateinit var taskViewModel: TaskViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this)[TopViewModel::class.java]
+//        taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
 //        return inflater.inflate(R.layout.top_fragment, container, false)
         return ComposeView(requireContext()).apply {
             setContent {

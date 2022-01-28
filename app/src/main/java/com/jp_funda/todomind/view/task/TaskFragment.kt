@@ -2,6 +2,7 @@ package com.jp_funda.todomind.view.task
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,12 +22,16 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import com.jp_funda.todomind.view.components.TaskRow
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.components.NewTaskFAB
 import com.jp_funda.todomind.view.components.TaskLists
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -42,6 +47,8 @@ class TaskFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        bindViewModel()
+
         return ComposeView(requireContext()).apply {
             setContent {
                 NewTaskFAB(onClick = {}) { // TODO add navigation to new task screen
@@ -51,10 +58,18 @@ class TaskFragment : Fragment() {
         }
     }
 
-    fun bindViewModel() {
-        val subscription = CompositeDisposable()
+    private fun bindViewModel() {
+        val disposables = CompositeDisposable()
 
-        subscription.add(taskViewModel.getTasks())
+        disposables.add(
+            taskViewModel.getInProgressTasks()
+                .subscribeOn(Schedulers.computation())
+                .subscribe({
+                    Log.d("i", it.toString())
+                }, {
+                    Log.e("Error", it.message.toString())
+                })
+        )
     }
 
     @Preview

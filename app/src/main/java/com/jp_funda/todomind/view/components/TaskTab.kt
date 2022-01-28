@@ -10,11 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.view.task.TaskViewModel
 
 @Composable
-fun TaskTab() {
-    var selectedTabIndex by remember { mutableStateOf(0) }
+fun TaskTab(selectedTabIndex: Int, onTabChange: (clickedTabIndex: Int) -> Unit) {
     TabRow(
         selectedTabIndex = selectedTabIndex,
         backgroundColor = colorResource(id = R.color.deep_purple),
@@ -22,26 +23,17 @@ fun TaskTab() {
     ) {
         Tab(
             selected = selectedTabIndex == 0,
-            onClick = {
-                // todo add filtering
-                selectedTabIndex = 0
-            },
+            onClick = { onTabChange(0) },
             text = { Text("In Progress") }
         )
         Tab(
             selected = selectedTabIndex == 1,
-            onClick = {
-                // todo add filtering
-                selectedTabIndex = 1
-            },
+            onClick = { onTabChange(1) },
             text = { Text("Open") }
         )
         Tab(
             selected = selectedTabIndex == 2,
-            onClick = {
-                // todo add filtering
-                selectedTabIndex = 2
-            },
+            onClick = { onTabChange(2) },
             text = { Text("Closed") }
         )
     }

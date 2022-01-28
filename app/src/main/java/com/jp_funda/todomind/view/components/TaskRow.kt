@@ -8,9 +8,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.repositories.task.entity.Task
 
 @Composable
-fun TaskRow(modifier: Modifier = Modifier) {
+fun TaskRow(
+    task: Task,
+    modifier: Modifier = Modifier
+) {
     AndroidView(
         factory = {
             View.inflate(it, R.layout.row_task, null)

@@ -11,23 +11,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.view.task.TaskViewModel
 
 @Composable
 fun TaskLists(listPadding: Int = 20) {
+    val taskViewModel: TaskViewModel = hiltViewModel()
     Column {
-        TaskTab()
+        TaskTab(taskViewModel)
 
-        TaskList(listPadding = listPadding)
+//        TaskList(listPadding = listPadding)
     }
 }
 
 @Composable
-fun TaskList(listPadding: Int) {
+fun TaskList(tasks: List<Task>, listPadding: Int) {
     LazyColumn(modifier = Modifier.padding(horizontal = listPadding.dp)) {
         // todo fill with data
-        items(items = List(10) { "d" }) { str ->
-            TaskRow()
+        items(items = tasks) { task ->
+            TaskRow(task)
         }
 
         item {
