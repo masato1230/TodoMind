@@ -50,7 +50,8 @@ class TaskFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        bindViewModel()
+        taskViewModel.addDummyTask()
+        taskViewModel.getAllTasks()
 
         return ComposeView(requireContext()).apply {
             setContent {
@@ -59,11 +60,6 @@ class TaskFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun bindViewModel() {
-        taskViewModel.addDummyTask()
-        taskViewModel.getAllTasks()
     }
 
     @Preview
