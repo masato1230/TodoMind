@@ -25,7 +25,9 @@ class TaskViewModel @Inject constructor(
     val taskList: LiveData<List<Task>> = _taskList
 
     fun getAllTasks() {
-        repository.getAllTasks().observeOn(AndroidSchedulers.mainThread()).subscribe({
+        repository.getAllTasks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
             Log.d("Fin", it.toString())
             _taskList.value = it
             Log.d("FFFin",  taskList.value.toString())
@@ -36,7 +38,9 @@ class TaskViewModel @Inject constructor(
 
     fun addDummyTask() {
         val newTask = Task(title = "Test")
-        repository.createTask(newTask).observeOn(AndroidSchedulers.mainThread()).subscribe({
+        repository.createTask(newTask)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
             Log.d("FFin", "Fin")
         }, {
             Throwable("Error")
