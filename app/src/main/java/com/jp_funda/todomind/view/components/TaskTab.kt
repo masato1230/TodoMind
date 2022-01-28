@@ -12,10 +12,11 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.task.TaskViewModel
 
 @Composable
-fun TaskTab(selectedTabIndex: Int, onTabChange: (clickedTabIndex: Int) -> Unit) {
+fun TaskTab(selectedTabIndex: Int, onTabChange: (clickedTabIndex: TaskStatus) -> Unit) {
     TabRow(
         selectedTabIndex = selectedTabIndex,
         backgroundColor = colorResource(id = R.color.deep_purple),
@@ -23,17 +24,17 @@ fun TaskTab(selectedTabIndex: Int, onTabChange: (clickedTabIndex: Int) -> Unit) 
     ) {
         Tab(
             selected = selectedTabIndex == 0,
-            onClick = { onTabChange(0) },
+            onClick = { onTabChange(TaskStatus.Open) },
             text = { Text("In Progress") }
         )
         Tab(
             selected = selectedTabIndex == 1,
-            onClick = { onTabChange(1) },
+            onClick = { onTabChange(TaskStatus.InProgress) },
             text = { Text("Open") }
         )
         Tab(
             selected = selectedTabIndex == 2,
-            onClick = { onTabChange(2) },
+            onClick = { onTabChange(TaskStatus.Complete) },
             text = { Text("Closed") }
         )
     }

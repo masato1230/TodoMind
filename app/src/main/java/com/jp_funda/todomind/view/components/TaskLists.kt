@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.task.TaskViewModel
 
 @Composable
@@ -22,13 +23,29 @@ fun TaskLists(
     listPadding: Int = 20,
 ) {
     var selectedTabIndex by remember { mutableStateOf(0) }
+    var showingTask by remember { mutableStateOf(tasks) }
 
     Column {
-        TaskTab(selectedTabIndex, onTabChange =  {}) // TODO implement onTabChange
+        TaskTab(selectedTabIndex, onTabChange = {}) // TODO implement onTabChange
 
         TaskList(listPadding = listPadding, tasks = tasks)
     }
+
+    fun filterTasksByStatus(status: TaskStatus) {
+        showingTask = when (status) {
+            TaskStatus.Open -> {
+                tasks.filter { it.statusEnum == TaskStatus.Open }
+            }
+            TaskStatus.InProgress -> {
+                tasks.filter { it.statusEnum == TaskStatus.InProgress }
+            }
+            TaskStatus.Complete -> {
+                tasks.filter { it.statusEnum == TaskStatus.Complete }
+            }
+        }
+    }
 }
+
 
 @Composable
 fun TaskList(tasks: List<Task>, listPadding: Int) {
