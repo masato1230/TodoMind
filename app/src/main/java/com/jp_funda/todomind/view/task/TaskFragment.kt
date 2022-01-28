@@ -50,7 +50,9 @@ class TaskFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        taskViewModel.addDummyTask()
+        for (i in 0..80) {
+            taskViewModel.addDummyTask()
+        }
         taskViewModel.getAllTasks()
 
         return ComposeView(requireContext()).apply {
@@ -67,7 +69,7 @@ class TaskFragment : Fragment() {
     fun TaskContent() {
         val tasks by taskViewModel.taskList.observeAsState()
 
-        if (taskViewModel.taskList.value != null) {
+        if (!tasks.isNullOrEmpty()) {
             TaskLists(tasks!!)
         } else {
             CircularProgressIndicator()
