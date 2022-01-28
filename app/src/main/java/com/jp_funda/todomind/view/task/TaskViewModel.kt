@@ -28,9 +28,7 @@ class TaskViewModel @Inject constructor(
         repository.getAllTasks()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-            Log.d("Fin", it.toString())
             _taskList.value = it
-            Log.d("FFFin",  taskList.value.toString())
         }, {
             Throwable("Error at taskViewModel getAllTask")
         })
@@ -41,7 +39,6 @@ class TaskViewModel @Inject constructor(
         repository.createTask(newTask)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-            Log.d("FFin", "Fin")
         }, {
             Throwable("Error")
         })

@@ -17,7 +17,6 @@ class TaskRepository @Inject constructor() {
         return Single.create<Task> { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync { realm ->
                 realm.insert(task)
-                Log.d("Create", "Create")
                 emitter.onSuccess(task)
             }
         }
@@ -33,15 +32,6 @@ class TaskRepository @Inject constructor() {
                 emitter.onSuccess(result2)
             }
         }
-//        return Single.create { emitter ->
-//            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
-//                result = realm.where<Task>().findAll()
-//            }, {
-//                emitter.onSuccess(result)
-//            }, { error ->
-//                emitter.onError(error)
-//            })
-//        }
     }
 
     fun getTasksInAMindMap(mindMap: MindMap): Single<List<Task>> {
