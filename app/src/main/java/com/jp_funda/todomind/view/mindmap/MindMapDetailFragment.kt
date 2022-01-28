@@ -43,7 +43,7 @@ class MindMapDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // return layout
         return ComposeView(requireContext()).apply {
@@ -155,10 +155,13 @@ class MindMapDetailFragment : Fragment() {
                     style = MaterialTheme.typography.h6
                 )
                 val taskViewModel: TaskViewModel = hiltViewModel()
-                TaskTab(taskViewModel)
+                TaskTab(
+                    selectedTabIndex = selectedTabIndex,
+                    onTabChange = { selectedTabIndex = it }
+                )
             }
             items(items = List(10) { "d" }) { str ->
-                TaskRow()
+//                TaskRow() TODO delete commentout
             }
         }
     }

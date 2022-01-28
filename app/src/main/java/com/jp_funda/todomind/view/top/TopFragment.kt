@@ -65,15 +65,18 @@ class TopFragment : Fragment() {
                     color = Color.White,
                     style = MaterialTheme.typography.h6,
                 )
-                TaskTab()
+                TaskTab(
+                    selectedTabIndex = selectedTabIndex,
+                    onTabChange = { selectedTabIndex = it }
+                )
             }
             // todo fill with data
             items(items = List(10) { "d" }) { str ->
-                TaskRow(modifier = Modifier.padding(horizontal = 20.dp))
+//                TaskRow(modifier = Modifier.padding(horizontal = 20.dp)) TODO delete commentout
             }
-            
+
             // Bottom padding to avoid fab overlay causing overlay bug
-            item { 
+            item {
                 Spacer(modifier = Modifier.height(100.dp))
             }
         }

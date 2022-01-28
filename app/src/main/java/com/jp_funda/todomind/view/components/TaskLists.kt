@@ -17,12 +17,16 @@ import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.task.TaskViewModel
 
 @Composable
-fun TaskLists(listPadding: Int = 20) {
-    val taskViewModel: TaskViewModel = hiltViewModel()
-    Column {
-        TaskTab(taskViewModel)
+fun TaskLists(
+    tasks: List<Task>,
+    listPadding: Int = 20,
+) {
+    var selectedTabIndex by remember { mutableStateOf(0) }
 
-//        TaskList(listPadding = listPadding)
+    Column {
+        TaskTab(selectedTabIndex, onTabChange =  {}) // TODO implement onTabChange
+
+        TaskList(listPadding = listPadding, tasks = tasks)
     }
 }
 

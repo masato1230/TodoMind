@@ -7,14 +7,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -59,22 +62,19 @@ class TaskFragment : Fragment() {
     }
 
     private fun bindViewModel() {
-        val disposables = CompositeDisposable()
-
-        disposables.add(
-            taskViewModel.getInProgressTasks()
-                .subscribeOn(Schedulers.computation())
-                .subscribe({
-                    Log.d("i", it.toString())
-                }, {
-                    Log.e("Error", it.message.toString())
-                })
-        )
+        taskViewModel.addDummyTask()
+        taskViewModel.getAllTasks()
     }
 
     @Preview
     @Composable
     fun TaskContent() {
-        TaskLists()
+        val tasks by taskViewModel.taskList.observeAsState()
+
+        if (taskViewModel.taskList.value != null) {
+            TaskLists(tasks!!)
+        } else {
+            CircularProgressIndicator()
+        }
     }
 }
