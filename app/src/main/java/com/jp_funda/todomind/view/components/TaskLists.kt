@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,25 +24,30 @@ fun TaskLists(
     listPadding: Int = 20,
 ) {
     var selectedTabIndex by remember { mutableStateOf(0) }
-    var showingTask by remember { mutableStateOf(tasks) }
+    var showingTasks by remember { mutableStateOf(tasks) }
+    Log.d("Tasks", tasks.size.toString())
+    Log.d("ShowingTasks", showingTasks.size.toString())
 
     Column {
-        TaskTab(selectedTabIndex, onTabChange = {}) // TODO implement onTabChange
+        TaskTab(selectedTabIndex, onTabChange = { status ->
+            showingTasks = filterTasksByStatus(status, tasks)
+            selectedTabIndex = status.ordinal
+        })
 
-        TaskList(listPadding = listPadding, tasks = tasks)
+        TaskList(listPadding = listPadding, tasks = showingTasks)
     }
+}
 
-    fun filterTasksByStatus(status: TaskStatus) {
-        showingTask = when (status) {
-            TaskStatus.Open -> {
-                tasks.filter { it.statusEnum == TaskStatus.Open }
-            }
-            TaskStatus.InProgress -> {
-                tasks.filter { it.statusEnum == TaskStatus.InProgress }
-            }
-            TaskStatus.Complete -> {
-                tasks.filter { it.statusEnum == TaskStatus.Complete }
-            }
+fun filterTasksByStatus(status: TaskStatus, tasks: List<Task>): List<Task> {
+    return when (status) {
+        TaskStatus.Open -> {
+            tasks.filter { it.statusEnum == TaskStatus.Open }
+        }
+        TaskStatus.InProgress -> {
+            tasks.filter { it.statusEnum == TaskStatus.InProgress }
+        }
+        TaskStatus.Complete -> {
+            tasks.filter { it.statusEnum == TaskStatus.Complete }
         }
     }
 }

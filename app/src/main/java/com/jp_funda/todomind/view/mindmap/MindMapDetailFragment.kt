@@ -157,7 +157,7 @@ class MindMapDetailFragment : Fragment() {
                 val taskViewModel: TaskViewModel = hiltViewModel()
                 TaskTab(
                     selectedTabIndex = selectedTabIndex,
-                    onTabChange = { selectedTabIndex = it }
+                    onTabChange = { selectedTabIndex = it.ordinal }
                 )
             }
             items(items = List(10) { "d" }) { str ->

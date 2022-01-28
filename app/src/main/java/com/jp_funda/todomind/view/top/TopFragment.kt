@@ -67,7 +67,7 @@ class TopFragment : Fragment() {
                 )
                 TaskTab(
                     selectedTabIndex = selectedTabIndex,
-                    onTabChange = { selectedTabIndex = it }
+                    onTabChange = { selectedTabIndex = it.ordinal }
                 )
             }
             // todo fill with data

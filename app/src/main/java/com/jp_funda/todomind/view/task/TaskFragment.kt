@@ -50,7 +50,7 @@ class TaskFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        for (i in 0..80) {
+        for (i in 0..10) {
             taskViewModel.addDummyTask()
         }
         taskViewModel.getAllTasks()
