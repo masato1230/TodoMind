@@ -9,5 +9,5 @@ import javax.inject.Inject
 class TaskDetailViewModel @Inject constructor(
     private val repository: TaskRepository
 ) : ViewModel() {
-    
+
 }
