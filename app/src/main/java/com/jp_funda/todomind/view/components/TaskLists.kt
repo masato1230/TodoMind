@@ -28,7 +28,7 @@ fun TaskLists(
     var showingTasks by remember {
         mutableStateOf(
             filterTasksByStatus(
-                status = TaskStatus.values()[0],
+                status = TaskStatus.values()[selectedTabIndex],
                 tasks = tasks,
             )
         )

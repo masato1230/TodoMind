@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.components
 
+import android.graphics.Paint
 import android.util.Log
 import android.view.View
 import android.widget.CheckBox
@@ -26,20 +27,44 @@ fun TaskRow(
             View.inflate(it, R.layout.row_task, null)
         },
         update = { view ->
-            view.findViewById<CheckBox>(R.id.row_task_checkbox)
-                .setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) {
-                        task.statusEnum = TaskStatus.Complete
-                    } else {
-                        task.statusEnum = TaskStatus.InProgress
-                    }
-                    onCheckChanged(task)
-                }
-            view.findViewById<MaterialTextView>(R.id.row_task_title).text = task.title
-            view.findViewById<MaterialTextView>(R.id.row_task_description).text = task.description
-            view.findViewById<MaterialTextView>(R.id.row_task_date).visibility = View.GONE
-            view.findViewById<ImageView>(R.id.row_task_edit_button).setOnClickListener {
+            // Initialize view
+            val checkBox = view.findViewById<CheckBox>(R.id.row_task_checkbox)
+            val title = view.findViewById<MaterialTextView>(R.id.row_task_title)
+            val description = view.findViewById<MaterialTextView>(R.id.row_task_description)
+            val date = view.findViewById<MaterialTextView>(R.id.row_task_date)
+            val editButton = view.findViewById<ImageView>(R.id.row_task_edit_button)
+
+            // Settings common to all statuses
+            title.text = task.title
+            description.text = task.description
+            date.visibility = View.GONE
+            editButton.setOnClickListener {
                 // TODO navigate to edit task view
+            }
+
+            // Settings that vary depending on the status
+            when (task.statusEnum) {
+                // when status is Complete
+                TaskStatus.Complete -> {
+                    checkBox.isChecked = true
+                    title.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                }
+                // when status is Open or InProgress
+                else -> {
+                    checkBox.isChecked = false
+                    title.paintFlags = title.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                }
+            }
+
+            // Set listeners
+            checkBox.setOnClickListener { view ->
+                if ((view as CheckBox).isChecked) {
+                    task.statusEnum = TaskStatus.Complete
+                } else {
+                    task.statusEnum = TaskStatus.InProgress
+                }
+                // update db with task instance
+                onCheckChanged(task)
             }
         },
         modifier = modifier
