@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.view.components.filterTasksByStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
@@ -22,18 +23,31 @@ class TaskViewModel @Inject constructor(
 ) : ViewModel() {
     var selectedTabIndex by mutableStateOf(0)
 
+    // All Task Data
     private val _taskList = MutableLiveData(listOf<Task>())
     val taskList: LiveData<List<Task>> = _taskList
+
+    // Showing Task Data
+    private val _showingTasks = MutableLiveData(listOf<Task>())
+    val showingTasks: LiveData<List<Task>> = _showingTasks
 
     fun getAllTasks() {
         repository.getAllTasks()
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+                _taskList.value = emptyList() // Change list length to notify data change to UI
                 _taskList.value = it
             }, {
                 Throwable("Error at taskViewModel getAllTask")
             })
+    }
+
+    fun updateShowingTasks(status: TaskStatus) {
+        _showingTasks.value = filterTasksByStatus(
+            status = status,
+            tasks = _taskList.value!!,
+        )
     }
 
     fun updateTask(task: Task) {
@@ -41,9 +55,7 @@ class TaskViewModel @Inject constructor(
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Log.d("Update", "Updated")
                 getAllTasks()
-                Log.d("Task", taskList.value!!.filter { it.statusEnum == TaskStatus.Complete }.toString())
             }, {
                 Throwable("Error at taskViewModel updateTask")
             })

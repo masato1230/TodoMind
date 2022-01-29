@@ -26,10 +26,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
-import com.jp_funda.todomind.view.components.TaskRow
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.view.components.NewTaskFAB
-import com.jp_funda.todomind.view.components.TaskLists
+import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.view.components.*
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
@@ -68,9 +67,24 @@ class TaskFragment : Fragment() {
     @Composable
     fun TaskContent() {
         val tasks by taskViewModel.taskList.observeAsState()
+        val showingTasks by taskViewModel.showingTasks.observeAsState()
+        var selectedTabIndex by remember { mutableStateOf(0) }
 
         if (!tasks.isNullOrEmpty()) {
-            TaskLists(tasks!!, onCheckChanged = { task -> taskViewModel.updateTask(task) })
+            taskViewModel.updateShowingTasks(
+                TaskStatus.values().first { it.ordinal == selectedTabIndex })
+
+            Column {
+                TaskTab(selectedTabIndex, onTabChange = { status ->
+                    taskViewModel.updateShowingTasks(status)
+                    selectedTabIndex = status.ordinal
+                })
+
+                TaskList(
+                    listPadding = 20,
+                    tasks = showingTasks!!,
+                    onCheckChanged = { task -> taskViewModel.updateTask(task) })
+            }
         } else {
             CircularProgressIndicator()
         }

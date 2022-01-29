@@ -68,13 +68,10 @@ class TaskRepository @Inject constructor() {
     // DELETE
     fun deleteTask(task: Task): Single<Task> {
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
+            Realm.getDefaultInstance().executeTransactionAsync { realm ->
                 task.deleteFromRealm()
-            }, {
                 emitter.onSuccess(task)
-            }, {
-                emitter.onError(it)
-            })
+            }
         }
     }
 }
