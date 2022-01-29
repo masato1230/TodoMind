@@ -24,12 +24,12 @@ fun TaskTab(selectedTabIndex: Int, onTabChange: (clickedTabIndex: TaskStatus) ->
     ) {
         Tab(
             selected = selectedTabIndex == 0,
-            onClick = { onTabChange(TaskStatus.Open) },
+            onClick = { onTabChange(TaskStatus.InProgress) },
             text = { Text("In Progress") }
         )
         Tab(
             selected = selectedTabIndex == 1,
-            onClick = { onTabChange(TaskStatus.InProgress) },
+            onClick = { onTabChange(TaskStatus.Open) },
             text = { Text("Open") }
         )
         Tab(

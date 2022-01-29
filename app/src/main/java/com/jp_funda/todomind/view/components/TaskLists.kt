@@ -21,12 +21,18 @@ import com.jp_funda.todomind.view.task.TaskViewModel
 @Composable
 fun TaskLists(
     tasks: List<Task>,
+    onCheckChanged: (task: Task) -> Unit,
     listPadding: Int = 20,
 ) {
     var selectedTabIndex by remember { mutableStateOf(0) }
-    var showingTasks by remember { mutableStateOf(tasks) }
-    Log.d("Tasks", tasks.size.toString())
-    Log.d("ShowingTasks", showingTasks.size.toString())
+    var showingTasks by remember {
+        mutableStateOf(
+            filterTasksByStatus(
+                status = TaskStatus.values()[0],
+                tasks = tasks,
+            )
+        )
+    }
 
     Column {
         TaskTab(selectedTabIndex, onTabChange = { status ->
@@ -34,7 +40,10 @@ fun TaskLists(
             selectedTabIndex = status.ordinal
         })
 
-        TaskList(listPadding = listPadding, tasks = showingTasks)
+        TaskList(
+            listPadding = listPadding,
+            tasks = showingTasks,
+            onCheckChanged = { task -> onCheckChanged(task) })
     }
 }
 
@@ -54,11 +63,10 @@ fun filterTasksByStatus(status: TaskStatus, tasks: List<Task>): List<Task> {
 
 
 @Composable
-fun TaskList(tasks: List<Task>, listPadding: Int) {
+fun TaskList(tasks: List<Task>, onCheckChanged: (task: Task) -> Unit, listPadding: Int) {
     LazyColumn(modifier = Modifier.padding(horizontal = listPadding.dp)) {
-        // todo fill with data
         items(items = tasks) { task ->
-            TaskRow(task)
+            TaskRow(task, onCheckChanged)
         }
 
         item {

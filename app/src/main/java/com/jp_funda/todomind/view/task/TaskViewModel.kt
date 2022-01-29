@@ -13,6 +13,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,22 +27,36 @@ class TaskViewModel @Inject constructor(
 
     fun getAllTasks() {
         repository.getAllTasks()
+            .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-            _taskList.value = it
-        }, {
-            Throwable("Error at taskViewModel getAllTask")
-        })
+                _taskList.value = it
+            }, {
+                Throwable("Error at taskViewModel getAllTask")
+            })
+    }
+
+    fun updateTask(task: Task) {
+        repository.updateTask(task)
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Log.d("Update", "Updated")
+                getAllTasks()
+                Log.d("Task", taskList.value!!.filter { it.statusEnum == TaskStatus.Complete }.toString())
+            }, {
+                Throwable("Error at taskViewModel updateTask")
+            })
     }
 
     fun addDummyTask() {
-        val newTask = Task(title = "Test")
+        val newTask = Task(title = "Test Test Task")
         repository.createTask(newTask)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-        }, {
-            Throwable("Error")
-        })
+            }, {
+                Throwable("Error")
+            })
     }
 
     fun getInProgressTasks(): Single<List<Task>> {

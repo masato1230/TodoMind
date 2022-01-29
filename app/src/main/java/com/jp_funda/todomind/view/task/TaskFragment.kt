@@ -50,7 +50,7 @@ class TaskFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        for (i in 0..10) {
+        for (i in 0..1) {
             taskViewModel.addDummyTask()
         }
         taskViewModel.getAllTasks()
@@ -70,7 +70,7 @@ class TaskFragment : Fragment() {
         val tasks by taskViewModel.taskList.observeAsState()
 
         if (!tasks.isNullOrEmpty()) {
-            TaskLists(tasks!!)
+            TaskLists(tasks!!, onCheckChanged = { task -> taskViewModel.updateTask(task) })
         } else {
             CircularProgressIndicator()
         }

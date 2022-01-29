@@ -24,7 +24,6 @@ class TaskRepository @Inject constructor() {
 
     // READ
     fun getAllTasks(): Single<List<Task>> {
-        var result = emptyList<Task>()
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync { realm ->
                 val result1 = realm.where<Task>().findAll()
@@ -59,13 +58,10 @@ class TaskRepository @Inject constructor() {
     // UPDATE
     fun updateTask(updatedTask: Task): Single<Task> {
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
+            Realm.getDefaultInstance().executeTransactionAsync { realm ->
                 realm.copyToRealmOrUpdate(updatedTask)
-            }, {
                 emitter.onSuccess(updatedTask)
-            }, {
-                emitter.onError(it)
-            })
+            }
         }
     }
 
