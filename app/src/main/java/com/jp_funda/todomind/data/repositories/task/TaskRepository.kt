@@ -1,10 +1,8 @@
 package com.jp_funda.todomind.data.repositories.task
 
-import android.util.Log
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.realm.Realm
 import io.realm.kotlin.where

@@ -1,9 +1,5 @@
 package com.jp_funda.todomind.view.task
 
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +9,6 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.components.filterTasksByStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -23,8 +18,6 @@ import javax.inject.Inject
 class TaskViewModel @Inject constructor(
     private val repository: TaskRepository
 ) : ViewModel() {
-    var selectedTabIndex by mutableStateOf(0)
-
     // All Task Data
     private val _taskList = MutableLiveData(listOf<Task>())
     val taskList: LiveData<List<Task>> = _taskList
@@ -72,17 +65,5 @@ class TaskViewModel @Inject constructor(
             }, {
                 Throwable("Error")
             })
-    }
-
-    fun getInProgressTasks(): Single<List<Task>> {
-        return repository.getTasksFilteredByStatus(TaskStatus.InProgress)
-    }
-
-    fun getOpenTasks(): Single<List<Task>> {
-        return repository.getTasksFilteredByStatus(TaskStatus.Open)
-    }
-
-    fun getClosedTasks(): Single<List<Task>> {
-        return repository.getTasksFilteredByStatus(TaskStatus.Complete)
     }
 }
