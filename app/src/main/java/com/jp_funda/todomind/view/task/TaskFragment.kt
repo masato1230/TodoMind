@@ -52,7 +52,7 @@ class TaskFragment : Fragment() {
         for (i in 0..1) {
             taskViewModel.addDummyTask()
         }
-        taskViewModel.getAllTasks()
+        taskViewModel.refreshTaskListData()
 
         return ComposeView(requireContext()).apply {
             setContent {
@@ -83,7 +83,7 @@ class TaskFragment : Fragment() {
                 TaskList(
                     listPadding = 20,
                     tasks = showingTasks!!,
-                    onCheckChanged = { task -> taskViewModel.updateTask(task) })
+                    onCheckChanged = { task -> taskViewModel.updateTaskStatus(task) })
             }
         } else {
             CircularProgressIndicator()

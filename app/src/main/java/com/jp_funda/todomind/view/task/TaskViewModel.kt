@@ -15,6 +15,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,7 +33,7 @@ class TaskViewModel @Inject constructor(
     private val _showingTasks = MutableLiveData(listOf<Task>())
     val showingTasks: LiveData<List<Task>> = _showingTasks
 
-    fun getAllTasks() {
+    fun refreshTaskListData() {
         repository.getAllTasks()
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
@@ -50,19 +52,20 @@ class TaskViewModel @Inject constructor(
         )
     }
 
-    fun updateTask(task: Task) {
+    fun updateTaskStatus(task: Task) {
         repository.updateTask(task)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
+            .delay(1, TimeUnit.SECONDS)
             .subscribe({
-                getAllTasks()
+                refreshTaskListData()
             }, {
                 Throwable("Error at taskViewModel updateTask")
             })
     }
 
     fun addDummyTask() {
-        val newTask = Task(title = "Test Test Task")
+        val newTask = Task(title = UUID.randomUUID().toString())
         repository.createTask(newTask)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
