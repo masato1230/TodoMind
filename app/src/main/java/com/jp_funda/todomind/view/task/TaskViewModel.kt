@@ -1,5 +1,7 @@
 package com.jp_funda.todomind.view.task
 
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.SnackbarHostState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -65,5 +67,10 @@ class TaskViewModel @Inject constructor(
             }, {
                 Throwable("Error")
             })
+    }
+
+    // Show Snackbar
+    suspend fun showSnackbar(message: String, snackbarHostState: SnackbarHostState) {
+        snackbarHostState.showSnackbar(message, actionLabel = "ok")
     }
 }
