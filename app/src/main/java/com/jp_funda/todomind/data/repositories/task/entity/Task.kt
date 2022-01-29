@@ -1,14 +1,15 @@
 package com.jp_funda.todomind.data.repositories.task.entity
 
 import android.graphics.Color
+import android.util.Log
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import java.util.*
 
 enum class TaskStatus(val state: String) {
+    InProgress("InProgress"),
     Open("Open"),
-    InProgress("In Progress"),
     Complete("Complete"),
 }
 
@@ -38,6 +39,7 @@ open class Task(
             return try {
                 TaskStatus.valueOf(status)
             } catch (e: IllegalArgumentException) {
+                Log.e("Error", e.message ?: "")
                 TaskStatus.Open
             }
         }

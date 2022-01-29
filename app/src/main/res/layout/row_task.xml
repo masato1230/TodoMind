@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <CheckBox
-            android:id="@+id/checkbox"
+            android:id="@+id/row_task_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView"
+            android:id="@+id/row_task_title"
             style="@style/Body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -36,8 +36,8 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Task Title"
-            app:layout_constraintEnd_toStartOf="@+id/imageView"
-            app:layout_constraintStart_toEndOf="@+id/checkbox"
+            app:layout_constraintEnd_toStartOf="@+id/row_task_edit_button"
+            app:layout_constraintStart_toEndOf="@+id/row_task_checkbox"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -46,13 +46,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginStart="-10dp"
-            app:layout_constraintEnd_toStartOf="@+id/imageView"
-            app:layout_constraintStart_toEndOf="@+id/checkbox"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView">
+            app:layout_constraintEnd_toStartOf="@+id/row_task_edit_button"
+            app:layout_constraintStart_toEndOf="@+id/row_task_checkbox"
+            app:layout_constraintTop_toBottomOf="@+id/row_task_title">
 
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/materialTextView2"
+                android:id="@+id/row_task_description"
                 style="@style/Subhead2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -66,18 +66,19 @@
                 tools:layout_editor_absoluteY="0dp" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/row_task_date"
                 style="@style/TextLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fri 10/20 22:15"
+                android:layout_marginEnd="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/materialTextView2" />
+                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/row_task_edit_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="20dp"

@@ -21,7 +21,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.task.TaskViewModel
 
 class TopFragment : Fragment() {
 
@@ -30,12 +32,14 @@ class TopFragment : Fragment() {
     }
 
     private lateinit var viewModel: TopViewModel
+    private lateinit var taskViewModel: TaskViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProvider(this)[TopViewModel::class.java]
+//        taskViewModel = ViewModelProvider(this)[TaskViewModel::class.java]
 //        return inflater.inflate(R.layout.top_fragment, container, false)
         return ComposeView(requireContext()).apply {
             setContent {
@@ -61,15 +65,18 @@ class TopFragment : Fragment() {
                     color = Color.White,
                     style = MaterialTheme.typography.h6,
                 )
-                TaskTab()
+                TaskTab(
+                    selectedTabIndex = selectedTabIndex,
+                    onTabChange = { selectedTabIndex = it.ordinal }
+                )
             }
             // todo fill with data
             items(items = List(10) { "d" }) { str ->
-                TaskRow(modifier = Modifier.padding(horizontal = 20.dp))
+//                TaskRow(modifier = Modifier.padding(horizontal = 20.dp)) TODO delete commentout
             }
-            
+
             // Bottom padding to avoid fab overlay causing overlay bug
-            item { 
+            item {
                 Spacer(modifier = Modifier.height(100.dp))
             }
         }

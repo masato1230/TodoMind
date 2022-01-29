@@ -27,9 +27,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.components.TaskRow
 import com.jp_funda.todomind.view.components.TaskTab
+import com.jp_funda.todomind.view.task.TaskViewModel
 
 // TODO add delete button to action bar
 class MindMapDetailFragment : Fragment() {
@@ -41,7 +43,7 @@ class MindMapDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         // return layout
         return ComposeView(requireContext()).apply {
@@ -152,10 +154,14 @@ class MindMapDetailFragment : Fragment() {
                     color = Color.White,
                     style = MaterialTheme.typography.h6
                 )
-                TaskTab()
+                val taskViewModel: TaskViewModel = hiltViewModel()
+                TaskTab(
+                    selectedTabIndex = selectedTabIndex,
+                    onTabChange = { selectedTabIndex = it.ordinal }
+                )
             }
             items(items = List(10) { "d" }) { str ->
-                TaskRow()
+//                TaskRow() TODO delete commentout
             }
         }
     }
