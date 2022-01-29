@@ -28,13 +28,11 @@ fun TaskRow(
         update = { view ->
             view.findViewById<CheckBox>(R.id.row_task_checkbox)
                 .setOnCheckedChangeListener { _, isChecked ->
-                    Log.d("Bool", isChecked.toString())
                     if (isChecked) {
                         task.statusEnum = TaskStatus.Complete
                     } else {
                         task.statusEnum = TaskStatus.InProgress
                     }
-                    Log.d("Before", task.statusEnum.name)
                     onCheckChanged(task)
                 }
             view.findViewById<MaterialTextView>(R.id.row_task_title).text = task.title
