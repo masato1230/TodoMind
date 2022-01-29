@@ -22,7 +22,11 @@
         tools:layout="@layout/task_fragment" >
         <action
             android:id="@+id/action_navigation_task_to_navigation_task_detail"
-            app:destination="@id/navigation_task_detail" />
+            app:destination="@id/navigation_task_detail"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
 
     <fragment
