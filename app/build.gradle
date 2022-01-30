@@ -70,8 +70,10 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'androidx.activity:activity-compose:1.4.0'
-    // Date & Time Picker
+    // Dialogs Picker
     implementation "io.github.vanpra.compose-material-dialogs:datetime:0.6.3"
+    implementation "io.github.vanpra.compose-material-dialogs:color:0.6.3"
+    implementation "io.github.vanpra.compose-material-dialogs:core:0.6.3"
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"

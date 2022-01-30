@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.view.components.ColorPickerDialog
 import com.jp_funda.todomind.view.components.TimePickerDialog
 import com.jp_funda.todomind.view.components.DatePickerDialog
 import com.jp_funda.todomind.view.components.WhiteButton
@@ -59,8 +60,11 @@ class TaskDetailFragment : Fragment() {
         // Set up dialogs
         val dateDialogState = rememberMaterialDialogState()
         val timeDialogState = rememberMaterialDialogState()
+        val colorDialogState = rememberMaterialDialogState()
         DatePickerDialog(dateDialogState, resources)
         TimePickerDialog(timeDialogState, resources)
+        ColorPickerDialog(colorDialogState, resources, { it -> /* TODO */ })
+        colorDialogState.show()
 //        dateDialogState.show()
 //        timeDialogState.show()
 
