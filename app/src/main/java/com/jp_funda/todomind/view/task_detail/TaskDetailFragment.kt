@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -83,7 +85,11 @@ class TaskDetailFragment : Fragment() {
             cursorColor = Color(resources.getColor(R.color.teal_200)),
         )
 
-        Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
             // Page Title
             Text(
                 text = "Create New Task",
