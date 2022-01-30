@@ -18,15 +18,15 @@ fun TimePickerDialog(
     val colorTheme = TimePickerDefaults.colors(
         activeBackgroundColor = Color.White,
         activeTextColor = Color.Black,
-        inactiveBackgroundColor = Color(resources.getColor(R.color.navy_blue)),
+        inactiveBackgroundColor = Color(resources.getColor(R.color.aqua)),
         inactiveTextColor = Color.White,
         selectorColor = Color(resources.getColor(R.color.teal_200)),
-        borderColor = Color(resources.getColor(R.color.aqua))
+        borderColor = Color(resources.getColor(R.color.navy_blue))
     )
 
     MaterialDialog(
         dialogState = timeDialogState,
-        backgroundColor = Color(resources.getColor(R.color.aqua)),
+        backgroundColor = Color(resources.getColor(R.color.navy_blue)),
         buttons = {
             positiveButton(
                 "OK",

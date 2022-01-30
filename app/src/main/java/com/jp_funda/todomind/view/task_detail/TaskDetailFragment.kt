@@ -64,9 +64,9 @@ class TaskDetailFragment : Fragment() {
         DatePickerDialog(dateDialogState, resources)
         TimePickerDialog(timeDialogState, resources)
         ColorPickerDialog(colorDialogState, resources, { it -> /* TODO */ })
-        colorDialogState.show()
+//        colorDialogState.show()
 //        dateDialogState.show()
-//        timeDialogState.show()
+        timeDialogState.show()
 
         // Set up TextFields color
         val colors = TextFieldDefaults.textFieldColors(
