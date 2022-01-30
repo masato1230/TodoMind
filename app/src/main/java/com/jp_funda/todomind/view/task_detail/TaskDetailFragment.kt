@@ -5,17 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
@@ -189,7 +189,7 @@ class TaskDetailFragment : Fragment() {
                     onValueChange = {},
                     leadingIcon = {
                         Icon(
-                            imageVector = Icons.Default.Check,
+                            imageVector = Icons.Default.List,
                             contentDescription = "Status",
                             tint = Color.White
                         )
@@ -214,6 +214,49 @@ class TaskDetailFragment : Fragment() {
                             Text(text = option.name)
                         }
                     }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(50.dp))
+
+            // Buttons
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    modifier = Modifier
+                        .width(150.dp)
+                        .height(40.dp)
+                        .clip(RoundedCornerShape(1000.dp))
+                        .align(CenterVertically)
+                        .background(Color.White),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Icon(imageVector = Icons.Default.Check, contentDescription = "Add")
+                    Text(
+                        text = "OK",
+                        color = Color.Black,
+                        style = MaterialTheme.typography.button
+                    )
+                }
+                
+                Spacer(modifier = Modifier.width(30.dp))
+
+                Row(
+                    modifier = Modifier
+                        .width(150.dp)
+                        .height(40.dp)
+                        .clip(RoundedCornerShape(1000.dp))
+                        .align(CenterVertically)
+                        .background(Color.White),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete")
+                    Text(
+                        text = "Delete",
+                        color = Color.Black,
+                        style = MaterialTheme.typography.button
+                    )
                 }
             }
         }
