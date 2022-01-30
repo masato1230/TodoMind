@@ -23,6 +23,8 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.view.components.TimePickerDialog
+import com.jp_funda.todomind.view.components.DatePickerDialog
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerColors
@@ -62,92 +64,9 @@ class TaskDetailFragment : Fragment() {
 //        }
         val dateDialogState = rememberMaterialDialogState()
         val timeDialogState = rememberMaterialDialogState()
-        DatePickerDialog(dateDialogState)
-        TimePickerDialog(timeDialogState)
+        DatePickerDialog(dateDialogState, resources)
+        TimePickerDialog(timeDialogState, resources)
 //        dateDialogState.show()
         timeDialogState.show()
-    }
-
-    @Composable
-    private fun DatePickerDialog(
-        dateDialogState: MaterialDialogState,
-    ) {
-        val colorTheme = DatePickerDefaults.colors(
-            headerBackgroundColor = Color(resources.getColor(R.color.aqua)),
-            headerTextColor = Color.White,
-            activeBackgroundColor = Color.White,
-            inactiveBackgroundColor = Color.Black,
-            activeTextColor = Color.Black,
-            inactiveTextColor = Color.White,
-        )
-
-        MaterialDialog(
-            dialogState = dateDialogState,
-            backgroundColor = Color(color = resources.getColor(R.color.aqua)),
-            buttons = {
-                positiveButton(
-                    "OK",
-                    textStyle = MaterialTheme.typography.button.copy(
-                        color = Color(resources.getColor(R.color.teal_200)),
-                    )
-                )
-//                this.button("time", onClick = {
-//                    dateDialogState.hide()
-//                    timeDialogState.show()
-//                })
-                negativeButton(
-                    "Cancel",
-                    textStyle = MaterialTheme.typography.button.copy(
-                        color = Color(resources.getColor(R.color.teal_200)),
-                    )
-                )
-            }
-        ) {
-            datepicker(
-                colors = colorTheme,
-                // TODO set initial value
-            ) { date ->
-                // TODO save date
-            }
-        }
-    }
-
-    @Composable
-    fun TimePickerDialog(
-        timeDialogState: MaterialDialogState,
-    ) {
-        val colorTheme = TimePickerDefaults.colors(
-            activeBackgroundColor = Color.White,
-            activeTextColor = Color.Black,
-            inactiveBackgroundColor = Color(resources.getColor(R.color.navy_blue)),
-            inactiveTextColor = Color.White,
-            selectorColor = Color(resources.getColor(R.color.teal_200)),
-            borderColor = Color(resources.getColor(R.color.aqua))
-        )
-
-        MaterialDialog(
-            dialogState = timeDialogState,
-            backgroundColor = Color(resources.getColor(R.color.aqua)),
-            buttons = {
-                positiveButton(
-                    "OK",
-                    textStyle = MaterialTheme.typography.button.copy(
-                        color = Color(resources.getColor(R.color.teal_200)),
-                    )
-                )
-                negativeButton(
-                    "Cancel",
-                    textStyle = MaterialTheme.typography.button.copy(
-                        color = Color(resources.getColor(R.color.teal_200)),
-                    )
-                )
-            },
-        ) {
-            timepicker(
-                colors = colorTheme
-            ) { time ->
-                // Todo save time
-            }
-        }
     }
 }
