@@ -98,7 +98,7 @@ class TaskDetailFragment : Fragment() {
         ) {
             // Page Title
             Text(
-                text = "Create New Task",
+                text = "New Task",
                 color = Color.White,
                 style = MaterialTheme.typography.h5,
             ) // TODO change by create/edit
@@ -148,7 +148,7 @@ class TaskDetailFragment : Fragment() {
                     value = "",
                     onValueChange = {},
                     placeholder = {
-                        Text(text = "Due date/time", color = Color.Gray)
+                        Text(text = "Add date/time", color = Color.Gray)
                     },
                     leadingIcon = {
                         Icon(

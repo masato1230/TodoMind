@@ -9,12 +9,16 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import java.time.LocalDate
 
 @Composable
 fun DatePickerDialog(
     dateDialogState: MaterialDialogState,
     resources: Resources,
+    onSelected: (LocalDate) -> Unit,
 ) {
+    var date: LocalDate = LocalDate.now()
+
     val colorTheme = DatePickerDefaults.colors(
         headerBackgroundColor = Color(resources.getColor(R.color.aqua)),
         headerTextColor = Color.White,
@@ -50,7 +54,7 @@ fun DatePickerDialog(
             colors = colorTheme,
             // TODO set initial value
         ) { date ->
-            // TODO save date
+
         }
     }
 }
