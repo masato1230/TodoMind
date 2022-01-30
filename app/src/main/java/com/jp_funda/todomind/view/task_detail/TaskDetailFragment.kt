@@ -73,7 +73,9 @@ class TaskDetailFragment : Fragment() {
         val colorDialogState = rememberMaterialDialogState()
         DatePickerDialog(dateDialogState, resources)
         TimePickerDialog(timeDialogState, resources)
-        ColorPickerDialog(colorDialogState, resources, { it -> /* TODO */ })
+        ColorPickerDialog(colorDialogState, resources) { selectedColor ->
+            taskDetailViewModel.setColor(selectedColor.toArgb())
+        }
 //        colorDialogState.show()
 //        dateDialogState.show()
 //        timeDialogState.show()
@@ -198,7 +200,7 @@ class TaskDetailFragment : Fragment() {
                 leadingIcon = {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_color_24dp),
-                        tint = Color(resources.getColor(R.color.teal_200)), // TODO use task color
+                        tint = Color(task!!.color ?: resources.getColor(R.color.teal_200)),
                         contentDescription = "Color",
                     )
                 },

@@ -32,4 +32,9 @@ class TaskDetailViewModel @Inject constructor(
         _task.value = _task.value?.copy() ?: Task()
         _task.value!!.description = description
     }
+
+    fun setColor(argb: Int) {
+        _task.value = _task.value?.copy() ?: Task()
+        _task.value!!.color = argb
+    }
 }
