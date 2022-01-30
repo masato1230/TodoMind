@@ -37,6 +37,8 @@ import com.jp_funda.todomind.view.components.DatePickerDialog
 import com.jp_funda.todomind.view.components.WhiteButton
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 import androidx.compose.material.ExperimentalMaterialApi as ExperimentalMaterialApi1
 
 @AndroidEntryPoint
@@ -71,14 +73,13 @@ class TaskDetailFragment : Fragment() {
         val dateDialogState = rememberMaterialDialogState()
         val timeDialogState = rememberMaterialDialogState()
         val colorDialogState = rememberMaterialDialogState()
-        DatePickerDialog(dateDialogState, resources)
+        DatePickerDialog(dateDialogState, resources) { selectedDate ->
+            taskDetailViewModel.setDate(selectedDate)
+        }
         TimePickerDialog(timeDialogState, resources)
         ColorPickerDialog(colorDialogState, resources) { selectedColor ->
             taskDetailViewModel.setColor(selectedColor.toArgb())
         }
-//        colorDialogState.show()
-//        dateDialogState.show()
-//        timeDialogState.show()
 
         // Set up TextFields color
         val colors = TextFieldDefaults.textFieldColors(
@@ -145,10 +146,14 @@ class TaskDetailFragment : Fragment() {
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
                         .clickable { dateDialogState.show() },
-                    value = "",
+                    value = if (task!!.dueDate != null)
+                        SimpleDateFormat(
+                            "EEE MM/dd",
+                            Locale.getDefault()
+                        ).format(task!!.dueDate!!) else "",
                     onValueChange = {},
                     placeholder = {
-                        Text(text = "Add date/time", color = Color.Gray)
+                        Text("Add date/time", color = Color.Gray)
                     },
                     leadingIcon = {
                         Icon(

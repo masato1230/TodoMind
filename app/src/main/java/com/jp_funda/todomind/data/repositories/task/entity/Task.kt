@@ -19,8 +19,8 @@ open class Task(
     var mindMap: MindMap? = null,
     var title: String? = null,
     var description: String? = null,
-    var createdDate: Date? = null,
-    var updatedDate: Date? = null,
+    var createdDate: Date? = Date(),
+    var updatedDate: Date? = Date(),
 
     // To-Do list fields
     var dueDate: Date? = null,

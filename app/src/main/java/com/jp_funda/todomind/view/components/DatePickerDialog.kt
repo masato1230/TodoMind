@@ -15,9 +15,10 @@ import java.time.LocalDate
 fun DatePickerDialog(
     dateDialogState: MaterialDialogState,
     resources: Resources,
+    initialValue: LocalDate = LocalDate.now(),
     onSelected: (LocalDate) -> Unit,
 ) {
-    var date: LocalDate = LocalDate.now()
+    var date: LocalDate = initialValue
 
     val colorTheme = DatePickerDefaults.colors(
         headerBackgroundColor = Color(resources.getColor(R.color.aqua)),
@@ -36,7 +37,8 @@ fun DatePickerDialog(
                 "OK",
                 textStyle = MaterialTheme.typography.button.copy(
                     color = Color(resources.getColor(R.color.teal_200)),
-                )
+                ),
+                onClick = { onSelected(date) }
             )
 //                this.button("time", onClick = {
 //                    dateDialogState.hide()
@@ -52,9 +54,9 @@ fun DatePickerDialog(
     ) {
         datepicker(
             colors = colorTheme,
-            // TODO set initial value
-        ) { date ->
-
+            initialDate = initialValue
+        ) {
+            date = it
         }
     }
 }
