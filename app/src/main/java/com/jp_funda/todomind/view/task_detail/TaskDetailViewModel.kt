@@ -11,6 +11,7 @@ import io.realm.Realm
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.ZoneId
 import java.util.*
 import javax.inject.Inject
@@ -42,6 +43,18 @@ class TaskDetailViewModel @Inject constructor(
         notifyChangeToView()
     }
 
+    fun setTime(localTime: LocalTime) {
+        if (_task.value!!.dueDate == null) {
+            _task.value!!.dueDate = Date()
+        }
+
+        val instant = localTime.atDate(
+            _task.value!!.dueDate!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+        ).atZone(ZoneId.systemDefault()).toInstant();
+        val date = Date.from(instant)
+        _task.value!!.dueDate = date
+        notifyChangeToView()
+    }
 
     fun setColor(argb: Int) {
         _task.value!!.color = argb

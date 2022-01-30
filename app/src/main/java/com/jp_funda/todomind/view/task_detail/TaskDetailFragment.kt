@@ -76,7 +76,9 @@ class TaskDetailFragment : Fragment() {
         DatePickerDialog(dateDialogState, resources) { selectedDate ->
             taskDetailViewModel.setDate(selectedDate)
         }
-        TimePickerDialog(timeDialogState, resources)
+        TimePickerDialog(timeDialogState, resources) { selectedTime ->
+            taskDetailViewModel.setTime(selectedTime)
+        }
         ColorPickerDialog(colorDialogState, resources) { selectedColor ->
             taskDetailViewModel.setColor(selectedColor.toArgb())
         }
@@ -101,7 +103,7 @@ class TaskDetailFragment : Fragment() {
             Text(
                 text = "New Task",
                 color = Color.White,
-                style = MaterialTheme.typography.h5,
+                style = MaterialTheme.typography.h5
             ) // TODO change by create/edit
 
             // Title TextField
@@ -166,7 +168,7 @@ class TaskDetailFragment : Fragment() {
                     enabled = false,
                 )
 
-                // Time TODO show only when date is filled
+                // Time
                 TextField(
                     colors = colors,
                     modifier = Modifier
@@ -175,7 +177,11 @@ class TaskDetailFragment : Fragment() {
                             Log.d("Click", "lkds;")
                             timeDialogState.show()
                         },
-                    value = "",
+                    value = if (task!!.dueDate != null)
+                        SimpleDateFormat(
+                            "hh:mm aaa",
+                            Locale.getDefault()
+                        ).format(task!!.dueDate!!) else "",
                     onValueChange = {},
                     placeholder = {
                         Text(text = "Add time", color = Color.Gray)

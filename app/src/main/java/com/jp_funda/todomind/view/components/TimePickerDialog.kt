@@ -9,12 +9,16 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.datetime.time.TimePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
+import java.time.LocalTime
 
 @Composable
 fun TimePickerDialog(
     timeDialogState: MaterialDialogState,
-    resources: Resources
+    resources: Resources,
+    onSelected: (localTime: LocalTime) -> Unit,
 ) {
+    var time = LocalTime.now()
+
     val colorTheme = TimePickerDefaults.colors(
         activeBackgroundColor = Color.White,
         activeTextColor = Color.Black,
@@ -32,7 +36,10 @@ fun TimePickerDialog(
                 "OK",
                 textStyle = MaterialTheme.typography.button.copy(
                     color = Color(resources.getColor(R.color.teal_200)),
-                )
+                ),
+                onClick = {
+                    onSelected(time)
+                }
             )
             negativeButton(
                 "Cancel",
@@ -44,8 +51,8 @@ fun TimePickerDialog(
     ) {
         timepicker(
             colors = colorTheme
-        ) { time ->
-            // Todo save time
+        ) {
+           time = it
         }
     }
 }
