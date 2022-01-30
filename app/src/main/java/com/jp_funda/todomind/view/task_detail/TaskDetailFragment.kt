@@ -28,6 +28,7 @@ import com.vanpra.composematerialdialogs.MaterialDialogState
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerColors
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.datetime.time.TimePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import dagger.hilt.android.AndroidEntryPoint
@@ -115,15 +116,35 @@ class TaskDetailFragment : Fragment() {
     fun TimePickerDialog(
         timeDialogState: MaterialDialogState,
     ) {
+        val colorTheme = TimePickerDefaults.colors(
+            activeBackgroundColor = Color.White,
+            activeTextColor = Color.Black,
+            inactiveBackgroundColor = Color(resources.getColor(R.color.navy_blue)),
+            inactiveTextColor = Color.White,
+            selectorColor = Color(resources.getColor(R.color.teal_200)),
+            borderColor = Color(resources.getColor(R.color.aqua))
+        )
+
         MaterialDialog(
             dialogState = timeDialogState,
+            backgroundColor = Color(resources.getColor(R.color.aqua)),
             buttons = {
-                positiveButton("OK")
-                negativeButton("Cancel")
+                positiveButton(
+                    "OK",
+                    textStyle = MaterialTheme.typography.button.copy(
+                        color = Color(resources.getColor(R.color.teal_200)),
+                    )
+                )
+                negativeButton(
+                    "Cancel",
+                    textStyle = MaterialTheme.typography.button.copy(
+                        color = Color(resources.getColor(R.color.teal_200)),
+                    )
+                )
             },
         ) {
             timepicker(
-
+                colors = colorTheme
             ) { time ->
                 // Todo save time
             }
