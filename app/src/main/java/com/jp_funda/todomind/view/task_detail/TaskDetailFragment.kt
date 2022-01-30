@@ -26,6 +26,7 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.components.TimePickerDialog
 import com.jp_funda.todomind.view.components.DatePickerDialog
+import com.jp_funda.todomind.view.components.WhiteButton
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.compose.material.ExperimentalMaterialApi as ExperimentalMaterialApi1
@@ -221,43 +222,11 @@ class TaskDetailFragment : Fragment() {
 
             // Buttons
             Row(modifier = Modifier.fillMaxWidth()) {
-                Row(
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(40.dp)
-                        .clip(RoundedCornerShape(1000.dp))
-                        .align(CenterVertically)
-                        .background(Color.White),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Icon(imageVector = Icons.Default.Check, contentDescription = "Add")
-                    Text(
-                        text = "OK",
-                        color = Color.Black,
-                        style = MaterialTheme.typography.button
-                    )
-                }
+                WhiteButton(text = "OK", onClick = { /*TODO*/ }, Icons.Default.Check)
                 
                 Spacer(modifier = Modifier.width(30.dp))
 
-                Row(
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(40.dp)
-                        .clip(RoundedCornerShape(1000.dp))
-                        .align(CenterVertically)
-                        .background(Color.White),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete")
-                    Text(
-                        text = "Delete",
-                        color = Color.Black,
-                        style = MaterialTheme.typography.button
-                    )
-                }
+                WhiteButton(text = "Delete", onClick = { /*TODO*/ }, Icons.Default.Delete)
             }
         }
     }
