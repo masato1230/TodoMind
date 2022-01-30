@@ -1,11 +1,13 @@
 package com.jp_funda.todomind.view.task_detail
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -136,7 +138,9 @@ class TaskDetailFragment : Fragment() {
                 // Date
                 TextField(
                     colors = colors,
-                    modifier = Modifier.fillMaxWidth(0.5f),
+                    modifier = Modifier
+                        .fillMaxWidth(0.5f)
+                        .clickable { dateDialogState.show() },
                     value = "",
                     onValueChange = {},
                     placeholder = {
@@ -150,12 +154,18 @@ class TaskDetailFragment : Fragment() {
                         )
                     },
                     readOnly = true,
+                    enabled = false,
                 )
 
                 // Time TODO show only when date is filled
                 TextField(
                     colors = colors,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            Log.d("Click", "lkds;")
+                            timeDialogState.show()
+                        },
                     value = "",
                     onValueChange = {},
                     placeholder = {
@@ -169,13 +179,16 @@ class TaskDetailFragment : Fragment() {
                         )
                     },
                     readOnly = true,
+                    enabled = false,
                 )
             }
 
             // Color
             TextField(
                 colors = colors,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { colorDialogState.show() },
                 value = "",
                 onValueChange = {},
                 placeholder = {
@@ -189,6 +202,7 @@ class TaskDetailFragment : Fragment() {
                     )
                 },
                 readOnly = true,
+                enabled = false,
             )
 
             // Status
