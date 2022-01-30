@@ -31,7 +31,7 @@ open class Task(
     var positionNumber: Int? = null,
     var color: String? = null, // Color Hex
 
-    ) : RealmObject() {
+) : RealmObject() {
     private var status: String = TaskStatus.Open.state
     var statusEnum: TaskStatus
         get() {
@@ -47,4 +47,21 @@ open class Task(
             // users set state using a FrogState, but it is saved as a string internally
             status = value.state
         }
+
+    // Utils
+    fun copy(): Task {
+        return Task(
+            id,
+            mindMap,
+            title,
+            description,
+            createdDate,
+            updatedDate,
+            dueDate,
+            hierarchy,
+            parentTask,
+            positionNumber,
+            color
+        )
+    }
 }

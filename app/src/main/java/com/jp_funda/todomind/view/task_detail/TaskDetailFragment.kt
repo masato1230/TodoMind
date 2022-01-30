@@ -12,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -23,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.components.ColorPickerDialog
 import com.jp_funda.todomind.view.components.TimePickerDialog
@@ -57,6 +59,9 @@ class TaskDetailFragment : Fragment() {
     @Preview
     @Composable
     fun TaskDetailContent() {
+        // Set up data
+        val newTask by taskDetailViewModel.newTask.observeAsState()
+
         // Set up dialogs
         val dateDialogState = rememberMaterialDialogState()
         val timeDialogState = rememberMaterialDialogState()
@@ -66,7 +71,7 @@ class TaskDetailFragment : Fragment() {
         ColorPickerDialog(colorDialogState, resources, { it -> /* TODO */ })
 //        colorDialogState.show()
 //        dateDialogState.show()
-        timeDialogState.show()
+//        timeDialogState.show()
 
         // Set up TextFields color
         val colors = TextFieldDefaults.textFieldColors(
@@ -90,8 +95,8 @@ class TaskDetailFragment : Fragment() {
             TextField(
                 colors = colors,
                 modifier = Modifier.fillMaxWidth(),
-                value = "",
-                onValueChange = {},
+                value = newTask!!.title ?: "",
+                onValueChange = taskDetailViewModel::setTitle,
                 placeholder = {
                     Text(
                         text = "Enter title",
@@ -227,7 +232,7 @@ class TaskDetailFragment : Fragment() {
             // Buttons
             Row(modifier = Modifier.fillMaxWidth()) {
                 WhiteButton(text = "OK", onClick = { /*TODO*/ }, Icons.Default.Check)
-                
+
                 Spacer(modifier = Modifier.width(30.dp))
 
                 WhiteButton(text = "Delete", onClick = { /*TODO*/ }, Icons.Default.Delete)
