@@ -83,6 +83,7 @@ class TaskDetailFragment : Fragment() {
         // Set up TextFields color
         val colors = TextFieldDefaults.textFieldColors(
             textColor = Color.White,
+            disabledTextColor = Color.White,
             backgroundColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
@@ -192,7 +193,7 @@ class TaskDetailFragment : Fragment() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { colorDialogState.show() },
-                value = "",
+                value = if (task!!.color != null) "Color(Argb): " + task!!.color.toString() else "",
                 onValueChange = {},
                 placeholder = {
                     Text(text = "Set color", color = Color.Gray)
