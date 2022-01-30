@@ -60,7 +60,7 @@ class TaskDetailFragment : Fragment() {
     @Composable
     fun TaskDetailContent() {
         // Set up data
-        val newTask by taskDetailViewModel.newTask.observeAsState()
+        val task by taskDetailViewModel.task.observeAsState()
 
         // Set up dialogs
         val dateDialogState = rememberMaterialDialogState()
@@ -95,22 +95,25 @@ class TaskDetailFragment : Fragment() {
             TextField(
                 colors = colors,
                 modifier = Modifier.fillMaxWidth(),
-                value = newTask!!.title ?: "",
+                value = task!!.title ?: "",
                 onValueChange = taskDetailViewModel::setTitle,
+                textStyle = MaterialTheme.typography.h6,
                 placeholder = {
                     Text(
                         text = "Enter title",
                         color = Color.Gray,
                         style = MaterialTheme.typography.h6,
                     )
-                }) // TODO update memory
+                },
+            )
 
             // Description TextField
             TextField(
                 colors = colors,
                 modifier = Modifier.fillMaxWidth(),
-                value = "",
-                onValueChange = {},
+                value = task!!.description ?: "",
+                onValueChange = taskDetailViewModel::setDescription,
+                textStyle = MaterialTheme.typography.body1,
                 placeholder = {
                     Text(text = "Add description", color = Color.Gray)
                 },

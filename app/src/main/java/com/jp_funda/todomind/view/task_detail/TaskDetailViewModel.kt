@@ -16,11 +16,20 @@ import javax.inject.Inject
 class TaskDetailViewModel @Inject constructor(
     private val repository: TaskRepository
 ) : ViewModel() {
-    private var _newTask = MutableLiveData(Task())
-    val newTask: LiveData<Task> = _newTask
+    private var _task = MutableLiveData(Task())
+    val task: LiveData<Task> = _task
+
+    fun setEditingTask(editingTask: Task) {
+        _task.value = editingTask
+    }
 
     fun setTitle(title: String) {
-        _newTask.value = _newTask.value?.copy() ?: Task()
-        _newTask.value!!.title = title
+        _task.value = _task.value?.copy() ?: Task()
+        _task.value!!.title = title
+    }
+
+    fun setDescription(description: String) {
+        _task.value = _task.value?.copy() ?: Task()
+        _task.value!!.description = description
     }
 }
