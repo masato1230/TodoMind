@@ -29,7 +29,7 @@ open class Task(
     var hierarchy: Int? = null,
     var parentTask: Task? = null,
     var positionNumber: Int? = null,
-    var color: String? = null, // Color Hex
+    var color: Int? = null, // Color Argb int
 
 ) : RealmObject() {
     private var status: String = TaskStatus.Open.state

@@ -16,6 +16,8 @@ fun ColorPickerDialog(
     resources: Resources,
     onColorSelected: (color: Color) -> Unit
 ) {
+    var selectedColor = Color(resources.getColor(R.color.teal_200))
+
     MaterialDialog(
         dialogState = colorDialogState,
         backgroundColor = Color(color = resources.getColor(R.color.navy_blue)),
@@ -24,7 +26,10 @@ fun ColorPickerDialog(
                 "OK",
                 textStyle = MaterialTheme.typography.button.copy(
                     color = Color(resources.getColor(R.color.teal_200)),
-                )
+                ),
+                onClick = {
+                    onColorSelected(selectedColor)
+                }
             )
             negativeButton(
                 "Cancel",
@@ -37,6 +42,6 @@ fun ColorPickerDialog(
         colorChooser(
             colors = ColorPalette.Primary,
             subColors = ColorPalette.PrimarySub,
-            onColorSelected = { onColorSelected(it) })
+            onColorSelected = { selectedColor = it })
     }
 }
