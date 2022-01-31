@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.realm.Realm
@@ -59,6 +60,11 @@ class TaskDetailViewModel @Inject constructor(
 
     fun setColor(argb: Int) {
         _task.value!!.color = argb
+        notifyChangeToView()
+    }
+
+    fun setStatus(statusEnum: TaskStatus) {
+        _task.value!!.statusEnum = statusEnum
         notifyChangeToView()
     }
 

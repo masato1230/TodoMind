@@ -30,9 +30,10 @@ open class Task(
     var parentTask: Task? = null,
     var positionNumber: Int? = null,
     var color: Int? = null, // Color Argb int
+    statusEnum: TaskStatus? = null,
 
 ) : RealmObject() {
-    private var status: String = TaskStatus.Open.state
+    private var status: String = statusEnum?.name ?: TaskStatus.Open.name
     var statusEnum: TaskStatus
         get() {
             // default the state to "Open" if the state is unreadable
@@ -61,7 +62,8 @@ open class Task(
             hierarchy,
             parentTask,
             positionNumber,
-            color
+            color,
+            statusEnum,
         )
     }
 }

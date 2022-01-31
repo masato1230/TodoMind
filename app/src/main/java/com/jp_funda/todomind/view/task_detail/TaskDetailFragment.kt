@@ -223,7 +223,7 @@ class TaskDetailFragment : Fragment() {
             // Status
             val statusOptions = TaskStatus.values()
             var expanded by remember { mutableStateOf(false) }
-            var selectedStatus by remember { mutableStateOf(statusOptions[0]) }
+//            var selectedStatus by remember { mutableStateOf(statusOptions[0]) }
 
             ExposedDropdownMenuBox(
                 expanded = expanded,
@@ -233,7 +233,7 @@ class TaskDetailFragment : Fragment() {
             ) {
                 TextField(
                     colors = colors,
-                    value = "Status - ${selectedStatus.name}",
+                    value = "Status - ${task!!.statusEnum.name}",
                     onValueChange = {},
                     leadingIcon = {
                         Icon(
@@ -256,7 +256,7 @@ class TaskDetailFragment : Fragment() {
                     }) {
                     statusOptions.forEach { option ->
                         DropdownMenuItem(onClick = {
-                            selectedStatus = option
+                            taskDetailViewModel.setStatus(option)
                             expanded = false
                         }) {
                             Text(text = option.name)
