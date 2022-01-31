@@ -16,6 +16,7 @@ class TaskRepository @Inject constructor() {
         return Single.create<Task> { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync { realm ->
                 realm.insert(task)
+                Log.d("Create", task.title.toString())
                 emitter.onSuccess(task)
             }
         }

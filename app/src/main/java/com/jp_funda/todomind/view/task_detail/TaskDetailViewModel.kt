@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.realm.Realm
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -61,7 +62,16 @@ class TaskDetailViewModel @Inject constructor(
         notifyChangeToView()
     }
 
-    fun notifyChangeToView() {
+    fun saveTask() {
+        repository.createTask(_task.value!!)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+            }, {
+                Throwable("Error")
+            })
+    }
+
+    private fun notifyChangeToView() {
         _task.value = task.value?.copy() ?: Task()
     }
 }

@@ -28,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
@@ -41,6 +42,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import androidx.compose.material.ExperimentalMaterialApi as ExperimentalMaterialApi1
 
+@androidx.compose.material.ExperimentalMaterialApi
 @AndroidEntryPoint
 class TaskDetailFragment : Fragment() {
 
@@ -50,7 +52,6 @@ class TaskDetailFragment : Fragment() {
 
     private val taskDetailViewModel by viewModels<TaskDetailViewModel>()
 
-    @ExperimentalMaterialApi1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,7 +63,6 @@ class TaskDetailFragment : Fragment() {
         }
     }
 
-    @ExperimentalMaterialApi1
     @Preview
     @Composable
     fun TaskDetailContent() {
@@ -269,7 +269,10 @@ class TaskDetailFragment : Fragment() {
 
             // Buttons
             Row(modifier = Modifier.fillMaxWidth()) {
-                WhiteButton(text = "OK", onClick = { /*TODO*/ }, Icons.Default.Check)
+                WhiteButton(text = "OK", onClick = {
+                    taskDetailViewModel.saveTask()
+                    findNavController().popBackStack()
+                }, Icons.Default.Check)
 
                 Spacer(modifier = Modifier.width(30.dp))
 

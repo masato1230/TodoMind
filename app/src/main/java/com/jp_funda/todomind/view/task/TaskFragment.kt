@@ -37,9 +37,6 @@ class TaskFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        for (i in 0..1) {
-            taskViewModel.addDummyTask()
-        }
         taskViewModel.refreshTaskListData()
 
         return ComposeView(requireContext()).apply {
