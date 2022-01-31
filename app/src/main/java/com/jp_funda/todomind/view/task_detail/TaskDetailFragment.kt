@@ -271,7 +271,7 @@ class TaskDetailFragment : Fragment() {
             Row(modifier = Modifier.fillMaxWidth()) {
                 WhiteButton(text = "OK", onClick = {
                     taskDetailViewModel.saveTask()
-                    findNavController().popBackStack()
+                    findNavController().navigate(R.id.action_navigation_task_detail_to_navigation_task)
                 }, Icons.Default.Check)
 
                 Spacer(modifier = Modifier.width(30.dp))
