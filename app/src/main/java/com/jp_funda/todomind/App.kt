@@ -12,7 +12,7 @@ class App: Application() {
         super.onCreate()
         // Set up Realm
         Realm.init(this)
-//        Realm.setDefaultConfiguration(RealmConfiguration.Builder().build())
-//        Realm.deleteRealm(Realm.getDefaultConfiguration())
+        Realm.setDefaultConfiguration(RealmConfiguration.Builder().build())
+        Realm.deleteRealm(Realm.getDefaultConfiguration())
     }
 }

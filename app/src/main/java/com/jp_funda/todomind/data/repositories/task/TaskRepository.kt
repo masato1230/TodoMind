@@ -15,6 +15,9 @@ class TaskRepository @Inject constructor() {
     fun createTask(task: Task): Single<Task> {
         return Single.create<Task> { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync { realm ->
+                val maxReversedOrder =
+                    realm.where<Task>().findAll().maxByOrNull { task.reversedOrder ?: 0 }?.reversedOrder
+                task.reversedOrder = (maxReversedOrder ?: 0) + 1
                 realm.insert(task)
                 Log.d("Create", task.title.toString())
                 emitter.onSuccess(task)
