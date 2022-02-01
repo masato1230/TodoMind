@@ -19,7 +19,15 @@
         android:id="@+id/navigation_task"
         android:name="com.jp_funda.todomind.view.task.TaskFragment"
         android:label="@string/task"
-        tools:layout="@layout/task_fragment" />
+        tools:layout="@layout/task_fragment" >
+        <action
+            android:id="@+id/action_navigation_task_to_navigation_task_detail"
+            app:destination="@id/navigation_task_detail"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_mind_map"
@@ -47,6 +55,19 @@
     <fragment
         android:id="@+id/navigation_mind_map_detail"
         android:name="com.jp_funda.todomind.view.mindmap.MindMapDetailFragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_task_detail"
+        android:name="com.jp_funda.todomind.view.task_detail.TaskDetailFragment">
+        <action
+            android:id="@+id/action_navigation_task_detail_to_navigation_task"
+            app:destination="@id/navigation_task"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/navigation_top" />
     </fragment>
 
 </navigation>

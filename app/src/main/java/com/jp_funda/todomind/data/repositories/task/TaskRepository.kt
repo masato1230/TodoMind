@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.data.repositories.task
 
+import android.util.Log
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
@@ -15,6 +16,7 @@ class TaskRepository @Inject constructor() {
         return Single.create<Task> { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync { realm ->
                 realm.insert(task)
+                Log.d("Create", task.title.toString())
                 emitter.onSuccess(task)
             }
         }
@@ -26,6 +28,7 @@ class TaskRepository @Inject constructor() {
             Realm.getDefaultInstance().executeTransactionAsync { realm ->
                 val result1 = realm.where<Task>().findAll()
                 val result2 = Realm.getDefaultInstance().copyFromRealm(result1)
+                Log.d("result", result2.toString())
                 emitter.onSuccess(result2)
             }
         }

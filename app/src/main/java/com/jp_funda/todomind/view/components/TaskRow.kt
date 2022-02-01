@@ -37,7 +37,11 @@ fun TaskRow(
             // Settings common to all statuses
             title.text = task.title
             description.text = task.description
-            date.visibility = View.GONE
+            if (task.dueDate != null) {
+                date.text = Task.dateFormat.format(task.dueDate!!)
+            } else {
+                date.visibility = View.GONE
+            }
             editButton.setOnClickListener {
                 // TODO navigate to edit task view
             }

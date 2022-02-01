@@ -3,6 +3,7 @@ package com.jp_funda.todomind
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 import io.realm.Realm
+import io.realm.RealmConfiguration
 
 @HiltAndroidApp
 class App: Application() {
@@ -11,5 +12,7 @@ class App: Application() {
         super.onCreate()
         // Set up Realm
         Realm.init(this)
+//        Realm.setDefaultConfiguration(RealmConfiguration.Builder().build())
+//        Realm.deleteRealm(Realm.getDefaultConfiguration())
     }
 }

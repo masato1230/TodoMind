@@ -17,6 +17,8 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
+import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.components.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,14 +37,14 @@ class TaskFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        for (i in 0..1) {
-            taskViewModel.addDummyTask()
-        }
         taskViewModel.refreshTaskListData()
 
         return ComposeView(requireContext()).apply {
             setContent {
-                NewTaskFAB(onClick = {}) { // TODO add navigation to new task screen
+                NewTaskFAB(onClick = {
+                    NavHostFragment.findNavController(this@TaskFragment)
+                        .navigate(R.id.action_navigation_task_to_navigation_task_detail)
+                }) { // TODO add navigation to new task screen
                     TaskContent()
                 }
             }
@@ -86,7 +88,10 @@ class TaskFragment : Fragment() {
 
             Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Bottom) {
                 // Status update Snackbar
-                SnackbarHost(hostState = snackbarHostState, modifier = Modifier.padding(bottom = 70.dp))
+                SnackbarHost(
+                    hostState = snackbarHostState,
+                    modifier = Modifier.padding(bottom = 70.dp)
+                )
             }
 
 
