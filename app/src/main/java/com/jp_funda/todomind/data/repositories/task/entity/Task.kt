@@ -5,6 +5,7 @@ import android.util.Log
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import java.text.SimpleDateFormat
 import java.util.*
 
 enum class TaskStatus(val state: String) {
@@ -30,10 +31,10 @@ open class Task(
     var parentTask: Task? = null,
     var positionNumber: Int? = null,
     var color: Int? = null, // Color Argb int
-    statusEnum: TaskStatus? = null,
+    statusEnum: TaskStatus? = TaskStatus.InProgress,
 
-) : RealmObject() {
-    private var status: String = statusEnum?.name ?: TaskStatus.Open.name
+    ) : RealmObject() {
+    private var status: String = statusEnum?.name ?: TaskStatus.InProgress.name
     var statusEnum: TaskStatus
         get() {
             // default the state to "Open" if the state is unreadable
@@ -41,7 +42,7 @@ open class Task(
                 TaskStatus.valueOf(status)
             } catch (e: IllegalArgumentException) {
                 Log.e("Error", e.message ?: "")
-                TaskStatus.Open
+                TaskStatus.InProgress
             }
         }
         set(value) {
@@ -65,5 +66,9 @@ open class Task(
             color,
             statusEnum,
         )
+    }
+
+    companion object {
+        val dateFormat = SimpleDateFormat("EEE MM/dd hh:mm aaa", Locale.US)
     }
 }
