@@ -25,6 +25,7 @@ open class Task(
 
     // To-Do list fields
     var dueDate: Date? = null,
+    var order: Int? = null, // display task in this order at TO-Do list
 
     // Mind Map fields
     var hierarchy: Int? = null,
@@ -61,6 +62,7 @@ open class Task(
             updatedDate,
             dueDate,
             hierarchy,
+            order,
             parentTask,
             positionNumber,
             color,
