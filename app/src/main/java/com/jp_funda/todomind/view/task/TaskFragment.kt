@@ -68,7 +68,6 @@ class TaskFragment : Fragment() {
             Column {
 
                 TaskTab(selectedTabIndex, onTabChange = { status ->
-                    taskViewModel.updateShowingTasks(status)
                     selectedTabIndex = status.ordinal
                 })
 
@@ -86,9 +85,9 @@ class TaskFragment : Fragment() {
                     },
                     onMove = { fromIndex, toIndex ->
                         // Replace task's reversedOrder
-                        val draggedTask = showingTasks[fromIndex]
-                        val selectedTask = showingTasks[toIndex]
-                        taskViewModel.replaceReversedOrderOfTasks(draggedTask, selectedTask)
+                        val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }.reversed()[fromIndex]
+                        val toTask = showingTasks.sortedBy { task -> task.reversedOrder }.reversed()[toIndex]
+                        taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
                     }
                 )
             }

@@ -1,14 +1,11 @@
 package com.jp_funda.todomind.view.task
 
-import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SnackbarHostState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
-import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
-import com.jp_funda.todomind.view.components.filterTasksByStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -38,14 +35,11 @@ class TaskViewModel @Inject constructor(
             })
     }
 
-    fun updateTask(task: Task) {
+    fun updateDbWithTask(task: Task) {
         repository.updateTask(task)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
-            .delay(300, TimeUnit.MILLISECONDS)
-            .subscribe({
-                refreshTaskListData()
-            }, {
+            .subscribe({}, {
                 Throwable("Error at taskViewModel updateTask")
             })
     }
@@ -65,20 +59,17 @@ class TaskViewModel @Inject constructor(
     fun replaceReversedOrderOfTasks(task1: Task, task2: Task) {
         val updatedReversedOrder1 = task2.reversedOrder
         val updatedReversedOrder2 = task1.reversedOrder
-        task1.reversedOrder = updatedReversedOrder1
-        task2.reversedOrder = updatedReversedOrder2
 
         // Update Showing Task before db task
         val tempTasks = taskList.value!!.toList()
         tempTasks.firstOrNull { it.id == task1.id }!!.reversedOrder = updatedReversedOrder1
         tempTasks.firstOrNull { it.id == task2.id }!!.reversedOrder = updatedReversedOrder2
         _taskList.value = emptyList()
-        // todo create refresh memory tasks function
         _taskList.value = tempTasks.sortedBy { task -> task.reversedOrder }.reversed()
-//        _showingTasks.value = tempShowingTasks
-
-//        updateTask(task1)
-//        updateTask(task2)
+        
+        // Update DB
+        updateDbWithTask(task1)
+        updateDbWithTask(task2)
     }
 
     fun addDummyTask() {
