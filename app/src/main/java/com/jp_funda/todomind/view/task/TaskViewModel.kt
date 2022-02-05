@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.view.components.filterTasksByStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers

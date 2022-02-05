@@ -59,9 +59,10 @@ class TaskFragment : Fragment() {
         var selectedTabIndex by remember { mutableStateOf(0) }
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
+        var showingTasks by remember { mutableStateOf(tasks!!) }
 
-        if (!tasks.isNullOrEmpty()) {
-            val showingTasks = filterTasksByStatus(
+        if (tasks!!.isNotEmpty()) {
+            showingTasks = filterTasksByStatus(
                 status = TaskStatus.values().first { it.ordinal == selectedTabIndex },
                 tasks = tasks!!,
             )
