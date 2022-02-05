@@ -74,7 +74,7 @@ fun TaskList(
     // new
     onMove: (Int, Int) -> Unit,
     modifier: Modifier = Modifier,
-    onRowClick: () -> Unit,
+    onRowClick: (Task) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     var overScrollJob by remember { mutableStateOf<Job?>(null) }
@@ -125,7 +125,7 @@ fun TaskList(
                     }
                     .fillMaxWidth()
             ) {
-                TaskRow(task = task, onCheckChanged = onCheckChanged, onClick = onRowClick)
+                TaskRow(task = task, onCheckChanged = onCheckChanged, onClick = { onRowClick(task) })
             }
         }
 

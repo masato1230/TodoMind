@@ -16,11 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -29,7 +31,9 @@ import java.lang.Integer.max
 @AndroidEntryPoint
 class TaskFragment : Fragment() {
 
+    // ViewModels
     private val taskViewModel by viewModels<TaskViewModel>()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     companion object {
         fun newInstance() = TaskFragment()
@@ -96,7 +100,8 @@ class TaskFragment : Fragment() {
                             taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
                         }
                     },
-                    onRowClick = {
+                    onRowClick = { task ->
+                        mainViewModel.editingTask = task
                         findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
                     }
                 )

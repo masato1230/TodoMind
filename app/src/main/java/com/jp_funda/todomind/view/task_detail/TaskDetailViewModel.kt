@@ -24,9 +24,11 @@ class TaskDetailViewModel @Inject constructor(
 ) : ViewModel() {
     private var _task = MutableLiveData(Task(createdDate = Date()))
     val task: LiveData<Task> = _task
+    var isEditing: Boolean = false
 
     fun setEditingTask(editingTask: Task) {
         _task.value = editingTask
+        isEditing = true
     }
 
     fun setTitle(title: String) {

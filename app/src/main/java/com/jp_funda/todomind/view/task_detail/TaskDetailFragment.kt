@@ -27,11 +27,13 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.ColorPickerDialog
 import com.jp_funda.todomind.view.components.TimePickerDialog
 import com.jp_funda.todomind.view.components.DatePickerDialog
@@ -50,12 +52,19 @@ class TaskDetailFragment : Fragment() {
         fun newInstance() = TaskDetailFragment()
     }
 
+    // ViewModels
     private val taskDetailViewModel by viewModels<TaskDetailViewModel>()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Check whether to edit or create new task by mainViewModel editingTask
+        mainViewModel.editingTask?.let { editingTask ->
+            taskDetailViewModel.setEditingTask(editingTask)
+        }
+
         return ComposeView(requireContext()).apply {
             setContent {
                 TaskDetailContent()
@@ -279,5 +288,12 @@ class TaskDetailFragment : Fragment() {
                 WhiteButton(text = "Delete", onClick = { /*TODO*/ }, Icons.Default.Delete)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        taskDetailViewModel.isEditing = false
+        mainViewModel.editingTask = null
     }
 }
