@@ -23,6 +23,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.components.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.lang.Integer.max
 
 @AndroidEntryPoint
 class TaskFragment : Fragment() {
@@ -84,10 +85,14 @@ class TaskFragment : Fragment() {
                         }
                     },
                     onMove = { fromIndex, toIndex ->
-                        // Replace task's reversedOrder
-                        val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }.reversed()[fromIndex]
-                        val toTask = showingTasks.sortedBy { task -> task.reversedOrder }.reversed()[toIndex]
-                        taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
+                        // Replace task's reversedOrder property
+                        if (max(fromIndex, toIndex) < showingTasks.size) {
+                            val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                                .reversed()[fromIndex]
+                            val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                                .reversed()[toIndex]
+                            taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
+                        }
                     }
                 )
             }

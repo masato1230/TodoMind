@@ -35,7 +35,7 @@ class TaskViewModel @Inject constructor(
             })
     }
 
-    fun updateDbWithTask(task: Task) {
+    private fun updateDbWithTask(task: Task) {
         repository.updateTask(task)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
