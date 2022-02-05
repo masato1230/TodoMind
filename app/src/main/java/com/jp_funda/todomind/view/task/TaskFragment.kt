@@ -55,14 +55,15 @@ class TaskFragment : Fragment() {
     @Composable
     fun TaskContent() {
         val tasks by taskViewModel.taskList.observeAsState()
-        val showingTasks by taskViewModel.showingTasks.observeAsState()
         var selectedTabIndex by remember { mutableStateOf(0) }
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
 
         if (!tasks.isNullOrEmpty()) {
-            taskViewModel.updateShowingTasks(
-                TaskStatus.values().first { it.ordinal == selectedTabIndex })
+            val showingTasks = filterTasksByStatus(
+                status = TaskStatus.values().first { it.ordinal == selectedTabIndex },
+                tasks = tasks!!,
+            )
 
             Column {
 
@@ -74,7 +75,7 @@ class TaskFragment : Fragment() {
 
                 TaskList(
                     listPadding = 20,
-                    tasks = showingTasks!!,
+                    tasks = showingTasks,
                     onCheckChanged = { task ->
                         taskViewModel.updateTaskWithDelay(task)
                         scope.launch {
@@ -86,8 +87,8 @@ class TaskFragment : Fragment() {
                     },
                     onMove = { fromIndex, toIndex ->
                         // Replace task's reversedOrder
-                        val draggedTask = showingTasks!![fromIndex]
-                        val selectedTask = showingTasks!![toIndex]
+                        val draggedTask = showingTasks[fromIndex]
+                        val selectedTask = showingTasks[toIndex]
                         taskViewModel.replaceReversedOrderOfTasks(draggedTask, selectedTask)
                     }
                 )
