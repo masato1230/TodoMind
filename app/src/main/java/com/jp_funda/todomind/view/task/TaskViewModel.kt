@@ -24,10 +24,6 @@ class TaskViewModel @Inject constructor(
     private val _taskList = MutableLiveData(listOf<Task>())
     val taskList: LiveData<List<Task>> = _taskList
 
-    // Showing Task Data
-    private val _showingTasks = MutableLiveData(listOf<Task>())
-    val showingTasks: LiveData<List<Task>> = _showingTasks
-
     fun refreshTaskListData() {
         repository.getAllTasks()
             .subscribeOn(Schedulers.computation())
@@ -40,13 +36,6 @@ class TaskViewModel @Inject constructor(
             }, {
                 Throwable("Error at taskViewModel getAllTask")
             })
-    }
-
-    fun updateShowingTasks(status: TaskStatus) {
-        _showingTasks.value = filterTasksByStatus(
-            status = status,
-            tasks = _taskList.value!!,
-        )
     }
 
     fun updateTask(task: Task) {

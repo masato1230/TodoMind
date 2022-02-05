@@ -72,7 +72,6 @@ class TaskFragment : Fragment() {
                     selectedTabIndex = status.ordinal
                 })
 
-
                 TaskList(
                     listPadding = 20,
                     tasks = showingTasks,
