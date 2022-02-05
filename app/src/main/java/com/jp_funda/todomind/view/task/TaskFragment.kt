@@ -61,7 +61,7 @@ class TaskFragment : Fragment() {
     @Composable
     fun TaskContent() {
         val tasks by taskViewModel.taskList.observeAsState()
-        var selectedTabIndex by remember { mutableStateOf(0) }
+        val selectedTabIndex by taskViewModel.selectedTabIndex.observeAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
         var showingTasks by remember { mutableStateOf(tasks!!) }
@@ -74,8 +74,8 @@ class TaskFragment : Fragment() {
 
             Column {
 
-                TaskTab(selectedTabIndex, onTabChange = { status ->
-                    selectedTabIndex = status.ordinal
+                TaskTab(selectedTabIndex!!, onTabChange = { status ->
+                    taskViewModel.setSelectedTabIndex(status.ordinal)
                 })
 
                 TaskList(

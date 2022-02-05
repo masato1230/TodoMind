@@ -22,6 +22,9 @@ class TaskViewModel @Inject constructor(
     private val _taskList = MutableLiveData(listOf<Task>())
     val taskList: LiveData<List<Task>> = _taskList
 
+    private val _selectedTabIndex = MutableLiveData(0)
+    val selectedTabIndex: LiveData<Int> = _selectedTabIndex
+
     fun refreshTaskListData() {
         repository.getAllTasks()
             .subscribeOn(Schedulers.computation())
@@ -86,5 +89,10 @@ class TaskViewModel @Inject constructor(
     // Show Snackbar
     suspend fun showSnackbar(message: String, snackbarHostState: SnackbarHostState) {
         snackbarHostState.showSnackbar(message, actionLabel = "ok")
+    }
+
+    // Tab
+    fun setSelectedTabIndex(selectedIndex: Int) {
+        _selectedTabIndex.value = selectedIndex
     }
 }
