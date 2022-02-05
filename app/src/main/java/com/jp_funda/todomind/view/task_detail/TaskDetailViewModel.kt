@@ -87,11 +87,13 @@ class TaskDetailViewModel @Inject constructor(
         }
     }
 
-    fun deleteTask(task: Task) {
+    fun deleteTask(task: Task, onSuccess: () -> Unit = {}) {
         if (isEditing) {
             repository.deleteTask(task)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+                .subscribe({ onSuccess() }, {})
+        } else {
+            onSuccess()
         }
     }
 

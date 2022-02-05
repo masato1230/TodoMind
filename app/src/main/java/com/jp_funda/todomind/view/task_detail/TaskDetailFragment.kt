@@ -288,8 +288,9 @@ class TaskDetailFragment : Fragment() {
                 WhiteButton(
                     text = "Delete",
                     onClick = {
-                        taskDetailViewModel.deleteTask(task!!)
-                        findNavController().popBackStack()
+                        taskDetailViewModel.deleteTask(
+                            task = task!!,
+                            onSuccess = { findNavController().popBackStack() })
                     },
                     leadingIcon = Icons.Default.Delete
                 )

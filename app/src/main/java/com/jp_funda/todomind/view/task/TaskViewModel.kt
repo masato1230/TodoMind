@@ -39,6 +39,10 @@ class TaskViewModel @Inject constructor(
             })
     }
 
+    fun setTaskListEmpty() {
+        _taskList.value = emptyList()
+    }
+
     private fun updateDbWithTask(task: Task) {
         repository.updateTask(task)
             .subscribeOn(Schedulers.computation())

@@ -120,4 +120,10 @@ class TaskFragment : Fragment() {
             CircularProgressIndicator()
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // To avoid using extra memory and null pointer exception after delete tasksList item reset tasksList
+        taskViewModel.setTaskListEmpty()
+    }
 }
