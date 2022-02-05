@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.components.*
@@ -94,6 +95,9 @@ class TaskFragment : Fragment() {
                                 .reversed()[toIndex]
                             taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
                         }
+                    },
+                    onRowClick = {
+                        findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
                     }
                 )
             }
