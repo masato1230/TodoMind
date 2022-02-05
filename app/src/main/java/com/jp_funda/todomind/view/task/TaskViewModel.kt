@@ -33,7 +33,7 @@ class TaskViewModel @Inject constructor(
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ it ->
-                // todo sort taskList by order column
+                // sort taskList by order column
                 val sortedList = it.sortedBy { task -> task.reversedOrder }.reversed()
                 _taskList.value = emptyList() // Change list length to notify data change to UI
                 _taskList.value = sortedList
@@ -49,7 +49,7 @@ class TaskViewModel @Inject constructor(
         )
     }
 
-    fun updateTaskStatus(task: Task) {
+    fun updateTask(task: Task) {
         repository.updateTask(task)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
@@ -59,6 +59,37 @@ class TaskViewModel @Inject constructor(
             }, {
                 Throwable("Error at taskViewModel updateTask")
             })
+    }
+
+    fun updateTaskWithDelay(task: Task) {
+        repository.updateTask(task)
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .delay(300, TimeUnit.MILLISECONDS)
+            .subscribe({
+                refreshTaskListData()
+            }, {
+                Throwable("Error at taskViewModel updateTask")
+            })
+    }
+
+    fun replaceReversedOrderOfTasks(task1: Task, task2: Task) {
+        val updatedReversedOrder1 = task2.reversedOrder
+        val updatedReversedOrder2 = task1.reversedOrder
+        task1.reversedOrder = updatedReversedOrder1
+        task2.reversedOrder = updatedReversedOrder2
+
+        // Update Showing Task before db task
+        val tempTasks = taskList.value!!.toList()
+        tempTasks.firstOrNull { it.id == task1.id }!!.reversedOrder = updatedReversedOrder1
+        tempTasks.firstOrNull { it.id == task2.id }!!.reversedOrder = updatedReversedOrder2
+        _taskList.value = emptyList()
+        // todo create refresh memory tasks function
+        _taskList.value = tempTasks.sortedBy { task -> task.reversedOrder }.reversed()
+//        _showingTasks.value = tempShowingTasks
+
+//        updateTask(task1)
+//        updateTask(task2)
     }
 
     fun addDummyTask() {

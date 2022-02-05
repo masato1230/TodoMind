@@ -76,14 +76,21 @@ class TaskFragment : Fragment() {
                     listPadding = 20,
                     tasks = showingTasks!!,
                     onCheckChanged = { task ->
-                        taskViewModel.updateTaskStatus(task)
+                        taskViewModel.updateTaskWithDelay(task)
                         scope.launch {
                             taskViewModel.showSnackbar(
                                 "Move ${task.title} to ${task.statusEnum.name}",
                                 snackbarHostState
                             )
                         }
-                    })
+                    },
+                    onMove = { fromIndex, toIndex ->
+                        // Replace task's reversedOrder
+                        val draggedTask = showingTasks!![fromIndex]
+                        val selectedTask = showingTasks!![toIndex]
+                        taskViewModel.replaceReversedOrderOfTasks(draggedTask, selectedTask)
+                    }
+                )
             }
 
             Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Bottom) {
