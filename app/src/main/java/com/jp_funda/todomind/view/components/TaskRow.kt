@@ -34,7 +34,6 @@ fun TaskRow(
             val title = view.findViewById<MaterialTextView>(R.id.row_task_title)
             val description = view.findViewById<MaterialTextView>(R.id.row_task_description)
             val date = view.findViewById<MaterialTextView>(R.id.row_task_date)
-            val editButton = view.findViewById<ImageView>(R.id.row_task_edit_button)
 
             // Settings : common to all statuses
             title.text = task.title
@@ -43,9 +42,6 @@ fun TaskRow(
                 date.text = Task.dateFormat.format(task.dueDate!!)
             } else {
                 date.visibility = View.GONE
-            }
-            editButton.setOnClickListener {
-                // TODO navigate to edit task view
             }
 
             // Settings : that vary depending on the status
