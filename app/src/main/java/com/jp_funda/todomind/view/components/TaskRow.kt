@@ -1,7 +1,7 @@
 package com.jp_funda.todomind.view.components
 
+import android.content.res.ColorStateList
 import android.graphics.Paint
-import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageView
@@ -36,7 +36,7 @@ fun TaskRow(
             val date = view.findViewById<MaterialTextView>(R.id.row_task_date)
             val editButton = view.findViewById<ImageView>(R.id.row_task_edit_button)
 
-            // Settings common to all statuses
+            // Settings : common to all statuses
             title.text = task.title
             description.text = task.description
             if (task.dueDate != null) {
@@ -48,7 +48,7 @@ fun TaskRow(
                 // TODO navigate to edit task view
             }
 
-            // Settings that vary depending on the status
+            // Settings : that vary depending on the status
             when (task.statusEnum) {
                 // when status is Complete
                 TaskStatus.Complete -> {
@@ -62,9 +62,9 @@ fun TaskRow(
                 }
             }
 
-            // Set listeners
-            checkBox.setOnClickListener { view ->
-                if ((view as CheckBox).isChecked) {
+            // CheckBox settings
+            checkBox.setOnClickListener {
+                if ((it as CheckBox).isChecked) {
                     task.statusEnum = TaskStatus.Complete
                 } else {
                     task.statusEnum = TaskStatus.InProgress
@@ -72,6 +72,7 @@ fun TaskRow(
                 // update db with task instance
                 onCheckChanged(task)
             }
+            checkBox.buttonTintList = ColorStateList.valueOf(task.color ?: 0x0f03dac5).withAlpha(0xFF)
         },
         modifier = modifier
             .clickable { onClick() }
