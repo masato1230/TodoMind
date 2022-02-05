@@ -1,13 +1,11 @@
 package com.jp_funda.todomind.view.task
 
-import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SnackbarHostState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
-import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.components.filterTasksByStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -24,30 +22,30 @@ class TaskViewModel @Inject constructor(
     private val _taskList = MutableLiveData(listOf<Task>())
     val taskList: LiveData<List<Task>> = _taskList
 
-    // Showing Task Data
-    private val _showingTasks = MutableLiveData(listOf<Task>())
-    val showingTasks: LiveData<List<Task>> = _showingTasks
-
     fun refreshTaskListData() {
         repository.getAllTasks()
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
+            .subscribe({ it ->
+                // sort taskList by order column
+                val sortedList = it.sortedBy { task -> task.reversedOrder }.reversed()
                 _taskList.value = emptyList() // Change list length to notify data change to UI
-                _taskList.value = it
+                _taskList.value = sortedList
             }, {
                 Throwable("Error at taskViewModel getAllTask")
             })
     }
 
-    fun updateShowingTasks(status: TaskStatus) {
-        _showingTasks.value = filterTasksByStatus(
-            status = status,
-            tasks = _taskList.value!!,
-        )
+    private fun updateDbWithTask(task: Task) {
+        repository.updateTask(task)
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({}, {
+                Throwable("Error at taskViewModel updateTask")
+            })
     }
 
-    fun updateTaskStatus(task: Task) {
+    fun updateTaskWithDelay(task: Task) {
         repository.updateTask(task)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
@@ -57,6 +55,22 @@ class TaskViewModel @Inject constructor(
             }, {
                 Throwable("Error at taskViewModel updateTask")
             })
+    }
+
+    fun replaceReversedOrderOfTasks(task1: Task, task2: Task) {
+        val updatedReversedOrder1 = task2.reversedOrder
+        val updatedReversedOrder2 = task1.reversedOrder
+
+        // Update Showing Task before db task
+        val tempTasks = taskList.value!!.toList()
+        tempTasks.firstOrNull { it.id == task1.id }!!.reversedOrder = updatedReversedOrder1
+        tempTasks.firstOrNull { it.id == task2.id }!!.reversedOrder = updatedReversedOrder2
+        _taskList.value = emptyList()
+        _taskList.value = tempTasks.sortedBy { task -> task.reversedOrder }.reversed()
+        
+        // Update DB
+        updateDbWithTask(task1)
+        updateDbWithTask(task2)
     }
 
     fun addDummyTask() {

@@ -23,6 +23,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.components.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.lang.Integer.max
 
 @AndroidEntryPoint
 class TaskFragment : Fragment() {
@@ -55,35 +56,46 @@ class TaskFragment : Fragment() {
     @Composable
     fun TaskContent() {
         val tasks by taskViewModel.taskList.observeAsState()
-        val showingTasks by taskViewModel.showingTasks.observeAsState()
         var selectedTabIndex by remember { mutableStateOf(0) }
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
+        var showingTasks by remember { mutableStateOf(tasks!!) }
 
-        if (!tasks.isNullOrEmpty()) {
-            taskViewModel.updateShowingTasks(
-                TaskStatus.values().first { it.ordinal == selectedTabIndex })
+        if (tasks!!.isNotEmpty()) {
+            showingTasks = filterTasksByStatus(
+                status = TaskStatus.values().first { it.ordinal == selectedTabIndex },
+                tasks = tasks!!,
+            )
 
             Column {
 
                 TaskTab(selectedTabIndex, onTabChange = { status ->
-                    taskViewModel.updateShowingTasks(status)
                     selectedTabIndex = status.ordinal
                 })
 
-
                 TaskList(
                     listPadding = 20,
-                    tasks = showingTasks!!,
+                    tasks = showingTasks,
                     onCheckChanged = { task ->
-                        taskViewModel.updateTaskStatus(task)
+                        taskViewModel.updateTaskWithDelay(task)
                         scope.launch {
                             taskViewModel.showSnackbar(
                                 "Move ${task.title} to ${task.statusEnum.name}",
                                 snackbarHostState
                             )
                         }
-                    })
+                    },
+                    onMove = { fromIndex, toIndex ->
+                        // Replace task's reversedOrder property
+                        if (max(fromIndex, toIndex) < showingTasks.size) {
+                            val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                                .reversed()[fromIndex]
+                            val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                                .reversed()[toIndex]
+                            taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
+                        }
+                    }
+                )
             }
 
             Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Bottom) {
