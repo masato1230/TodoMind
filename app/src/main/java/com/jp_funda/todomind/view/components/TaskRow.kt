@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageView
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -20,7 +21,8 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 fun TaskRow(
     task: Task,
     onCheckChanged: (task: Task) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
 ) {
     AndroidView(
         factory = {
@@ -72,6 +74,7 @@ fun TaskRow(
             }
         },
         modifier = modifier
+            .clickable { onClick() }
             .fillMaxWidth()
             .padding(vertical = 10.dp),
     )

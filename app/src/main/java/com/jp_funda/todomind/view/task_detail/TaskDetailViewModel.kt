@@ -1,6 +1,5 @@
 package com.jp_funda.todomind.view.task_detail
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,9 +8,6 @@ import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.realm.Realm
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
@@ -24,9 +20,11 @@ class TaskDetailViewModel @Inject constructor(
 ) : ViewModel() {
     private var _task = MutableLiveData(Task(createdDate = Date()))
     val task: LiveData<Task> = _task
+    var isEditing: Boolean = false
 
     fun setEditingTask(editingTask: Task) {
         _task.value = editingTask
+        isEditing = true
     }
 
     fun setTitle(title: String) {
@@ -69,12 +67,30 @@ class TaskDetailViewModel @Inject constructor(
     }
 
     fun saveTask() {
-        repository.createTask(_task.value!!)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-            }, {
-                Throwable("Error")
-            })
+        // Not editing mode -> Add new task to DB
+        // Editing mode -> update task data in DB
+        if (!isEditing) {
+            repository.createTask(_task.value!!)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                }, {
+                    Throwable("Error")
+                })
+        } else {
+            repository.updateTask(_task.value!!)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        }
+    }
+
+    fun deleteTask(task: Task, onSuccess: () -> Unit = {}) {
+        if (isEditing) {
+            repository.deleteTask(task)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ onSuccess() }, {})
+        } else {
+            onSuccess()
+        }
     }
 
     private fun notifyChangeToView() {

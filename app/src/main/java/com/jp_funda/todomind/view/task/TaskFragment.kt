@@ -16,10 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -28,7 +31,9 @@ import java.lang.Integer.max
 @AndroidEntryPoint
 class TaskFragment : Fragment() {
 
+    // ViewModels
     private val taskViewModel by viewModels<TaskViewModel>()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     companion object {
         fun newInstance() = TaskFragment()
@@ -56,7 +61,7 @@ class TaskFragment : Fragment() {
     @Composable
     fun TaskContent() {
         val tasks by taskViewModel.taskList.observeAsState()
-        var selectedTabIndex by remember { mutableStateOf(0) }
+        val selectedTabIndex by taskViewModel.selectedTabIndex.observeAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
         var showingTasks by remember { mutableStateOf(tasks!!) }
@@ -69,8 +74,8 @@ class TaskFragment : Fragment() {
 
             Column {
 
-                TaskTab(selectedTabIndex, onTabChange = { status ->
-                    selectedTabIndex = status.ordinal
+                TaskTab(selectedTabIndex!!, onTabChange = { status ->
+                    taskViewModel.setSelectedTabIndex(status.ordinal)
                 })
 
                 TaskList(
@@ -94,6 +99,10 @@ class TaskFragment : Fragment() {
                                 .reversed()[toIndex]
                             taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
                         }
+                    },
+                    onRowClick = { task ->
+                        mainViewModel.editingTask = task
+                        findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
                     }
                 )
             }
@@ -110,5 +119,11 @@ class TaskFragment : Fragment() {
         } else {
             CircularProgressIndicator()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // To avoid using extra memory and null pointer exception after delete tasksList item reset tasksList
+        taskViewModel.setTaskListEmpty()
     }
 }
