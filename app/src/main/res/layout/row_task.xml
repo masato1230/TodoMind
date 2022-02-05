@@ -32,11 +32,11 @@
             style="@style/Body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="-5dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Task Title"
-            app:layout_constraintEnd_toStartOf="@+id/row_task_edit_button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/row_task_checkbox"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,9 +44,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="-10dp"
-            app:layout_constraintEnd_toStartOf="@+id/row_task_edit_button"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/row_task_checkbox"
             app:layout_constraintTop_toBottomOf="@+id/row_task_title">
 
@@ -56,36 +56,27 @@
                 style="@style/Subhead2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:maxWidth="140dp"
+                android:layout_marginEnd="10dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="description description description description"
+                android:text="description description description description description description"
                 android:textColor="@color/grey"
+                app:layout_constraintEnd_toStartOf="@+id/row_task_date"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:layout_editor_absoluteY="0dp" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/row_task_date"
                 style="@style/TextLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
                 android:text="Fri 10/20 22:15"
-                android:layout_marginEnd="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <ImageView
-            android:id="@+id/row_task_edit_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_edit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
