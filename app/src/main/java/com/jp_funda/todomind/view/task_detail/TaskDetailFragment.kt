@@ -110,7 +110,9 @@ class TaskDetailFragment : Fragment() {
         ) {
             // Page Title
             Text(
-                text = "New Task",
+                text =
+                if (taskDetailViewModel.isEditing) "Editing"
+                else "New Task",
                 color = Color.White,
                 style = MaterialTheme.typography.h5
             ) // TODO change by create/edit
