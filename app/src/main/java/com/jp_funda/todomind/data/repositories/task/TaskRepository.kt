@@ -75,8 +75,13 @@ class TaskRepository @Inject constructor() {
     fun deleteTask(task: Task): Single<Task> {
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                task.deleteFromRealm()
-                emitter.onSuccess(task)
+                val realmTask = realm.where<Task>().equalTo("id", task.id).findFirst()
+                realmTask?.let {
+                    it.deleteFromRealm()
+                    emitter.onSuccess(task)
+                } ?: run {
+                    emitter.onError(Throwable("Error at deleteTask"))
+                }
             }
         }
     }

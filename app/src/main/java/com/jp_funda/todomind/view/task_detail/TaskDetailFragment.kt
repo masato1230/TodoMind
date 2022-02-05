@@ -285,7 +285,14 @@ class TaskDetailFragment : Fragment() {
 
                 Spacer(modifier = Modifier.width(30.dp))
 
-                WhiteButton(text = "Delete", onClick = { /*TODO*/ }, Icons.Default.Delete)
+                WhiteButton(
+                    text = "Delete",
+                    onClick = {
+                        taskDetailViewModel.deleteTask(task!!)
+                        findNavController().popBackStack()
+                    },
+                    leadingIcon = Icons.Default.Delete
+                )
             }
         }
     }

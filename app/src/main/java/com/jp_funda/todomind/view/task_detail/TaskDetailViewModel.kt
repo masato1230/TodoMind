@@ -87,6 +87,14 @@ class TaskDetailViewModel @Inject constructor(
         }
     }
 
+    fun deleteTask(task: Task) {
+        if (isEditing) {
+            repository.deleteTask(task)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        }
+    }
+
     private fun notifyChangeToView() {
         _task.value = task.value?.copy() ?: Task()
     }
