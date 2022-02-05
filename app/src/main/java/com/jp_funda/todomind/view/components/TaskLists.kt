@@ -1,6 +1,7 @@
 package com.jp_funda.todomind.view.components
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.*
@@ -9,8 +10,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
@@ -75,6 +78,7 @@ fun TaskList(
     val scope = rememberCoroutineScope()
     var overScrollJob by remember { mutableStateOf<Job?>(null) }
     val dragDropListState = rememberDragDropListState(onMove = onMove)
+    val haptic = LocalHapticFeedback.current
 
     LazyColumn(
         modifier = modifier
@@ -97,7 +101,10 @@ fun TaskList(
                                 }
                             } ?: kotlin.run { overScrollJob?.cancel() }
                     },
-                    onDragStart = { offset -> dragDropListState.onDragStart(offset) },
+                    onDragStart = { offset ->
+                        dragDropListState.onDragStart(offset)
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    },
                     onDragEnd = { dragDropListState.onDragInterrupted() },
                     onDragCancel = { dragDropListState.onDragInterrupted() }
                 )
