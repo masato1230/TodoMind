@@ -71,12 +71,20 @@ class TaskDetailViewModel @Inject constructor(
     }
 
     fun saveTask() {
-        repository.createTask(_task.value!!)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-            }, {
-                Throwable("Error")
-            })
+        // Not editing mode -> Add new task to DB
+        // Editing mode -> update task data in DB
+        if (!isEditing) {
+            repository.createTask(_task.value!!)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                }, {
+                    Throwable("Error")
+                })
+        } else {
+            repository.updateTask(_task.value!!)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        }
     }
 
     private fun notifyChangeToView() {
