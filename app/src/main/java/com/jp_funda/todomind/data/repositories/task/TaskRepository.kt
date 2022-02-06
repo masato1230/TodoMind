@@ -24,6 +24,9 @@ class TaskRepository @Inject constructor() {
                         })?.reversedOrder
                         ?: 0
                 task.reversedOrder = maxReversedOrder + 1
+                val now = Date()
+                task.createdDate = now
+                task.updatedDate = now
                 realm.insert(task)
                 emitter.onSuccess(task)
             }
@@ -77,6 +80,7 @@ class TaskRepository @Inject constructor() {
     fun updateTask(updatedTask: Task): Single<Task> {
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync { realm ->
+                updatedTask.updatedDate = Date()
                 realm.copyToRealmOrUpdate(updatedTask)
                 emitter.onSuccess(updatedTask)
             }
