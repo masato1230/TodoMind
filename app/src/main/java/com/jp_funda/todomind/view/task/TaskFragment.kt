@@ -5,14 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -129,7 +128,25 @@ class TaskFragment : Fragment() {
 
 
         } else {
-            CircularProgressIndicator()
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .width(150.dp)
+                        .height(150.dp),
+                    color = Color(resources.getColor(R.color.teal_200)),
+                    strokeWidth = 10.dp
+                )
+                Spacer(modifier = Modifier.height(30.dp))
+                Text(
+                    text = "Loading...",
+                    style = MaterialTheme.typography.h5,
+                    color = Color.White
+                )
+            }
         }
     }
 
