@@ -8,6 +8,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
@@ -21,6 +22,8 @@ class TaskDetailViewModel @Inject constructor(
     private var _task = MutableLiveData(Task(createdDate = Date()))
     val task: LiveData<Task> = _task
     var isEditing: Boolean = false
+
+    private val disposables = CompositeDisposable()
 
     fun setEditingTask(editingTask: Task) {
         _task.value = editingTask
@@ -67,27 +70,31 @@ class TaskDetailViewModel @Inject constructor(
     }
 
     fun saveTask() {
-        // Not editing mode -> Add new task to DB
-        // Editing mode -> update task data in DB
-        if (!isEditing) {
-            repository.createTask(_task.value!!)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                }, {
-                    Throwable("Error")
-                })
-        } else {
-            repository.updateTask(_task.value!!)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
-        }
+        disposables.add(
+            // Not editing mode -> Add new task to DB
+            // Editing mode -> update task data in DB
+            if (!isEditing) {
+                repository.createTask(_task.value!!)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                    }, {
+                        Throwable("Error")
+                    })
+            } else {
+                repository.updateTask(_task.value!!)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe()
+            }
+        )
     }
 
     fun deleteTask(task: Task, onSuccess: () -> Unit = {}) {
         if (isEditing) {
-            repository.deleteTask(task)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ onSuccess() }, {})
+            disposables.add(
+                repository.deleteTask(task)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ onSuccess() }, {})
+            )
         } else {
             onSuccess()
         }
@@ -95,5 +102,9 @@ class TaskDetailViewModel @Inject constructor(
 
     private fun notifyChangeToView() {
         _task.value = task.value?.copy() ?: Task()
+    }
+
+    override fun onCleared() {
+        disposables.clear()
     }
 }
