@@ -7,7 +7,9 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import io.reactivex.rxjava3.core.Single
 import io.realm.Realm
 import io.realm.kotlin.where
+import java.util.*
 import javax.inject.Inject
+import kotlin.Comparator
 
 class TaskRepository @Inject constructor() {
 
@@ -22,6 +24,16 @@ class TaskRepository @Inject constructor() {
                         })?.reversedOrder
                         ?: 0
                 task.reversedOrder = maxReversedOrder + 1
+                realm.insert(task)
+                emitter.onSuccess(task)
+            }
+        }
+    }
+
+    fun restoreTask(task: Task): Single<Task> {
+        return Single.create { emitter ->
+            Realm.getDefaultInstance().executeTransactionAsync { realm ->
+                task.updatedDate = Date()
                 realm.insert(task)
                 emitter.onSuccess(task)
             }
