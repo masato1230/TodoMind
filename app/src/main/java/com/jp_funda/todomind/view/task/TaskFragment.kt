@@ -84,8 +84,8 @@ class TaskFragment : Fragment() {
                     onCheckChanged = { task ->
                         taskViewModel.updateTaskWithDelay(task)
                         scope.launch {
-                            taskViewModel.showSnackbar(
-                                "Move ${task.title} to ${task.statusEnum.name}",
+                            taskViewModel.showCheckBoxChangedSnackbar(
+                                task,
                                 snackbarHostState
                             )
                         }

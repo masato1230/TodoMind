@@ -1,17 +1,20 @@
 package com.jp_funda.todomind.view.task
 
 import androidx.compose.material.SnackbarHostState
+import androidx.compose.material.SnackbarResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.annotation.meta.When
 import javax.inject.Inject
 
 @HiltViewModel
@@ -101,8 +104,25 @@ class TaskViewModel @Inject constructor(
     }
 
     // Show Snackbar
-    suspend fun showSnackbar(message: String, snackbarHostState: SnackbarHostState) {
-        snackbarHostState.showSnackbar(message, actionLabel = "ok")
+    suspend fun showCheckBoxChangedSnackbar(
+        beforeUndoTask: Task,
+        snackbarHostState: SnackbarHostState
+    ) {
+        val snackbarResult = snackbarHostState.showSnackbar(
+            "Move ${beforeUndoTask.title} to ${beforeUndoTask.statusEnum.name}",
+            actionLabel = "Undo"
+        )
+
+        // Undo button is Clicked - Restore data before checkbox click
+        if (snackbarResult == SnackbarResult.ActionPerformed) {
+            when (beforeUndoTask.statusEnum) {
+                TaskStatus.InProgress -> beforeUndoTask.statusEnum = TaskStatus.Complete
+                TaskStatus.Complete -> beforeUndoTask.statusEnum = TaskStatus.InProgress
+                else -> { return }
+            }
+            updateDbWithTask(beforeUndoTask)
+            refreshTaskListData()
+        }
     }
 
     // Tab
