@@ -10,13 +10,21 @@ import kotlinx.coroutines.Job
 @Composable
 fun rememberDragDropListState(
     lazyListState: LazyListState = rememberLazyListState(),
+    ignoreCount: Int = 0,
     onMove: (Int, Int) -> Unit
 ): DragDropListState {
-    return remember { DragDropListState(lazyListState = lazyListState, onMove = onMove) }
+    return remember {
+        DragDropListState(
+            lazyListState = lazyListState,
+            ignoreCount = ignoreCount,
+            onMove = onMove
+        )
+    }
 }
 
 class DragDropListState(
     val lazyListState: LazyListState,
+    val ignoreCount: Int = 0,
     private val onMove: (Int, Int) -> Unit
 ) {
     var draggedDistance by mutableStateOf(0f)
@@ -31,8 +39,8 @@ class DragDropListState(
             ?.let {
                 lazyListState.getVisibleItemInfoFor(absolute = it)
             }
-            ?.let {
-                    item -> (initiallyDraggedElement?.offset ?: 0f).toFloat() + draggedDistance - item.offset
+            ?.let { item ->
+                (initiallyDraggedElement?.offset ?: 0f).toFloat() + draggedDistance - item.offset
             }
 
     val currentElement: LazyListItemInfo?
@@ -79,7 +87,7 @@ class DragDropListState(
                         }
                     }?.also { item ->
                         currentIndexOfDraggedItem?.let { current ->
-                            onMove.invoke(current, item.index)
+                            onMove.invoke(current - ignoreCount, item.index - ignoreCount)
                         }
                         currentIndexOfDraggedItem = item.index
                     }

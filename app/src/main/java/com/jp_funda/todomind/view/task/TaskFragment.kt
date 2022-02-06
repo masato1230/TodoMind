@@ -60,7 +60,7 @@ class TaskFragment : Fragment() {
     @Composable
     fun TaskContent() {
         val tasks by taskViewModel.taskList.observeAsState()
-        val selectedTabIndex by taskViewModel.selectedTabIndex.observeAsState()
+        val selectedTabStatus by taskViewModel.selectedTabStatus.observeAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
 
@@ -79,44 +79,41 @@ class TaskFragment : Fragment() {
             var showingTasks by remember { mutableStateOf(tasks!!) }
 
             showingTasks = filterTasksByStatus(
-                status = TaskStatus.values().first { it.ordinal == selectedTabIndex },
+                status = TaskStatus.values().first { it == selectedTabStatus },
                 tasks = tasks!!,
             )
 
-            Column {
-
-                TaskTab(selectedTabIndex!!, onTabChange = { status ->
-                    taskViewModel.setSelectedTabIndex(status.ordinal)
-                })
-
-                TaskList(
-                    listPadding = 20,
-                    tasks = showingTasks,
-                    onCheckChanged = { task ->
-                        taskViewModel.updateTaskWithDelay(task)
-                        scope.launch {
-                            taskViewModel.showCheckBoxChangedSnackbar(
-                                task,
-                                snackbarHostState
-                            )
-                        }
-                    },
-                    onMove = { fromIndex, toIndex ->
-                        // Replace task's reversedOrder property
-                        if (max(fromIndex, toIndex) < showingTasks.size) {
-                            val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
-                                .reversed()[fromIndex]
-                            val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
-                                .reversed()[toIndex]
-                            taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
-                        }
-                    },
-                    onRowClick = { task ->
-                        mainViewModel.editingTask = task
-                        findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
+            ColumnWithTaskList(
+                modifier = Modifier.padding(horizontal = 20.dp),
+                selectedTabStatus = selectedTabStatus!!,
+                onTabChange = { status ->
+                    taskViewModel.setSelectedTabStatus(status)
+                },
+                showingTasks = showingTasks,
+                onCheckChanged = { task ->
+                    taskViewModel.updateTaskWithDelay(task)
+                    scope.launch {
+                        taskViewModel.showCheckBoxChangedSnackbar(
+                            task,
+                            snackbarHostState
+                        )
                     }
-                )
-            }
+                },
+                onRowMove = { fromIndex, toIndex ->
+                    // Replace task's reversedOrder property
+                    if (max(fromIndex, toIndex) < showingTasks.size) {
+                        val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                            .reversed()[fromIndex]
+                        val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                            .reversed()[toIndex]
+                        taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
+                    }
+                },
+                onRowClick = { task ->
+                    mainViewModel.editingTask = task
+                    findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
+                }
+            )
 
             Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Bottom) {
                 // Status update Snackbar

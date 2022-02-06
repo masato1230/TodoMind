@@ -154,10 +154,10 @@ class MindMapDetailFragment : Fragment() {
                     color = Color.White,
                     style = MaterialTheme.typography.h6
                 )
-                TaskTab(
-                    selectedTabIndex = selectedTabIndex,
-                    onTabChange = { selectedTabIndex = it.ordinal }
-                )
+//                TaskTab(
+//                    selectedTabIndex = selectedTabIndex,
+//                    onTabChange = { selectedTabIndex = it.ordinal }
+//                )
             }
             items(items = List(10) { "d" }) { str ->
 //                TaskRow() TODO delete commentout
