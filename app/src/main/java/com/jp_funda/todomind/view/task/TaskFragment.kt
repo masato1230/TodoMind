@@ -84,6 +84,7 @@ class TaskFragment : Fragment() {
             )
 
             ColumnWithTaskList(
+                modifier = Modifier.padding(horizontal = 20.dp),
                 selectedTabStatus = selectedTabStatus!!,
                 onTabChange = { status ->
                     taskViewModel.setSelectedTabStatus(status)
@@ -113,44 +114,6 @@ class TaskFragment : Fragment() {
                     findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
                 }
             )
-
-//            Column {
-//
-//                TaskTab(
-//                    selectedTabStatus = selectedTabStatus!!,
-//                    onTabChange = { status ->
-//                        taskViewModel.setSelectedTabStatus(status)
-//                    }
-//                )
-//
-//                TaskList(
-//                    listPadding = 20,
-//                    tasks = showingTasks,
-//                    onCheckChanged = { task ->
-//                        taskViewModel.updateTaskWithDelay(task)
-//                        scope.launch {
-//                            taskViewModel.showCheckBoxChangedSnackbar(
-//                                task,
-//                                snackbarHostState
-//                            )
-//                        }
-//                    },
-//                    onMove = { fromIndex, toIndex ->
-//                        // Replace task's reversedOrder property
-//                        if (max(fromIndex, toIndex) < showingTasks.size) {
-//                            val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
-//                                .reversed()[fromIndex]
-//                            val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
-//                                .reversed()[toIndex]
-//                            taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
-//                        }
-//                    },
-//                    onRowClick = { task ->
-//                        mainViewModel.editingTask = task
-//                        findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
-//                    }
-//                )
-//            }
 
             Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Bottom) {
                 // Status update Snackbar
