@@ -16,24 +16,24 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.task.TaskViewModel
 
 @Composable
-fun TaskTab(selectedTabIndex: Int, onTabChange: (clickedTabIndex: TaskStatus) -> Unit) {
+fun TaskTab(selectedTabStatus: TaskStatus, onTabChange: (clickedTabIndex: TaskStatus) -> Unit) {
     TabRow(
-        selectedTabIndex = selectedTabIndex,
+        selectedTabIndex = selectedTabStatus.ordinal,
         backgroundColor = colorResource(id = R.color.deep_purple),
         contentColor = Color.White,
     ) {
         Tab(
-            selected = selectedTabIndex == 0,
+            selected = selectedTabStatus == TaskStatus.InProgress,
             onClick = { onTabChange(TaskStatus.InProgress) },
             text = { Text("In Progress") }
         )
         Tab(
-            selected = selectedTabIndex == 1,
+            selected = selectedTabStatus == TaskStatus.Open,
             onClick = { onTabChange(TaskStatus.Open) },
             text = { Text("Open") }
         )
         Tab(
-            selected = selectedTabIndex == 2,
+            selected = selectedTabStatus == TaskStatus.Complete,
             onClick = { onTabChange(TaskStatus.Complete) },
             text = { Text("Complete") }
         )

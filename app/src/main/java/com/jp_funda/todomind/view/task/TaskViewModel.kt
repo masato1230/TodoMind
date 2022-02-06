@@ -26,8 +26,8 @@ class TaskViewModel @Inject constructor(
     val taskList: LiveData<List<Task>> = _taskList
 
     // Tab Index
-    private val _selectedTabIndex = MutableLiveData(0)
-    val selectedTabIndex: LiveData<Int> = _selectedTabIndex
+    private val _selectedTabStatus = MutableLiveData(TaskStatus.InProgress)
+    val selectedTabStatus: LiveData<TaskStatus> = _selectedTabStatus
 
     // Dispose
     private val disposables = CompositeDisposable()
@@ -150,8 +150,8 @@ class TaskViewModel @Inject constructor(
     }
 
     // Tab
-    fun setSelectedTabIndex(selectedIndex: Int) {
-        _selectedTabIndex.value = selectedIndex
+    fun setSelectedTabStatus(selectedStatus: TaskStatus) {
+        _selectedTabStatus.value = selectedStatus
     }
 
     override fun onCleared() {

@@ -65,10 +65,10 @@ class TopFragment : Fragment() {
                     color = Color.White,
                     style = MaterialTheme.typography.h6,
                 )
-                TaskTab(
-                    selectedTabIndex = selectedTabIndex,
-                    onTabChange = { selectedTabIndex = it.ordinal }
-                )
+//                TaskTab(
+//                    selectedTabIndex = selectedTabIndex,
+//                    onTabChange = { selectedTabIndex = it.ordinal }
+//                )
             }
             // todo fill with data
             items(items = List(10) { "d" }) { str ->
