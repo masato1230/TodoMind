@@ -22,12 +22,14 @@ class TaskViewModel @Inject constructor(
     private val repository: TaskRepository
 ) : ViewModel() {
     // All Task Data
-    private val _taskList = MutableLiveData(listOf<Task>())
+    private val _taskList = MutableLiveData<List<Task>>(null) // do not set null in other place
     val taskList: LiveData<List<Task>> = _taskList
 
+    // Tab Index
     private val _selectedTabIndex = MutableLiveData(0)
     val selectedTabIndex: LiveData<Int> = _selectedTabIndex
 
+    // Dispose
     private val disposables = CompositeDisposable()
 
     fun refreshTaskListData() {
@@ -118,7 +120,9 @@ class TaskViewModel @Inject constructor(
             when (beforeUndoTask.statusEnum) {
                 TaskStatus.InProgress -> beforeUndoTask.statusEnum = TaskStatus.Complete
                 TaskStatus.Complete -> beforeUndoTask.statusEnum = TaskStatus.InProgress
-                else -> { return }
+                else -> {
+                    return
+                }
             }
             updateDbWithTask(beforeUndoTask)
             refreshTaskListData()
