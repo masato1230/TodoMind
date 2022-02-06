@@ -109,7 +109,7 @@ class TaskViewModel @Inject constructor(
         snackbarHostState: SnackbarHostState
     ) {
         val snackbarResult = snackbarHostState.showSnackbar(
-            "Move ${beforeUndoTask.title} to ${beforeUndoTask.statusEnum.name}",
+            "Move ${beforeUndoTask.title ?: ""} to ${beforeUndoTask.statusEnum.name}",
             actionLabel = "Undo"
         )
 
@@ -131,7 +131,7 @@ class TaskViewModel @Inject constructor(
         snackbarHostState: SnackbarHostState
     ) {
         val snackbarResult = snackbarHostState.showSnackbar(
-            message = "${deletedTask.title} Deleted",
+            message = "${deletedTask.title ?: ""} Deleted",
             actionLabel = "Undo"
         )
 
