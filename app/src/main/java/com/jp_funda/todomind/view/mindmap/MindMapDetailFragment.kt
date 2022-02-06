@@ -154,7 +154,6 @@ class MindMapDetailFragment : Fragment() {
                     color = Color.White,
                     style = MaterialTheme.typography.h6
                 )
-                val taskViewModel: TaskViewModel = hiltViewModel()
                 TaskTab(
                     selectedTabIndex = selectedTabIndex,
                     onTabChange = { selectedTabIndex = it.ordinal }
