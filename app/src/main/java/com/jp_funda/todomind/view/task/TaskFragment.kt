@@ -66,6 +66,17 @@ class TaskFragment : Fragment() {
         val scope = rememberCoroutineScope()
         var showingTasks by remember { mutableStateOf(tasks!!) }
 
+        // Show Undo snackbar if currentlyDeletedTask is not null
+        LaunchedEffect(snackbarHostState) {
+            mainViewModel.currentlyDeletedTask?.let {
+                taskViewModel.showUndoDeleteSnackbar(
+                    snackbarHostState = snackbarHostState,
+                    deletedTask = it
+                )
+            }
+        }
+
+        // Main Contents
         if (tasks!!.isNotEmpty()) {
             showingTasks = filterTasksByStatus(
                 status = TaskStatus.values().first { it.ordinal == selectedTabIndex },
@@ -125,5 +136,6 @@ class TaskFragment : Fragment() {
         super.onDestroyView()
         // To avoid using extra memory and null pointer exception after delete tasksList item reset tasksList
         taskViewModel.setTaskListEmpty()
+        mainViewModel.currentlyDeletedTask = null
     }
 }

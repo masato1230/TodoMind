@@ -103,7 +103,7 @@ class TaskViewModel @Inject constructor(
         )
     }
 
-    // Show Snackbar
+    // Show Undo Status Snackbar
     suspend fun showCheckBoxChangedSnackbar(
         beforeUndoTask: Task,
         snackbarHostState: SnackbarHostState
@@ -122,6 +122,26 @@ class TaskViewModel @Inject constructor(
             }
             updateDbWithTask(beforeUndoTask)
             refreshTaskListData()
+        }
+    }
+
+    // Show Undo delete Snackbar
+    suspend fun showUndoDeleteSnackbar(
+        deletedTask: Task,
+        snackbarHostState: SnackbarHostState
+    ) {
+        val snackbarResult = snackbarHostState.showSnackbar(
+            message = "${deletedTask.title} Deleted",
+            actionLabel = "Undo"
+        )
+
+        // When Undo button is Clicked - Restore deleted data
+        if (snackbarResult == SnackbarResult.ActionPerformed) {
+            repository.restoreTask(deletedTask)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    refreshTaskListData()
+                }, {})
         }
     }
 

@@ -10,4 +10,6 @@ class MainViewModel @Inject constructor() : ViewModel() {
 
     // Editing task at TaskDetailView - if this field is null, user is creating new task
     var editingTask: Task? = null
+
+    var currentlyDeletedTask: Task? = null
 }
