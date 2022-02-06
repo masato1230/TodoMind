@@ -56,19 +56,19 @@ open class Task(
     // Utils
     fun copy(): Task {
         return Task(
-            id,
-            mindMap,
-            title,
-            description,
-            createdDate,
-            updatedDate,
-            dueDate,
-            hierarchy,
-            reversedOrder,
-            parentTask,
-            positionNumber,
-            color,
-            statusEnum,
+            id = id,
+            mindMap = mindMap,
+            title = title,
+            description = description,
+            createdDate = createdDate,
+            updatedDate = updatedDate,
+            dueDate = dueDate,
+            hierarchy = hierarchy,
+            reversedOrder = reversedOrder,
+            parentTask = parentTask,
+            positionNumber = positionNumber,
+            color = color,
+            statusEnum = statusEnum,
         )
     }
 
