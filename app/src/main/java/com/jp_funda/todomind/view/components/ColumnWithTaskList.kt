@@ -39,7 +39,7 @@ fun ColumnWithTaskList(
 ) {
     val scope = rememberCoroutineScope()
     var overScrollJob by remember { mutableStateOf<Job?>(null) }
-    val dragDropListState = rememberDragDropListState(onMove = onRowMove)
+    val dragDropListState = rememberDragDropListState(ignoreCount = 2, onMove = onRowMove)
     val haptic = LocalHapticFeedback.current
 
     LazyColumn(
@@ -88,8 +88,8 @@ fun ColumnWithTaskList(
                 modifier = Modifier
                     .composed {
                         val offsetOrNull = dragDropListState.elementDisplacement.takeIf {
-                            index == dragDropListState.currentIndexOfDraggedItem
-                        }
+                            index == dragDropListState.currentIndexOfDraggedItem?.minus(2) ?: 0
+                        } // lazyColumn counts other than items, so minus 2 from index
                         Modifier.graphicsLayer {
                             translationY = offsetOrNull ?: 0f
                         }
