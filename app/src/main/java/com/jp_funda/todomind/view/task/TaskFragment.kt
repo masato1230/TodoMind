@@ -83,43 +83,74 @@ class TaskFragment : Fragment() {
                 tasks = tasks!!,
             )
 
-            Column {
-
-                TaskTab(
-                    selectedTabStatus = selectedTabStatus!!,
-                    onTabChange = { status ->
-                        taskViewModel.setSelectedTabStatus(status)
+            ColumnWithTaskList(
+                selectedTabStatus = selectedTabStatus!!,
+                onTabChange = { status ->
+                    taskViewModel.setSelectedTabStatus(status)
+                },
+                showingTasks = showingTasks,
+                onCheckChanged = { task ->
+                    taskViewModel.updateTaskWithDelay(task)
+                    scope.launch {
+                        taskViewModel.showCheckBoxChangedSnackbar(
+                            task,
+                            snackbarHostState
+                        )
                     }
-                )
-
-                TaskList(
-                    listPadding = 20,
-                    tasks = showingTasks,
-                    onCheckChanged = { task ->
-                        taskViewModel.updateTaskWithDelay(task)
-                        scope.launch {
-                            taskViewModel.showCheckBoxChangedSnackbar(
-                                task,
-                                snackbarHostState
-                            )
-                        }
-                    },
-                    onMove = { fromIndex, toIndex ->
-                        // Replace task's reversedOrder property
-                        if (max(fromIndex, toIndex) < showingTasks.size) {
-                            val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
-                                .reversed()[fromIndex]
-                            val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
-                                .reversed()[toIndex]
-                            taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
-                        }
-                    },
-                    onRowClick = { task ->
-                        mainViewModel.editingTask = task
-                        findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
+                },
+                onRowMove = { fromIndex, toIndex ->
+                    // Replace task's reversedOrder property
+                    if (max(fromIndex, toIndex) < showingTasks.size) {
+                        val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                            .reversed()[fromIndex]
+                        val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                            .reversed()[toIndex]
+                        taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
                     }
-                )
-            }
+                },
+                onRowClick = { task ->
+                    mainViewModel.editingTask = task
+                    findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
+                }
+            )
+
+//            Column {
+//
+//                TaskTab(
+//                    selectedTabStatus = selectedTabStatus!!,
+//                    onTabChange = { status ->
+//                        taskViewModel.setSelectedTabStatus(status)
+//                    }
+//                )
+//
+//                TaskList(
+//                    listPadding = 20,
+//                    tasks = showingTasks,
+//                    onCheckChanged = { task ->
+//                        taskViewModel.updateTaskWithDelay(task)
+//                        scope.launch {
+//                            taskViewModel.showCheckBoxChangedSnackbar(
+//                                task,
+//                                snackbarHostState
+//                            )
+//                        }
+//                    },
+//                    onMove = { fromIndex, toIndex ->
+//                        // Replace task's reversedOrder property
+//                        if (max(fromIndex, toIndex) < showingTasks.size) {
+//                            val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
+//                                .reversed()[fromIndex]
+//                            val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
+//                                .reversed()[toIndex]
+//                            taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
+//                        }
+//                    },
+//                    onRowClick = { task ->
+//                        mainViewModel.editingTask = task
+//                        findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
+//                    }
+//                )
+//            }
 
             Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Bottom) {
                 // Status update Snackbar
