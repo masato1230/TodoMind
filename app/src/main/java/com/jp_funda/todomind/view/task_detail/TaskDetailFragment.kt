@@ -285,9 +285,14 @@ class TaskDetailFragment : Fragment() {
                 WhiteButton(
                     text = "Delete",
                     onClick = {
+                        // Delete task from DB(Edit mode) or Only Pop fragment(Create mode)
                         taskDetailViewModel.deleteTask(
                             task = task!!,
                             onSuccess = { findNavController().popBackStack() })
+                        // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
+                        if (taskDetailViewModel.isEditing) {
+                            mainViewModel.currentlyDeletedTask = task
+                        }
                     },
                     leadingIcon = Icons.Default.Delete
                 )

@@ -35,7 +35,7 @@ fun TaskTab(selectedTabIndex: Int, onTabChange: (clickedTabIndex: TaskStatus) ->
         Tab(
             selected = selectedTabIndex == 2,
             onClick = { onTabChange(TaskStatus.Complete) },
-            text = { Text("Closed") }
+            text = { Text("Complete") }
         )
     }
 }
