@@ -64,7 +64,6 @@ class TaskFragment : Fragment() {
         val selectedTabIndex by taskViewModel.selectedTabIndex.observeAsState()
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
-        var showingTasks by remember { mutableStateOf(tasks!!) }
 
         // Show Undo snackbar if currentlyDeletedTask is not null
         LaunchedEffect(snackbarHostState) {
@@ -77,7 +76,9 @@ class TaskFragment : Fragment() {
         }
 
         // Main Contents
-        if (tasks!!.isNotEmpty()) {
+        if (tasks != null) {
+            var showingTasks by remember { mutableStateOf(tasks!!) }
+
             showingTasks = filterTasksByStatus(
                 status = TaskStatus.values().first { it.ordinal == selectedTabIndex },
                 tasks = tasks!!,
