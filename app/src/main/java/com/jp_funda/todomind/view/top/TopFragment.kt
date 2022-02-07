@@ -103,7 +103,7 @@ class TopFragment : Fragment() {
                 },
                 onRowClick = { task ->
                     mainViewModel.editingTask = task
-                    findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
+                    findNavController().navigate(R.id.action_navigation_top_to_navigation_task_detail)
                 }
             ) {
                 // TOP ORIGINAL CONTENT
