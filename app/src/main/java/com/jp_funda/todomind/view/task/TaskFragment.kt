@@ -84,7 +84,6 @@ class TaskFragment : Fragment() {
             )
 
             ColumnWithTaskList(
-                modifier = Modifier.padding(horizontal = 20.dp),
                 selectedTabStatus = selectedTabStatus!!,
                 onTabChange = { status ->
                     taskViewModel.setSelectedTabStatus(status)
