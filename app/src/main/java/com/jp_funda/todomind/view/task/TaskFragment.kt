@@ -22,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
+import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,7 +32,7 @@ import java.lang.Integer.max
 class TaskFragment : Fragment() {
 
     // ViewModels
-    private val taskViewModel by viewModels<TaskViewModel>()
+    private val taskViewModel: TaskViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
     companion object {
@@ -148,8 +149,6 @@ class TaskFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // To avoid using extra memory and null pointer exception after delete tasksList item reset tasksList
-        taskViewModel.setTaskListEmpty()
         mainViewModel.currentlyDeletedTask = null
     }
 }

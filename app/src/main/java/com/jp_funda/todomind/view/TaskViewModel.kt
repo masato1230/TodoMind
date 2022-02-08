@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.task
+package com.jp_funda.todomind.view
 
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.SnackbarResult
@@ -14,7 +14,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 import java.util.concurrent.TimeUnit
-import javax.annotation.meta.When
 import javax.inject.Inject
 
 @HiltViewModel

@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -36,7 +34,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.ColumnWithTaskList
 import com.jp_funda.todomind.view.components.filterTasksByStatus
-import com.jp_funda.todomind.view.task.TaskViewModel
+import com.jp_funda.todomind.view.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -48,7 +46,7 @@ class MindMapDetailFragment : Fragment() {
         fun newInstance() = MindMapDetailFragment()
     }
 
-    private val taskViewModel by viewModels<TaskViewModel>() // TODO switch to MindMapDetail ViewModel
+    private val taskViewModel: TaskViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(

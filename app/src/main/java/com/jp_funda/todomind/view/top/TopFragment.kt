@@ -1,6 +1,5 @@
 package com.jp_funda.todomind.view.top
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -24,13 +21,12 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.*
-import com.jp_funda.todomind.view.task.TaskViewModel
+import com.jp_funda.todomind.view.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -42,7 +38,7 @@ class TopFragment : Fragment() {
     }
 
     private val topViewModel by viewModels<TopViewModel>()
-    private val taskViewModel by viewModels<TaskViewModel>()
+    private val taskViewModel: TaskViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
