@@ -60,7 +60,7 @@ class TaskFragment : Fragment() {
     @Composable
     fun TaskContent() {
         val tasks by taskViewModel.taskList.observeAsState()
-        val selectedTabStatus by taskViewModel.selectedTabStatus.observeAsState()
+        var selectedTabStatus by remember { mutableStateOf(TaskStatus.InProgress) }
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
 
@@ -84,9 +84,9 @@ class TaskFragment : Fragment() {
             )
 
             ColumnWithTaskList(
-                selectedTabStatus = selectedTabStatus!!,
+                selectedTabStatus = selectedTabStatus,
                 onTabChange = { status ->
-                    taskViewModel.setSelectedTabStatus(status)
+                    selectedTabStatus = status
                 },
                 showingTasks = showingTasks,
                 onCheckChanged = { task ->

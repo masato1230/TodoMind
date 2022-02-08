@@ -63,7 +63,7 @@ class TopFragment : Fragment() {
     @Composable
     fun TopContent() {
         val tasks by taskViewModel.taskList.observeAsState()
-        val selectedTabStatus by taskViewModel.selectedTabStatus.observeAsState()
+        var selectedTabStatus by remember { mutableStateOf(TaskStatus.InProgress) }
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
 
@@ -77,9 +77,9 @@ class TopFragment : Fragment() {
             )
 
             ColumnWithTaskList(
-                selectedTabStatus = selectedTabStatus!!,
+                selectedTabStatus = selectedTabStatus,
                 onTabChange = { status ->
-                    taskViewModel.setSelectedTabStatus(status)
+                    selectedTabStatus = status
                 },
                 showingTasks = showingTasks,
                 onCheckChanged = { task ->
@@ -111,7 +111,6 @@ class TopFragment : Fragment() {
                 RecentMindMapSection(fragment = this@TopFragment)
 
                 // Section Tasks
-                var selectedTabIndex by remember { mutableStateOf(0) }
                 Text(
                     text = "Tasks",
                     modifier = Modifier.padding(start = 20.dp),
@@ -140,36 +139,6 @@ class TopFragment : Fragment() {
                 )
             }
         }
-
-//        // old
-//        LazyColumn {
-//            item {
-//                // Section Recent Mind Map
-//                RecentMindMapSection(fragment = this@TopFragment)
-//
-//                // Section Tasks
-//                var selectedTabIndex by remember { mutableStateOf(0) }
-//                Text(
-//                    text = "Tasks",
-//                    modifier = Modifier.padding(start = 20.dp),
-//                    color = Color.White,
-//                    style = MaterialTheme.typography.h6,
-//                )
-////                TaskTab(
-////                    selectedTabIndex = selectedTabIndex,
-////                    onTabChange = { selectedTabIndex = it.ordinal }
-////                )
-//            }
-//            // todo fill with data
-//            items(items = List(10) { "d" }) { str ->
-////                TaskRow(modifier = Modifier.padding(horizontal = 20.dp)) TODO delete commentout
-//            }
-//
-//            // Bottom padding to avoid fab overlay causing overlay bug
-//            item {
-//                Spacer(modifier = Modifier.height(100.dp))
-//            }
-//        }
     }
 
     // Top components

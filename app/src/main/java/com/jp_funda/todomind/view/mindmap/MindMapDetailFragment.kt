@@ -69,7 +69,7 @@ class MindMapDetailFragment : Fragment() {
     @Composable
     fun MindMapDetailContent() {
         val tasks by taskViewModel.taskList.observeAsState()
-        val selectedTabStatus by taskViewModel.selectedTabStatus.observeAsState()
+        var selectedTabStatus by remember { mutableStateOf(TaskStatus.InProgress) }
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
 
@@ -81,9 +81,9 @@ class MindMapDetailFragment : Fragment() {
                 tasks = tasks!!,
             )
             ColumnWithTaskList(
-                selectedTabStatus = selectedTabStatus!!,
+                selectedTabStatus = selectedTabStatus,
                 onTabChange = { status ->
-                    taskViewModel.setSelectedTabStatus(status)
+                    selectedTabStatus = status
                 },
                 showingTasks = showingTasks,
                 onCheckChanged = { task ->
