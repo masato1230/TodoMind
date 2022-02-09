@@ -76,7 +76,10 @@ class MindMapDetailFragment : Fragment() {
 
             showingTasks = filterTasksByStatus(
                 status = TaskStatus.values().first { it == selectedTabStatus },
-                tasks = tasks!!,
+                tasks = tasks!!.filter { task ->
+//              TODO      task.mindMap == mindMap && task.statusEnum == selectedTabStatus
+                    task.statusEnum == selectedTabStatus
+                },
             )
             ColumnWithTaskList(
                 selectedTabStatus = selectedTabStatus,
