@@ -30,8 +30,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun ColumnWithTaskList(
     modifier: Modifier = Modifier,
-    selectedTabStatus: TaskStatus,
-    onTabChange: (TaskStatus) -> Unit,
+    selectedTabStatus: TaskStatus?,
+    onTabChange: (TaskStatus) -> Unit = {}, // set if selectedTabStatus is not null
     showingTasks: List<Task>,
     onCheckChanged: (Task) -> Unit,
     onRowMove: (Int, Int) -> Unit,
@@ -39,9 +39,11 @@ fun ColumnWithTaskList(
     listPadding: Int = 20,
     content: @Composable () -> Unit = {},
 ) {
+    val ignoreCount = if (selectedTabStatus != null) 2 else 1
+
     val scope = rememberCoroutineScope()
     var overScrollJob by remember { mutableStateOf<Job?>(null) }
-    val dragDropListState = rememberDragDropListState(ignoreCount = 2, onMove = onRowMove)
+    val dragDropListState = rememberDragDropListState(ignoreCount = ignoreCount, onMove = onRowMove)
     val haptic = LocalHapticFeedback.current
 
     LazyColumn(
@@ -80,8 +82,10 @@ fun ColumnWithTaskList(
         }
 
         // Tab
-        item {
-            TaskTab(selectedTabStatus, onTabChange)
+        selectedTabStatus?.let {
+            item {
+                TaskTab(selectedTabStatus, onTabChange)
+            }
         }
 
         // List
