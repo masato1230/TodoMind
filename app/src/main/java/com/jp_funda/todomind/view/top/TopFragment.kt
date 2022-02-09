@@ -67,6 +67,16 @@ class TopFragment : Fragment() {
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
 
+        // Show Undo snackbar if currentlyDeletedTask is not null
+        LaunchedEffect(snackbarHostState) {
+            mainViewModel.currentlyDeletedTask?.let {
+                taskViewModel.showUndoDeleteSnackbar(
+                    snackbarHostState = snackbarHostState,
+                    deletedTask = it
+                )
+            }
+        }
+
         // Main Contents
         if (tasks != null) {
             var showingTasks by remember { mutableStateOf(tasks!!) }
@@ -116,6 +126,17 @@ class TopFragment : Fragment() {
                     modifier = Modifier.padding(start = 20.dp),
                     color = Color.White,
                     style = MaterialTheme.typography.h6,
+                )
+            }
+            // Snackbar
+            Column(
+                modifier = Modifier.fillMaxHeight(),
+                verticalArrangement = Arrangement.Bottom
+            ) {
+                // Status update Snackbar
+                SnackbarHost(
+                    hostState = snackbarHostState,
+                    modifier = Modifier.padding(bottom = 70.dp)
                 )
             }
         } else {
