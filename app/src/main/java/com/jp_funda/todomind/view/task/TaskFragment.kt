@@ -50,7 +50,7 @@ class TaskFragment : Fragment() {
                 NewTaskFAB(onClick = {
                     NavHostFragment.findNavController(this@TaskFragment)
                         .navigate(R.id.action_navigation_task_to_navigation_task_detail)
-                }) { // TODO add navigation to new task screen
+                }) {
                     TaskContent()
                 }
             }

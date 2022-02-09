@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
@@ -49,7 +50,10 @@ class TopFragment : Fragment() {
 
         return ComposeView(requireContext()).apply {
             setContent {
-                NewTaskFAB(onClick = {}) { // TODO set onClick to new task screen
+                NewTaskFAB(onClick = {
+                    NavHostFragment.findNavController(this@TopFragment)
+                        .navigate(R.id.action_navigation_top_to_navigation_task_detail)
+                }) {
                     TopContent()
                 }
             }
