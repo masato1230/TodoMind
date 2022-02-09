@@ -14,6 +14,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
@@ -35,6 +36,7 @@ fun ColumnWithTaskList(
     onCheckChanged: (Task) -> Unit,
     onRowMove: (Int, Int) -> Unit,
     onRowClick: (Task) -> Unit,
+    listPadding: Int = 20,
     content: @Composable () -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
@@ -86,6 +88,7 @@ fun ColumnWithTaskList(
         itemsIndexed(showingTasks) { index, task ->
             Column(
                 modifier = Modifier
+                    .padding(horizontal = listPadding.dp)
                     .composed {
                         val offsetOrNull = dragDropListState.elementDisplacement.takeIf {
                             index == dragDropListState.currentIndexOfDraggedItem?.minus(2) ?: 0

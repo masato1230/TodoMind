@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.task
+package com.jp_funda.todomind.view
 
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.SnackbarResult
@@ -14,7 +14,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 import java.util.concurrent.TimeUnit
-import javax.annotation.meta.When
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,10 +23,6 @@ class TaskViewModel @Inject constructor(
     // All Task Data
     private val _taskList = MutableLiveData<List<Task>>(null) // do not set null in other place
     val taskList: LiveData<List<Task>> = _taskList
-
-    // Tab Index
-    private val _selectedTabStatus = MutableLiveData(TaskStatus.InProgress)
-    val selectedTabStatus: LiveData<TaskStatus> = _selectedTabStatus
 
     // Dispose
     private val disposables = CompositeDisposable()
@@ -147,11 +142,6 @@ class TaskViewModel @Inject constructor(
                     refreshTaskListData()
                 }, {})
         }
-    }
-
-    // Tab
-    fun setSelectedTabStatus(selectedStatus: TaskStatus) {
-        _selectedTabStatus.value = selectedStatus
     }
 
     override fun onCleared() {
