@@ -73,6 +73,7 @@ class TaskFragment : Fragment() {
                     deletedTask = it
                 )
             }
+            mainViewModel.currentlyDeletedTask = null
         }
 
         // Main Contents
