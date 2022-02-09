@@ -85,46 +85,52 @@ class TaskFragment : Fragment() {
                 tasks = tasks!!,
             )
 
-            ColumnWithTaskList(
-                selectedTabStatus = selectedTabStatus,
-                onTabChange = { status ->
-                    selectedTabStatus = status
-                },
-                showingTasks = showingTasks,
-                onCheckChanged = { task ->
-                    taskViewModel.updateTaskWithDelay(task)
-                    scope.launch {
-                        taskViewModel.showCheckBoxChangedSnackbar(
-                            task,
-                            snackbarHostState
-                        )
-                    }
-                },
-                onRowMove = { fromIndex, toIndex ->
-                    // Replace task's reversedOrder property
-                    if (max(fromIndex, toIndex) < showingTasks.size) {
-                        val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
-                            .reversed()[fromIndex]
-                        val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
-                            .reversed()[toIndex]
-                        taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
-                    }
-                },
-                onRowClick = { task ->
-                    mainViewModel.editingTask = task
-                    findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
-                }
-            )
+            Column {
+                TaskTab(
+                    selectedTabStatus = selectedTabStatus,
+                    onTabChange = { status ->
+                        selectedTabStatus = status
+                    })
 
-            Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.Bottom) {
-                // Status update Snackbar
-                SnackbarHost(
-                    hostState = snackbarHostState,
-                    modifier = Modifier.padding(bottom = 70.dp)
+                ColumnWithTaskList(
+                    selectedTabStatus = null,
+                    showingTasks = showingTasks,
+                    onCheckChanged = { task ->
+                        taskViewModel.updateTaskWithDelay(task)
+                        scope.launch {
+                            taskViewModel.showCheckBoxChangedSnackbar(
+                                task,
+                                snackbarHostState
+                            )
+                        }
+                    },
+                    onRowMove = { fromIndex, toIndex ->
+                        // Replace task's reversedOrder property
+                        if (max(fromIndex, toIndex) < showingTasks.size) {
+                            val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                                .reversed()[fromIndex]
+                            val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                                .reversed()[toIndex]
+                            taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
+                        }
+                    },
+                    onRowClick = { task ->
+                        mainViewModel.editingTask = task
+                        findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
+                    }
                 )
+
+                Column(
+                    modifier = Modifier.fillMaxHeight(),
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+                    // Status update Snackbar
+                    SnackbarHost(
+                        hostState = snackbarHostState,
+                        modifier = Modifier.padding(bottom = 70.dp)
+                    )
+                }
             }
-
-
         } else {
             Column(
                 modifier = Modifier.fillMaxSize(),
