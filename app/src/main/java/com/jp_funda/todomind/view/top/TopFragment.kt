@@ -30,6 +30,7 @@ import com.jp_funda.todomind.view.components.*
 import com.jp_funda.todomind.view.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.lang.Integer.min
 
 @AndroidEntryPoint
 class TopFragment : Fragment() {
@@ -104,7 +105,10 @@ class TopFragment : Fragment() {
                 },
                 onRowMove = { fromIndex, toIndex ->
                     // Replace task's reversedOrder property
-                    if (Integer.max(fromIndex, toIndex) < showingTasks.size) {
+                    if (
+                        Integer.max(fromIndex, toIndex) < showingTasks.size &&
+                        min(fromIndex, toIndex) >= 0
+                    ) {
                         val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
                             .reversed()[fromIndex]
                         val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
