@@ -95,7 +95,7 @@ fun ColumnWithTaskList(
                     .padding(horizontal = listPadding.dp)
                     .composed {
                         val offsetOrNull = dragDropListState.elementDisplacement.takeIf {
-                            index == dragDropListState.currentIndexOfDraggedItem?.minus(2) ?: 0
+                            index == dragDropListState.currentIndexOfDraggedItem?.minus(ignoreCount) ?: 0
                         } // lazyColumn counts other than items, so minus 2 from index
                         Modifier.graphicsLayer {
                             translationY = offsetOrNull ?: 0f
