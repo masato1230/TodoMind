@@ -105,10 +105,7 @@ class TopFragment : Fragment() {
                 },
                 onRowMove = { fromIndex, toIndex ->
                     // Replace task's reversedOrder property
-                    if (
-                        Integer.max(fromIndex, toIndex) < showingTasks.size &&
-                        min(fromIndex, toIndex) >= 0
-                    ) {
+                    if (Integer.max(fromIndex, toIndex) < showingTasks.size) {
                         val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
                             .reversed()[fromIndex]
                         val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
