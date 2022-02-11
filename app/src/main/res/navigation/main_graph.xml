@@ -12,7 +12,11 @@
         tools:layout="@layout/top_fragment" >
         <action
             android:id="@+id/action_navigation_top_to_navigation_mind_map_detail"
-            app:destination="@id/navigation_mind_map_detail" />
+            app:destination="@id/navigation_mind_map_detail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_navigation_top_to_navigation_task_detail"
             app:destination="@id/navigation_task_detail"
@@ -44,7 +48,10 @@
         <action
             android:id="@+id/action_navigation_mind_map_to_navigation_mind_map_detail"
             app:destination="@id/navigation_mind_map_detail"
-            app:popUpTo="@id/navigation_settings" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
