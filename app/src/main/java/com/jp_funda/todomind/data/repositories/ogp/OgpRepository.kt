@@ -1,37 +1,33 @@
-package com.jp_funda.todomind.utils
+package com.jp_funda.todomind.data.repositories.ogp
 
+import com.jp_funda.todomind.data.repositories.ogp.JsoupSettings.AGENT
+import com.jp_funda.todomind.data.repositories.ogp.JsoupSettings.DOC_SELECT_QUERY
+import com.jp_funda.todomind.data.repositories.ogp.JsoupSettings.OG_DESCRIPTION
+import com.jp_funda.todomind.data.repositories.ogp.JsoupSettings.OG_IMAGE
+import com.jp_funda.todomind.data.repositories.ogp.JsoupSettings.OG_SITE_NAME
+import com.jp_funda.todomind.data.repositories.ogp.JsoupSettings.OG_TITLE
+import com.jp_funda.todomind.data.repositories.ogp.JsoupSettings.OG_TYPE
+import com.jp_funda.todomind.data.repositories.ogp.JsoupSettings.OG_URL
+import com.jp_funda.todomind.data.repositories.ogp.JsoupSettings.OPEN_GRAPH_KEY
+import com.jp_funda.todomind.data.repositories.ogp.JsoupSettings.PROPERTY
+import com.jp_funda.todomind.data.repositories.ogp.JsoupSettings.REFERRER
+import com.jp_funda.todomind.data.repositories.ogp.JsoupSettings.TIMEOUT
+import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
+import io.reactivex.rxjava3.core.Single
 import org.jsoup.Jsoup
+import javax.inject.Inject
 
-object UrlUtil {
-    private const val AGENT = "Mozilla"
-    private const val REFERRER = "http://www.google.com"
-    private const val TIMEOUT = 10000
-    private const val DOC_SELECT_QUERY = "meta[property^=og:]"
-    private const val OPEN_GRAPH_KEY = "content"
-    private const val PROPERTY = "property"
-    private const val OG_IMAGE = "og:image"
-    private const val OG_DESCRIPTION = "og:description"
-    private const val OG_URL = "og:url"
-    private const val OG_TITLE = "og:title"
-    private const val OG_SITE_NAME = "og:site_name"
-    private const val OG_TYPE = "og:type"
+class OgpRepository @Inject constructor() {
 
-    fun extractURLs(text: String): List<String> {
-        val regex =
-            "[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)\n"
-        val urls = regex.toRegex(RegexOption.IGNORE_CASE).findAll(text).map { it.value }
-        return urls.toList()
-    }
-
-    fun fetchOGP(siteUrl: String) {
+    fun fetchOgp(siteUrl: String): Single<OpenGraphResult> {
         // Sort out the url
         var url = siteUrl
         if (!url.contains("http")) {
             url = "http://$url"
         }
-
         val openGraphResult = OpenGraphResult()
-        try {
+
+        return Single.create { emitter ->
             val response = Jsoup.connect(url)
                 .ignoreContentType(true)
                 .userAgent(AGENT)
@@ -39,9 +35,7 @@ object UrlUtil {
                 .timeout(TIMEOUT)
                 .followRedirects(true)
                 .execute()
-
             val doc = response.parse()
-
             val ogTags = doc.select(DOC_SELECT_QUERY)
             when {
                 ogTags.size > 0 ->
@@ -69,8 +63,8 @@ object UrlUtil {
                         }
                     }
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+            emitter.onSuccess(openGraphResult)
         }
     }
+
 }

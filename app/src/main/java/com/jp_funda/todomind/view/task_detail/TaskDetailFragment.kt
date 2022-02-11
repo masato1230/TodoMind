@@ -26,7 +26,7 @@ import androidx.navigation.fragment.findNavController
 import coil.compose.rememberImagePainter
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
-import com.jp_funda.todomind.utils.UrlUtil
+import com.jp_funda.todomind.util.UrlUtil
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.ColorPickerDialog
 import com.jp_funda.todomind.view.components.TimePickerDialog
@@ -145,10 +145,15 @@ class TaskDetailFragment : Fragment() {
                     })
 
                 // OGP thumbnail
-                if (UrlUtil.extractURLs(task.description ?: "").isNotEmpty()) {
-                    
+                val siteUrl = UrlUtil.extractURLs(task.description ?: "").firstOrNull()
+                var thumbnailUrl: String? = null
+                siteUrl?.let {
+                    // todo thumbnailUrl = UrlUtil.fetchOGP(siteUrl = siteUrl).image
+                }
+
+                thumbnailUrl?.let {
                     Image(
-                        painter = rememberImagePainter("https://i.ytimg.com/an_webp/jsbeemdD2rQ/mqdefault_6s.webp?du=3000&sqp=COjcl5AG&rs=AOn4CLAwgaobBoyMtJGPBJzPJVSJT91T5w"),
+                        painter = rememberImagePainter(it),
                         contentDescription = "Site thumbnail",
                         modifier = Modifier.height(200.dp)
                     )
