@@ -19,10 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -35,6 +37,7 @@ import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.ColumnWithTaskList
 import com.jp_funda.todomind.view.components.filterTasksByStatus
 import com.jp_funda.todomind.view.TaskViewModel
+import com.jp_funda.todomind.view.components.WhiteButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -144,7 +147,7 @@ class MindMapDetailFragment : Fragment() {
         Text(
             text = "Mind Map Title",
             modifier = Modifier.padding(bottom = 10.dp),
-            style = MaterialTheme.typography.h6,
+            style = MaterialTheme.typography.h4,
             color = Color.White
         ) // TODO add click listener to edit view
         // Thumbnail Section
@@ -175,18 +178,11 @@ class MindMapDetailFragment : Fragment() {
                 color = Color.White
             )
             // Edit Mind Map Button
-            Button(
-                onClick = {},
-                modifier = Modifier.clip(RoundedCornerShape(1000.dp)),
-                colors = ButtonDefaults.buttonColors(Color.White)
-            ) { // TODO set OnClick
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "Mind Map")
-                    Image(
-                        imageVector = Icons.Default.ArrowForward,
-                        contentDescription = "Next",
-                    )
-                }
+            WhiteButton(
+                text = "Mind Map",
+                leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_mind_map_24dp)
+            ) {
+                // TODO onClick
             }
         }
 
@@ -196,7 +192,7 @@ class MindMapDetailFragment : Fragment() {
         Text(
             text = "This is description of the mind map. this is description of mind map. this is description of mind map",
             modifier = Modifier.padding(bottom = 10.dp),
-            style = MaterialTheme.typography.body2,
+            style = MaterialTheme.typography.body1,
             color = Color.LightGray,
         ) // TODO add click listener to edit descriptions view
 
@@ -224,10 +220,9 @@ class MindMapDetailFragment : Fragment() {
         // Progress bar
         RoundedProgressBar(percent = 70)
 
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(50.dp))
 
         // Task list Section
-        var selectedTabIndex by remember { mutableStateOf(0) }
         Text(
             text = "Tasks - Mind Map Title",
             color = Color.White,
