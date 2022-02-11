@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun WhiteButton(
     text: String,
+    leadingIcon: ImageVector? = null,
     onClick: () -> Unit,
-    leadingIcon: ImageVector? = null
 ) {
     Row(
         modifier = Modifier

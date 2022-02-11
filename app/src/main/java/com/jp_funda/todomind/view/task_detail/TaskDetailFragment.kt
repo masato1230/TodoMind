@@ -275,27 +275,29 @@ class TaskDetailFragment : Fragment() {
 
             // Buttons
             Row(modifier = Modifier.fillMaxWidth()) {
-                WhiteButton(text = "OK", onClick = {
+                WhiteButton(
+                    text = "OK",
+                    leadingIcon = Icons.Default.Check,
+                ) {
                     taskDetailViewModel.saveTask()
                     findNavController().popBackStack()
-                }, Icons.Default.Check)
+                }
 
                 Spacer(modifier = Modifier.width(30.dp))
 
                 WhiteButton(
                     text = "Delete",
-                    onClick = {
-                        // Delete task from DB(Edit mode) or Only Pop fragment(Create mode)
-                        taskDetailViewModel.deleteTask(
-                            task = task!!,
-                            onSuccess = { findNavController().popBackStack() })
-                        // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
-                        if (taskDetailViewModel.isEditing) {
-                            mainViewModel.currentlyDeletedTask = task
-                        }
-                    },
-                    leadingIcon = Icons.Default.Delete
-                )
+                    leadingIcon = Icons.Default.Delete,
+                ) {
+                    // Delete task from DB(Edit mode) or Only Pop fragment(Create mode)
+                    taskDetailViewModel.deleteTask(
+                        task = task!!,
+                        onSuccess = { findNavController().popBackStack() })
+                    // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
+                    if (taskDetailViewModel.isEditing) {
+                        mainViewModel.currentlyDeletedTask = task
+                    }
+                }
             }
         }
     }
