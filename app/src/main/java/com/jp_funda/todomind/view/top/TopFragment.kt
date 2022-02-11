@@ -30,7 +30,6 @@ import com.jp_funda.todomind.view.components.*
 import com.jp_funda.todomind.view.TaskViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.lang.Integer.min
 
 @AndroidEntryPoint
 class TopFragment : Fragment() {
