@@ -6,12 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -27,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import coil.compose.rememberImagePainter
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.utils.UrlUtil
@@ -72,8 +69,8 @@ class TaskDetailFragment : Fragment() {
     @Composable
     fun TaskDetailContent() {
         // Set up data
-        val _task by taskDetailViewModel.task.observeAsState()
-        _task?.let { task ->
+        val observedTask by taskDetailViewModel.task.observeAsState()
+        observedTask?.let { task ->
             // Set up dialogs
             val dateDialogState = rememberMaterialDialogState()
             val timeDialogState = rememberMaterialDialogState()
@@ -117,7 +114,7 @@ class TaskDetailFragment : Fragment() {
                 TextField(
                     colors = colors,
                     modifier = Modifier.fillMaxWidth(),
-                    value = task!!.title ?: "",
+                    value = task.title ?: "",
                     onValueChange = taskDetailViewModel::setTitle,
                     textStyle = MaterialTheme.typography.h6,
                     placeholder = {
@@ -133,7 +130,7 @@ class TaskDetailFragment : Fragment() {
                 TextField(
                     colors = colors,
                     modifier = Modifier.fillMaxWidth(),
-                    value = task!!.description ?: "",
+                    value = task.description ?: "",
                     onValueChange = taskDetailViewModel::setDescription,
                     textStyle = MaterialTheme.typography.body1,
                     placeholder = {
@@ -149,7 +146,12 @@ class TaskDetailFragment : Fragment() {
 
                 // OGP thumbnail
                 if (UrlUtil.extractURLs(task.description ?: "").isNotEmpty()) {
-                    // TODO show Thumbnail
+                    
+                    Image(
+                        painter = rememberImagePainter("https://i.ytimg.com/an_webp/jsbeemdD2rQ/mqdefault_6s.webp?du=3000&sqp=COjcl5AG&rs=AOn4CLAwgaobBoyMtJGPBJzPJVSJT91T5w"),
+                        contentDescription = "Site thumbnail",
+                        modifier = Modifier.height(200.dp)
+                    )
                 }
 
                 // Date & Time
@@ -245,7 +247,7 @@ class TaskDetailFragment : Fragment() {
                 ) {
                     TextField(
                         colors = colors,
-                        value = "Status - ${task!!.statusEnum.name}",
+                        value = "Status - ${task.statusEnum.name}",
                         onValueChange = {},
                         leadingIcon = {
                             Icon(
