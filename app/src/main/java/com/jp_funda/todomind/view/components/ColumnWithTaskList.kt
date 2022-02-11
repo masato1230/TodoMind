@@ -36,6 +36,7 @@ fun ColumnWithTaskList(
     onCheckChanged: (Task) -> Unit,
     onRowMove: (Int, Int) -> Unit,
     onRowClick: (Task) -> Unit,
+    isScrollToTopAtLaunch: Boolean = false,
     listPadding: Int = 20,
     content: @Composable () -> Unit = {},
 ) {
@@ -45,6 +46,12 @@ fun ColumnWithTaskList(
     var overScrollJob by remember { mutableStateOf<Job?>(null) }
     val dragDropListState = rememberDragDropListState(ignoreCount = ignoreCount, onMove = onRowMove)
     val haptic = LocalHapticFeedback.current
+
+    if (isScrollToTopAtLaunch) {
+        LaunchedEffect(dragDropListState) {
+            dragDropListState.lazyListState.scrollToItem(0)
+        }
+    }
 
     LazyColumn(
         modifier = modifier

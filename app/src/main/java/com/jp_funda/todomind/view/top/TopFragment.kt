@@ -115,7 +115,8 @@ class TopFragment : Fragment() {
                 onRowClick = { task ->
                     mainViewModel.editingTask = task
                     findNavController().navigate(R.id.action_navigation_top_to_navigation_task_detail)
-                }
+                },
+                isScrollToTopAtLaunch = true,
             ) {
                 // TOP ORIGINAL CONTENT
                 // Section Recent Mind Map
