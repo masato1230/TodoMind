@@ -1,5 +1,7 @@
 package com.jp_funda.todomind.view.task_detail
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,15 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -68,6 +74,7 @@ class TaskDetailFragment : Fragment() {
     @Preview
     @Composable
     fun TaskDetailContent() {
+        val context = LocalContext.current
         // Set up data
         val observedTask by taskDetailViewModel.task.observeAsState()
         val ogpResult by taskDetailViewModel.ogpResult.observeAsState()
@@ -116,7 +123,7 @@ class TaskDetailFragment : Fragment() {
                     else "New Task",
                     color = Color.White,
                     style = MaterialTheme.typography.h5
-                ) // TODO change by create/edit
+                )
 
                 // Title TextField
                 TextField(
@@ -157,11 +164,37 @@ class TaskDetailFragment : Fragment() {
 
                 // OGP thumbnail
                 ogpResult?.image?.let {
-                    Image(
-                        painter = rememberImagePainter(it),
-                        contentDescription = "Site thumbnail",
-                        modifier = Modifier.height(200.dp)
-                    )
+                    Card(
+                        backgroundColor = Color.Black
+                    ) {
+                        Column {
+                            Image(
+                                painter = rememberImagePainter(it),
+                                contentDescription = "Site thumbnail",
+                                modifier = Modifier
+                                    .heightIn(min = 0.dp, max = 200.dp)
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        val browserIntent =
+                                            Intent(Intent.ACTION_VIEW, Uri.parse(ogpResult!!.url))
+                                        context.startActivity(browserIntent)
+                                    },
+                                contentScale = ContentScale.FillWidth,
+                            )
+                            ogpResult!!.title?.let {
+                                Text(
+                                    text = it,
+                                    color = Color.Gray,
+                                    modifier = Modifier.padding(
+                                        top = 5.dp,
+                                        bottom = 10.dp,
+                                        start = 10.dp,
+                                        end = 10.dp
+                                    )
+                                )
+                            }
+                        }
+                    }
                 }
 
                 // Date & Time

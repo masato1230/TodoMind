@@ -117,19 +117,23 @@ class TaskDetailViewModel @Inject constructor(
     // OGP
     private fun fetchOgp(siteUrl: String) {
         cachedSiteUrl = siteUrl // cash site url to reduce extra async task call
-        ogpRepository.fetchOgp(siteUrl)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .doOnSuccess { it ->
-                if (it.image != null) { // Only when image url has been detected update data
-                    _ogpResult.value = it
+        disposables.add(
+            ogpRepository.fetchOgp(siteUrl)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnSuccess { it ->
+                    if (it.image != null) { // Only when image url has been detected update data
+                        _ogpResult.value = it
+                    }
                 }
-            }
-            .doOnError {
-                cachedSiteUrl = null
-                _ogpResult.value = null
-            }
-            .subscribe()
+                .doOnError {
+                    cachedSiteUrl = null
+                    _ogpResult.value = null
+                }
+                .subscribe({}, {
+                    it.printStackTrace()
+                })
+        )
     }
 
     fun extractUrlAndFetchOgp(text: String) {
