@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
 import androidx.compose.ui.geometry.Offset
 import kotlinx.coroutines.Job
+import java.lang.Integer.max
 
 @Composable
 fun rememberDragDropListState(
@@ -87,7 +88,11 @@ class DragDropListState(
                         }
                     }?.also { item ->
                         currentIndexOfDraggedItem?.let { current ->
-                            onMove.invoke(current - ignoreCount, item.index - ignoreCount)
+                            val fromIndex = max(current - ignoreCount, 0)
+                            val toIndex = max(item.index - ignoreCount, 0)
+                            if (fromIndex != toIndex) {
+                                onMove.invoke(fromIndex, toIndex)
+                            }
                         }
                         currentIndexOfDraggedItem = item.index
                     }

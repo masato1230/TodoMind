@@ -27,6 +27,7 @@ import com.jp_funda.todomind.view.components.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.lang.Integer.max
+import java.lang.Integer.min
 
 @AndroidEntryPoint
 class TaskFragment : Fragment() {
