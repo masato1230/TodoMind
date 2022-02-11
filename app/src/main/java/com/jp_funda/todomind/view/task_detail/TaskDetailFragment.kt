@@ -29,6 +29,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.utils.UrlUtil
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.ColorPickerDialog
 import com.jp_funda.todomind.view.components.TimePickerDialog
@@ -71,231 +72,237 @@ class TaskDetailFragment : Fragment() {
     @Composable
     fun TaskDetailContent() {
         // Set up data
-        val task by taskDetailViewModel.task.observeAsState()
+        val _task by taskDetailViewModel.task.observeAsState()
+        _task?.let { task ->
+            // Set up dialogs
+            val dateDialogState = rememberMaterialDialogState()
+            val timeDialogState = rememberMaterialDialogState()
+            val colorDialogState = rememberMaterialDialogState()
+            DatePickerDialog(dateDialogState, resources) { selectedDate ->
+                taskDetailViewModel.setDate(selectedDate)
+            }
+            TimePickerDialog(timeDialogState, resources) { selectedTime ->
+                taskDetailViewModel.setTime(selectedTime)
+            }
+            ColorPickerDialog(colorDialogState, resources) { selectedColor ->
+                taskDetailViewModel.setColor(selectedColor.toArgb())
+            }
 
-        // Set up dialogs
-        val dateDialogState = rememberMaterialDialogState()
-        val timeDialogState = rememberMaterialDialogState()
-        val colorDialogState = rememberMaterialDialogState()
-        DatePickerDialog(dateDialogState, resources) { selectedDate ->
-            taskDetailViewModel.setDate(selectedDate)
-        }
-        TimePickerDialog(timeDialogState, resources) { selectedTime ->
-            taskDetailViewModel.setTime(selectedTime)
-        }
-        ColorPickerDialog(colorDialogState, resources) { selectedColor ->
-            taskDetailViewModel.setColor(selectedColor.toArgb())
-        }
-
-        // Set up TextFields color
-        val colors = TextFieldDefaults.textFieldColors(
-            textColor = Color.White,
-            disabledTextColor = Color.White,
-            backgroundColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent,
-            cursorColor = Color(resources.getColor(R.color.teal_200)),
-        )
-
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-            // Page Title
-            Text(
-                text =
-                if (taskDetailViewModel.isEditing) "Editing"
-                else "New Task",
-                color = Color.White,
-                style = MaterialTheme.typography.h5
-            ) // TODO change by create/edit
-
-            // Title TextField
-            TextField(
-                colors = colors,
-                modifier = Modifier.fillMaxWidth(),
-                value = task!!.title ?: "",
-                onValueChange = taskDetailViewModel::setTitle,
-                textStyle = MaterialTheme.typography.h6,
-                placeholder = {
-                    Text(
-                        text = "Enter title",
-                        color = Color.Gray,
-                        style = MaterialTheme.typography.h6,
-                    )
-                },
+            // Set up TextFields color
+            val colors = TextFieldDefaults.textFieldColors(
+                textColor = Color.White,
+                disabledTextColor = Color.White,
+                backgroundColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                cursorColor = Color(resources.getColor(R.color.teal_200)),
             )
 
-            // Description TextField
-            TextField(
-                colors = colors,
-                modifier = Modifier.fillMaxWidth(),
-                value = task!!.description ?: "",
-                onValueChange = taskDetailViewModel::setDescription,
-                textStyle = MaterialTheme.typography.body1,
-                placeholder = {
-                    Text(text = "Add description", color = Color.Gray)
-                },
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_notes_24dp),
-                        contentDescription = "Description",
-                        tint = Color.White
-                    )
-                })
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                // Page Title
+                Text(
+                    text =
+                    if (taskDetailViewModel.isEditing) "Editing"
+                    else "New Task",
+                    color = Color.White,
+                    style = MaterialTheme.typography.h5
+                ) // TODO change by create/edit
 
-            // Date & Time
-            Row(modifier = Modifier.fillMaxWidth()) {
-                // Date
+                // Title TextField
                 TextField(
                     colors = colors,
-                    modifier = Modifier
-                        .fillMaxWidth(0.5f)
-                        .clickable { dateDialogState.show() },
-                    value = if (task!!.dueDate != null)
-                        SimpleDateFormat(
-                            "EEE MM/dd",
-                            Locale.getDefault()
-                        ).format(task!!.dueDate!!) else "",
-                    onValueChange = {},
+                    modifier = Modifier.fillMaxWidth(),
+                    value = task!!.title ?: "",
+                    onValueChange = taskDetailViewModel::setTitle,
+                    textStyle = MaterialTheme.typography.h6,
                     placeholder = {
-                        Text("Add date/time", color = Color.Gray)
+                        Text(
+                            text = "Enter title",
+                            color = Color.Gray,
+                            style = MaterialTheme.typography.h6,
+                        )
+                    },
+                )
+
+                // Description TextField
+                TextField(
+                    colors = colors,
+                    modifier = Modifier.fillMaxWidth(),
+                    value = task!!.description ?: "",
+                    onValueChange = taskDetailViewModel::setDescription,
+                    textStyle = MaterialTheme.typography.body1,
+                    placeholder = {
+                        Text(text = "Add description", color = Color.Gray)
                     },
                     leadingIcon = {
                         Icon(
-                            imageVector = Icons.Default.DateRange,
-                            tint = Color.White,
-                            contentDescription = "Date",
+                            painter = painterResource(id = R.drawable.ic_notes_24dp),
+                            contentDescription = "Description",
+                            tint = Color.White
                         )
-                    },
-                    readOnly = true,
-                    enabled = false,
-                )
+                    })
 
-                // Time
+                // OGP thumbnail
+                if (UrlUtil.extractURLs(task.description ?: "").isNotEmpty()) {
+                    // TODO show Thumbnail
+                }
+
+                // Date & Time
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    // Date
+                    TextField(
+                        colors = colors,
+                        modifier = Modifier
+                            .fillMaxWidth(0.5f)
+                            .clickable { dateDialogState.show() },
+                        value = if (task.dueDate != null)
+                            SimpleDateFormat(
+                                "EEE MM/dd",
+                                Locale.getDefault()
+                            ).format(task.dueDate!!) else "",
+                        onValueChange = {},
+                        placeholder = {
+                            Text("Add date/time", color = Color.Gray)
+                        },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.DateRange,
+                                tint = Color.White,
+                                contentDescription = "Date",
+                            )
+                        },
+                        readOnly = true,
+                        enabled = false,
+                    )
+
+                    // Time
+                    TextField(
+                        colors = colors,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                Log.d("Click", "lkds;")
+                                timeDialogState.show()
+                            },
+                        value = if (task.dueDate != null)
+                            SimpleDateFormat(
+                                "hh:mm aaa",
+                                Locale.getDefault()
+                            ).format(task.dueDate!!) else "",
+                        onValueChange = {},
+                        placeholder = {
+                            Text(text = "Add time", color = Color.Gray)
+                        },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_alarm_24dp),
+                                tint = Color.White,
+                                contentDescription = "Time",
+                            )
+                        },
+                        readOnly = true,
+                        enabled = false,
+                    )
+                }
+
+                // Color
                 TextField(
                     colors = colors,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            Log.d("Click", "lkds;")
-                            timeDialogState.show()
-                        },
-                    value = if (task!!.dueDate != null)
-                        SimpleDateFormat(
-                            "hh:mm aaa",
-                            Locale.getDefault()
-                        ).format(task!!.dueDate!!) else "",
+                        .clickable { colorDialogState.show() },
+                    value = if (task.color != null) "Color(Argb): " + task.color.toString() else "",
                     onValueChange = {},
                     placeholder = {
-                        Text(text = "Add time", color = Color.Gray)
+                        Text(text = "Set color", color = Color.Gray)
                     },
                     leadingIcon = {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_alarm_24dp),
-                            tint = Color.White,
-                            contentDescription = "Time",
+                            painter = painterResource(id = R.drawable.ic_color_24dp),
+                            tint = Color(task.color ?: resources.getColor(R.color.teal_200)),
+                            contentDescription = "Color",
                         )
                     },
                     readOnly = true,
                     enabled = false,
                 )
-            }
 
-            // Color
-            TextField(
-                colors = colors,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { colorDialogState.show() },
-                value = if (task!!.color != null) "Color(Argb): " + task!!.color.toString() else "",
-                onValueChange = {},
-                placeholder = {
-                    Text(text = "Set color", color = Color.Gray)
-                },
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_color_24dp),
-                        tint = Color(task!!.color ?: resources.getColor(R.color.teal_200)),
-                        contentDescription = "Color",
-                    )
-                },
-                readOnly = true,
-                enabled = false,
-            )
-
-            // Status
-            val statusOptions = TaskStatus.values()
-            var expanded by remember { mutableStateOf(false) }
+                // Status
+                val statusOptions = TaskStatus.values()
+                var expanded by remember { mutableStateOf(false) }
 //            var selectedStatus by remember { mutableStateOf(statusOptions[0]) }
 
-            ExposedDropdownMenuBox(
-                expanded = expanded,
-                onExpandedChange = {
-                    expanded = !expanded
-                }
-            ) {
-                TextField(
-                    colors = colors,
-                    value = "Status - ${task!!.statusEnum.name}",
-                    onValueChange = {},
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.List,
-                            contentDescription = "Status",
-                            tint = Color.White
-                        )
-                    },
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(
-                            expanded = expanded
-                        )
-                    },
-                    readOnly = true,
-                )
-                ExposedDropdownMenu(
+                ExposedDropdownMenuBox(
                     expanded = expanded,
-                    onDismissRequest = {
-                        expanded = false
-                    }) {
-                    statusOptions.forEach { option ->
-                        DropdownMenuItem(onClick = {
-                            taskDetailViewModel.setStatus(option)
+                    onExpandedChange = {
+                        expanded = !expanded
+                    }
+                ) {
+                    TextField(
+                        colors = colors,
+                        value = "Status - ${task!!.statusEnum.name}",
+                        onValueChange = {},
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.List,
+                                contentDescription = "Status",
+                                tint = Color.White
+                            )
+                        },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                expanded = expanded
+                            )
+                        },
+                        readOnly = true,
+                    )
+                    ExposedDropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = {
                             expanded = false
                         }) {
-                            Text(text = option.name)
+                        statusOptions.forEach { option ->
+                            DropdownMenuItem(onClick = {
+                                taskDetailViewModel.setStatus(option)
+                                expanded = false
+                            }) {
+                                Text(text = option.name)
+                            }
                         }
                     }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(50.dp))
+                Spacer(modifier = Modifier.height(50.dp))
 
-            // Buttons
-            Row(modifier = Modifier.fillMaxWidth()) {
-                WhiteButton(
-                    text = "OK",
-                    leadingIcon = Icons.Default.Check,
-                ) {
-                    taskDetailViewModel.saveTask()
-                    findNavController().popBackStack()
-                }
+                // Buttons
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    WhiteButton(
+                        text = "OK",
+                        leadingIcon = Icons.Default.Check,
+                    ) {
+                        taskDetailViewModel.saveTask()
+                        findNavController().popBackStack()
+                    }
 
-                Spacer(modifier = Modifier.width(30.dp))
+                    Spacer(modifier = Modifier.width(30.dp))
 
-                WhiteButton(
-                    text = "Delete",
-                    leadingIcon = Icons.Default.Delete,
-                ) {
-                    // Delete task from DB(Edit mode) or Only Pop fragment(Create mode)
-                    taskDetailViewModel.deleteTask(
-                        task = task!!,
-                        onSuccess = { findNavController().popBackStack() })
-                    // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
-                    if (taskDetailViewModel.isEditing) {
-                        mainViewModel.currentlyDeletedTask = task
+                    WhiteButton(
+                        text = "Delete",
+                        leadingIcon = Icons.Default.Delete,
+                    ) {
+                        // Delete task from DB(Edit mode) or Only Pop fragment(Create mode)
+                        taskDetailViewModel.deleteTask(
+                            task = task,
+                            onSuccess = { findNavController().popBackStack() })
+                        // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
+                        if (taskDetailViewModel.isEditing) {
+                            mainViewModel.currentlyDeletedTask = task
+                        }
                     }
                 }
             }
