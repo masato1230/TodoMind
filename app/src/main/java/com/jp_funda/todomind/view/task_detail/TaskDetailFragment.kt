@@ -70,6 +70,8 @@ class TaskDetailFragment : Fragment() {
     fun TaskDetailContent() {
         // Set up data
         val observedTask by taskDetailViewModel.task.observeAsState()
+        val ogpResult by taskDetailViewModel.ogpResult.observeAsState()
+
         observedTask?.let { task ->
             // Set up dialogs
             val dateDialogState = rememberMaterialDialogState()
@@ -95,6 +97,12 @@ class TaskDetailFragment : Fragment() {
                 disabledIndicatorColor = Color.Transparent,
                 cursorColor = Color(resources.getColor(R.color.teal_200)),
             )
+
+            LaunchedEffect(ogpResult) {
+                if (!task.description.isNullOrEmpty()) {
+                    taskDetailViewModel.extractUrlAndFetchOgp(task.description!!)
+                }
+            }
 
             Column(
                 modifier = Modifier
@@ -131,7 +139,10 @@ class TaskDetailFragment : Fragment() {
                     colors = colors,
                     modifier = Modifier.fillMaxWidth(),
                     value = task.description ?: "",
-                    onValueChange = taskDetailViewModel::setDescription,
+                    onValueChange = {
+                        taskDetailViewModel.setDescription(it)
+                        taskDetailViewModel.extractUrlAndFetchOgp(it)
+                    },
                     textStyle = MaterialTheme.typography.body1,
                     placeholder = {
                         Text(text = "Add description", color = Color.Gray)
@@ -145,13 +156,7 @@ class TaskDetailFragment : Fragment() {
                     })
 
                 // OGP thumbnail
-                val siteUrl = UrlUtil.extractURLs(task.description ?: "").firstOrNull()
-                var thumbnailUrl: String? = null
-                siteUrl?.let {
-                    // todo thumbnailUrl = UrlUtil.fetchOGP(siteUrl = siteUrl).image
-                }
-
-                thumbnailUrl?.let {
+                ogpResult?.image?.let {
                     Image(
                         painter = rememberImagePainter(it),
                         contentDescription = "Site thumbnail",

@@ -28,43 +28,46 @@ class OgpRepository @Inject constructor() {
         val openGraphResult = OpenGraphResult()
 
         return Single.create { emitter ->
-            val response = Jsoup.connect(url)
-                .ignoreContentType(true)
-                .userAgent(AGENT)
-                .referrer(REFERRER)
-                .timeout(TIMEOUT)
-                .followRedirects(true)
-                .execute()
-            val doc = response.parse()
-            val ogTags = doc.select(DOC_SELECT_QUERY)
-            when {
-                ogTags.size > 0 ->
-                    ogTags.forEachIndexed { index, _ ->
-                        val tag = ogTags[index]
-                        when (tag.attr(PROPERTY)) {
-                            OG_IMAGE -> {
-                                openGraphResult.image = (tag.attr(OPEN_GRAPH_KEY))
-                            }
-                            OG_DESCRIPTION -> {
-                                openGraphResult.description = (tag.attr(OPEN_GRAPH_KEY))
-                            }
-                            OG_URL -> {
-                                openGraphResult.url = (tag.attr(OPEN_GRAPH_KEY))
-                            }
-                            OG_TITLE -> {
-                                openGraphResult.title = (tag.attr(OPEN_GRAPH_KEY))
-                            }
-                            OG_SITE_NAME -> {
-                                openGraphResult.siteName = (tag.attr(OPEN_GRAPH_KEY))
-                            }
-                            OG_TYPE -> {
-                                openGraphResult.type = (tag.attr(OPEN_GRAPH_KEY))
+            try {
+                val response = Jsoup.connect(url)
+                    .ignoreContentType(true)
+                    .userAgent(AGENT)
+                    .referrer(REFERRER)
+                    .timeout(TIMEOUT)
+                    .followRedirects(true)
+                    .execute()
+                val doc = response.parse()
+                val ogTags = doc.select(DOC_SELECT_QUERY)
+                when {
+                    ogTags.size > 0 ->
+                        ogTags.forEachIndexed { index, _ ->
+                            val tag = ogTags[index]
+                            when (tag.attr(PROPERTY)) {
+                                OG_IMAGE -> {
+                                    openGraphResult.image = (tag.attr(OPEN_GRAPH_KEY))
+                                }
+                                OG_DESCRIPTION -> {
+                                    openGraphResult.description = (tag.attr(OPEN_GRAPH_KEY))
+                                }
+                                OG_URL -> {
+                                    openGraphResult.url = (tag.attr(OPEN_GRAPH_KEY))
+                                }
+                                OG_TITLE -> {
+                                    openGraphResult.title = (tag.attr(OPEN_GRAPH_KEY))
+                                }
+                                OG_SITE_NAME -> {
+                                    openGraphResult.siteName = (tag.attr(OPEN_GRAPH_KEY))
+                                }
+                                OG_TYPE -> {
+                                    openGraphResult.type = (tag.attr(OPEN_GRAPH_KEY))
+                                }
                             }
                         }
-                    }
+                }
+            } catch (e: Throwable) {
+                emitter.onError(e)
             }
             emitter.onSuccess(openGraphResult)
         }
     }
-
 }
