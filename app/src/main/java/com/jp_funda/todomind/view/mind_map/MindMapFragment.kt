@@ -1,6 +1,5 @@
 package com.jp_funda.todomind.view.mind_map
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +14,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -24,7 +25,9 @@ import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.components.MindMapCard
 import com.jp_funda.todomind.view.components.RecentMindMapSection
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MindMapFragment : Fragment() {
 
     companion object {
@@ -85,10 +88,18 @@ class MindMapFragment : Fragment() {
 
     @Composable
     fun MindMapsRow() {
-        LazyRow(modifier = Modifier.padding(bottom = 20.dp)) {
-            // todo fill with data
-            items(items = List<String>(5) { "d" }) { str ->
-                MindMapCard(onClick = {}) // todo create onClick
+        // Set up data
+        val observedMindMapList by mindMapViewModel.mindMapList.observeAsState()
+
+        observedMindMapList?.let { mindMapList ->
+            LazyRow(modifier = Modifier.padding(bottom = 20.dp)) {
+                // todo fill with data
+                items(items = mindMapList) { mindMap ->
+                    MindMapCard(onClick = {
+                        // TODO set mindMap data to MainViewModel
+                        findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+                    })
+                }
             }
         }
     }
