@@ -1,5 +1,7 @@
 package com.jp_funda.todomind.view.mind_map_detail
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -20,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
@@ -29,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import coil.compose.rememberImagePainter
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
@@ -148,8 +153,10 @@ class MindMapDetailFragment : Fragment() {
 
     @Composable
     fun MindMapDetailTopContent() {
+        val context = LocalContext.current
         // Set up data
         val observedMindMap by mindMapDetailViewModel.mindMap.observeAsState()
+        val ogpResult by mindMapDetailViewModel.ogpResult.observeAsState()
 
         // Set up TextFields color
         val colors = TextFieldDefaults.textFieldColors(
@@ -227,7 +234,7 @@ class MindMapDetailFragment : Fragment() {
                 value = mindMap.description ?: "",
                 onValueChange = {
                     mindMapDetailViewModel.setDescription(it)
-                    // TODO ogp setting
+                    mindMapDetailViewModel.extractUrlAndFetchOgp(it)
                 },
                 textStyle = MaterialTheme.typography.body1,
                 placeholder = {
@@ -241,6 +248,42 @@ class MindMapDetailFragment : Fragment() {
                     )
                 }
             )
+
+            // OGP thumbnail
+            ogpResult?.image?.let {
+                Card(
+                    backgroundColor = Color.Black
+                ) {
+                    Column {
+                        Image(
+                            painter = rememberImagePainter(it),
+                            contentDescription = "Site thumbnail",
+                            modifier = Modifier
+                                .heightIn(min = 0.dp, max = 200.dp)
+                                .fillMaxWidth()
+                                .clickable {
+                                    val browserIntent =
+                                        Intent(Intent.ACTION_VIEW, Uri.parse(ogpResult!!.url))
+                                    context.startActivity(browserIntent)
+                                },
+                            contentScale = ContentScale.FillWidth,
+                        )
+                        ogpResult!!.title?.let {
+                            Text(
+                                text = it,
+                                color = Color.Gray,
+                                modifier = Modifier.padding(
+                                    top = 5.dp,
+                                    bottom = 10.dp,
+                                    start = 10.dp,
+                                    end = 10.dp
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+
 
             Spacer(modifier = Modifier.height(10.dp))
 
