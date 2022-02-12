@@ -27,6 +27,7 @@ class MindMapViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess {
                     _mindMapList.value = emptyList() // Change list length to notify data change
+                    it.sortedWith(compareBy { comparingMindMap -> comparingMindMap.createdDate })
                     _mindMapList.value = it
                 }
                 .subscribe()
