@@ -40,6 +40,7 @@ import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.ColumnWithTaskList
 import com.jp_funda.todomind.view.components.filterTasksByStatus
 import com.jp_funda.todomind.view.TaskViewModel
+import com.jp_funda.todomind.view.components.OgpThumbnail
 import com.jp_funda.todomind.view.components.WhiteButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -251,37 +252,7 @@ class MindMapDetailFragment : Fragment() {
 
             // OGP thumbnail
             ogpResult?.image?.let {
-                Card(
-                    backgroundColor = Color.Black
-                ) {
-                    Column {
-                        Image(
-                            painter = rememberImagePainter(it),
-                            contentDescription = "Site thumbnail",
-                            modifier = Modifier
-                                .heightIn(min = 0.dp, max = 200.dp)
-                                .fillMaxWidth()
-                                .clickable {
-                                    val browserIntent =
-                                        Intent(Intent.ACTION_VIEW, Uri.parse(ogpResult!!.url))
-                                    context.startActivity(browserIntent)
-                                },
-                            contentScale = ContentScale.FillWidth,
-                        )
-                        ogpResult!!.title?.let {
-                            Text(
-                                text = it,
-                                color = Color.Gray,
-                                modifier = Modifier.padding(
-                                    top = 5.dp,
-                                    bottom = 10.dp,
-                                    start = 10.dp,
-                                    end = 10.dp
-                                )
-                            )
-                        }
-                    }
-                }
+                OgpThumbnail(ogpResult = ogpResult!!, context = context)
             }
 
 
