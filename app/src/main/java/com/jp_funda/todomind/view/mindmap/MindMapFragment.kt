@@ -37,7 +37,7 @@ class MindMapFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         viewModel = ViewModelProvider(this).get(MindMapViewModel::class.java)
 
         return ComposeView(requireContext()).apply {
