@@ -35,10 +35,7 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.util.UrlUtil
 import com.jp_funda.todomind.view.MainViewModel
-import com.jp_funda.todomind.view.components.ColorPickerDialog
-import com.jp_funda.todomind.view.components.TimePickerDialog
-import com.jp_funda.todomind.view.components.DatePickerDialog
-import com.jp_funda.todomind.view.components.WhiteButton
+import com.jp_funda.todomind.view.components.*
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -163,37 +160,7 @@ class TaskDetailFragment : Fragment() {
 
                 // OGP thumbnail
                 ogpResult?.image?.let {
-                    Card(
-                        backgroundColor = Color.Black
-                    ) {
-                        Column {
-                            Image(
-                                painter = rememberImagePainter(it),
-                                contentDescription = "Site thumbnail",
-                                modifier = Modifier
-                                    .heightIn(min = 0.dp, max = 200.dp)
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        val browserIntent =
-                                            Intent(Intent.ACTION_VIEW, Uri.parse(ogpResult!!.url))
-                                        context.startActivity(browserIntent)
-                                    },
-                                contentScale = ContentScale.FillWidth,
-                            )
-                            ogpResult!!.title?.let {
-                                Text(
-                                    text = it,
-                                    color = Color.Gray,
-                                    modifier = Modifier.padding(
-                                        top = 5.dp,
-                                        bottom = 10.dp,
-                                        start = 10.dp,
-                                        end = 10.dp
-                                    )
-                                )
-                            }
-                        }
-                    }
+                    OgpThumbnail(ogpResult = ogpResult!!, context = context)
                 }
 
                 // Date & Time

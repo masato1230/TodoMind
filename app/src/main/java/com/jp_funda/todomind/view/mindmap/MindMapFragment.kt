@@ -54,7 +54,12 @@ class MindMapFragment : Fragment() {
         Column(
             modifier = Modifier.verticalScroll(scrollState)
         ) {
-            RecentMindMapSection(fragment = this@MindMapFragment)
+            RecentMindMapSection(
+                fragment = this@MindMapFragment,
+                onNewMindMapClick = {
+                    findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+                }
+            )
 
             // Mind Maps Section
             Text(
