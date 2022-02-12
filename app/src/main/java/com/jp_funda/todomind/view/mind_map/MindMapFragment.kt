@@ -66,6 +66,7 @@ class MindMapFragment : Fragment() {
                 modifier = Modifier.verticalScroll(scrollState)
             ) {
                 RecentMindMapSection(
+                    mindMap = yetCompletedMindMaps.firstOrNull(),
                     fragment = this@MindMapFragment,
                     onNewMindMapClick = {
                         findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
@@ -102,10 +103,12 @@ class MindMapFragment : Fragment() {
         LazyRow(modifier = Modifier.padding(bottom = 20.dp)) {
             // todo fill with data
             items(items = mindMaps) { mindMap ->
-                MindMapCard(onClick = {
-                    // TODO set mindMap data to MainViewModel
-                    findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
-                })
+                MindMapCard(
+                    mindMap = mindMap,
+                    onClick = {
+                        // TODO set mindMap data to MainViewModel
+                        findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+                    })
             }
         }
     }

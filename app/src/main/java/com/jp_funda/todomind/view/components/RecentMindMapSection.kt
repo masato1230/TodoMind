@@ -20,11 +20,16 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.view.mind_map.MindMapFragment
 import com.jp_funda.todomind.view.top.TopFragment
 
 @Composable
-fun RecentMindMapSection(fragment: Fragment = Fragment(), onNewMindMapClick: () -> Unit) { // todo delete initial value
+fun RecentMindMapSection(
+    mindMap: MindMap?,
+    fragment: Fragment = Fragment(),
+    onNewMindMapClick: () -> Unit
+) {
     Column {
         // Recent Activity Section
         Text(
@@ -35,19 +40,26 @@ fun RecentMindMapSection(fragment: Fragment = Fragment(), onNewMindMapClick: () 
             color = Color.White,
             style = MaterialTheme.typography.h6,
         )
-        Row {
-            MindMapCard(
-                modifier = Modifier.padding(bottom = 20.dp, end = 30.dp),
-                onClick = {
-                    when (fragment) {
-                        is TopFragment -> findNavController(fragment).navigate(R.id.action_navigation_top_to_navigation_mind_map_detail)
-                        is MindMapFragment -> findNavController(fragment).navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+        Row(
+            modifier = Modifier.padding(bottom = 20.dp)
+        ) {
+            mindMap?.let {
+                MindMapCard(
+                    mindMap = mindMap,
+                    onClick = {
+                        when (fragment) {
+                            is TopFragment -> findNavController(fragment).navigate(R.id.action_navigation_top_to_navigation_mind_map_detail)
+                            is MindMapFragment -> findNavController(fragment).navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+                        }
                     }
-                }
-            )
+                )
+            } ?: run {
+                // TODO show something
+            }
             Button(
                 onClick = onNewMindMapClick, // todo navigate to add mind map view
                 modifier = Modifier
+                    .padding(start = 30.dp)
                     .height(200.dp)
                     .width(150.dp)
                     .clip(RoundedCornerShape(20.dp)),

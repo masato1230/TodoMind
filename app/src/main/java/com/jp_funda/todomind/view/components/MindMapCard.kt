@@ -1,6 +1,8 @@
 package com.jp_funda.todomind.view.components
 
 import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,6 +24,21 @@ fun MindMapCard(
         },
         update = { view ->
             // Initialize view
+            val createdDate = view.findViewById<TextView>(R.id.map_card_created_date)
+            val title = view.findViewById<TextView>(R.id.map_card_title)
+            val progressPercentageText = view.findViewById<TextView>(R.id.map_card_progress_percentage)
+            val progressBar = view.findViewById<ProgressBar>(R.id.map_card_progress_bar)
+
+            // created date
+            mindMap.createdDate?.let {
+                createdDate.text = MindMap.dateFormat.format(it)
+            } ?: run {
+                createdDate.visibility = View.GONE
+            }
+            // title
+            title.text = mindMap.title ?: ""
+            // TODO progressPercentageText
+            // TODO progressBar
         },
         modifier = modifier.clickable {
             onClick()

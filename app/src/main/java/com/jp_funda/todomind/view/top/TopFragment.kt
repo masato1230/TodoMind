@@ -46,7 +46,9 @@ class TopFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Set up data
         taskViewModel.refreshTaskListData()
+        topViewModel.getMostRecentlyUpdatedMindMap()
 
         return ComposeView(requireContext()).apply {
             setContent {
@@ -62,6 +64,9 @@ class TopFragment : Fragment() {
 
     @Composable
     fun TopContent() {
+        // mind map
+        val mostRecentlyUpdatedMindMap by topViewModel.mostRecentlyUpdatedMindMap.observeAsState()
+        // task
         val tasks by taskViewModel.taskList.observeAsState()
         var selectedTabStatus by remember { mutableStateOf(TaskStatus.InProgress) }
         val snackbarHostState = remember { SnackbarHostState() }
@@ -121,6 +126,7 @@ class TopFragment : Fragment() {
                 // TOP ORIGINAL CONTENT
                 // Section Recent Mind Map
                 RecentMindMapSection(
+                    mindMap = mostRecentlyUpdatedMindMap,
                     fragment = this@TopFragment,
                     onNewMindMapClick = {
                     findNavController().navigate(R.id.action_navigation_top_to_navigation_mind_map_detail)
