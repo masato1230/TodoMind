@@ -4,8 +4,9 @@ import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import io.reactivex.rxjava3.core.Single
 import io.realm.Realm
 import io.realm.kotlin.where
+import javax.inject.Inject
 
-object MindMapRepository {
+class MindMapRepository @Inject constructor() {
 
     fun createMindMap(mindMap: MindMap): Single<MindMap> {
         return Single.create { emitter ->
