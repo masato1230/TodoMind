@@ -120,7 +120,11 @@ class TopFragment : Fragment() {
             ) {
                 // TOP ORIGINAL CONTENT
                 // Section Recent Mind Map
-                RecentMindMapSection(fragment = this@TopFragment)
+                RecentMindMapSection(
+                    fragment = this@TopFragment,
+                    onNewMindMapClick = {
+                    findNavController().navigate(R.id.action_navigation_top_to_navigation_mind_map_detail)
+                })
 
                 // Section Tasks
                 Text(

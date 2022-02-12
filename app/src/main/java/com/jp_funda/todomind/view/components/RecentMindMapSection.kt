@@ -26,9 +26,8 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.mindmap.MindMapFragment
 import com.jp_funda.todomind.view.top.TopFragment
 
-@Preview
 @Composable
-fun RecentMindMapSection(fragment: Fragment = Fragment()) { // todo delete initial value
+fun RecentMindMapSection(fragment: Fragment = Fragment(), onNewMindMapClick: () -> Unit) { // todo delete initial value
     Column {
         // Recent Activity Section
         Text(
@@ -50,7 +49,7 @@ fun RecentMindMapSection(fragment: Fragment = Fragment()) { // todo delete initi
                 }
             )
             Button(
-                onClick = {}, // todo navigate to add mind map view
+                onClick = onNewMindMapClick, // todo navigate to add mind map view
                 modifier = Modifier
                     .height(200.dp)
                     .width(150.dp)
