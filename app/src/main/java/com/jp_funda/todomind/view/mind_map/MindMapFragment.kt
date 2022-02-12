@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.view.components.MindMapCard
 import com.jp_funda.todomind.view.components.RecentMindMapSection
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,54 +53,59 @@ class MindMapFragment : Fragment() {
 
     @Composable
     fun MindMapContent() {
+        // Set up data
+        val observedMindMapList by mindMapViewModel.mindMapList.observeAsState()
+
         val scrollState = rememberScrollState()
 
-        Column(
-            modifier = Modifier.verticalScroll(scrollState)
-        ) {
-            RecentMindMapSection(
-                fragment = this@MindMapFragment,
-                onNewMindMapClick = {
-                    findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+        observedMindMapList?.let { mindMapList ->
+            val yetCompletedMindMaps = mindMapList.filter { !(it.isCompleted ?: false) }
+            val completedMindMaps = mindMapList.filter { it.isCompleted ?: false }
+
+            Column(
+                modifier = Modifier.verticalScroll(scrollState)
+            ) {
+                RecentMindMapSection(
+                    fragment = this@MindMapFragment,
+                    onNewMindMapClick = {
+                        findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+                    }
+                )
+
+                // Mind Maps Section
+                Text(
+                    text = "Mind Maps",
+                    modifier = Modifier.padding(15.dp),
+                    color = Color.White,
+                    style = MaterialTheme.typography.h6,
+                )
+                MindMapsRow(yetCompletedMindMaps)
+
+                // Completed Section
+                if (completedMindMaps.isNotEmpty()) {
+                    Text(
+                        text = "Closed",
+                        modifier = Modifier.padding(15.dp),
+                        color = Color.White,
+                        style = MaterialTheme.typography.h6,
+                    )
+                    MindMapsRow(completedMindMaps)
                 }
-            )
-
-            // Mind Maps Section
-            Text(
-                text = "Mind Maps",
-                modifier = Modifier.padding(15.dp),
-                color = Color.White,
-                style = MaterialTheme.typography.h6,
-            )
-            MindMapsRow()
-
-            // Completed Section
-            Text(
-                text = "Closed",
-                modifier = Modifier.padding(15.dp),
-                color = Color.White,
-                style = MaterialTheme.typography.h6,
-            )
-            MindMapsRow()
+            }
         }
     }
 
     // MindMapFragment's components
 
     @Composable
-    fun MindMapsRow() {
-        // Set up data
-        val observedMindMapList by mindMapViewModel.mindMapList.observeAsState()
-
-        observedMindMapList?.let { mindMapList ->
-            LazyRow(modifier = Modifier.padding(bottom = 20.dp)) {
-                // todo fill with data
-                items(items = mindMapList) { mindMap ->
-                    MindMapCard(onClick = {
-                        // TODO set mindMap data to MainViewModel
-                        findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
-                    })
-                }
+    fun MindMapsRow(mindMaps: List<MindMap>) {
+        LazyRow(modifier = Modifier.padding(bottom = 20.dp)) {
+            // todo fill with data
+            items(items = mindMaps) { mindMap ->
+                MindMapCard(onClick = {
+                    // TODO set mindMap data to MainViewModel
+                    findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+                })
             }
         }
     }
