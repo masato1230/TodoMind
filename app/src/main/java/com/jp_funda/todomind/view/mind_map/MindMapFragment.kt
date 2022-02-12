@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.components.MindMapCard
@@ -30,13 +31,14 @@ class MindMapFragment : Fragment() {
         fun newInstance() = MindMapFragment()
     }
 
-    private lateinit var viewModel: MindMapViewModel
+    private val mindMapViewModel by viewModels<MindMapViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(this).get(MindMapViewModel::class.java)
+        // Get All MindMap data and store it in viewModel
+        mindMapViewModel.refreshMindMapListData()
 
         return ComposeView(requireContext()).apply {
             setContent {
