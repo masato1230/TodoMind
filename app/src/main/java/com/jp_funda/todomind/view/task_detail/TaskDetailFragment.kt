@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -64,6 +65,13 @@ class TaskDetailFragment : Fragment() {
             taskDetailViewModel.setEditingTask(editingTask)
         }
 
+        // Set ActionBar title
+        if (!taskDetailViewModel.isEditing) {
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = "New Task"
+        } else {
+            (requireActivity() as AppCompatActivity).supportActionBar?.title = "Editing"
+        }
+
         return ComposeView(requireContext()).apply {
             setContent {
                 TaskDetailContent()
@@ -116,15 +124,6 @@ class TaskDetailFragment : Fragment() {
                     .padding(horizontal = 20.dp)
                     .verticalScroll(rememberScrollState())
             ) {
-                // Page Title
-                Text(
-                    text =
-                    if (taskDetailViewModel.isEditing) "Editing"
-                    else "New Task",
-                    color = Color.White,
-                    style = MaterialTheme.typography.h5
-                )
-
                 // Title TextField
                 TextField(
                     colors = colors,
