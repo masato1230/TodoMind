@@ -22,6 +22,11 @@ class MindMapDetailViewModel @Inject constructor(
         notifyChangeToView()
     }
 
+    fun setDescription(description: String) {
+        _mindMap.value!!.description = description
+        notifyChangeToView()
+    }
+
     private fun notifyChangeToView() {
         _mindMap.value = mindMap.value?.copy() ?: MindMap()
     }

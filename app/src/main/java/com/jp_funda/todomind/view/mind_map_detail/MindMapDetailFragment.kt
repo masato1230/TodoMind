@@ -176,7 +176,6 @@ class MindMapDetailFragment : Fragment() {
                     )
                 }
             )
-            // todo ↑ new
             // Thumbnail Section
             Image(
                 painter = painterResource(
@@ -215,13 +214,27 @@ class MindMapDetailFragment : Fragment() {
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            // Description
-            Text(
-                text = "This is description of the mind map. this is description of mind map. this is description of mind map",
+            TextField(
+                colors = colors, // TODO change color to light gray
                 modifier = Modifier.padding(bottom = 10.dp),
-                style = MaterialTheme.typography.body1,
-                color = Color.LightGray,
-            ) // TODO add click listener to edit descriptions view
+                value = mindMap.description ?: "",
+                onValueChange = {
+                    mindMapDetailViewModel.setDescription(it)
+                    // TODO ogp setting
+                },
+                textStyle = MaterialTheme.typography.body1,
+                placeholder = {
+                    Text(text = "Enter description", color = Color.Gray)
+                },
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_notes_24dp),
+                        contentDescription = "Description",
+                        tint = Color.White
+                    )
+                }
+            )
+            // todo ↑ new
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -261,9 +274,9 @@ class MindMapDetailFragment : Fragment() {
     // Mind Map Detail Components
     @Composable
     fun RoundedProgressBar(
+        modifier: Modifier = Modifier,
         percent: Int,
         height: Dp = 10.dp,
-        modifier: Modifier = Modifier,
         backgroundColor: Color = colorResource(id = R.color.white_10),
         foregroundColor: Brush = Brush.horizontalGradient(
             listOf(colorResource(id = R.color.teal_200), colorResource(id = R.color.teal_200))
