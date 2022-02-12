@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.jp_funda.todomind.R
 
+// TODO add dismiss ogp tag setting
 class SettingsFragment : Fragment() {
 
     companion object {

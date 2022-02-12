@@ -3,12 +3,16 @@ package com.jp_funda.todomind.view.task_detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
+import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
@@ -17,11 +21,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TaskDetailViewModel @Inject constructor(
-    private val repository: TaskRepository
+    private val taskRepository: TaskRepository,
+    private val ogpRepository: OgpRepository,
 ) : ViewModel() {
     private var _task = MutableLiveData(Task(createdDate = Date()))
     val task: LiveData<Task> = _task
     var isEditing: Boolean = false
+
+    // ogp
+    private val _ogpResult = MutableLiveData<OpenGraphResult?>()
+    val ogpResult: LiveData<OpenGraphResult?> = _ogpResult
+    private var cachedSiteUrl: String? = null
 
     private val disposables = CompositeDisposable()
 
@@ -74,14 +84,14 @@ class TaskDetailViewModel @Inject constructor(
             // Not editing mode -> Add new task to DB
             // Editing mode -> update task data in DB
             if (!isEditing) {
-                repository.createTask(_task.value!!)
+                taskRepository.createTask(_task.value!!)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                     }, {
                         Throwable("Error")
                     })
             } else {
-                repository.updateTask(_task.value!!)
+                taskRepository.updateTask(_task.value!!)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe()
             }
@@ -91,7 +101,7 @@ class TaskDetailViewModel @Inject constructor(
     fun deleteTask(task: Task, onSuccess: () -> Unit = {}) {
         if (isEditing) {
             disposables.add(
-                repository.deleteTask(task)
+                taskRepository.deleteTask(task)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ onSuccess() }, {})
             )
@@ -102,6 +112,41 @@ class TaskDetailViewModel @Inject constructor(
 
     private fun notifyChangeToView() {
         _task.value = task.value?.copy() ?: Task()
+    }
+
+    // OGP
+    private fun fetchOgp(siteUrl: String) {
+        cachedSiteUrl = siteUrl // cash site url to reduce extra async task call
+        disposables.add(
+            ogpRepository.fetchOgp(siteUrl)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnSuccess { it ->
+                    if (it.image != null) { // Only when image url has been detected update data
+                        _ogpResult.value = it
+                    }
+                }
+                .doOnError {
+                    cachedSiteUrl = null
+                    _ogpResult.value = null
+                }
+                .subscribe({}, {
+                    it.printStackTrace()
+                })
+        )
+    }
+
+    fun extractUrlAndFetchOgp(text: String) {
+        val siteUrl = UrlUtil.extractURLs(text).firstOrNull()
+
+        if (siteUrl != null) {
+            if (siteUrl != cachedSiteUrl) {
+                fetchOgp(siteUrl)
+            }
+        } else {
+            cachedSiteUrl = null
+            _ogpResult.value = null
+        }
     }
 
     override fun onCleared() {
