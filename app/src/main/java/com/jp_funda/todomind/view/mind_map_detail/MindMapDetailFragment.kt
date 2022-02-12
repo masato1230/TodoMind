@@ -38,6 +38,8 @@ import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.WhiteButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 // TODO add delete button
 @AndroidEntryPoint
@@ -83,8 +85,8 @@ class MindMapDetailFragment : Fragment() {
             showingTasks = filterTasksByStatus(
                 status = TaskStatus.values().first { it == selectedTabStatus },
                 tasks = tasks!!.filter { task ->
-//              TODO      task.mindMap == mindMap && task.statusEnum == selectedTabStatus
-                    task.statusEnum == selectedTabStatus
+                    (task.mindMap?.id == mindMapDetailViewModel.mindMap.value!!.id) &&
+                            (task.statusEnum == selectedTabStatus)
                 },
             )
             ColumnWithTaskList(
@@ -187,7 +189,7 @@ class MindMapDetailFragment : Fragment() {
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(20.dp)),
                 contentScale = ContentScale.Crop,
-            ) // TODO add click listener to go to mind map edit view
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -198,8 +200,13 @@ class MindMapDetailFragment : Fragment() {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 // Date
+                val dateString = mindMap.createdDate?.let {
+                    SimpleDateFormat("EEE MM/dd", Locale.getDefault()).format(it)
+                } ?: run {
+                    SimpleDateFormat("EEE MM/dd", Locale.getDefault()).format(Date())
+                }
                 Text(
-                    text = "Created on: Fri 10/20",
+                    text = "Created on: $dateString",
                     style = MaterialTheme.typography.subtitle1,
                     color = Color.White
                 )
@@ -215,7 +222,7 @@ class MindMapDetailFragment : Fragment() {
             Spacer(modifier = Modifier.height(15.dp))
 
             TextField(
-                colors = colors, // TODO change color to light gray
+                colors = colors,
                 modifier = Modifier.padding(bottom = 10.dp),
                 value = mindMap.description ?: "",
                 onValueChange = {
@@ -234,7 +241,6 @@ class MindMapDetailFragment : Fragment() {
                     )
                 }
             )
-            // todo ↑ new
 
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -264,7 +270,7 @@ class MindMapDetailFragment : Fragment() {
 
             // Task list Section
             Text(
-                text = "Tasks - Mind Map Title",
+                text = "Tasks - ${mindMap.title ?: ""}",
                 color = Color.White,
                 style = MaterialTheme.typography.h6
             )
