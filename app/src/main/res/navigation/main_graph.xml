@@ -68,7 +68,7 @@
 
     <fragment
         android:id="@+id/navigation_mind_map_detail"
-        android:name="com.jp_funda.todomind.view.mindmap.MindMapDetailFragment" >
+        android:name="com.jp_funda.todomind.view.mind_map_detail.MindMapDetailFragment" >
         <action
             android:id="@+id/action_navigation_mind_map_detail_to_navigation_task_detail"
             app:destination="@id/navigation_task_detail" />

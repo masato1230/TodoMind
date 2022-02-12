@@ -1,6 +1,5 @@
 package com.jp_funda.todomind.data.repositories.task
 
-import android.util.Log
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus

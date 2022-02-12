@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.mindmap
+package com.jp_funda.todomind.view.mind_map_detail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +10,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -41,7 +39,7 @@ import com.jp_funda.todomind.view.components.WhiteButton
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-// TODO add delete button to action bar
+// TODO add delete button
 @AndroidEntryPoint
 class MindMapDetailFragment : Fragment() {
 
@@ -49,6 +47,8 @@ class MindMapDetailFragment : Fragment() {
         fun newInstance() = MindMapDetailFragment()
     }
 
+    // ViewModels
+    private val mindMapDetailFragment by viewModels<MindMapDetailViewModel>()
     private val taskViewModel: TaskViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
