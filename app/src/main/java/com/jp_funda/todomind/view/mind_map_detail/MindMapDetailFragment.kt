@@ -48,7 +48,7 @@ class MindMapDetailFragment : Fragment() {
     }
 
     // ViewModels
-    private val mindMapDetailFragment by viewModels<MindMapDetailViewModel>()
+    private val mindMapDetailViewModel by viewModels<MindMapDetailViewModel>()
     private val taskViewModel: TaskViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
@@ -56,6 +56,9 @@ class MindMapDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // TODO Check whether to edit or create new task by mainViewModel editingMindMap
+
+        // Refresh TaskList
         taskViewModel.refreshTaskListData()
 
         // return layout
@@ -143,91 +146,116 @@ class MindMapDetailFragment : Fragment() {
 
     @Composable
     fun MindMapDetailTopContent() {
-        // Title
-        Text(
-            text = "Mind Map Title",
-            modifier = Modifier.padding(bottom = 10.dp),
-            style = MaterialTheme.typography.h4,
-            color = Color.White
-        ) // TODO add click listener to edit view
-        // Thumbnail Section
-        Image(
-            painter = painterResource(
-                id = R.drawable.img_mind_map_sample // TODO change image to real mind map
-            ),
-            contentDescription = "Mind Map description",
-            modifier = Modifier
-                .height(200.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(20.dp)),
-            contentScale = ContentScale.Crop,
-        ) // TODO add click listener to go to mind map edit view
+        // Set up data
+        val observedMindMap by mindMapDetailViewModel.mindMap.observeAsState()
 
-        Spacer(modifier = Modifier.height(20.dp))
-
-        // Date and Edit Mind Map Button Section
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            // Date
-            Text(
-                text = "Created on: Fri 10/20",
-                style = MaterialTheme.typography.subtitle1,
-                color = Color.White
-            )
-            // Edit Mind Map Button
-            WhiteButton(
-                text = "Mind Map",
-                leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_mind_map_24dp)
-            ) {
-                // TODO onClick
-            }
-        }
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        // Description
-        Text(
-            text = "This is description of the mind map. this is description of mind map. this is description of mind map",
-            modifier = Modifier.padding(bottom = 10.dp),
-            style = MaterialTheme.typography.body1,
-            color = Color.LightGray,
-        ) // TODO add click listener to edit descriptions view
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        // Progress Section
-        // Progress description
-        Row(
-            modifier = Modifier
-                .padding(start = 10.dp, bottom = 5.dp)
-                .fillMaxWidth(),
-        ) {
-            Text(
-                text = "Progress: ",
-                style = MaterialTheme.typography.body1,
-                color = Color.White
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(
-                text = "70%",
-                style = MaterialTheme.typography.body1,
-                color = Color.White
-            )
-        }
-        // Progress bar
-        RoundedProgressBar(percent = 70)
-
-        Spacer(modifier = Modifier.height(50.dp))
-
-        // Task list Section
-        Text(
-            text = "Tasks - Mind Map Title",
-            color = Color.White,
-            style = MaterialTheme.typography.h6
+        // Set up TextFields color
+        val colors = TextFieldDefaults.textFieldColors(
+            textColor = Color.White,
+            disabledTextColor = Color.White,
+            backgroundColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+            cursorColor = Color(resources.getColor(R.color.teal_200)),
         )
+
+        observedMindMap?.let { mindMap ->
+            // Title
+            TextField(
+                colors = colors,
+                modifier = Modifier.padding(bottom = 10.dp),
+                value = mindMap.title ?: "",
+                onValueChange = mindMapDetailViewModel::setTitle,
+                textStyle = MaterialTheme.typography.h4,
+                placeholder = {
+                    Text(
+                        text = "Enter title",
+                        color = Color.Gray,
+                        style = MaterialTheme.typography.h4,
+                    )
+                }
+            )
+            // todo ↑ new
+            // Thumbnail Section
+            Image(
+                painter = painterResource(
+                    id = R.drawable.img_mind_map_sample // TODO change image to real mind map
+                ),
+                contentDescription = "Mind Map description",
+                modifier = Modifier
+                    .height(200.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(20.dp)),
+                contentScale = ContentScale.Crop,
+            ) // TODO add click listener to go to mind map edit view
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Date and Edit Mind Map Button Section
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                // Date
+                Text(
+                    text = "Created on: Fri 10/20",
+                    style = MaterialTheme.typography.subtitle1,
+                    color = Color.White
+                )
+                // Edit Mind Map Button
+                WhiteButton(
+                    text = "Mind Map",
+                    leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_mind_map_24dp)
+                ) {
+                    // TODO onClick
+                }
+            }
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            // Description
+            Text(
+                text = "This is description of the mind map. this is description of mind map. this is description of mind map",
+                modifier = Modifier.padding(bottom = 10.dp),
+                style = MaterialTheme.typography.body1,
+                color = Color.LightGray,
+            ) // TODO add click listener to edit descriptions view
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            // Progress Section
+            // Progress description
+            Row(
+                modifier = Modifier
+                    .padding(start = 10.dp, bottom = 5.dp)
+                    .fillMaxWidth(),
+            ) {
+                Text(
+                    text = "Progress: ",
+                    style = MaterialTheme.typography.body1,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = "70%",
+                    style = MaterialTheme.typography.body1,
+                    color = Color.White
+                )
+            }
+            // Progress bar
+            RoundedProgressBar(percent = 70)
+
+            Spacer(modifier = Modifier.height(50.dp))
+
+            // Task list Section
+            Text(
+                text = "Tasks - Mind Map Title",
+                color = Color.White,
+                style = MaterialTheme.typography.h6
+            )
+        }
     }
 
     // Mind Map Detail Components

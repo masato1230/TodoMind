@@ -12,4 +12,15 @@ open class MindMap(
     var updatedDate: Date? = null,
     var isCompleted: Boolean? = null,
 ) : RealmObject() {
+    // Utils
+    fun copy(): MindMap {
+        return MindMap(
+            id = id,
+            title = title,
+            description = description,
+            createdDate = createdDate,
+            updatedDate = updatedDate,
+            isCompleted = isCompleted,
+        )
+    }
 }
