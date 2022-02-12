@@ -29,6 +29,7 @@ class MindMapDetailViewModel @Inject constructor(
     private var cachedSiteUrl: String? = null
 
     var isEditing: Boolean = false
+    var isAutoSaveNeeded: Boolean = true
 
     private val disposables = CompositeDisposable()
 
@@ -56,6 +57,20 @@ class MindMapDetailViewModel @Inject constructor(
                     .subscribe()
             }
         )
+    }
+
+    fun deleteMindMapAndClearDisposables(onSuccess: () -> Unit = {}) {
+        isAutoSaveNeeded = false
+        if (isEditing) {
+            disposables.add(
+                mindMapRepository.deleteMindMap(_mindMap.value!!)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doFinally { disposables.clear() }
+                    .subscribe()
+            )
+        } else {
+            onSuccess()
+        }
     }
 
     private fun notifyChangeToView() {
@@ -99,6 +114,8 @@ class MindMapDetailViewModel @Inject constructor(
 
     // Life Cycle
     override fun onCleared() {
-        saveMindMapAndClearDisposables()
+        if (isAutoSaveNeeded) {
+            saveMindMapAndClearDisposables()
+        }
     }
 }
