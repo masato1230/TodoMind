@@ -13,7 +13,7 @@ import javax.inject.Inject
 class MindMapDetailViewModel @Inject constructor(
     private val mindMapRepository: MindMapRepository
 ) : ViewModel() {
-    private var _mindMap = MutableLiveData(MindMap(createdDate = Date()))
+    private var _mindMap = MutableLiveData(MindMap())
     val mindMap: LiveData<MindMap> = _mindMap
 
     var isEditing: Boolean = false

@@ -4,13 +4,18 @@ import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import io.reactivex.rxjava3.core.Single
 import io.realm.Realm
 import io.realm.kotlin.where
+import java.util.*
 import javax.inject.Inject
 
 class MindMapRepository @Inject constructor() {
 
+    // CREATE
     fun createMindMap(mindMap: MindMap): Single<MindMap> {
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync({ realm ->
+                val now = Date()
+                mindMap.createdDate = now
+                mindMap.updatedDate = now
                 realm.insert(mindMap)
             }, {
                 emitter.onSuccess(mindMap)
@@ -20,22 +25,22 @@ class MindMapRepository @Inject constructor() {
         }
     }
 
+    // READ
     fun getAllMindMaps(): Single<List<MindMap>> {
-        var result = emptyList<MindMap>()
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
-                result = realm.where<MindMap>().findAll()
-            }, {
-                emitter.onSuccess(result)
-            }, {
-                emitter.onError(it)
-            })
+            Realm.getDefaultInstance().executeTransactionAsync { realm ->
+                val result1 = realm.where<MindMap>().findAll()
+                val result2 = Realm.getDefaultInstance().copyFromRealm(result1)
+                emitter.onSuccess(result2)
+            }
         }
     }
 
+    // UPDATE
     fun updateMindMap(updatedMindMap: MindMap): Single<MindMap> {
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync({ realm ->
+                updatedMindMap.updatedDate = Date()
                 realm.copyToRealmOrUpdate(updatedMindMap)
             }, {
                 emitter.onSuccess(updatedMindMap)
@@ -45,15 +50,18 @@ class MindMapRepository @Inject constructor() {
         }
     }
 
+    // DELETE
     fun deleteMindMap(mindMap: MindMap): Single<MindMap> {
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
-                mindMap.deleteFromRealm()
-            }, {
-                emitter.onSuccess(mindMap)
-            }, {
-                emitter.onError(it)
-            })
+            Realm.getDefaultInstance().executeTransactionAsync { realm ->
+                val realmMindMap = realm.where<MindMap>().equalTo("id", mindMap.id).findFirst()
+                realmMindMap?.let {
+                    it.deleteFromRealm()
+                    emitter.onSuccess(mindMap)
+                } ?: run {
+                    emitter.onError(Throwable("Error at delete mindMap"))
+                }
+            }
         }
     }
 }
