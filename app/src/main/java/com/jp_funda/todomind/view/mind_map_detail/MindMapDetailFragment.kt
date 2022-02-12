@@ -52,7 +52,6 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-// TODO add delete button
 @AndroidEntryPoint
 class MindMapDetailFragment : Fragment() {
 
@@ -88,15 +87,22 @@ class MindMapDetailFragment : Fragment() {
                             contentColor = Color.White,
                             navigationIcon = {
                                 IconButton(onClick = { findNavController().popBackStack() }) {
-                                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
+                                    Icon(
+                                        imageVector = Icons.Default.ArrowBack,
+                                        contentDescription = "Back"
+                                    )
                                 }
                             },
                             actions = {
                                 IconButton(onClick = {
                                     mindMapDetailViewModel.deleteMindMapAndClearDisposables {
                                         findNavController().popBackStack()
-                                    } }) {
-                                    Icon(imageVector = Icons.Default.Delete, contentDescription = "Delete")
+                                    }
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = "Delete"
+                                    )
                                 }
                             }
                         )
@@ -352,6 +358,14 @@ class MindMapDetailFragment : Fragment() {
                     .width(maxWidth * percent / 100)
                     .height(height)
             )
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        if (mindMapDetailViewModel.isAutoSaveNeeded) {
+            mindMapDetailViewModel.saveMindMapAndClearDisposables()
         }
     }
 }

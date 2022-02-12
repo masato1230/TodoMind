@@ -43,7 +43,7 @@ class MindMapDetailViewModel @Inject constructor(
         notifyChangeToView()
     }
 
-    private fun saveMindMapAndClearDisposables() {
+    fun saveMindMapAndClearDisposables() {
         disposables.add(
             if (!isEditing) {
                 mindMapRepository.createMindMap(_mindMap.value!!)
@@ -65,7 +65,10 @@ class MindMapDetailViewModel @Inject constructor(
             disposables.add(
                 mindMapRepository.deleteMindMap(_mindMap.value!!)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doFinally { disposables.clear() }
+                    .doFinally {
+                        disposables.clear()
+                        onSuccess()
+                    }
                     .subscribe()
             )
         } else {
@@ -114,8 +117,8 @@ class MindMapDetailViewModel @Inject constructor(
 
     // Life Cycle
     override fun onCleared() {
-        if (isAutoSaveNeeded) {
-            saveMindMapAndClearDisposables()
+        if (!isAutoSaveNeeded) {
+            disposables.clear()
         }
     }
 }
