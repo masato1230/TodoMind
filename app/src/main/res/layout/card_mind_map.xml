@@ -20,14 +20,15 @@
             android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/ic_animated_shape" />
+            app:srcCompat="@drawable/ic_animated_shape"
+            android:contentDescription="background" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/materialTextView3"
+                android:id="@+id/map_card_created_date"
                 style="@style/TextLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,7 +39,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/materialTextView4"
+                android:id="@+id/map_card_title"
                 style="@style/Headline1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,7 +52,7 @@
                 tools:layout_editor_absoluteX="5dp" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/materialTextView5"
+                android:id="@+id/map_card_progress_text"
                 style="@style/CaptionSB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,9 +61,10 @@
                 android:text="@string/progress"
                 android:textColor="@color/white_50"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialTextView4" />
+                app:layout_constraintTop_toBottomOf="@+id/map_card_title" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/map_card_progress_percentage"
                 style="@style/CaptionSB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,9 +73,10 @@
                 android:text="70%"
                 android:textColor="@color/white_50"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialTextView4" />
+                app:layout_constraintTop_toBottomOf="@+id/map_card_title" />
 
             <ProgressBar
+                android:id="@+id/map_card_progress_bar"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:progressTint="@color/teal_200"
                 android:layout_width="match_parent"
@@ -81,7 +84,7 @@
                 android:scaleY="1.5"
                 android:layout_marginHorizontal="5dp"
                 android:progress="70"
-                app:layout_constraintTop_toBottomOf="@+id/materialTextView5"
+                app:layout_constraintTop_toBottomOf="@+id/map_card_progress_text"
                 tools:layout_editor_absoluteX="5dp" />
 
             <com.google.android.material.textview.MaterialTextView
