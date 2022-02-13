@@ -69,6 +69,9 @@ class MindMapDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // TODO Check whether to edit or create new task by mainViewModel editingMindMap
+        mainViewModel.editingMindMap?.let { editingMindMap ->
+            mindMapDetailViewModel.setEditingMindMap(editingMindMap)
+        }
 
         // Refresh TaskList
         taskViewModel.refreshTaskListData()
@@ -368,5 +371,12 @@ class MindMapDetailFragment : Fragment() {
         if (mindMapDetailViewModel.isAutoSaveNeeded) {
             mindMapDetailViewModel.saveMindMapAndClearDisposables()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        mindMapDetailViewModel.isEditing = false
+        mainViewModel.editingMindMap = null
     }
 }
