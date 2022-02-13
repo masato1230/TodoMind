@@ -17,18 +17,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.view.mind_map.MindMapFragment
-import com.jp_funda.todomind.view.top.TopFragment
 
 @Composable
 fun RecentMindMapSection(
     mindMap: MindMap?,
-    fragment: Fragment = Fragment(),
-    onNewMindMapClick: () -> Unit
+    onRecentMindMapClick: () -> Unit,
+    onNewMindMapClick: () -> Unit,
 ) {
     Column {
         // Recent Activity Section
@@ -46,12 +42,7 @@ fun RecentMindMapSection(
             mindMap?.let {
                 MindMapCard(
                     mindMap = mindMap,
-                    onClick = {
-                        when (fragment) {
-                            is TopFragment -> findNavController(fragment).navigate(R.id.action_navigation_top_to_navigation_mind_map_detail)
-                            is MindMapFragment -> findNavController(fragment).navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
-                        }
-                    }
+                    onClick = onRecentMindMapClick,
                 )
             } ?: run {
                 // TODO show something
