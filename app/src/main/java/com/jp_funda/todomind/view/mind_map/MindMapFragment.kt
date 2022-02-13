@@ -42,7 +42,7 @@ class MindMapFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Get All MindMap data and store it in viewModel
-        mindMapViewModel.refreshMindMapListData()
+        mindMapViewModel.refreshMindMapListDataWithDelay()
 
         return ComposeView(requireContext()).apply {
             setContent {

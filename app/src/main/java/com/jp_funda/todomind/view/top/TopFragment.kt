@@ -48,7 +48,8 @@ class TopFragment : Fragment() {
     ): View {
         // Set up data
         taskViewModel.refreshTaskListData()
-        topViewModel.getMostRecentlyUpdatedMindMap()
+        topViewModel.getMostRecentlyUpdatedMindMapWithDelay()
+//        topViewModel.getMostRecentlyUpdatedMindMap()
 
         return ComposeView(requireContext()).apply {
             setContent {
