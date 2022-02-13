@@ -361,8 +361,8 @@ class MindMapDetailFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onPause() {
+        super.onPause()
         (activity as AppCompatActivity).supportActionBar?.show()
 
         if (mindMapDetailViewModel.isAutoSaveNeeded) {

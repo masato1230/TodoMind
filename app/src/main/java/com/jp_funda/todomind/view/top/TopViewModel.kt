@@ -36,7 +36,6 @@ class TopViewModel @Inject constructor(
                 .create<Int> { emitter ->
                     emitter.onSuccess(0)
                 }
-                .delay(1000, TimeUnit.MILLISECONDS)
                 .doOnSuccess {
                     getMostRecentlyUpdatedMindMap()
                 }
