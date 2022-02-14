@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -97,6 +98,14 @@ class MindMapDetailFragment : Fragment() {
                                 }
                             },
                             actions = {
+                                IconButton(onClick = {
+                                    findNavController().popBackStack()
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Done,
+                                        contentDescription = "Save"
+                                    )
+                                }
                                 IconButton(onClick = {
                                     mindMapDetailViewModel.deleteMindMapAndClearDisposables {
                                         findNavController().popBackStack()
