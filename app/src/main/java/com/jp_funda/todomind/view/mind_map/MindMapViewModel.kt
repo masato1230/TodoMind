@@ -36,7 +36,7 @@ class MindMapViewModel @Inject constructor(
         )
     }
 
-    private fun refreshMindMapListData() {
+    fun refreshMindMapListData() {
         disposables.add(
             mindMapRepository.getAllMindMaps()
                 .observeOn(AndroidSchedulers.mainThread())

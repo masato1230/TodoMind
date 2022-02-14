@@ -45,7 +45,7 @@ class MindMapFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Get All MindMap data and store it in viewModel
-        mindMapViewModel.refreshMindMapListDataWithDelay()
+        mindMapViewModel.refreshMindMapListData()
 
         return ComposeView(requireContext()).apply {
             setContent {
@@ -112,7 +112,7 @@ class MindMapFragment : Fragment() {
                 MindMapCard(
                     mindMap = mindMap,
                     onClick = {
-                        // TODO set mindMap data to MainViewModel
+                        mainViewModel.editingMindMap = mindMap
                         findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
                     })
             }

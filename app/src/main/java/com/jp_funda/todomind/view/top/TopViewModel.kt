@@ -43,7 +43,7 @@ class TopViewModel @Inject constructor(
         )
     }
 
-    private fun getMostRecentlyUpdatedMindMap() {
+    fun getMostRecentlyUpdatedMindMap() {
         disposables.add(
             mindMapRepository.getMostRecentlyUpdatedMindMap()
                 .subscribeOn(Schedulers.computation())
