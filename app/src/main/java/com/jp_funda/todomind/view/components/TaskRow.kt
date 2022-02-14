@@ -38,9 +38,9 @@ fun TaskRow(
             // Settings : common to all statuses
             title.text = task.title
             description.text = task.description
-            if (task.dueDate != null) {
+            task.dueDate?.let {
                 date.text = Task.dateFormat.format(task.dueDate!!)
-            } else {
+            } ?: run {
                 date.visibility = View.GONE
             }
 
