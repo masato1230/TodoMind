@@ -220,7 +220,16 @@ class MindMapDetailFragment : Fragment() {
             cursorColor = colorResource(id = R.color.teal_200),
         )
 
+
         observedMindMap?.let { mindMap ->
+
+            // Launch effect
+            LaunchedEffect(ogpResult) {
+                if (!mindMap.description.isNullOrEmpty()) {
+                    mindMapDetailViewModel.extractUrlAndFetchOgp(mindMap.description!!)
+                }
+            }
+
             // Title
             TextField(
                 colors = colors,
