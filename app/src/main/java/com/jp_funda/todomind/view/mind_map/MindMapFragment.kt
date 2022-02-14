@@ -20,10 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.MindMapCard
 import com.jp_funda.todomind.view.components.RecentMindMapSection
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +37,7 @@ class MindMapFragment : Fragment() {
         fun newInstance() = MindMapFragment()
     }
 
+    private val mainViewModel by activityViewModels<MainViewModel>()
     private val mindMapViewModel by viewModels<MindMapViewModel>()
 
     override fun onCreateView(
@@ -42,7 +45,7 @@ class MindMapFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Get All MindMap data and store it in viewModel
-        mindMapViewModel.refreshMindMapListDataWithDelay()
+        mindMapViewModel.refreshMindMapListData()
 
         return ComposeView(requireContext()).apply {
             setContent {
@@ -67,7 +70,10 @@ class MindMapFragment : Fragment() {
             ) {
                 RecentMindMapSection(
                     mindMap = yetCompletedMindMaps.firstOrNull(),
-                    fragment = this@MindMapFragment,
+                    onRecentMindMapClick = {
+                        mainViewModel.editingMindMap = yetCompletedMindMaps.firstOrNull()
+                        findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+                    },
                     onNewMindMapClick = {
                         findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
                     }
@@ -106,7 +112,7 @@ class MindMapFragment : Fragment() {
                 MindMapCard(
                     mindMap = mindMap,
                     onClick = {
-                        // TODO set mindMap data to MainViewModel
+                        mainViewModel.editingMindMap = mindMap
                         findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
                     })
             }

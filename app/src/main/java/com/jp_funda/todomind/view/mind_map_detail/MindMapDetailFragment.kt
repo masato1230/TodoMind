@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -69,6 +70,9 @@ class MindMapDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // TODO Check whether to edit or create new task by mainViewModel editingMindMap
+        mainViewModel.editingMindMap?.let { editingMindMap ->
+            mindMapDetailViewModel.setEditingMindMap(editingMindMap)
+        }
 
         // Refresh TaskList
         taskViewModel.refreshTaskListData()
@@ -94,6 +98,14 @@ class MindMapDetailFragment : Fragment() {
                                 }
                             },
                             actions = {
+                                IconButton(onClick = {
+                                    findNavController().popBackStack()
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Done,
+                                        contentDescription = "Save"
+                                    )
+                                }
                                 IconButton(onClick = {
                                     mindMapDetailViewModel.deleteMindMapAndClearDisposables {
                                         findNavController().popBackStack()
@@ -361,12 +373,19 @@ class MindMapDetailFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onPause() {
+        super.onPause()
         (activity as AppCompatActivity).supportActionBar?.show()
 
         if (mindMapDetailViewModel.isAutoSaveNeeded) {
             mindMapDetailViewModel.saveMindMapAndClearDisposables()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        mindMapDetailViewModel.isEditing = false
+        mainViewModel.editingMindMap = null
     }
 }

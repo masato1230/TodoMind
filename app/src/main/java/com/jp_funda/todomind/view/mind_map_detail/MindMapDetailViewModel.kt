@@ -33,6 +33,11 @@ class MindMapDetailViewModel @Inject constructor(
 
     private val disposables = CompositeDisposable()
 
+    fun setEditingMindMap(editingMindMap: MindMap) {
+        _mindMap.value = editingMindMap
+        isEditing = true
+    }
+
     fun setTitle(title: String) {
         _mindMap.value!!.title = title
         notifyChangeToView()

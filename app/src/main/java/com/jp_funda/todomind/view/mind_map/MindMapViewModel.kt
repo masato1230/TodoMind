@@ -29,7 +29,6 @@ class MindMapViewModel @Inject constructor(
                 .create<Int> { emitter ->
                     emitter.onSuccess(0)
                 }
-                .delay(2000, TimeUnit.MILLISECONDS)
                 .doOnSuccess {
                     refreshMindMapListData()
                 }
@@ -37,7 +36,7 @@ class MindMapViewModel @Inject constructor(
         )
     }
 
-    private fun refreshMindMapListData() {
+    fun refreshMindMapListData() {
         disposables.add(
             mindMapRepository.getAllMindMaps()
                 .observeOn(AndroidSchedulers.mainThread())

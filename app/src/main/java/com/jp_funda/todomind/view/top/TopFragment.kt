@@ -28,6 +28,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.*
 import com.jp_funda.todomind.view.TaskViewModel
+import com.jp_funda.todomind.view.mind_map.MindMapFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -48,8 +49,7 @@ class TopFragment : Fragment() {
     ): View {
         // Set up data
         taskViewModel.refreshTaskListData()
-        topViewModel.getMostRecentlyUpdatedMindMapWithDelay()
-//        topViewModel.getMostRecentlyUpdatedMindMap()
+        topViewModel.getMostRecentlyUpdatedMindMap()
 
         return ComposeView(requireContext()).apply {
             setContent {
@@ -128,10 +128,13 @@ class TopFragment : Fragment() {
                 // Section Recent Mind Map
                 RecentMindMapSection(
                     mindMap = mostRecentlyUpdatedMindMap,
-                    fragment = this@TopFragment,
+                    onRecentMindMapClick = {
+                        mainViewModel.editingMindMap = mostRecentlyUpdatedMindMap
+                        findNavController().navigate(R.id.action_navigation_top_to_navigation_mind_map_detail)
+                    },
                     onNewMindMapClick = {
-                    findNavController().navigate(R.id.action_navigation_top_to_navigation_mind_map_detail)
-                })
+                        findNavController().navigate(R.id.action_navigation_top_to_navigation_mind_map_detail)
+                    })
 
                 // Section Tasks
                 Text(

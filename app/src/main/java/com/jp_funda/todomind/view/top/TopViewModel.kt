@@ -36,7 +36,6 @@ class TopViewModel @Inject constructor(
                 .create<Int> { emitter ->
                     emitter.onSuccess(0)
                 }
-                .delay(1000, TimeUnit.MILLISECONDS)
                 .doOnSuccess {
                     getMostRecentlyUpdatedMindMap()
                 }
@@ -44,7 +43,7 @@ class TopViewModel @Inject constructor(
         )
     }
 
-    private fun getMostRecentlyUpdatedMindMap() {
+    fun getMostRecentlyUpdatedMindMap() {
         disposables.add(
             mindMapRepository.getMostRecentlyUpdatedMindMap()
                 .subscribeOn(Schedulers.computation())
