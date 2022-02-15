@@ -68,7 +68,7 @@ class TopFragment : Fragment() {
         // mind map
         val mostRecentlyUpdatedMindMap by topViewModel.mostRecentlyUpdatedMindMap.observeAsState()
         // task
-        val tasks by taskViewModel.taskList.observeAsState()
+        val observedTasks by taskViewModel.taskList.observeAsState()
         var selectedTabStatus by remember { mutableStateOf(TaskStatus.InProgress) }
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
@@ -85,12 +85,12 @@ class TopFragment : Fragment() {
         }
 
         // Main Contents
-        if (tasks != null) {
-            var showingTasks by remember { mutableStateOf(tasks!!) }
+        observedTasks?.let { tasks ->
+            var showingTasks by remember { mutableStateOf(tasks) }
 
             showingTasks = filterTasksByStatus(
                 status = TaskStatus.values().first { it == selectedTabStatus },
-                tasks = tasks!!,
+                tasks = tasks,
             )
 
             ColumnWithTaskList(
@@ -155,7 +155,7 @@ class TopFragment : Fragment() {
                     modifier = Modifier.padding(bottom = 70.dp)
                 )
             }
-        } else {
+        } ?: run {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -173,24 +173,6 @@ class TopFragment : Fragment() {
                     text = "Loading...",
                     style = MaterialTheme.typography.h5,
                     color = Color.White
-                )
-            }
-        }
-    }
-
-    // Top components
-    @Composable
-    fun AddButton(text: String, onClick: () -> Unit) {
-        Button(
-            onClick = onClick,
-            modifier = Modifier.clip(RoundedCornerShape(1000.dp)),
-            colors = ButtonDefaults.buttonColors(Color.White)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = text)
-                Image(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "add",
                 )
             }
         }

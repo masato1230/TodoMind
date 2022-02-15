@@ -130,17 +130,17 @@ class MindMapDetailFragment : Fragment() {
     @Preview
     @Composable
     fun MindMapDetailContent() {
-        val tasks by taskViewModel.taskList.observeAsState()
+        val observedTasks by taskViewModel.taskList.observeAsState()
         var selectedTabStatus by remember { mutableStateOf(TaskStatus.InProgress) }
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
 
-        if (tasks != null) {
-            var showingTasks by remember { mutableStateOf(tasks!!) }
+        observedTasks?.let { tasks ->
+            var showingTasks by remember { mutableStateOf(tasks) }
 
             showingTasks = filterTasksByStatus(
                 status = TaskStatus.values().first { it == selectedTabStatus },
-                tasks = tasks!!.filter { task ->
+                tasks = tasks.filter { task ->
                     (task.mindMap?.id == mindMapDetailViewModel.mindMap.value!!.id) &&
                             (task.statusEnum == selectedTabStatus)
                 },
@@ -179,7 +179,7 @@ class MindMapDetailFragment : Fragment() {
                     MindMapDetailTopContent()
                 }
             }
-        } else { // Loading
+        } ?: run { // Loading
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
