@@ -110,8 +110,10 @@ class MindMapDetailViewModel @Inject constructor(
     fun extractUrlAndFetchOgp(text: String) {
         val siteUrl = UrlUtil.extractURLs(text).firstOrNull()
 
-        if (siteUrl != null && siteUrl != cachedSiteUrl) {
-            fetchOgp(siteUrl)
+        if (siteUrl != null) {
+            if (siteUrl != cachedSiteUrl) {
+                fetchOgp(siteUrl)
+            }
         } else {
             cachedSiteUrl = null
             _ogpResult.value = null
