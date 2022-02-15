@@ -69,7 +69,7 @@ class MindMapDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // TODO Check whether to edit or create new task by mainViewModel editingMindMap
+        // Check whether to edit or create new task by mainViewModel editingMindMap
         mainViewModel.editingMindMap?.let { editingMindMap ->
             mindMapDetailViewModel.setEditingMindMap(editingMindMap)
         }
@@ -107,9 +107,10 @@ class MindMapDetailFragment : Fragment() {
                                     )
                                 }
                                 IconButton(onClick = {
-                                    mindMapDetailViewModel.deleteMindMapAndClearDisposables {
-                                        findNavController().popBackStack()
-                                    }
+                                    findNavController().navigate(R.id.action_navigation_mind_map_detail_to_navigation_confirm_mind_map_delete)
+//                                    mindMapDetailViewModel.deleteMindMapAndClearDisposables {
+//                                        findNavController().popBackStack()
+//                                    }
                                 }) {
                                     Icon(
                                         imageVector = Icons.Default.Delete,
