@@ -5,6 +5,9 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.hapticfeedback.HapticFeedback
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import kotlinx.coroutines.Job
 import java.lang.Integer.max
 
@@ -14,11 +17,13 @@ fun rememberDragDropListState(
     ignoreCount: Int = 0,
     onMove: (Int, Int) -> Unit
 ): DragDropListState {
+    val haptic = LocalHapticFeedback.current
     return remember {
         DragDropListState(
             lazyListState = lazyListState,
             ignoreCount = ignoreCount,
-            onMove = onMove
+            onMove = onMove,
+            haptic = haptic,
         )
     }
 }
@@ -26,7 +31,8 @@ fun rememberDragDropListState(
 class DragDropListState(
     val lazyListState: LazyListState,
     val ignoreCount: Int = 0,
-    private val onMove: (Int, Int) -> Unit
+    private val onMove: (Int, Int) -> Unit,
+    private val haptic: HapticFeedback,
 ) {
     var draggedDistance by mutableStateOf(0f)
     var initiallyDraggedElement by mutableStateOf<LazyListItemInfo?>(null)
@@ -92,6 +98,7 @@ class DragDropListState(
                             val toIndex = max(item.index - ignoreCount, 0)
                             if (fromIndex != toIndex) {
                                 onMove.invoke(fromIndex, toIndex)
+                                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                             }
                         }
                         currentIndexOfDraggedItem = item.index
