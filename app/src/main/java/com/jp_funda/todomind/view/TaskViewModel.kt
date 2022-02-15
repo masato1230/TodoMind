@@ -63,7 +63,7 @@ class TaskViewModel @Inject constructor(
             repository.updateTask(task)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .delay(300, TimeUnit.MILLISECONDS)
+                .delay(500, TimeUnit.MILLISECONDS)
                 .subscribe({
                     refreshTaskListData()
                 }, {
