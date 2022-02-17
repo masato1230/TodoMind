@@ -10,9 +10,13 @@ import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -70,15 +74,33 @@ class MindMapDetailViewModel @Inject constructor(
             disposables.add(
                 mindMapRepository.deleteMindMap(_mindMap.value!!)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doFinally {
-                        disposables.clear()
-                        onSuccess()
+                    .doOnSuccess {
+                        delay { // delay to wait dismissing dialog
+                            onSuccess()
+                            disposables.clear()
+                        }
                     }
                     .subscribe()
             )
         } else {
             onSuccess()
         }
+    }
+
+    private fun delay(onFinally: () -> Unit = {}) {
+        disposables.add(
+            Completable
+                .timer(50, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io()) // where the work should be done
+                .observeOn(AndroidSchedulers.mainThread()) // where the data stream should be delivered
+                .subscribe({
+                    // do something after 1 second
+                    onFinally()
+                    disposables.clear()
+                }, {
+                    // do something on error
+                })
+        )
     }
 
     private fun notifyChangeToView() {
@@ -117,13 +139,6 @@ class MindMapDetailViewModel @Inject constructor(
         } else {
             cachedSiteUrl = null
             _ogpResult.value = null
-        }
-    }
-
-    // Life Cycle
-    override fun onCleared() {
-        if (!isAutoSaveNeeded) {
-            disposables.clear()
         }
     }
 }
