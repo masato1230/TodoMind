@@ -1,6 +1,5 @@
 package com.jp_funda.todomind.view.top
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,11 +32,7 @@ class TopViewModel @Inject constructor(
                 .doOnError {
                     _mostRecentlyUpdatedMindMap.value = null
                 }
-                .subscribe({
-                    Log.d("S", it.title.toString())
-                }, {
-                    Log.d("E", it.message.toString())
-                })
+                .subscribe()
         )
     }
 

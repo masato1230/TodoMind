@@ -1,6 +1,5 @@
 package com.jp_funda.todomind.data.repositories.task.entity
 
-import android.util.Log
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -42,7 +41,7 @@ open class Task(
             return try {
                 TaskStatus.valueOf(status)
             } catch (e: IllegalArgumentException) {
-                Log.e("Error", e.message ?: "")
+                e.printStackTrace()
                 TaskStatus.InProgress
             }
         }
