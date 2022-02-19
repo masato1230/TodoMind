@@ -12,7 +12,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -86,18 +85,6 @@ class TaskViewModel @Inject constructor(
         // Update DB
         updateDbWithTask(task1)
         updateDbWithTask(task2)
-    }
-
-    fun addDummyTask() {
-        val newTask = Task(title = UUID.randomUUID().toString())
-        disposables.add(
-            repository.createTask(newTask)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                }, {
-                    Throwable("Error")
-                })
-        )
     }
 
     // Show Undo Status Snackbar

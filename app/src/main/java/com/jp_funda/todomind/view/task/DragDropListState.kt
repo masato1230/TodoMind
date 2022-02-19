@@ -34,10 +34,10 @@ class DragDropListState(
     private val onMove: (Int, Int) -> Unit,
     private val haptic: HapticFeedback,
 ) {
-    var draggedDistance by mutableStateOf(0f)
-    var initiallyDraggedElement by mutableStateOf<LazyListItemInfo?>(null)
+    private var draggedDistance by mutableStateOf(0f)
+    private var initiallyDraggedElement by mutableStateOf<LazyListItemInfo?>(null)
     var currentIndexOfDraggedItem by mutableStateOf<Int?>(null)
-    val initialOffsets: Pair<Int, Int>?
+    private val initialOffsets: Pair<Int, Int>?
         get() = initiallyDraggedElement?.let {
             Pair(it.offset, it.offsetEnd)
         }
@@ -50,12 +50,12 @@ class DragDropListState(
                 (initiallyDraggedElement?.offset ?: 0f).toFloat() + draggedDistance - item.offset
             }
 
-    val currentElement: LazyListItemInfo?
+    private val currentElement: LazyListItemInfo?
         get() = currentIndexOfDraggedItem?.let {
             lazyListState.getVisibleItemInfoFor(absolute = it)
         }
 
-    var overScrollJob by mutableStateOf<Job?>(null)
+    private var overScrollJob by mutableStateOf<Job?>(null)
 
     fun onDragStart(offset: Offset) {
         lazyListState.layoutInfo.visibleItemsInfo

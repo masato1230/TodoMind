@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.graphics.Paint
 import android.view.View
 import android.widget.CheckBox
-import android.widget.ImageView
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

@@ -57,7 +57,7 @@ class TaskRepository @Inject constructor() {
         var result = emptyList<Task>()
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync({ realm ->
-                result = realm.where<Task>().equalTo("mindmap.id", mindMap.id).findAll()
+                result = realm.where<Task>().equalTo("mindMap.id", mindMap.id).findAll()
             }, {
                 emitter.onSuccess(result)
             }, {

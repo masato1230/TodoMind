@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.jp_funda.todomind
 
 import androidx.test.platform.app.InstrumentationRegistry

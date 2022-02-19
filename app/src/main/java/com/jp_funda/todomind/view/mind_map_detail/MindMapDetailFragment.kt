@@ -114,7 +114,7 @@ class MindMapDetailFragment : Fragment() {
                                     )
                                 }
                                 IconButton(onClick = {
-                                    // showdialog
+                                    // show dialog
                                     findNavController().navigate(R.id.action_navigation_mind_map_detail_to_navigation_confirm_mind_map_delete)
                                 }) {
                                     Icon(

@@ -1,6 +1,5 @@
 package com.jp_funda.todomind.data.repositories.mind_map
 
-import android.util.Log
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import io.reactivex.rxjava3.core.Single
 import io.realm.Realm
