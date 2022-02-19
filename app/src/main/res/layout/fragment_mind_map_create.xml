@@ -22,25 +22,27 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1000dp" >
+                    android:layout_height="2000dp" >
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/constraintLayout"
-                        android:layout_width="1000dp"
-                        android:layout_height="1000dp"
+                        android:layout_width="2000dp"
+                        android:layout_height="2000dp"
                         android:orientation="vertical"
                         android:tag="0"
                         tools:context=".Activities.MainActivity">
 
                         <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:scaleType="fitXY"
                             android:src="@drawable/img_mind_map_sample"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                            tools:layout_editor_absoluteX="-328dp"
+                            tools:layout_editor_absoluteY="0dp" />
 
-<!--                        <com.example.todo.Data.LineView-->
-<!--                            android:layout_width="1000dp"-->
-<!--                            android:layout_height="1000dp"-->
+                        <!--                        <com.example.todo.Data.LineView-->
+<!--                            android:layout_width="2000dp"-->
+<!--                            android:layout_height="2000dp"-->
 <!--                            app:layout_constraintBottom_toBottomOf="parent"-->
 <!--                            app:layout_constraintLeft_toLeftOf="parent"-->
 <!--                            app:layout_constraintRight_toRightOf="parent"-->
