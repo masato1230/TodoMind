@@ -22,10 +22,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TopViewModel @Inject constructor(
-    private  val mindMapRepository: MindMapRepository
+    private val mindMapRepository: MindMapRepository
 ) : ViewModel() {
-    private var _mostRecentlyUpdatedMindMap = MutableLiveData<MindMap>(null)
-    val mostRecentlyUpdatedMindMap: LiveData<MindMap> = _mostRecentlyUpdatedMindMap
+    private var _mostRecentlyUpdatedMindMap = MutableLiveData<MindMap?>(null)
+    val mostRecentlyUpdatedMindMap: LiveData<MindMap?> = _mostRecentlyUpdatedMindMap
 
     // Dispose
     private val disposables = CompositeDisposable()
@@ -51,7 +51,14 @@ class TopViewModel @Inject constructor(
                 .doOnSuccess {
                     _mostRecentlyUpdatedMindMap.value = it
                 }
-                .subscribe()
+                .doOnError {
+                    _mostRecentlyUpdatedMindMap.value = null
+                }
+                .subscribe({
+                    Log.d("S", it.title.toString())
+                }, {
+                    Log.d("E", it.message.toString())
+                })
         )
     }
 

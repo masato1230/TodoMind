@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.data.repositories.mind_map
 
+import android.util.Log
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import io.reactivex.rxjava3.core.Single
 import io.realm.Realm
@@ -42,12 +43,18 @@ class MindMapRepository @Inject constructor() {
     fun getMostRecentlyUpdatedMindMap(): Single<MindMap> {
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                val result = realm.where<MindMap>()
-                    .findAll()
-                    .sort("createdDate", Sort.DESCENDING)
-                    .first()
-                result?.let {
-                    emitter.onSuccess(Realm.getDefaultInstance().copyFromRealm(result))
+                try {
+                    val result = realm.where<MindMap>()
+                        .findAll()
+                        .sort("createdDate", Sort.DESCENDING)
+                        .first()
+                    result?.let {
+                        emitter.onSuccess(Realm.getDefaultInstance().copyFromRealm(result))
+                    } ?: run {
+                        emitter.onError(Throwable("No data"))
+                    }
+                } catch (e: Exception) {
+                    emitter.onError(e)
                 }
             }
         }
