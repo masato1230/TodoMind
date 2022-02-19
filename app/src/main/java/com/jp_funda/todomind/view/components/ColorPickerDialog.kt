@@ -1,9 +1,10 @@
 package com.jp_funda.todomind.view.components
 
-import android.content.res.Resources
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import com.jp_funda.todomind.R
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
@@ -13,19 +14,18 @@ import com.vanpra.composematerialdialogs.color.colorChooser
 @Composable
 fun ColorPickerDialog(
     colorDialogState: MaterialDialogState,
-    resources: Resources,
     onColorSelected: (color: Color) -> Unit
 ) {
-    var selectedColor = Color(resources.getColor(R.color.teal_200))
+    var selectedColor = Color(ContextCompat.getColor(LocalContext.current, R.color.teal_200))
 
     MaterialDialog(
         dialogState = colorDialogState,
-        backgroundColor = Color(color = resources.getColor(R.color.navy_blue)),
+        backgroundColor = Color(ContextCompat.getColor(LocalContext.current, R.color.navy_blue)),
         buttons = {
             positiveButton(
                 "OK",
                 textStyle = MaterialTheme.typography.button.copy(
-                    color = Color(resources.getColor(R.color.teal_200)),
+                    color = Color(ContextCompat.getColor(LocalContext.current, R.color.teal_200)),
                 ),
                 onClick = {
                     onColorSelected(selectedColor)
@@ -34,7 +34,7 @@ fun ColorPickerDialog(
             negativeButton(
                 "Cancel",
                 textStyle = MaterialTheme.typography.button.copy(
-                    color = Color(resources.getColor(R.color.teal_200)),
+                    color = Color(ContextCompat.getColor(LocalContext.current, R.color.teal_200)),
                 )
             )
         }

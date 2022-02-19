@@ -27,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -89,13 +90,13 @@ class TaskDetailFragment : Fragment() {
             val dateDialogState = rememberMaterialDialogState()
             val timeDialogState = rememberMaterialDialogState()
             val colorDialogState = rememberMaterialDialogState()
-            DatePickerDialog(dateDialogState, resources) { selectedDate ->
+            DatePickerDialog(dateDialogState) { selectedDate ->
                 taskDetailViewModel.setDate(selectedDate)
             }
             TimePickerDialog(timeDialogState, resources) { selectedTime ->
                 taskDetailViewModel.setTime(selectedTime)
             }
-            ColorPickerDialog(colorDialogState, resources) { selectedColor ->
+            ColorPickerDialog(colorDialogState) { selectedColor ->
                 taskDetailViewModel.setColor(selectedColor.toArgb())
             }
 
@@ -107,7 +108,7 @@ class TaskDetailFragment : Fragment() {
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
-                cursorColor = Color(resources.getColor(R.color.teal_200)),
+                cursorColor = Color(ContextCompat.getColor(LocalContext.current, R.color.teal_200)),
             )
 
             LaunchedEffect(ogpResult) {
@@ -235,7 +236,12 @@ class TaskDetailFragment : Fragment() {
                     leadingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_color_24dp),
-                            tint = Color(task.color ?: resources.getColor(R.color.teal_200)),
+                            tint = Color(
+                                task.color ?: ContextCompat.getColor(
+                                    LocalContext.current,
+                                    R.color.teal_200
+                                )
+                            ),
                             contentDescription = "Color",
                         )
                     },

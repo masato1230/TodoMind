@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener(
-            NavController.OnDestinationChangedListener { controller, destination, arguments ->
+            NavController.OnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
                     R.id.navigation_top -> findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.VISIBLE
                     R.id.navigation_task -> findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.VISIBLE
