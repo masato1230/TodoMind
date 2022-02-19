@@ -56,6 +56,11 @@ class TaskDetailViewModel @Inject constructor(
         notifyChangeToView()
     }
 
+    fun resetDate() {
+        _task.value!!.dueDate = null
+        notifyChangeToView()
+    }
+
     fun setTime(localTime: LocalTime) {
         if (_task.value!!.dueDate == null) {
             _task.value!!.dueDate = Date()

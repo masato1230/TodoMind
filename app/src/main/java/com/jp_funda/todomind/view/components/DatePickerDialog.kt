@@ -16,6 +16,8 @@ import java.time.LocalDate
 fun DatePickerDialog(
     dateDialogState: MaterialDialogState,
     initialValue: LocalDate = LocalDate.now(),
+    isEdit: Boolean = false,
+    onReset: () -> Unit = {},
     onSelected: (LocalDate) -> Unit,
 ) {
     var date: LocalDate = initialValue
@@ -40,16 +42,33 @@ fun DatePickerDialog(
                 ),
                 onClick = { onSelected(date) }
             )
-//                this.button("time", onClick = {
-//                    dateDialogState.hide()
-//                    timeDialogState.show()
-//                })
-            negativeButton(
-                "Cancel",
-                textStyle = MaterialTheme.typography.button.copy(
-                    color = Color(ContextCompat.getColor(LocalContext.current, R.color.teal_200)),
+//            this.button("time", onClick = {
+//            })
+            if (!isEdit) {
+                negativeButton(
+                    "Cancel",
+                    textStyle = MaterialTheme.typography.button.copy(
+                        color = Color(
+                            ContextCompat.getColor(
+                                LocalContext.current,
+                                R.color.teal_200
+                            )
+                        ),
+                    )
                 )
-            )
+            } else {
+                negativeButton(
+                    "Reset",
+                    textStyle = MaterialTheme.typography.button.copy(
+                        color = Color(
+                            ContextCompat.getColor(
+                                LocalContext.current,
+                                R.color.teal_200
+                            )
+                        ),
+                    )
+                ) { onReset() }
+            }
         }
     ) {
         datepicker(
