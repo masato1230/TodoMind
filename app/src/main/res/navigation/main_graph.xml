@@ -8,8 +8,7 @@
     <fragment
         android:id="@+id/navigation_top"
         android:name="com.jp_funda.todomind.view.top.TopFragment"
-        android:label="@string/app_name"
-        tools:layout="@layout/top_fragment" >
+        android:label="@string/app_name" >
         <action
             android:id="@+id/action_navigation_top_to_navigation_mind_map_detail"
             app:destination="@id/navigation_mind_map_detail"
@@ -29,8 +28,7 @@
     <fragment
         android:id="@+id/navigation_task"
         android:name="com.jp_funda.todomind.view.task.TaskFragment"
-        android:label="@string/task"
-        tools:layout="@layout/task_fragment" >
+        android:label="@string/task" >
         <action
             android:id="@+id/action_navigation_task_to_navigation_task_detail"
             app:destination="@id/navigation_task_detail"
