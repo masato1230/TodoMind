@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">TodoMind</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
@@ -19,5 +19,5 @@
     <string name="sample_date">Fri 10/20 22:15</string>
     <string name="sample_title">Sample Title Sample Title Sample Title</string>
     <string name="sample_percentage">70%</string>
-    <string name="sample_description">description description description description description description</string>
+    <string name="sample_description" tools:ignore="Typos">description description description description description description</string>
 </resources>

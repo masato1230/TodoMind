@@ -79,7 +79,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
-    implementation "androidx.hilt:hilt-navigation-compose:1.0.0-rc01"
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
 
     // Compose
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
@@ -103,7 +103,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
-    implementation "androidx.navigation:navigation-compose:2.4.0-rc01"
+    implementation "androidx.navigation:navigation-compose:2.5.0-alpha02"
 
     // Jsoup
     implementation 'org.jsoup:jsoup:1.14.3'
