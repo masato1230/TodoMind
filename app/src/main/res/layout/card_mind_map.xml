@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/ic_animated_shape"
-            android:contentDescription="background" />
+            android:contentDescription="@string/background" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
-                android:text="Fri 10/20 22:15"
+                android:text="@string/sample_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,7 +46,7 @@
                 android:layout_marginTop="45dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="Mind Map Title Mind Map Title Mind Map Title"
+                android:text="@string/sample_title"
                 android:textAlignment="center"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="5dp" />
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
-                android:text="70%"
+                android:text="@string/sample_percentage"
                 android:textColor="@color/white_50"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/map_card_title" />

@@ -11,8 +11,6 @@ import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
@@ -116,7 +114,7 @@ class MindMapDetailViewModel @Inject constructor(
             ogpRepository.fetchOgp(siteUrl)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .doOnSuccess { it ->
+                .doOnSuccess {
                     if (it.image != null) { // Only when image url has been detected update data
                         _ogpResult.value = it
                     }

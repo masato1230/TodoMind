@@ -40,11 +40,13 @@
         <entry key="app/src/main/res/layout/record_fragment.xml" value="0.11503623188405797" />
         <entry key="app/src/main/res/layout/row_task.xml" value="0.37552083333333336" />
         <entry key="app/src/main/res/layout/settings_fragment.xml" value="0.13647830474268416" />
+        <entry key="app/src/main/res/layout/task_detail_fragment.xml" value="0.20520833333333333" />
         <entry key="app/src/main/res/layout/task_fragment.xml" value="0.37552083333333336" />
         <entry key="app/src/main/res/layout/top_fragment.xml" value="0.13647830474268416" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.2351851851851852" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.16302083333333334" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.20833333333333334" />
+        <entry key="app/src/main/res/mipmap-anydpi/ic_launcher_round.xml" value="0.22552083333333334" />
       </map>
     </option>
   </component>

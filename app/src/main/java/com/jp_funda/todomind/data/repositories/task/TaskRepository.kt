@@ -14,7 +14,7 @@ class TaskRepository @Inject constructor() {
 
     // CREATE
     fun createTask(task: Task): Single<Task> {
-        return Single.create<Task> { emitter ->
+        return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync { realm ->
                 val maxReversedOrder =
                     realm.copyFromRealm(realm.where<Task>().findAll())
@@ -57,7 +57,7 @@ class TaskRepository @Inject constructor() {
         var result = emptyList<Task>()
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync({ realm ->
-                result = realm.where<Task>().equalTo("mindmap.id", mindMap.id).findAll()
+                result = realm.where<Task>().equalTo("mindMap.id", mindMap.id).findAll()
             }, {
                 emitter.onSuccess(result)
             }, {

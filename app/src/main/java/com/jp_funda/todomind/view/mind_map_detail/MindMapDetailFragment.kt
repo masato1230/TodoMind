@@ -1,23 +1,17 @@
 package com.jp_funda.todomind.view.mind_map_detail
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
@@ -37,27 +31,23 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import coil.compose.rememberImagePainter
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
-import com.jp_funda.todomind.view.components.ColumnWithTaskList
-import com.jp_funda.todomind.view.components.filterTasksByStatus
 import com.jp_funda.todomind.view.TaskViewModel
+import com.jp_funda.todomind.view.components.ColumnWithTaskList
 import com.jp_funda.todomind.view.components.OgpThumbnail
 import com.jp_funda.todomind.view.components.WhiteButton
+import com.jp_funda.todomind.view.components.filterTasksByStatus
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class MindMapDetailFragment : Fragment() {
@@ -124,7 +114,7 @@ class MindMapDetailFragment : Fragment() {
                                     )
                                 }
                                 IconButton(onClick = {
-                                    // showdialog
+                                    // show dialog
                                     findNavController().navigate(R.id.action_navigation_mind_map_detail_to_navigation_confirm_mind_map_delete)
                                 }) {
                                     Icon(

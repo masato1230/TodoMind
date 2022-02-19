@@ -25,7 +25,7 @@ class RecordFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RecordViewModel::class.java)
+        viewModel = ViewModelProvider(this)[RecordViewModel::class.java]
         // TODO: Use the ViewModel
     }
 

@@ -63,7 +63,7 @@ class TaskDetailViewModel @Inject constructor(
 
         val instant = localTime.atDate(
             _task.value!!.dueDate!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-        ).atZone(ZoneId.systemDefault()).toInstant();
+        ).atZone(ZoneId.systemDefault()).toInstant()
         val date = Date.from(instant)
         _task.value!!.dueDate = date
         notifyChangeToView()
@@ -121,7 +121,7 @@ class TaskDetailViewModel @Inject constructor(
             ogpRepository.fetchOgp(siteUrl)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .doOnSuccess { it ->
+                .doOnSuccess {
                     if (it.image != null) { // Only when image url has been detected update data
                         _ogpResult.value = it
                     }

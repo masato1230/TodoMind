@@ -7,9 +7,7 @@ import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepository
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,19 +20,6 @@ class MindMapViewModel @Inject constructor(
 
     // Dispose
     private val disposables = CompositeDisposable()
-
-    fun refreshMindMapListDataWithDelay() {
-        disposables.add(
-            Single
-                .create<Int> { emitter ->
-                    emitter.onSuccess(0)
-                }
-                .doOnSuccess {
-                    refreshMindMapListData()
-                }
-                .subscribe()
-        )
-    }
 
     fun refreshMindMapListData() {
         disposables.add(
