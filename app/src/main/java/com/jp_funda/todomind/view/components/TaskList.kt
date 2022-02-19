@@ -21,36 +21,6 @@ import com.jp_funda.todomind.view.task.rememberDragDropListState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-//@Composable
-//fun TaskLists(
-//    tasks: List<Task>,
-//    onCheckChanged: (task: Task) -> Unit,
-//    listPadding: Int = 20,
-//) {
-//    var selectedTabIndex by remember { mutableStateOf(0) }
-//    var showingTasks by remember {
-//        mutableStateOf(
-//            filterTasksByStatus(
-//                status = TaskStatus.values()[selectedTabIndex],
-//                tasks = tasks,
-//            )
-//        )
-//    }
-//
-//    Column {
-//        TaskTab(selectedTabIndex, onTabChange = { status ->
-//            showingTasks = filterTasksByStatus(status, tasks)
-//            selectedTabIndex = status.ordinal
-//        })
-//
-//        TaskList(
-//            listPadding = listPadding,
-//            tasks = showingTasks,
-//            onCheckChanged = { task -> onCheckChanged(task) },
-//            onMove = { _, _ -> Log.d("son", "d") })
-//    }
-//}
-
 fun filterTasksByStatus(status: TaskStatus, tasks: List<Task>): List<Task> {
     return when (status) {
         TaskStatus.Open -> {
