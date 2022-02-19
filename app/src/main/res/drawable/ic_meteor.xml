@@ -1,6 +1,6 @@
-<vector android:alpha="0.05" android:height="560dp"
+<vector android:alpha="0.05" android:height="200dp"
     android:viewportHeight="560" android:viewportWidth="300"
-    android:width="300dp" xmlns:aapt="http://schemas.android.com/aapt" xmlns:android="http://schemas.android.com/apk/res/android">
+    android:width="200dp" xmlns:aapt="http://schemas.android.com/aapt" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#00000000"
         android:pathData="M228,21L227,-223"
         android:strokeLineCap="round" android:strokeWidth="8">

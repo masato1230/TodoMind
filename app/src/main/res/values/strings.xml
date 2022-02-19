@@ -15,4 +15,8 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="question_confirm_delete">Are you sure you want to delete this mind map?</string>
+    <string name="background">background</string>
+    <string name="sample_date">Fri 10/20 22:15</string>
+    <string name="sample_title">Mind Map Title Mind Map Title Mind Map Title</string>
+    <string name="sample_percentage">70%</string>
 </resources>

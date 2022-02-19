@@ -43,8 +43,7 @@
     <fragment
         android:id="@+id/navigation_mind_map"
         android:name="com.jp_funda.todomind.view.mind_map.MindMapFragment"
-        android:label="@string/mind_map"
-        tools:layout="@layout/mind_map_fragment" >
+        android:label="@string/mind_map" >
         <action
             android:id="@+id/action_navigation_mind_map_to_navigation_mind_map_detail"
             app:destination="@id/navigation_mind_map_detail"
