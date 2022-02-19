@@ -32,7 +32,7 @@ class TopViewModel @Inject constructor(
                 .doOnError {
                     _mostRecentlyUpdatedMindMap.value = null
                 }
-                .subscribe()
+                .subscribe({}, {}) // add lambdas to avoid onError not implemented error
         )
     }
 
