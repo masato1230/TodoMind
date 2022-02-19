@@ -27,14 +27,13 @@ class ConfirmDeleteMindMapFragment : DialogFragment() {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.setMessage(R.string.question_confirm_delete)
-                .setPositiveButton(R.string.delete,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        setFragmentResult(REQUEST_KEY, bundleOf(KEY to DELETE))
-                    })
-                .setNegativeButton(R.string.cancel,
-                    DialogInterface.OnClickListener { dialog, id ->
-                        setFragmentResult(REQUEST_KEY, bundleOf(KEY to CANCEL))
-                    })
+                .setPositiveButton(R.string.delete
+                ) { _, _ ->
+                    setFragmentResult(REQUEST_KEY, bundleOf(KEY to DELETE))
+                }
+                .setNegativeButton(R.string.cancel) { _, _ ->
+                    setFragmentResult(REQUEST_KEY, bundleOf(KEY to CANCEL))
+                }
             // Create the AlertDialog object and return it
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")

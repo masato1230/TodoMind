@@ -46,18 +46,21 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener(
-            NavController.OnDestinationChangedListener { _, destination, _ ->
-                when (destination.id) {
-                    R.id.navigation_top -> findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.VISIBLE
-                    R.id.navigation_task -> findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.VISIBLE
-                    R.id.navigation_mind_map -> findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.VISIBLE
-                    R.id.navigation_record -> findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.VISIBLE
-                    R.id.navigation_settings -> findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.VISIBLE
-                    else -> findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.GONE
-                }
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.navigation_top -> findViewById<BottomNavigationView>(R.id.nav_view).visibility =
+                    View.VISIBLE
+                R.id.navigation_task -> findViewById<BottomNavigationView>(R.id.nav_view).visibility =
+                    View.VISIBLE
+                R.id.navigation_mind_map -> findViewById<BottomNavigationView>(R.id.nav_view).visibility =
+                    View.VISIBLE
+                R.id.navigation_record -> findViewById<BottomNavigationView>(R.id.nav_view).visibility =
+                    View.VISIBLE
+                R.id.navigation_settings -> findViewById<BottomNavigationView>(R.id.nav_view).visibility =
+                    View.VISIBLE
+                else -> findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.GONE
             }
-        )
+        }
     }
 
     // Set Up Back Arrow at ToolBar

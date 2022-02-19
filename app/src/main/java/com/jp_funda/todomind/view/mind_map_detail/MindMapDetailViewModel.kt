@@ -114,7 +114,7 @@ class MindMapDetailViewModel @Inject constructor(
             ogpRepository.fetchOgp(siteUrl)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .doOnSuccess { it ->
+                .doOnSuccess {
                     if (it.image != null) { // Only when image url has been detected update data
                         _ogpResult.value = it
                     }

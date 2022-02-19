@@ -32,7 +32,7 @@ class TaskViewModel @Inject constructor(
             repository.getAllTasks()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ it ->
+                .subscribe({
                     // sort taskList by order column
                     val sortedList = it.sortedBy { task -> task.reversedOrder }.reversed()
                     _taskList.value = emptyList() // Change list length to notify data change to UI

@@ -14,7 +14,7 @@ class TaskRepository @Inject constructor() {
 
     // CREATE
     fun createTask(task: Task): Single<Task> {
-        return Single.create<Task> { emitter ->
+        return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync { realm ->
                 val maxReversedOrder =
                     realm.copyFromRealm(realm.where<Task>().findAll())
