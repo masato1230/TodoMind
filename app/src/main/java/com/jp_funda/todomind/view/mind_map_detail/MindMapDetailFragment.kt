@@ -92,8 +92,7 @@ class MindMapDetailFragment : Fragment() {
 
             if (isConfirmed) {
                 mindMapDetailViewModel.deleteMindMapAndClearDisposables {
-                            findNavController().popBackStack()
-
+                    findNavController().popBackStack()
                 }
             }
         }

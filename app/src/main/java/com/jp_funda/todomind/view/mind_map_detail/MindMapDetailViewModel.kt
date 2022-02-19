@@ -83,7 +83,9 @@ class MindMapDetailViewModel @Inject constructor(
                     .subscribe()
             )
         } else {
-            onSuccess()
+            delay {
+                onSuccess()
+            }
         }
     }
 
