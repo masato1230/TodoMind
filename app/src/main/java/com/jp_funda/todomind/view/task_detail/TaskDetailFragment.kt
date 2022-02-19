@@ -87,10 +87,18 @@ class TaskDetailFragment : Fragment() {
             val dateDialogState = rememberMaterialDialogState()
             val timeDialogState = rememberMaterialDialogState()
             val colorDialogState = rememberMaterialDialogState()
-            DatePickerDialog(dateDialogState) { selectedDate ->
+            DatePickerDialog(
+                dateDialogState = dateDialogState,
+                isEdit = task.dueDate != null,
+                onReset = { taskDetailViewModel.resetDate() }
+            ) { selectedDate ->
                 taskDetailViewModel.setDate(selectedDate)
             }
-            TimePickerDialog(timeDialogState, resources) { selectedTime ->
+            TimePickerDialog(
+                timeDialogState = timeDialogState,
+                isEdit = task.dueDate != null,
+                onReset = { taskDetailViewModel.resetDate() }
+            ) { selectedTime ->
                 taskDetailViewModel.setTime(selectedTime)
             }
             ColorPickerDialog(colorDialogState) { selectedColor ->
