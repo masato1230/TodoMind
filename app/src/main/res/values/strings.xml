@@ -15,4 +15,5 @@
     <string name="sample_title">Sample Title Sample Title Sample Title</string>
     <string name="sample_percentage">70%</string>
     <string name="sample_description" tools:ignore="Typos">description description description description description description</string>
+    <string name="zoom">Zoom</string>
 </resources>

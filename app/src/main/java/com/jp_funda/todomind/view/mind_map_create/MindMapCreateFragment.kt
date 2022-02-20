@@ -29,7 +29,7 @@ class MindMapCreateFragment : Fragment() {
     ): View {
         _binding = FragmentMindMapCreateBinding.inflate(inflater)
 
-        binding.root.composeView.apply {
+        binding.mapView.composeView.apply {
             setContent {
                     MindMapCreateContent()
 //                Scaffold(backgroundColor = colorResource(id = R.color.deep_purple)) {
