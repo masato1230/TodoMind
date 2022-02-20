@@ -5,7 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.colorResource
 import androidx.fragment.app.Fragment
+import com.jp_funda.todomind.R
 import com.jp_funda.todomind.databinding.FragmentMindMapCreateBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +28,19 @@ class MindMapCreateFragment : Fragment() {
     ): View {
         _binding = FragmentMindMapCreateBinding.inflate(inflater)
 
+        binding.root.composeView.apply {
+            setContent { 
+                Scaffold(backgroundColor = colorResource(id = R.color.deep_purple)) {
+                    MindMapCreateContent()
+                }
+            }
+        }
         return binding.root
+    }
+
+    @Composable
+    fun MindMapCreateContent() {
+
     }
 
     override fun onDestroyView() {

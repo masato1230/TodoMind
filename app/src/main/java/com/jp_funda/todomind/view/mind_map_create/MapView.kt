@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.animation.DecelerateInterpolator
 import android.widget.RelativeLayout
+import androidx.compose.ui.platform.ComposeView
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.custom_view.DiagonalHorizontalScrollView
 import com.jp_funda.todomind.view.custom_view.DiagonalScrollView
@@ -18,6 +19,7 @@ class MapView @JvmOverloads constructor(
 ) : RelativeLayout(context, attrs, defStyle) {
     private val scrollView: DiagonalScrollView
     private val horizontalScrollView: DiagonalHorizontalScrollView
+    val composeView: ComposeView
 
     private var scrollAnimator: ObjectAnimator? = null
     private var horizontalScrollAnimator: ObjectAnimator? = null
@@ -34,6 +36,7 @@ class MapView @JvmOverloads constructor(
         inflate(context, R.layout.view_map, this)
         scrollView = findViewById(R.id.map_view_scroll_view)
         horizontalScrollView = findViewById(R.id.map_view_horizontal_scroll_view)
+        composeView = findViewById(R.id.map_view_compose_view)
     }
 
     @SuppressLint("ClickableViewAccessibility")

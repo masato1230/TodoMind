@@ -31,22 +31,18 @@
                         android:tag="0"
                         tools:context=".Activities.MainActivity">
 
-                        <ImageView
+                        <androidx.compose.ui.platform.ComposeView
+                            android:id="@+id/map_view_compose_view"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_mind_map_sample"
-                            tools:layout_editor_absoluteX="-328dp"
-                            tools:layout_editor_absoluteY="0dp" />
+                            android:layout_height="match_parent" />
 
-                        <!--                        <com.example.todo.Data.LineView-->
-                        <!--                            android:layout_width="5000dp"-->
-                        <!--                            android:layout_height="5000dp"-->
-                        <!--                            app:layout_constraintBottom_toBottomOf="parent"-->
-                        <!--                            app:layout_constraintLeft_toLeftOf="parent"-->
-                        <!--                            app:layout_constraintRight_toRightOf="parent"-->
-                        <!--                            app:layout_constraintTop_toTopOf="parent"-->
-                        <!--                            tools:ignore="MissingClass" />-->
+<!--                        <ImageView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:scaleType="fitXY"-->
+<!--                            android:src="@drawable/img_mind_map_sample"-->
+<!--                            tools:layout_editor_absoluteX="-328dp"-->
+<!--                            tools:layout_editor_absoluteY="0dp" />-->
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
