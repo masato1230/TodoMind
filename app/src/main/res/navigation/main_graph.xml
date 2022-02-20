@@ -72,7 +72,16 @@
         <action
             android:id="@+id/action_navigation_mind_map_detail_to_navigation_confirm_mind_map_delete"
             app:destination="@id/navigation_confirm_mind_map_delete" />
+        <action
+            android:id="@+id/action_navigation_mind_map_detail_to_navigation_mind_map_create"
+            app:destination="@id/navigation_mind_map_create" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_mind_map_create"
+        android:name="com.jp_funda.todomind.view.mind_map_create.MindMapCreateFragment">
+    </fragment>
+
 
     <dialog
         android:id="@+id/navigation_confirm_mind_map_delete"

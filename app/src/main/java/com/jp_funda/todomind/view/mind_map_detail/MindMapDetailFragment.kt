@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -260,7 +261,8 @@ class MindMapDetailFragment : Fragment() {
                 modifier = Modifier
                     .height(200.dp)
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(20.dp)),
+                    .clip(RoundedCornerShape(20.dp))
+                    .clickable { findNavController().navigate(R.id.action_navigation_mind_map_detail_to_navigation_mind_map_create) },
                 contentScale = ContentScale.Crop,
             )
 
