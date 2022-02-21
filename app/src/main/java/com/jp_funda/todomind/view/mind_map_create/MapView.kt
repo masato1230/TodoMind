@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.RelativeLayout
 import androidx.compose.ui.platform.ComposeView
@@ -22,6 +23,8 @@ class MapView @JvmOverloads constructor(
     private val scrollView: DiagonalScrollView
     private val horizontalScrollView: DiagonalHorizontalScrollView
     val composeView: ComposeView
+    private val verticalIndicator: View
+    private val horizontalIndicator: View
 
     /** Properties for diagonalScroll */
     private var scrollAnimator: ObjectAnimator? = null
@@ -43,6 +46,18 @@ class MapView @JvmOverloads constructor(
         scrollView = findViewById(R.id.map_view_scroll_view)
         horizontalScrollView = findViewById(R.id.map_view_horizontal_scroll_view)
         composeView = findViewById(R.id.map_view_compose_view)
+        verticalIndicator = findViewById(R.id.map_view_vertical_indicator)
+        horizontalIndicator = findViewById(R.id.map_view_horizontal_indicator)
+
+        // Set up indicators
+        scrollView.setOnScrollChangeListener { _, _, y, _, _ ->
+            val scrollPercentage = y / composeView.height.toFloat()
+            verticalIndicator.y = scrollPercentage * scrollView.height
+        }
+        horizontalScrollView.setOnScrollChangeListener { _, x, _, _, _ ->
+            val scrollPercentage = x / composeView.width.toFloat()
+            horizontalIndicator.x = scrollPercentage * horizontalScrollView.width
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")

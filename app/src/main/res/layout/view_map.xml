@@ -49,14 +49,13 @@
         android:id="@+id/map_view_vertical_indicator"
         android:layout_width="5dp"
         android:layout_height="50dp"
-        android:background="@color/jeremy" />
+        android:background="@color/white_50" />
 
     <View
         android:id="@+id/map_view_horizontal_indicator"
         android:layout_width="50dp"
         android:layout_height="5dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="598dp"
-        android:background="@color/jeremy" />
+        android:layout_alignParentTop="true"
+        android:background="@color/white_50" />
 
 </RelativeLayout>
