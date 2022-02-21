@@ -101,23 +101,8 @@ class MapView @JvmOverloads constructor(
      * Scroll to center corresponding with scale change
      */
     fun onScaleChange(newScale: Float) {
-//        val density = context.resources.displayMetrics.density
-//        val beforeScreenCenterX = horizontalScrollView.scrollX * scale
-//        val beforeScreenCenterY = scrollView.scrollY * scale
-
-        val afterScreenCenterX = horizontalScrollView.scrollX * newScale
-        val afterScreenCenterY = scrollView.scrollY * newScale
-//
-//        val diffX = afterScreenCenterX - beforeScreenCenterX
-//        val diffY = afterScreenCenterY - beforeScreenCenterY
-
-//        Log.d("BeforeX", beforeScreenCenterX.toString())
-//        Log.d("AfterX", afterScreenCenterX.toString())
-//        Log.d("DiffX", diffX.toString())
-//        Log.d("DiffY", diffY.toString())
-
-        horizontalScrollView.scrollTo(afterScreenCenterX.toInt(), 0)
-        scrollView.scrollTo(0, afterScreenCenterY.toInt())
+        horizontalScrollView.scrollTo((horizontalScrollView.scrollX / scale * newScale).toInt(), 0)
+        scrollView.scrollTo(0, (scrollView.scrollY / scale * newScale).toInt())
 
         scale = newScale
     }
