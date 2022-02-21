@@ -22,22 +22,24 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import kotlin.math.roundToInt
 
 @Composable
 fun H1(
     initialOffsetX: Float,
     initialOffsetY: Float,
-    scale: Float = 1f,
     text: String,
+    viewModel: MindMapCreateViewModel,
 ) {
     val haptic = LocalHapticFeedback.current
 
     var offsetX by remember { mutableStateOf(initialOffsetX) }
     var offsetY by remember { mutableStateOf(initialOffsetY) }
+
+    val scale = viewModel.scale.value ?: 1f
 
     Box(
         modifier = Modifier
@@ -50,8 +52,8 @@ fun H1(
                     onDragStart = { haptic.performHapticFeedback(HapticFeedbackType.LongPress) }
                 ) { change, dragAmount ->
                     change.consumeAllChanges()
-                    offsetX += dragAmount.x / scale
-                    offsetY += dragAmount.y / scale
+                    offsetX += dragAmount.x / (viewModel.scale.value ?: 1f) // Note: Reference viewModel directory is needed
+                    offsetY += dragAmount.y / (viewModel.scale.value ?: 1f)
                 }
             }
             .drawBehind {
@@ -74,14 +76,4 @@ fun H1(
             textAlign = TextAlign.Center,
         )
     }
-}
-
-@Composable
-@Preview(showBackground = true)
-fun H1Preview() {
-    H1(
-        initialOffsetX = 100f,
-        initialOffsetY = 100f,
-        text = "Headline1",
-    )
 }

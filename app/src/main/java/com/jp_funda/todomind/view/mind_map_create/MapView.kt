@@ -17,10 +17,13 @@ class MapView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : RelativeLayout(context, attrs, defStyle) {
+
+    /** Child Views */
     private val scrollView: DiagonalScrollView
     private val horizontalScrollView: DiagonalHorizontalScrollView
     val composeView: ComposeView
 
+    /** Properties for diagonalScroll */
     private var scrollAnimator: ObjectAnimator? = null
     private var horizontalScrollAnimator: ObjectAnimator? = null
     private var startX = 0f
@@ -31,6 +34,9 @@ class MapView @JvmOverloads constructor(
     private var beforeY = 0f
     private var currentX = 0f
     private var currentY = 0f
+
+    /** Properties for scale */
+    private var scale: Float = 1f
 
     init {
         inflate(context, R.layout.view_map, this)
@@ -89,5 +95,30 @@ class MapView @JvmOverloads constructor(
             }
         }
         return true
+    }
+
+    /**
+     * Scroll to center corresponding with scale change
+     */
+    fun onScaleChange(newScale: Float) {
+//        val density = context.resources.displayMetrics.density
+//        val beforeScreenCenterX = horizontalScrollView.scrollX * scale
+//        val beforeScreenCenterY = scrollView.scrollY * scale
+
+        val afterScreenCenterX = horizontalScrollView.scrollX * newScale
+        val afterScreenCenterY = scrollView.scrollY * newScale
+//
+//        val diffX = afterScreenCenterX - beforeScreenCenterX
+//        val diffY = afterScreenCenterY - beforeScreenCenterY
+
+//        Log.d("BeforeX", beforeScreenCenterX.toString())
+//        Log.d("AfterX", afterScreenCenterX.toString())
+//        Log.d("DiffX", diffX.toString())
+//        Log.d("DiffY", diffY.toString())
+
+        horizontalScrollView.scrollTo(afterScreenCenterX.toInt(), 0)
+        scrollView.scrollTo(0, afterScreenCenterY.toInt())
+
+        scale = newScale
     }
 }

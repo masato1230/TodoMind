@@ -12,9 +12,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.jp_funda.todomind.R
 import com.jp_funda.todomind.databinding.FragmentMindMapCreateBinding
 import com.jp_funda.todomind.view.mind_map.nodes.H1
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.roundToInt
 
 
 @AndroidEntryPoint
@@ -33,6 +36,24 @@ class MindMapCreateFragment : Fragment() {
     ): View {
         _binding = FragmentMindMapCreateBinding.inflate(inflater)
 
+        // Scale buttons
+        binding.buttonZoomIn.setOnClickListener {
+            mindMapCreateViewModel.setScale(mindMapCreateViewModel.scale.value?.plus(0.1f) ?: 1f)
+        }
+        binding.buttonZoomOut.setOnClickListener {
+            if (mindMapCreateViewModel.scale.value ?: 0f <= 0.1) return@setOnClickListener
+            mindMapCreateViewModel.setScale(mindMapCreateViewModel.scale.value?.minus(0.1f) ?: 1f)
+        }
+
+        // Scale changeListener
+        val scaleObserver = Observer<Float> { scale ->
+            binding.mapView.onScaleChange(scale)
+            val scaleText = (scale * 100).roundToInt().toString() + getString(R.string.percent)
+            binding.textScale.text = scaleText
+        }
+        mindMapCreateViewModel.scale.observe(this, scaleObserver)
+
+        // MapView
         binding.mapView.composeView.apply {
             setContent {
                 MindMapCreateContent()
@@ -54,7 +75,7 @@ class MindMapCreateFragment : Fragment() {
                     initialOffsetX = 100f,
                     initialOffsetY = 100f,
                     text = "Headline1 Headline1 Headline1 Headline1 Headline1 Headline1",
-                    scale = scale,
+                    viewModel = mindMapCreateViewModel,
                 )
             }
         }
