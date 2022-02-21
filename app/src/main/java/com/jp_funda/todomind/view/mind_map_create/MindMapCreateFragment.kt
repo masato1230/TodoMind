@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.jp_funda.todomind.databinding.FragmentMindMapCreateBinding
 import com.jp_funda.todomind.view.mind_map.nodes.H1
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,6 +23,8 @@ class MindMapCreateFragment : Fragment() {
     private var _binding: FragmentMindMapCreateBinding? = null
     private val binding get() = _binding!!
 
+    private val mindMapCreateViewModel by viewModels<MindMapCreateViewModel>()
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,9 +35,7 @@ class MindMapCreateFragment : Fragment() {
 
         binding.mapView.composeView.apply {
             setContent {
-                    MindMapCreateContent()
-//                Scaffold(backgroundColor = colorResource(id = R.color.deep_purple)) {
-//                }
+                MindMapCreateContent()
             }
         }
         return binding.root
@@ -41,12 +43,22 @@ class MindMapCreateFragment : Fragment() {
 
     @Composable
     fun MindMapCreateContent() {
-        Box(modifier = Modifier.fillMaxSize()) {
-            var offsetX by remember { mutableStateOf(0f) }
-            var offsetY by remember { mutableStateOf(0f) }
+        val observedScale = mindMapCreateViewModel.scale.observeAsState()
 
-            H1(initialOffsetX = 100f, initialOffsetY = 100f, text = "Headline1 Headline1 Headline1 Headline1 Headline1 Headline1", scale = 0.1f)
+        observedScale.value?.let { scale ->
+            Box(modifier = Modifier.fillMaxSize()) {
+//                var offsetX by remember { mutableStateOf(0f) }
+//                var offsetY by remember { mutableStateOf(0f) }
+
+                H1(
+                    initialOffsetX = 100f,
+                    initialOffsetY = 100f,
+                    text = "Headline1 Headline1 Headline1 Headline1 Headline1 Headline1",
+                    scale = scale,
+                )
+            }
         }
+
     }
 
     override fun onDestroyView() {
