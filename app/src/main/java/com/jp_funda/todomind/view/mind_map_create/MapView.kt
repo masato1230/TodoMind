@@ -125,12 +125,18 @@ class MapView @JvmOverloads constructor(
     }
 
     /**
-     * Scroll to center corresponding with scale change
+     * Adjust scrollPosition and indicator size corresponding with scale change
      */
     fun onScaleChange(newScale: Float) {
         // Auto scrolling
-        horizontalScrollView.scrollTo((horizontalScrollView.scrollX / scale * newScale).toInt(), 0)
-        scrollView.scrollTo(0, (scrollView.scrollY / scale * newScale).toInt())
+        horizontalScrollView.scrollTo(
+            ((horizontalScrollView.scrollX.toFloat() + screenWidth.toFloat() / 2) / scale * newScale - screenWidth.toFloat() / 2).roundToInt(),
+            0
+        )
+        scrollView.scrollTo(
+            0,
+            ((scrollView.scrollY.toFloat() + screenHeight.toFloat() / 2) / scale * newScale - screenHeight.toFloat() / 2).roundToInt()
+        )
 
         // Adjust views width & height
         val newMapViewHeight = (mapViewOriginalHeight * newScale).roundToInt()
@@ -145,5 +151,7 @@ class MapView @JvmOverloads constructor(
         val newHorizontalIndicatorWidth = screenWidth * (screenWidth.toFloat() / newMapViewWidth)
         verticalIndicator.updateLayoutParams { height = newVerticalIndicatorHeight.roundToInt() }
         horizontalIndicator.updateLayoutParams { width = newHorizontalIndicatorWidth.roundToInt() }
+
+        scale = newScale
     }
 }
