@@ -1,6 +1,7 @@
 package com.jp_funda.todomind.view.mind_map.nodes
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
@@ -34,6 +35,7 @@ fun H1(
     initialOffsetY: Float,
     text: String,
     viewModel: MindMapCreateViewModel,
+    onClick: () -> Unit,
 ) {
     val haptic = LocalHapticFeedback.current
     val context = LocalContext.current
@@ -65,7 +67,8 @@ fun H1(
                     radius = ((size.minDimension - 20 * scale) / 2f),
                     style = Stroke(10f)
                 )
-            },
+            }
+            .clickable { onClick() },
         contentAlignment = Alignment.Center,
     ) {
         Text(
