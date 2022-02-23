@@ -10,17 +10,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -38,7 +37,7 @@ import java.util.*
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
-class MindMapOptionsDialog : BottomSheetDialogFragment() {
+class TaskEditSheet : BottomSheetDialogFragment() {
 
     // ViewModels
     private val taskDetailViewModel by viewModels<TaskDetailViewModel>()
@@ -50,13 +49,41 @@ class MindMapOptionsDialog : BottomSheetDialogFragment() {
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                TaskDetailContent()
+                MindMapOptionsTabRow()
             }
         }
     }
 
     @Composable
-    fun TaskDetailContent() {
+    fun MindMapOptionsTabRow() {
+        TabRow(
+            modifier = Modifier.height(50.dp),
+            selectedTabIndex = 0,
+            backgroundColor = colorResource(id = R.color.transparent),
+            contentColor = Color.LightGray,
+        ) {
+            Tab(selected = true, onClick = { /*TODO*/ }) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit")
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text("Edit Task", style = MaterialTheme.typography.subtitle1)
+                }
+            }
+            Tab(selected = false, onClick = { /*TODO*/ }) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_mind_map_24dp),
+                        contentDescription = "Edit"
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text("Add Child", style = MaterialTheme.typography.subtitle1)
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun TaskEditSheetContent() {
         val context = LocalContext.current
         // Set up data
         val observedTask by taskDetailViewModel.task.observeAsState()
@@ -278,7 +305,7 @@ class MindMapOptionsDialog : BottomSheetDialogFragment() {
                     }
                 }
 
-                Spacer(modifier = Modifier.height(50.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 // Buttons
                 Row(modifier = Modifier.fillMaxWidth()) {
@@ -300,12 +327,9 @@ class MindMapOptionsDialog : BottomSheetDialogFragment() {
                         taskDetailViewModel.deleteTask(
                             task = task,
                             onSuccess = { findNavController().popBackStack() })
-                        // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
-                        if (taskDetailViewModel.isEditing) {
-//              todo               mainViewModel.currentlyDeletedTask = task
-                        }
                     }
                 }
+                Spacer(modifier = Modifier.height(20.dp))
             }
         }
     }

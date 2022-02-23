@@ -84,7 +84,7 @@
 
     <dialog
         android:id="@+id/navigation_mind_map_options_dialog"
-        android:name="com.jp_funda.todomind.view.mind_map_create.MindMapOptionsDialog"/>
+        android:name="com.jp_funda.todomind.view.mind_map_create.TaskEditSheet"/>
 
     <dialog
         android:id="@+id/navigation_confirm_mind_map_delete"
