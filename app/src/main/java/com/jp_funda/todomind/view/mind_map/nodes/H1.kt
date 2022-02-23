@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -35,6 +36,7 @@ fun H1(
     viewModel: MindMapCreateViewModel,
 ) {
     val haptic = LocalHapticFeedback.current
+    val context = LocalContext.current
 
     var offsetX by remember { mutableStateOf(initialOffsetX) }
     var offsetY by remember { mutableStateOf(initialOffsetY) }
@@ -52,7 +54,8 @@ fun H1(
                     onDragStart = { haptic.performHapticFeedback(HapticFeedbackType.LongPress) }
                 ) { change, dragAmount ->
                     change.consumeAllChanges()
-                    offsetX += dragAmount.x / (viewModel.scale.value ?: 1f) // Note: Reference viewModel directory is needed
+                    offsetX += dragAmount.x / (viewModel.scale.value
+                        ?: 1f) // Note: Referencing viewModel directory is needed
                     offsetY += dragAmount.y / (viewModel.scale.value ?: 1f)
                 }
             }
