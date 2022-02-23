@@ -19,13 +19,14 @@
                 android:layout_height="fill_parent">
 
                 <LinearLayout
+                    android:id="@+id/map_view_content_wrapper"
                     android:layout_width="match_parent"
-                    android:layout_height="5000dp">
+                    android:layout_height="@dimen/map_view_height">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/map_view_content"
-                        android:layout_width="5000dp"
-                        android:layout_height="5000dp"
+                        android:layout_width="@dimen/map_view_width"
+                        android:layout_height="@dimen/map_view_height"
                         android:orientation="vertical"
                         android:tag="0"
                         tools:context=".Activities.MainActivity">
