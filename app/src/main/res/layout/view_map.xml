@@ -1,14 +1,13 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
-    android:layout_width="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <com.jp_funda.todomind.view.custom_view.DiagonalScrollView
         android:id="@+id/map_view_scroll_view"
-        android:layout_height="fill_parent"
-        android:layout_width="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -16,17 +15,18 @@
 
             <com.jp_funda.todomind.view.custom_view.DiagonalHorizontalScrollView
                 android:id="@+id/map_view_horizontal_scroll_view"
-                android:layout_height="fill_parent"
-                android:layout_width="fill_parent">
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
                 <LinearLayout
+                    android:id="@+id/map_view_content_wrapper"
                     android:layout_width="match_parent"
-                    android:layout_height="5000dp" >
+                    android:layout_height="@dimen/map_view_height">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/map_view_content"
-                        android:layout_width="5000dp"
-                        android:layout_height="5000dp"
+                        android:layout_width="@dimen/map_view_width"
+                        android:layout_height="@dimen/map_view_height"
                         android:orientation="vertical"
                         android:tag="0"
                         tools:context=".Activities.MainActivity">
@@ -35,14 +35,6 @@
                             android:id="@+id/map_view_compose_view"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
-
-<!--                        <ImageView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:scaleType="fitXY"-->
-<!--                            android:src="@drawable/img_mind_map_sample"-->
-<!--                            tools:layout_editor_absoluteX="-328dp"-->
-<!--                            tools:layout_editor_absoluteY="0dp" />-->
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -53,4 +45,18 @@
         </LinearLayout>
 
     </com.jp_funda.todomind.view.custom_view.DiagonalScrollView>
+
+    <View
+        android:id="@+id/map_view_vertical_indicator"
+        android:layout_width="5dp"
+        android:layout_height="50dp"
+        android:background="@color/white_50" />
+
+    <View
+        android:id="@+id/map_view_horizontal_indicator"
+        android:layout_width="50dp"
+        android:layout_height="5dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/white_50" />
+
 </RelativeLayout>
