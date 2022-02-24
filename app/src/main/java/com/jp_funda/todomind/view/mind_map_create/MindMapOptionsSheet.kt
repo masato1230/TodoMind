@@ -41,7 +41,8 @@ import java.util.*
 class MindMapOptionsSheet : BottomSheetDialogFragment() {
 
     // ViewModels
-    private val mindMapOptionsViewModel by viewModels<MindMapOptionsViewModel>()
+    private val addChildViewModel by viewModels<AddChildViewModel>()
+    private val editTaskViewModel by viewModels<EditTaskViewModel>()
     private val taskDetailViewModel by viewModels<TaskDetailViewModel>()
 
     override fun onCreateView(
