@@ -1,6 +1,7 @@
 package com.jp_funda.todomind.view.mind_map.nodes
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -33,8 +35,10 @@ fun H1(
     initialOffsetY: Float,
     text: String,
     viewModel: MindMapCreateViewModel,
+    onClick: () -> Unit,
 ) {
     val haptic = LocalHapticFeedback.current
+    val context = LocalContext.current
 
     var offsetX by remember { mutableStateOf(initialOffsetX) }
     var offsetY by remember { mutableStateOf(initialOffsetY) }
@@ -52,7 +56,8 @@ fun H1(
                     onDragStart = { haptic.performHapticFeedback(HapticFeedbackType.LongPress) }
                 ) { change, dragAmount ->
                     change.consumeAllChanges()
-                    offsetX += dragAmount.x / (viewModel.scale.value ?: 1f) // Note: Reference viewModel directory is needed
+                    offsetX += dragAmount.x / (viewModel.scale.value
+                        ?: 1f) // Note: Referencing viewModel directory is needed
                     offsetY += dragAmount.y / (viewModel.scale.value ?: 1f)
                 }
             }
@@ -62,7 +67,8 @@ fun H1(
                     radius = ((size.minDimension - 20 * scale) / 2f),
                     style = Stroke(10f)
                 )
-            },
+            }
+            .clickable { onClick() },
         contentAlignment = Alignment.Center,
     ) {
         Text(
