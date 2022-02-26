@@ -15,7 +15,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.view.mind_map_create.MindMapOptionsMode
+import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsMode
 
 @Composable
 fun MindMapOptionsTabRow(selectedMode: MindMapOptionsMode, onTabChange: (MindMapOptionsMode) -> Unit) {
