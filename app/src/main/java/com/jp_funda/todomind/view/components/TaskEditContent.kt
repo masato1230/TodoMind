@@ -34,7 +34,7 @@ import java.util.*
 fun TaskEditContent(
     fragment: Fragment,
     taskEditableViewModel: TaskEditableViewModel,
-    mainViewModel: MainViewModel,
+    mainViewModel: MainViewModel?,
 ) {
     val context = LocalContext.current
     // Set up data
@@ -281,7 +281,7 @@ fun TaskEditContent(
                         onSuccess = { findNavController(fragment).popBackStack() })
                     // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
                     if (taskEditableViewModel.isEditing) {
-                        mainViewModel.currentlyDeletedTask = task
+                        mainViewModel?.currentlyDeletedTask = task
                     }
                 }
             }
