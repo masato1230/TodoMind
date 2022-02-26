@@ -52,11 +52,11 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                val observedMode = mindMapOptionsViewModel.selectedMode.observeAsState()
+                val observedMode = editTaskViewModel.selectedMode.observeAsState()
                 observedMode.value?.let { selectedMode ->
                     Column {
                         MindMapOptionsTabRow(selectedMode = selectedMode) {
-                            mindMapOptionsViewModel.setMode(it)
+                            editTaskViewModel.setMode(it)
                         }
 
                         if (selectedMode == MindMapOptionsMode.ADD_CHILD) {
