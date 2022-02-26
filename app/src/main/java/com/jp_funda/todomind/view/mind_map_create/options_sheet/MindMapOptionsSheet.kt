@@ -4,11 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jp_funda.todomind.view.components.*
@@ -32,20 +39,45 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
             setContent {
                 val observedMode = editTaskViewModel.selectedMode.observeAsState()
                 observedMode.value?.let { selectedMode ->
-                    Column {
+                    Column(
+                        modifier = Modifier.padding(bottom = 20.dp)
+                    ) {
                         MindMapOptionsTabRow(selectedMode = selectedMode) {
                             editTaskViewModel.setMode(it)
                         }
 
                         // Add Child Option
-                        if (selectedMode == MindMapOptionsMode.ADD_CHILD) {
+                        AnimatedVisibility(
+                            visible = selectedMode == MindMapOptionsMode.ADD_CHILD,
+                            enter = slideInHorizontally(
+                                initialOffsetX = { -width }, // small slide 300px
+                                animationSpec = tween(
+                                    durationMillis = 200,
+                                    easing = LinearEasing // interpolator
+                                )
+                            ),
+                            exit = ExitTransition.None
+                        ) {
                             TaskEditContent(
                                 fragment = this@MindMapOptionsSheet,
                                 taskEditableViewModel = addChildViewModel,
                                 mainViewModel = null,
                             )
-                        } else { // Edit Task Option
-                            // TODO set Editing Task
+                        }
+
+                        // Edit Task Option
+                        // TODO set Editing Task
+                        AnimatedVisibility(
+                            visible = selectedMode == MindMapOptionsMode.EDIT_TASK,
+                            enter = slideInHorizontally(
+                                initialOffsetX = { width }, // small slide 300px
+                                animationSpec = tween(
+                                    durationMillis = 200,
+                                    easing = LinearEasing // interpolator
+                                )
+                            ),
+                            exit = ExitTransition.None
+                        ) {
                             TaskEditContent(
                                 fragment = this@MindMapOptionsSheet,
                                 taskEditableViewModel = editTaskViewModel,
