@@ -74,7 +74,11 @@
             app:destination="@id/navigation_confirm_mind_map_delete" />
         <action
             android:id="@+id/action_navigation_mind_map_detail_to_navigation_mind_map_create"
-            app:destination="@id/navigation_mind_map_create" />
+            app:destination="@id/navigation_mind_map_create"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
