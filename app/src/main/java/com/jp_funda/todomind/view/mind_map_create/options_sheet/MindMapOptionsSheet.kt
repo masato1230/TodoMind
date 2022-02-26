@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.mind_map_create
+package com.jp_funda.todomind.view.mind_map_create.options_sheet
 
 import android.os.Bundle
 import android.view.LayoutInflater
