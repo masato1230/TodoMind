@@ -38,7 +38,7 @@ class MindMapCreateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Set MindMap data
-        mindMapCreateViewModel.mindMap = mainViewModel.creatingMindMap!!
+        mindMapCreateViewModel.mindMap = mainViewModel.editingMindMap!!
         // Load task data
         mindMapCreateViewModel.loadTaskData()
 

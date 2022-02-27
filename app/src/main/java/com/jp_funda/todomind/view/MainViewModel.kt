@@ -12,11 +12,8 @@ class MainViewModel @Inject constructor() : ViewModel() {
     /** Editing task at TaskDetailView - if this field is null, user is creating new task */
     var editingTask: Task? = null
 
-    /** Editing mind map - if this field is null, user is creating new mind map */
+    /** Editing mind map - pass mind map data between MindMap, MindMapDetail, MindMapCreate */
     var editingMindMap: MindMap? = null
-
-    /** Creating mind map - mind map which is faze of creation at MindMapCreateFragment */
-    var creatingMindMap: MindMap? = null
 
     /** Currently deleted task - show at task list snackbar to restore the task */
     var currentlyDeletedTask: Task? = null

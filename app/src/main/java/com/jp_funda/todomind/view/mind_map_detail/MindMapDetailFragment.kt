@@ -393,7 +393,7 @@ class MindMapDetailFragment : Fragment() {
     }
 
     private fun navigateToMindMapCreate() {
-        mainViewModel.creatingMindMap = mindMapDetailViewModel.mindMap.value
+        mainViewModel.editingMindMap = mindMapDetailViewModel.mindMap.value
         findNavController().navigate(R.id.action_navigation_mind_map_detail_to_navigation_mind_map_create)
     }
 

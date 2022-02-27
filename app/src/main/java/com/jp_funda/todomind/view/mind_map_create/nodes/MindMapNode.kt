@@ -50,7 +50,12 @@ fun MindMapNode(
             .size(250.dp * scale)
             .pointerInput(Unit) {
                 detectDragGesturesAfterLongPress(
-                    onDragStart = { haptic.performHapticFeedback(HapticFeedbackType.LongPress) }
+                    onDragStart = { haptic.performHapticFeedback(HapticFeedbackType.LongPress) },
+                    onDragEnd = {
+                        mindMap.x = offsetX
+                        mindMap.y = offsetY
+                        viewModel.updateMindMap(mindMap)
+                    }
                 ) { change, dragAmount ->
                     change.consumeAllChanges()
                     offsetX += dragAmount.x / (viewModel.scale.value

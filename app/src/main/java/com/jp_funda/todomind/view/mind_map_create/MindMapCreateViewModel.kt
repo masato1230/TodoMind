@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.mind_map_create
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -50,6 +51,17 @@ class MindMapCreateViewModel @Inject constructor(
                 .subscribe({}, {
                     it.printStackTrace()
                 })
+        )
+    }
+
+    fun updateMindMap(mindMap: MindMap) {
+        disposables.add(
+            mindMapRepository.updateMindMap(mindMap)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess {
+                    Log.d("Success update", "year")
+                }
+                .subscribe()
         )
     }
 }
