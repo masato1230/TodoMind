@@ -12,6 +12,10 @@ open class MindMap(
     var createdDate: Date? = null,
     var updatedDate: Date? = null,
     var isCompleted: Boolean? = null,
+    // for mind map create
+    var x: Float? = null,
+    var y: Float? = null,
+    var color: Int? = null, // Argb Color
 ) : RealmObject() {
     // Utils
     fun copy(): MindMap {
@@ -22,6 +26,9 @@ open class MindMap(
             createdDate = createdDate,
             updatedDate = updatedDate,
             isCompleted = isCompleted,
+            x = x,
+            y = y,
+            color = color,
         )
     }
 

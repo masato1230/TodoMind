@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.data.repositories.task.entity
 
+import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
@@ -31,9 +32,9 @@ open class Task(
     var y: Float? = null,
     var parentTask: Task? = null,
     var color: Int? = null, // Color Argb int
+    styleEnum: NodeStyle? = NodeStyle.HEAD_LINE_1,
     statusEnum: TaskStatus? = TaskStatus.InProgress,
-
-    ) : RealmObject() {
+) : RealmObject() {
     private var status: String = statusEnum?.name ?: TaskStatus.InProgress.name
     var statusEnum: TaskStatus
         get() {
@@ -50,7 +51,17 @@ open class Task(
             status = value.state
         }
 
+    private var style: String = styleEnum?.name ?: NodeStyle.HEAD_LINE_1.name
+    var styleEnum: NodeStyle
+        get() {
+            return NodeStyle.valueOf(style)
+        }
+        set(value) {
+            style = value.name
+        }
+
     // Utils
+
     fun copy(): Task {
         return Task(
             id = id,
@@ -61,7 +72,7 @@ open class Task(
             updatedDate = updatedDate,
             dueDate = dueDate,
             reversedOrder = reversedOrder,
-            x= x,
+            x = x,
             y = y,
             parentTask = parentTask,
             color = color,
