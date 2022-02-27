@@ -71,6 +71,12 @@ class MindMapCreateFragment : Fragment() {
             }
         }
 
+        // Set up Loading Observer
+        val loadingObserver = Observer<Boolean> { isLoading ->
+            if (!isLoading) binding.loading.visibility = View.GONE
+        }
+        mindMapCreateViewModel.isLoading.observe(this, loadingObserver)
+
         return binding.root
     }
 

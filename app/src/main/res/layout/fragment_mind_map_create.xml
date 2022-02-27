@@ -40,5 +40,27 @@
             android:src="@drawable/ic_zoom_out_24dp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+
+            android:layout_marginBottom="30dp"/>
+
+        <TextView
+            android:text="@string/loading"
+            android:textSize="24sp"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

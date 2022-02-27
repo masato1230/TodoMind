@@ -17,4 +17,5 @@
     <string name="sample_description" tools:ignore="Typos">description description description description description description</string>
     <string name="zoom">Zoom</string>
     <string name="percent">%</string>
+    <string name="loading">Loading...</string>
 </resources>
