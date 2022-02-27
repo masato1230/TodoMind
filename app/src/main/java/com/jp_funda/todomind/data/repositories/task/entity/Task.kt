@@ -32,6 +32,7 @@ open class Task(
     var y: Float? = null,
     var parentTask: Task? = null,
     var color: Int? = null, // Color Argb int
+
     styleEnum: NodeStyle? = NodeStyle.HEAD_LINE_1,
     statusEnum: TaskStatus? = TaskStatus.InProgress,
 ) : RealmObject() {
@@ -76,6 +77,7 @@ open class Task(
             y = y,
             parentTask = parentTask,
             color = color,
+            styleEnum = styleEnum,
             statusEnum = statusEnum,
         )
     }
