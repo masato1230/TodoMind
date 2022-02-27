@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.mind_map.nodes
+package com.jp_funda.todomind.view.mind_map_create.nodes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

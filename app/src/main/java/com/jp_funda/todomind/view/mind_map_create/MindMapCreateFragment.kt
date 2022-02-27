@@ -11,12 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.databinding.FragmentMindMapCreateBinding
-import com.jp_funda.todomind.view.mind_map.nodes.H1
+import com.jp_funda.todomind.view.MainViewModel
+import com.jp_funda.todomind.view.mind_map_create.nodes.MindMapNode
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
@@ -28,6 +29,7 @@ class MindMapCreateFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val mindMapCreateViewModel by viewModels<MindMapCreateViewModel>()
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -35,6 +37,11 @@ class MindMapCreateFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Set MindMap data
+        mindMapCreateViewModel.mindMap = mainViewModel.editingMindMap!!
+        // Load task data
+        mindMapCreateViewModel.loadTaskData()
+
         _binding = FragmentMindMapCreateBinding.inflate(inflater)
 
         // Scale buttons
@@ -57,7 +64,10 @@ class MindMapCreateFragment : Fragment() {
         // MapView
         binding.mapView.composeView.apply {
             setContent {
-                MindMapCreateContent()
+                // todo set up loading
+                if (!mindMapCreateViewModel.isLoading.observeAsState(true).value) {
+                    MindMapCreateContent()
+                }
             }
         }
 
@@ -68,23 +78,34 @@ class MindMapCreateFragment : Fragment() {
     fun MindMapCreateContent() {
         val observedScale = mindMapCreateViewModel.scale.observeAsState()
 
+        // update views when scale is changed
         observedScale.value?.let { scale ->
             Box(modifier = Modifier.fillMaxSize()) {
-//                var offsetX by remember { mutableStateOf(0f) }
-//                var offsetY by remember { mutableStateOf(0f) }
 
-                H1(
-                    initialOffsetX = 100f,
-                    initialOffsetY = 100f,
-                    text = "Headline1 Headline1 Headline1 Headline1 Headline1 Headline1",
+                MindMapNode(
+                    mindMap = mindMapCreateViewModel.mindMap,
                     viewModel = mindMapCreateViewModel,
-                    onClick = {
-                        findNavController().navigate(R.id.navigation_mind_map_options_dialog)
-                    }
-                )
+                ) {
+                    // todo onClick
+                }
+
+//                H1(
+//                    initialOffsetX = 100f,
+//                    initialOffsetY = 100f,
+//                    text = "Headline1 Headline1 Headline1 Headline1 Headline1 Headline1",
+//                    viewModel = mindMapCreateViewModel,
+//                    onClick = {
+//                        findNavController().navigate(R.id.navigation_mind_map_options_dialog)
+//                    }
+//                )
             }
         }
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mainViewModel.editingMindMap = mindMapCreateViewModel.mindMap
     }
 
     override fun onDestroyView() {
