@@ -25,21 +25,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import kotlin.math.roundToInt
 
 @Composable
 fun MindMapNode(
-    initialOffsetX: Float,
-    initialOffsetY: Float,
-    text: String,
+    mindMap: MindMap,
     viewModel: MindMapCreateViewModel,
     onClick: () -> Unit,
 ) {
     val haptic = LocalHapticFeedback.current
 
-    var offsetX by remember { mutableStateOf(initialOffsetX) }
-    var offsetY by remember { mutableStateOf(initialOffsetY) }
+    var offsetX by remember { mutableStateOf(mindMap.x ?: 0f) }
+    var offsetY by remember { mutableStateOf(mindMap.y ?: 0f) }
 
     val scale = viewModel.scale.value ?: 1f
 
@@ -70,7 +69,7 @@ fun MindMapNode(
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = text,
+            text = mindMap.title ?: "",
             modifier = Modifier
                 .clip(CircleShape)
                 .padding(30.dp * scale),
