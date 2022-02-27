@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.mind_map.nodes
+package com.jp_funda.todomind.view.mind_map_create.nodes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,7 +20,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -30,7 +29,7 @@ import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import kotlin.math.roundToInt
 
 @Composable
-fun H1(
+fun MindMapNode(
     initialOffsetX: Float,
     initialOffsetY: Float,
     text: String,
@@ -38,7 +37,6 @@ fun H1(
     onClick: () -> Unit,
 ) {
     val haptic = LocalHapticFeedback.current
-    val context = LocalContext.current
 
     var offsetX by remember { mutableStateOf(initialOffsetX) }
     var offsetY by remember { mutableStateOf(initialOffsetY) }

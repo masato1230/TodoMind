@@ -54,15 +54,12 @@ class TaskRepository @Inject constructor() {
     }
 
     fun getTasksInAMindMap(mindMap: MindMap): Single<List<Task>> {
-        var result = emptyList<Task>()
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
-                result = realm.where<Task>().equalTo("mindMap.id", mindMap.id).findAll()
-            }, {
-                emitter.onSuccess(result)
-            }, {
-                emitter.onError(it)
-            })
+            Realm.getDefaultInstance().executeTransactionAsync { realm ->
+                val result1 = realm.where<Task>().equalTo("mindMap.id", mindMap.id).findAll()
+                val result2 = Realm.getDefaultInstance().copyFromRealm(result1)
+                emitter.onSuccess(result2)
+            }
         }
     }
 

@@ -262,7 +262,9 @@ class MindMapDetailFragment : Fragment() {
                     .height(200.dp)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(20.dp))
-                    .clickable { findNavController().navigate(R.id.action_navigation_mind_map_detail_to_navigation_mind_map_create) },
+                    .clickable {
+                        navigateToMindMapCreate()
+                    },
                 contentScale = ContentScale.Crop,
             )
 
@@ -290,7 +292,7 @@ class MindMapDetailFragment : Fragment() {
                     text = "Mind Map",
                     leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_mind_map_24dp)
                 ) {
-                    // TODO onClick
+                    navigateToMindMapCreate()
                 }
             }
 
@@ -388,6 +390,11 @@ class MindMapDetailFragment : Fragment() {
                     .height(height)
             )
         }
+    }
+
+    private fun navigateToMindMapCreate() {
+        mainViewModel.creatingMindMap = mindMapDetailViewModel.mindMap.value
+        findNavController().navigate(R.id.action_navigation_mind_map_detail_to_navigation_mind_map_create)
     }
 
     override fun onPause() {
