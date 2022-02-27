@@ -55,6 +55,7 @@ class MindMapCreateViewModel @Inject constructor(
     }
 
     fun updateMindMap(mindMap: MindMap) {
+        this.mindMap = mindMap
         disposables.add(
             mindMapRepository.updateMindMap(mindMap)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,5 +64,10 @@ class MindMapCreateViewModel @Inject constructor(
                 }
                 .subscribe()
         )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposables.clear()
     }
 }

@@ -103,6 +103,11 @@ class MindMapCreateFragment : Fragment() {
 
     }
 
+    override fun onPause() {
+        super.onPause()
+        mainViewModel.editingMindMap = mindMapCreateViewModel.mindMap
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
