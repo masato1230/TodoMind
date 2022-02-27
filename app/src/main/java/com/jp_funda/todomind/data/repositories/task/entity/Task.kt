@@ -27,9 +27,9 @@ open class Task(
     var reversedOrder: Int? = null,
 
     // Mind Map fields
-    var hierarchy: Int? = null,
+    var x: Float? = null,
+    var y: Float? = null,
     var parentTask: Task? = null,
-    var positionNumber: Int? = null,
     var color: Int? = null, // Color Argb int
     statusEnum: TaskStatus? = TaskStatus.InProgress,
 
@@ -60,10 +60,10 @@ open class Task(
             createdDate = createdDate,
             updatedDate = updatedDate,
             dueDate = dueDate,
-            hierarchy = hierarchy,
             reversedOrder = reversedOrder,
+            x= x,
+            y = y,
             parentTask = parentTask,
-            positionNumber = positionNumber,
             color = color,
             statusEnum = statusEnum,
         )
