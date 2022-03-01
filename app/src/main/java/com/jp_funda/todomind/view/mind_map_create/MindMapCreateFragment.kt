@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.databinding.FragmentMindMapCreateBinding
 import com.jp_funda.todomind.view.MainViewModel
@@ -71,6 +72,12 @@ class MindMapCreateFragment : Fragment() {
             }
         }
 
+        // Set up Loading Observer
+        val loadingObserver = Observer<Boolean> { isLoading ->
+            if (!isLoading) binding.loading.visibility = View.GONE
+        }
+        mindMapCreateViewModel.isLoading.observe(this, loadingObserver)
+
         return binding.root
     }
 
@@ -86,7 +93,7 @@ class MindMapCreateFragment : Fragment() {
                     mindMap = mindMapCreateViewModel.mindMap,
                     viewModel = mindMapCreateViewModel,
                 ) {
-                    // todo onClick
+                    findNavController().navigate(R.id.navigation_mind_map_options_dialog)
                 }
 
 //                H1(
