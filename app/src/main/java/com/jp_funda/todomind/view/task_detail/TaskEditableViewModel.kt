@@ -85,6 +85,21 @@ abstract class TaskEditableViewModel(
         notifyChangeToView()
     }
 
+    fun setParentTask(parentTask: Task) {
+        _task.value!!.parentTask = parentTask
+        notifyChangeToView() // todo check if is this needed
+    }
+
+    fun setX(x: Float) {
+        _task.value!!.x = x
+        notifyChangeToView() // todo check if is this needed
+    }
+
+    fun setY(y: Float) {
+        _task.value!!.y = y
+        notifyChangeToView() // todo check if is this needed
+    }
+
     fun saveTask() {
         disposables.add(
             // Not editing mode -> Add new task to DB

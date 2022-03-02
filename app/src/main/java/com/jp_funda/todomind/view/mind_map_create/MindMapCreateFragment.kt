@@ -93,6 +93,8 @@ class MindMapCreateFragment : Fragment() {
                     mindMap = mindMapCreateViewModel.mindMap,
                     viewModel = mindMapCreateViewModel,
                 ) {
+                    // Reset Selected Node
+                    mainViewModel.selectedNode = null
                     findNavController().navigate(R.id.navigation_mind_map_options_dialog)
                 }
 

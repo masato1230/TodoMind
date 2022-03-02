@@ -16,8 +16,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -29,12 +31,15 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
     // ViewModels
     private val addChildViewModel by viewModels<AddChildViewModel>()
     private val editTaskViewModel by viewModels<EditTaskViewModel>()
+    private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setUpChildNode()
+
         return ComposeView(requireContext()).apply {
             setContent {
                 val observedMode = editTaskViewModel.selectedMode.observeAsState()
@@ -87,6 +92,16 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                     }
                 }
             }
+        }
+    }
+
+    fun setUpChildNode() {
+        mainViewModel.selectedNode?.let { selectedTask ->
+            addChildViewModel.setX(selectedTask.x ?: 0f + 100) // set child position to right side of parent
+            addChildViewModel.setY(selectedTask.y ?: 0f)
+        } ?: run {
+            addChildViewModel.setX(mainViewModel.editingMindMap?.x ?: 0f)
+            addChildViewModel.setY(mainViewModel.editingMindMap?.y ?: 0f)
         }
     }
 }

@@ -53,6 +53,7 @@ class MindMapCreateViewModel @Inject constructor(
         )
     }
 
+    /** Update mindMap data in DB */
     fun updateMindMap(mindMap: MindMap) {
         this.mindMap = mindMap
         disposables.add(
