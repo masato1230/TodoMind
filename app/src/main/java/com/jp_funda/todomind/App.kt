@@ -4,7 +4,6 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import io.realm.Realm
-import io.realm.RealmConfiguration
 
 
 @HiltAndroidApp

@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.databinding.FragmentMindMapCreateBinding
 import com.jp_funda.todomind.view.MainViewModel
+import com.jp_funda.todomind.view.mind_map_create.nodes.H1
 import com.jp_funda.todomind.view.mind_map_create.nodes.MindMapNode
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
@@ -86,28 +87,29 @@ class MindMapCreateFragment : Fragment() {
         val observedScale = mindMapCreateViewModel.scale.observeAsState()
 
         // update views when scale is changed
-        observedScale.value?.let { scale ->
+        observedScale.value?.let { scale -> // todo change logic
             Box(modifier = Modifier.fillMaxSize()) {
 
                 MindMapNode(
                     mindMap = mindMapCreateViewModel.mindMap,
                     viewModel = mindMapCreateViewModel,
                 ) {
+                    // Reset Selected Node
+                    mainViewModel.selectedNode = null
                     findNavController().navigate(R.id.navigation_mind_map_options_dialog)
                 }
 
-//                H1(
-//                    initialOffsetX = 100f,
-//                    initialOffsetY = 100f,
-//                    text = "Headline1 Headline1 Headline1 Headline1 Headline1 Headline1",
-//                    viewModel = mindMapCreateViewModel,
-//                    onClick = {
-//                        findNavController().navigate(R.id.navigation_mind_map_options_dialog)
-//                    }
-//                )
+                // draw all tasks in mindMap
+                // todo refresh view
+                for (task in mindMapCreateViewModel.tasks) {
+                    H1(task = task, viewModel = mindMapCreateViewModel) {
+                        // Set selected Node
+                        mainViewModel.selectedNode = task
+                        findNavController().navigate(R.id.navigation_mind_map_options_dialog)
+                    }
+                }
             }
         }
-
     }
 
     override fun onPause() {
