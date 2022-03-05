@@ -33,7 +33,7 @@ open class Task(
     var parentTask: Task? = null,
     var color: Int? = null, // Color Argb int
 
-    styleEnum: NodeStyle? = NodeStyle.HEAD_LINE_1,
+    styleEnum: NodeStyle? = NodeStyle.HEADLINE_1,
     statusEnum: TaskStatus? = TaskStatus.InProgress,
 ) : RealmObject() {
     private var status: String = statusEnum?.name ?: TaskStatus.InProgress.name
@@ -52,7 +52,7 @@ open class Task(
             status = value.state
         }
 
-    private var style: String = styleEnum?.name ?: NodeStyle.HEAD_LINE_1.name
+    private var style: String = styleEnum?.name ?: NodeStyle.HEADLINE_1.name
     var styleEnum: NodeStyle
         get() {
             return NodeStyle.valueOf(style)

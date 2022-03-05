@@ -1,5 +1,13 @@
 package com.jp_funda.todomind.data
 
+import androidx.compose.ui.geometry.Size
+
 enum class NodeStyle {
-    HEAD_LINE_1,
+    HEADLINE_1,
+}
+
+fun NodeStyle.getSize(): Size {
+    return when (this) {
+        NodeStyle.HEADLINE_1 -> Size(250f, 250f)
+    }
 }
