@@ -17,13 +17,16 @@ class MindMapCreateViewModel @Inject constructor(
     private val mindMapRepository: MindMapRepository,
     private val taskRepository: TaskRepository,
 ) : ViewModel() {
+    /** UpdateCount - count of view update. To update view count up this. */
+    private val _updateCount = MutableLiveData(0)
+    val updateCount: LiveData<Int> = _updateCount
+
     /** isLoading - flag for initial DB loading is finished */
     private val _isLoading = MutableLiveData(true)
     val isLoading: LiveData<Boolean> = _isLoading
 
     /** Scale factor */
-    private val _scale = MutableLiveData(1f)
-    val scale: LiveData<Float> = _scale
+    private var scale = 1f
 
     /** MindMap - initialize at Fragment's onCreate */
     lateinit var mindMap: MindMap
@@ -33,8 +36,18 @@ class MindMapCreateViewModel @Inject constructor(
 
     private val disposables = CompositeDisposable()
 
+    /** Refresh MapView and scale percentage text */
+    private fun refreshView() {
+        _updateCount.value = _updateCount.value!! + 1
+    }
+
     fun setScale(scale: Float) {
-        _scale.value = scale
+        this.scale = scale
+        refreshView()
+    }
+
+    fun getScale(): Float {
+        return scale
     }
 
     /** Load all data from db which is needed for drawing selected mind map */

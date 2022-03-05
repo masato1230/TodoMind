@@ -48,20 +48,20 @@ class MindMapCreateFragment : Fragment() {
 
         // Scale buttons
         binding.buttonZoomIn.setOnClickListener {
-            mindMapCreateViewModel.setScale(mindMapCreateViewModel.scale.value?.plus(0.1f) ?: 1f)
+            mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().plus(0.1f))
         }
         binding.buttonZoomOut.setOnClickListener {
-            if (mindMapCreateViewModel.scale.value ?: 0f <= 0.1) return@setOnClickListener
-            mindMapCreateViewModel.setScale(mindMapCreateViewModel.scale.value?.minus(0.1f) ?: 1f)
+            if (mindMapCreateViewModel.getScale() <= 0.1) return@setOnClickListener
+            mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().minus(0.1f))
         }
 
-        // Scale changeListener
-        val scaleObserver = Observer<Float> { scale ->
-            binding.mapView.onScaleChange(scale)
-            val scaleText = (scale * 100).roundToInt().toString() + getString(R.string.percent)
+        // UpdateCount Observer
+        val updateCountObserver = Observer<Int> {
+            binding.mapView.onScaleChange(mindMapCreateViewModel.getScale())
+            val scaleText = (mindMapCreateViewModel.getScale() * 100).roundToInt().toString() + getString(R.string.percent)
             binding.textScale.text = scaleText
         }
-        mindMapCreateViewModel.scale.observe(this, scaleObserver)
+        mindMapCreateViewModel.updateCount.observe(viewLifecycleOwner, updateCountObserver)
 
         // MapView
         binding.mapView.composeView.apply {
@@ -84,10 +84,10 @@ class MindMapCreateFragment : Fragment() {
 
     @Composable
     fun MindMapCreateContent() {
-        val observedScale = mindMapCreateViewModel.scale.observeAsState()
+        val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
 
         // update views when scale is changed
-        observedScale.value?.let { scale -> // todo change logic
+        observedUpdateCount.value?.let { _ ->
             Box(modifier = Modifier.fillMaxSize()) {
 
                 MindMapNode(
@@ -100,7 +100,6 @@ class MindMapCreateFragment : Fragment() {
                 }
 
                 // draw all tasks in mindMap
-                // todo refresh view
                 for (task in mindMapCreateViewModel.tasks) {
                     H1(task = task, viewModel = mindMapCreateViewModel) {
                         // Set selected Node
