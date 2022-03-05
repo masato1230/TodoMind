@@ -33,6 +33,7 @@ class MapView @JvmOverloads constructor(
     private val contentWrapper: LinearLayout
     private val content: ConstraintLayout
     val composeView: ComposeView
+    val lineComposeView: ComposeView
     private val verticalIndicator: View
     private val horizontalIndicator: View
 
@@ -56,6 +57,7 @@ class MapView @JvmOverloads constructor(
         scrollView = findViewById(R.id.map_view_scroll_view)
         horizontalScrollView = findViewById(R.id.map_view_horizontal_scroll_view)
         composeView = findViewById(R.id.map_view_compose_view)
+        lineComposeView = findViewById(R.id.map_view_line_compose_view)
         contentWrapper = findViewById(R.id.map_view_content_wrapper)
         content = findViewById(R.id.map_view_content)
         verticalIndicator = findViewById(R.id.map_view_vertical_indicator)

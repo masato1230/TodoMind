@@ -61,6 +61,7 @@ class MindMapCreateViewModel @Inject constructor(
                 .doOnSuccess {
                     tasks = it
                     _isLoading.value = false
+                    _updateCount.value = _updateCount.value!! + 1
                     onSuccess()
                 }
                 .subscribe({}, {
@@ -86,6 +87,14 @@ class MindMapCreateViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
         )
+    }
+
+    /** Clear cached data */
+    fun clearData() {
+        tasks = emptyList()
+        _isLoading.value = false
+        scale = 1f
+        disposables.clear()
     }
 
     override fun onCleared() {

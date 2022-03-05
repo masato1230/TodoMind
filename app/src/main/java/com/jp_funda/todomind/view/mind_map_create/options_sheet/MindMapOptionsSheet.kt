@@ -45,6 +45,8 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
 
         // Set mind map to addChildViewModel
         mainViewModel.editingMindMap?.let { addChildViewModel.setMindMap(it) }
+        // Set parentTask to addChildViewModel
+        mainViewModel.selectedNode?.let { addChildViewModel.setParentTask(it) }
 
         return ComposeView(requireContext()).apply {
             setContent {
