@@ -41,7 +41,7 @@ class MindMapCreateFragment : Fragment() {
         // Set MindMap data
         mindMapCreateViewModel.mindMap = mainViewModel.editingMindMap!!
         // Load task data
-        mindMapCreateViewModel.loadTaskData()
+        mindMapCreateViewModel.refreshView()
 
         _binding = FragmentMindMapCreateBinding.inflate(inflater)
 

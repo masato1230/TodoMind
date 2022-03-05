@@ -53,7 +53,7 @@ class MindMapCreateViewModel @Inject constructor(
     }
 
     /** Load all data from db which is needed for drawing selected mind map */
-    fun loadTaskData(onSuccess: () -> Unit = {}) {
+    private fun loadTaskData(onSuccess: () -> Unit = {}) {
         disposables.add(
             taskRepository
                 .getTasksInAMindMap(mindMap)
