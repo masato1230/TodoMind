@@ -52,7 +52,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
@@ -71,9 +70,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
     implementation 'androidx.activity:activity-compose:1.4.0'
     // Dialogs Picker
-    implementation "io.github.vanpra.compose-material-dialogs:datetime:0.6.3"
-    implementation "io.github.vanpra.compose-material-dialogs:color:0.6.3"
-    implementation "io.github.vanpra.compose-material-dialogs:core:0.6.3"
+    def material_dialogs_version = "0.6.3"
+    implementation "io.github.vanpra.compose-material-dialogs:datetime:$material_dialogs_version"
+    implementation "io.github.vanpra.compose-material-dialogs:color:$material_dialogs_version"
+    implementation "io.github.vanpra.compose-material-dialogs:core:$material_dialogs_version"
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
