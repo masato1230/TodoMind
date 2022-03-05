@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,6 +27,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.NodeStyle
+import com.jp_funda.todomind.data.getTextSize
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.extension.getLuminance
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
@@ -87,7 +88,7 @@ fun MindMapNode(
                 .clip(CircleShape)
                 .padding(30.dp * scale),
             maxLines = 4,
-            fontSize = MaterialTheme.typography.h4.fontSize * scale,
+            fontSize = NodeStyle.HEADLINE_1.getTextSize() * scale,
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center,
             color = fontColor,

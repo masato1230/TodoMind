@@ -1,12 +1,12 @@
 package com.jp_funda.todomind.view.mind_map_create.nodes
 
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.getSize
+import com.jp_funda.todomind.data.getTextSize
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 
@@ -22,7 +22,7 @@ fun H1(
         task = task,
         viewModel = viewModel,
         circleSize = NodeStyle.HEADLINE_1.getSize().width.dp,
-        fontSize = MaterialTheme.typography.h4.fontSize,
+        fontSize = NodeStyle.HEADLINE_1.getTextSize(),
         textPadding = 30.dp,
         maxLines = 4,
         behindCircleColor = Color.Black,
