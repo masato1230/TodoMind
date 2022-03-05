@@ -26,7 +26,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.Task
@@ -39,6 +38,7 @@ fun HeadlineNodeBase(
     modifier: Modifier = Modifier,
     task: Task,
     viewModel: MindMapCreateViewModel,
+    circleSize: Dp,
     // text parameters
     fontSize: TextUnit,
     textPadding: Dp,
@@ -63,7 +63,7 @@ fun HeadlineNodeBase(
             .offset { IntOffset((offsetX * scale).roundToInt(), (offsetY * scale).roundToInt()) }
             .clip(CircleShape)
             .background(backgroundColor)
-            .size(250.dp * scale)
+            .size(circleSize * scale)
             .drawBehind {
                 behindCircleColor?.let {
                     drawCircle(

@@ -19,6 +19,7 @@ fun H1(
         modifier = modifier,
         task = task,
         viewModel = viewModel,
+        circleSize = 250.dp,
         fontSize = MaterialTheme.typography.h4.fontSize,
         textPadding = 30.dp,
         maxLines = 4,
