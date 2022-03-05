@@ -32,6 +32,11 @@
                         tools:context=".Activities.MainActivity">
 
                         <androidx.compose.ui.platform.ComposeView
+                            android:id="@+id/map_view_line_compose_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <androidx.compose.ui.platform.ComposeView
                             android:id="@+id/map_view_compose_view"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" />
