@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.extension.getLuminance
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import kotlin.math.roundToInt
 
@@ -45,11 +46,15 @@ fun H1(
 
     val scale = viewModel.getScale()
 
+    val backgroundColor =
+        Color(task.color ?: ContextCompat.getColor(LocalContext.current, R.color.teal_200))
+    val fontColor = if (backgroundColor.getLuminance() > 0.6) Color.Black else Color.White
+
     Box(
         modifier = Modifier
             .offset { IntOffset((offsetX * scale).roundToInt(), (offsetY * scale).roundToInt()) }
             .clip(CircleShape)
-            .background(Color(task.color ?: ContextCompat.getColor(LocalContext.current, R.color.teal_200)))
+            .background(backgroundColor)
             .size(250.dp * scale)
             .pointerInput(Unit) {
                 detectDragGesturesAfterLongPress(
@@ -58,6 +63,7 @@ fun H1(
                         task.x = offsetX
                         task.y = offsetY
                         viewModel.updateTask(task)
+                        viewModel.refreshView()
                     }
                 ) { change, dragAmount ->
                     change.consumeAllChanges()
@@ -84,6 +90,7 @@ fun H1(
             fontSize = MaterialTheme.typography.h4.fontSize * scale,
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center,
+            color = fontColor,
         )
     }
 }
