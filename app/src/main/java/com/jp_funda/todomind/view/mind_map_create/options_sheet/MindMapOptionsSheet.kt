@@ -30,6 +30,7 @@ import java.util.*
 class MindMapOptionsSheet : BottomSheetDialogFragment() {
 
     // ViewModels
+    private val sheetViewModel by viewModels<MindMapOptionsViewModel>()
     private val addChildViewModel by viewModels<AddChildViewModel>()
     private val editTaskViewModel by viewModels<EditTaskViewModel>()
     private val mindMapCreateViewModel by activityViewModels<MindMapCreateViewModel>()
@@ -47,13 +48,13 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
 
         return ComposeView(requireContext()).apply {
             setContent {
-                val observedMode = editTaskViewModel.selectedMode.observeAsState()
+                val observedMode = sheetViewModel.selectedMode.observeAsState()
                 observedMode.value?.let { selectedMode ->
                     Column(
                         modifier = Modifier.padding(bottom = 20.dp)
                     ) {
                         MindMapOptionsTabRow(selectedMode = selectedMode) {
-                            editTaskViewModel.setMode(it)
+                            sheetViewModel.setMode(it)
                         }
 
                         // Add Child Option
