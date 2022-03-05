@@ -2,6 +2,7 @@ package com.jp_funda.todomind.view.mind_map_create
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.NodeStyle
+import com.jp_funda.todomind.data.getSize
 import com.jp_funda.todomind.databinding.FragmentMindMapCreateBinding
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.mind_map_create.nodes.H1
@@ -133,10 +136,21 @@ class MindMapCreateFragment : Fragment() {
                 .fillMaxSize()
                 .drawBehind {
                     for (task in mindMapCreateViewModel.tasks) {
-                        val startOffsetX = task.parentTask?.x ?: mainViewModel.editingMindMap?.x
-                        val startOffsetY = task.parentTask?.y ?: mainViewModel.editingMindMap?.y
-                        val endOffsetX = task.x
-                        val endOffsetY = task.y
+
+                        val startOffsetX = task.parentTask?.x?.let {
+                            it + task.parentTask!!.styleEnum.getSize().width / 2
+                        } ?: run {
+                            mainViewModel.editingMindMap?.x?.plus(NodeStyle.HEADLINE_1.getSize().width / 2)
+                        }
+                        val startOffsetY = task.parentTask?.y?.let {
+                            it + task.parentTask!!.styleEnum.getSize().width / 2
+                        } ?: run {
+                            mainViewModel.editingMindMap?.y?.plus(NodeStyle.HEADLINE_1.getSize().width / 2)
+                        }
+                        val endOffsetX = task.x?.plus(task.styleEnum.getSize().width / 2)
+                        val endOffsetY = task.y?.plus(task.styleEnum.getSize().width / 2)
+
+                        Log.d("Positions", "$startOffsetX, $startOffsetY, $endOffsetX, $endOffsetY")
 
                         if (
                             startOffsetX == null ||
@@ -147,8 +161,8 @@ class MindMapCreateFragment : Fragment() {
 
                         drawLine(
                             color = Color.White,
-                            start = Offset(startOffsetX, startOffsetY),
-                            end = Offset(endOffsetX, endOffsetY),
+                            start = Offset(startOffsetX, startOffsetY) * mindMapCreateViewModel.getScale(),
+                            end = Offset(endOffsetX, endOffsetY) * mindMapCreateViewModel.getScale(),
                             strokeWidth = Stroke.DefaultMiter
                         )
                     }
