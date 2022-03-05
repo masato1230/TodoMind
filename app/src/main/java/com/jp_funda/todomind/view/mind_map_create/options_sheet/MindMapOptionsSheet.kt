@@ -21,6 +21,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -31,6 +32,7 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
     // ViewModels
     private val addChildViewModel by viewModels<AddChildViewModel>()
     private val editTaskViewModel by viewModels<EditTaskViewModel>()
+    private val mindMapCreateViewModel by activityViewModels<MindMapCreateViewModel>()
     private val mainViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(
@@ -101,11 +103,17 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
     /** Set position for adding child node */
     private fun setUpAddingChildNode() {
         mainViewModel.selectedNode?.let { selectedTask ->
-            addChildViewModel.setX(selectedTask.x ?: 0f + 100) // set child position to right side of parent
+            addChildViewModel.setX((selectedTask.x ?: 0f) + 300) // set child position to right side of parent
             addChildViewModel.setY(selectedTask.y ?: 0f)
         } ?: run {
             addChildViewModel.setX((mainViewModel.editingMindMap?.x ?: 0f) + 300f)
             addChildViewModel.setY(mainViewModel.editingMindMap?.y ?: 0f)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // update mapView with updated data
+        mindMapCreateViewModel.refreshView()
     }
 }

@@ -40,7 +40,7 @@ fun MindMapNode(
     var offsetX by remember { mutableStateOf(mindMap.x ?: 0f) }
     var offsetY by remember { mutableStateOf(mindMap.y ?: 0f) }
 
-    val scale = viewModel.scale.value ?: 1f
+    val scale = viewModel.getScale()
 
     Box(
         modifier = Modifier
@@ -58,9 +58,8 @@ fun MindMapNode(
                     }
                 ) { change, dragAmount ->
                     change.consumeAllChanges()
-                    offsetX += dragAmount.x / (viewModel.scale.value
-                        ?: 1f) // Note: Referencing viewModel directory is needed
-                    offsetY += dragAmount.y / (viewModel.scale.value ?: 1f)
+                    offsetX += dragAmount.x / (viewModel.getScale()) // Note: Referencing viewModel directory is needed
+                    offsetY += dragAmount.y / (viewModel.getScale())
                 }
             }
             .drawBehind {

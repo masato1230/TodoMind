@@ -12,7 +12,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
@@ -30,7 +29,7 @@ class MindMapCreateFragment : Fragment() {
     private var _binding: FragmentMindMapCreateBinding? = null
     private val binding get() = _binding!!
 
-    private val mindMapCreateViewModel by viewModels<MindMapCreateViewModel>()
+    private val mindMapCreateViewModel by activityViewModels<MindMapCreateViewModel>()
     private val mainViewModel by activityViewModels<MainViewModel>()
 
     @SuppressLint("ClickableViewAccessibility")
@@ -42,31 +41,31 @@ class MindMapCreateFragment : Fragment() {
         // Set MindMap data
         mindMapCreateViewModel.mindMap = mainViewModel.editingMindMap!!
         // Load task data
-        mindMapCreateViewModel.loadTaskData()
+        mindMapCreateViewModel.refreshView()
 
         _binding = FragmentMindMapCreateBinding.inflate(inflater)
 
         // Scale buttons
         binding.buttonZoomIn.setOnClickListener {
-            mindMapCreateViewModel.setScale(mindMapCreateViewModel.scale.value?.plus(0.1f) ?: 1f)
+            mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().plus(0.1f))
         }
         binding.buttonZoomOut.setOnClickListener {
-            if (mindMapCreateViewModel.scale.value ?: 0f <= 0.1) return@setOnClickListener
-            mindMapCreateViewModel.setScale(mindMapCreateViewModel.scale.value?.minus(0.1f) ?: 1f)
+            if (mindMapCreateViewModel.getScale() <= 0.1) return@setOnClickListener
+            mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().minus(0.1f))
         }
 
-        // Scale changeListener
-        val scaleObserver = Observer<Float> { scale ->
-            binding.mapView.onScaleChange(scale)
-            val scaleText = (scale * 100).roundToInt().toString() + getString(R.string.percent)
+        // UpdateCount Observer
+        val updateCountObserver = Observer<Int> {
+            binding.mapView.onScaleChange(mindMapCreateViewModel.getScale())
+            val scaleText = (mindMapCreateViewModel.getScale() * 100).roundToInt()
+                .toString() + getString(R.string.percent)
             binding.textScale.text = scaleText
         }
-        mindMapCreateViewModel.scale.observe(this, scaleObserver)
+        mindMapCreateViewModel.updateCount.observe(viewLifecycleOwner, updateCountObserver)
 
         // MapView
         binding.mapView.composeView.apply {
             setContent {
-                // todo set up loading
                 if (!mindMapCreateViewModel.isLoading.observeAsState(true).value) {
                     MindMapCreateContent()
                 }
@@ -77,17 +76,17 @@ class MindMapCreateFragment : Fragment() {
         val loadingObserver = Observer<Boolean> { isLoading ->
             if (!isLoading) binding.loading.visibility = View.GONE
         }
-        mindMapCreateViewModel.isLoading.observe(this, loadingObserver)
+        mindMapCreateViewModel.isLoading.observe(viewLifecycleOwner, loadingObserver)
 
         return binding.root
     }
 
     @Composable
     fun MindMapCreateContent() {
-        val observedScale = mindMapCreateViewModel.scale.observeAsState()
+        val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
 
         // update views when scale is changed
-        observedScale.value?.let { scale -> // todo change logic
+        observedUpdateCount.value?.let { _ ->
             Box(modifier = Modifier.fillMaxSize()) {
 
                 MindMapNode(
@@ -100,7 +99,6 @@ class MindMapCreateFragment : Fragment() {
                 }
 
                 // draw all tasks in mindMap
-                // todo refresh view
                 for (task in mindMapCreateViewModel.tasks) {
                     H1(task = task, viewModel = mindMapCreateViewModel) {
                         // Set selected Node
