@@ -12,7 +12,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
@@ -30,7 +29,7 @@ class MindMapCreateFragment : Fragment() {
     private var _binding: FragmentMindMapCreateBinding? = null
     private val binding get() = _binding!!
 
-    private val mindMapCreateViewModel by viewModels<MindMapCreateViewModel>()
+    private val mindMapCreateViewModel by activityViewModels<MindMapCreateViewModel>()
     private val mainViewModel by activityViewModels<MainViewModel>()
 
     @SuppressLint("ClickableViewAccessibility")
@@ -58,7 +57,8 @@ class MindMapCreateFragment : Fragment() {
         // UpdateCount Observer
         val updateCountObserver = Observer<Int> {
             binding.mapView.onScaleChange(mindMapCreateViewModel.getScale())
-            val scaleText = (mindMapCreateViewModel.getScale() * 100).roundToInt().toString() + getString(R.string.percent)
+            val scaleText = (mindMapCreateViewModel.getScale() * 100).roundToInt()
+                .toString() + getString(R.string.percent)
             binding.textScale.text = scaleText
         }
         mindMapCreateViewModel.updateCount.observe(viewLifecycleOwner, updateCountObserver)
@@ -66,7 +66,6 @@ class MindMapCreateFragment : Fragment() {
         // MapView
         binding.mapView.composeView.apply {
             setContent {
-                // todo set up loading
                 if (!mindMapCreateViewModel.isLoading.observeAsState(true).value) {
                     MindMapCreateContent()
                 }
@@ -77,7 +76,7 @@ class MindMapCreateFragment : Fragment() {
         val loadingObserver = Observer<Boolean> { isLoading ->
             if (!isLoading) binding.loading.visibility = View.GONE
         }
-        mindMapCreateViewModel.isLoading.observe(this, loadingObserver)
+        mindMapCreateViewModel.isLoading.observe(viewLifecycleOwner, loadingObserver)
 
         return binding.root
     }

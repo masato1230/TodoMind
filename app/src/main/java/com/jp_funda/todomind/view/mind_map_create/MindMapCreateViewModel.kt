@@ -37,8 +37,10 @@ class MindMapCreateViewModel @Inject constructor(
     private val disposables = CompositeDisposable()
 
     /** Refresh MapView and scale percentage text */
-    private fun refreshView() {
-        _updateCount.value = _updateCount.value!! + 1
+    fun refreshView() {
+        loadTaskData {
+            _updateCount.value = _updateCount.value!! + 1
+        }
     }
 
     fun setScale(scale: Float) {
@@ -51,7 +53,7 @@ class MindMapCreateViewModel @Inject constructor(
     }
 
     /** Load all data from db which is needed for drawing selected mind map */
-    fun loadTaskData() {
+    fun loadTaskData(onSuccess: () -> Unit = {}) {
         disposables.add(
             taskRepository
                 .getTasksInAMindMap(mindMap)
@@ -59,6 +61,7 @@ class MindMapCreateViewModel @Inject constructor(
                 .doOnSuccess {
                     tasks = it
                     _isLoading.value = false
+                    onSuccess()
                 }
                 .subscribe({}, {
                     it.printStackTrace()
