@@ -20,28 +20,25 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import kotlin.math.roundToInt
 
 @Composable
 fun H1(
-    initialOffsetX: Float,
-    initialOffsetY: Float,
-    text: String,
+    task: Task,
     viewModel: MindMapCreateViewModel,
     onClick: () -> Unit,
 ) {
     val haptic = LocalHapticFeedback.current
-    val context = LocalContext.current
 
-    var offsetX by remember { mutableStateOf(initialOffsetX) }
-    var offsetY by remember { mutableStateOf(initialOffsetY) }
+    var offsetX by remember { mutableStateOf(task.x ?: 0f) }
+    var offsetY by remember { mutableStateOf(task.y ?: 0f) }
 
     val scale = viewModel.scale.value ?: 1f
 
@@ -53,7 +50,12 @@ fun H1(
             .size(250.dp * scale)
             .pointerInput(Unit) {
                 detectDragGesturesAfterLongPress(
-                    onDragStart = { haptic.performHapticFeedback(HapticFeedbackType.LongPress) }
+                    onDragStart = { haptic.performHapticFeedback(HapticFeedbackType.LongPress) },
+                    onDragEnd = {
+                        task.x = offsetX
+                        task.y = offsetY
+                        viewModel.updateTask(task)
+                    }
                 ) { change, dragAmount ->
                     change.consumeAllChanges()
                     offsetX += dragAmount.x / (viewModel.scale.value
@@ -72,7 +74,7 @@ fun H1(
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = text,
+            text = task.title ?: "",
             modifier = Modifier
                 .clip(CircleShape)
                 .padding(30.dp * scale),

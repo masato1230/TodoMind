@@ -40,6 +40,9 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
     ): View {
         setUpChildNode()
 
+        // Set mind map to addChildViewModel
+        mainViewModel.editingMindMap?.let { addChildViewModel.setMindMap(it) }
+
         return ComposeView(requireContext()).apply {
             setContent {
                 val observedMode = editTaskViewModel.selectedMode.observeAsState()

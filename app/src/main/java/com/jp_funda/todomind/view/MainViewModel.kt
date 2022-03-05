@@ -15,7 +15,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
     /** Editing mind map - pass mind map data between MindMap, MindMapDetail, MindMapCreate */
     var editingMindMap: MindMap? = null
 
-    /** SelectedNode - node which is selected and showing options sheet */
+    /** SelectedNode - node which is selected and showing options sheet.(when mind map is selected -> null) */
     var selectedNode: Task? = null
 
     /** Currently deleted task - show at task list snackbar to restore the task */

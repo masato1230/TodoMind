@@ -29,7 +29,7 @@ class MindMapCreateViewModel @Inject constructor(
     lateinit var mindMap: MindMap
 
     /** Tasks - all tasks in mind map. initialize at Fragment's onCreate */
-    private lateinit var tasks: List<Task>
+    lateinit var tasks: List<Task>
 
     private val disposables = CompositeDisposable()
 
@@ -58,6 +58,15 @@ class MindMapCreateViewModel @Inject constructor(
         this.mindMap = mindMap
         disposables.add(
             mindMapRepository.updateMindMap(mindMap)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        )
+    }
+
+    /** Update task data in DB */
+    fun updateTask(task: Task) {
+        disposables.add(
+            taskRepository.updateTask(task)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
         )

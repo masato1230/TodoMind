@@ -26,7 +26,7 @@ class TaskRepository @Inject constructor() {
                 val now = Date()
                 task.createdDate = now
                 task.updatedDate = now
-                realm.insert(task)
+                realm.insertOrUpdate(task)
                 emitter.onSuccess(task)
             }
         }
@@ -36,7 +36,7 @@ class TaskRepository @Inject constructor() {
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync { realm ->
                 task.updatedDate = Date()
-                realm.insert(task)
+                realm.insertOrUpdate(task)
                 emitter.onSuccess(task)
             }
         }

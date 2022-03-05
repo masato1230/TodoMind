@@ -1,6 +1,7 @@
 package com.jp_funda.todomind.view.mind_map_detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -152,6 +153,8 @@ class MindMapDetailFragment : Fragment() {
                             (task.statusEnum == selectedTabStatus)
                 },
             )
+            Log.d("Tasks", tasks.map { task-> task.mindMap?.id }.toString())
+            Log.d("FF", showingTasks.toString())
             ColumnWithTaskList(
                 selectedTabStatus = selectedTabStatus,
                 onTabChange = { status ->
@@ -410,6 +413,5 @@ class MindMapDetailFragment : Fragment() {
         super.onDestroyView()
 
         mindMapDetailViewModel.isEditing = false
-        mainViewModel.editingMindMap = null
     }
 }

@@ -21,11 +21,11 @@ import java.util.*
  * ViewModel for task editing or addTask
  * use setEditingTask() to switch to EditingMode
  */
-abstract class TaskEditableViewModel(
+open class TaskEditableViewModel(
     val taskRepository: TaskRepository,
     val ogpRepository: OgpRepository,
 ) : ViewModel() {
-    private var _task = MutableLiveData(Task(createdDate = Date()))
+    protected var _task = MutableLiveData(Task(createdDate = Date()))
     val task: LiveData<Task> = _task
     var isEditing: Boolean = false
 
@@ -100,7 +100,7 @@ abstract class TaskEditableViewModel(
         notifyChangeToView() // todo check if is this needed
     }
 
-    fun saveTask() {
+    open fun saveTask() {
         disposables.add(
             // Not editing mode -> Add new task to DB
             // Editing mode -> update task data in DB
