@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.jp_funda.todomind.data.NodeStyle
+import com.jp_funda.todomind.data.getSize
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 
@@ -19,7 +21,7 @@ fun H1(
         modifier = modifier,
         task = task,
         viewModel = viewModel,
-        circleSize = 250.dp,
+        circleSize = NodeStyle.HEADLINE_1.getSize().width.dp,
         fontSize = MaterialTheme.typography.h4.fontSize,
         textPadding = 30.dp,
         maxLines = 4,
