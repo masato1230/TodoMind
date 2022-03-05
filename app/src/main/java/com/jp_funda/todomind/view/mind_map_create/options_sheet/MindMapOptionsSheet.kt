@@ -104,8 +104,8 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
             addChildViewModel.setX(selectedTask.x ?: 0f + 100) // set child position to right side of parent
             addChildViewModel.setY(selectedTask.y ?: 0f)
         } ?: run {
-            addChildViewModel.setX(mainViewModel.editingMindMap?.x ?: 100f)
-            addChildViewModel.setY(mainViewModel.editingMindMap?.y ?: 100f)
+            addChildViewModel.setX((mainViewModel.editingMindMap?.x ?: 0f) + 300f)
+            addChildViewModel.setY(mainViewModel.editingMindMap?.y ?: 0f)
         }
     }
 }
