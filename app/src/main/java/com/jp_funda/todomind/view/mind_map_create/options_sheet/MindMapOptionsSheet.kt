@@ -38,7 +38,7 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setUpChildNode()
+        setUpAddingChildNode()
 
         // Set mind map to addChildViewModel
         mainViewModel.editingMindMap?.let { addChildViewModel.setMindMap(it) }
@@ -98,13 +98,14 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
         }
     }
 
-    fun setUpChildNode() {
+    /** Set position for adding child node */
+    private fun setUpAddingChildNode() {
         mainViewModel.selectedNode?.let { selectedTask ->
             addChildViewModel.setX(selectedTask.x ?: 0f + 100) // set child position to right side of parent
             addChildViewModel.setY(selectedTask.y ?: 0f)
         } ?: run {
-            addChildViewModel.setX(mainViewModel.editingMindMap?.x ?: 0f)
-            addChildViewModel.setY(mainViewModel.editingMindMap?.y ?: 0f)
+            addChildViewModel.setX(mainViewModel.editingMindMap?.x ?: 100f)
+            addChildViewModel.setY(mainViewModel.editingMindMap?.y ?: 100f)
         }
     }
 }
