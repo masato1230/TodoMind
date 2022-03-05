@@ -32,6 +32,7 @@ import java.util.*
 @ExperimentalMaterialApi
 @Composable
 fun TaskEditContent(
+    modifier: Modifier = Modifier,
     fragment: Fragment,
     taskEditableViewModel: TaskEditableViewModel,
     mainViewModel: MainViewModel?,
@@ -82,7 +83,7 @@ fun TaskEditContent(
         }
 
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .padding(horizontal = 20.dp)
                 .verticalScroll(rememberScrollState())
         ) {
@@ -271,17 +272,19 @@ fun TaskEditContent(
 
                 Spacer(modifier = Modifier.width(30.dp))
 
-                WhiteButton(
-                    text = "Delete",
-                    leadingIcon = Icons.Default.Delete,
-                ) {
-                    // Delete task from DB(Edit mode) or Only Pop fragment(Create mode)
-                    taskEditableViewModel.deleteTask(
-                        task = task,
-                        onSuccess = { findNavController(fragment).popBackStack() })
-                    // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
-                    if (taskEditableViewModel.isEditing) {
-                        mainViewModel?.currentlyDeletedTask = task
+                if (taskEditableViewModel.isEditing) {
+                    WhiteButton(
+                        text = "Delete",
+                        leadingIcon = Icons.Default.Delete,
+                    ) {
+                        // Delete task from DB(Edit mode) or Only Pop fragment(Create mode)
+                        taskEditableViewModel.deleteTask(
+                            task = task,
+                            onSuccess = { findNavController(fragment).popBackStack() })
+                        // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
+                        if (taskEditableViewModel.isEditing) {
+                            mainViewModel?.currentlyDeletedTask = task
+                        }
                     }
                 }
             }
