@@ -74,9 +74,6 @@ class MindMapDetailFragment : Fragment() {
         // Refresh TaskList
         taskViewModel.refreshTaskListData()
 
-        // Hide default ActionBar
-        (activity as AppCompatActivity).supportActionBar?.hide()
-
         // Get Dialog Result
         setFragmentResultListener(ConfirmDeleteMindMapFragment.REQUEST_KEY) { _, bundle ->
             val isConfirmed = bundle.getBoolean(ConfirmDeleteMindMapFragment.KEY)
@@ -404,6 +401,12 @@ class MindMapDetailFragment : Fragment() {
         if (mindMapDetailViewModel.isAutoSaveNeeded) {
             mindMapDetailViewModel.saveMindMapAndClearDisposables()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Hide default ActionBar
+        (activity as AppCompatActivity).supportActionBar?.hide()
     }
 
     override fun onDestroyView() {
