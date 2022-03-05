@@ -45,6 +45,9 @@ class MindMapCreateFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Reset cached data
+        mindMapCreateViewModel.clearData()
+
         // Set MindMap data
         mindMapCreateViewModel.mindMap = mainViewModel.editingMindMap!!
         // Load task data
