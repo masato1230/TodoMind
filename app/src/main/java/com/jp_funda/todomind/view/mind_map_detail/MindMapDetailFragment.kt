@@ -411,7 +411,11 @@ class MindMapDetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
         mindMapDetailViewModel.isEditing = false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainViewModel.editingMindMap = null
     }
 }
