@@ -76,7 +76,8 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                         }
 
                         // Edit Task Option
-                        // TODO set Editing Task
+                        // set Editing Task
+                        mainViewModel.selectedNode?.let { editTaskViewModel.setEditingTask(it) }
                         AnimatedVisibility(
                             visible = selectedMode == MindMapOptionsMode.EDIT_TASK,
                             enter = slideInHorizontally(
