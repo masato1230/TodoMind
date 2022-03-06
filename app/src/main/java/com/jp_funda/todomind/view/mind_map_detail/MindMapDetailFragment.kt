@@ -285,7 +285,31 @@ class MindMapDetailFragment : Fragment() {
                     }
                 }
             } else { // Thumbnail for first time
-                // todo
+                Column(
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(Color.Black)
+                        .height(200.dp)
+                        .fillMaxWidth()
+                        .clickable { navigateToMindMapCreate() },
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_mind_map),
+                        tint = Color.White,
+                        contentDescription = "Mind Map Icon",
+                        modifier = Modifier
+                            .height(130.dp)
+                            .fillMaxWidth()
+                            .padding(bottom = 10.dp)
+                    )
+                    Text(
+                        text = "Expand mind map",
+                        style = MaterialTheme.typography.caption,
+                        color = Color.White,
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(20.dp))
