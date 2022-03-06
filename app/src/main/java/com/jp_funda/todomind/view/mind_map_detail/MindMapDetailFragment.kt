@@ -40,6 +40,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -48,13 +49,9 @@ import java.util.*
 @AndroidEntryPoint
 class MindMapDetailFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MindMapDetailFragment()
-    }
-
     // ViewModels
     private val mindMapDetailViewModel by viewModels<MindMapDetailViewModel>()
-    private val mindMapThumbnailViewModel by viewModels<MindMapThumbnailViewModel>()
+    private val mindMapThumbnailViewModel by viewModels<MindMapCreateViewModel>()
     private val taskViewModel: TaskViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
