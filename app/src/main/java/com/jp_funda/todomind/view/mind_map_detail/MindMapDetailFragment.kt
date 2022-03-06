@@ -80,9 +80,11 @@ class MindMapDetailFragment : Fragment() {
         }
 
         // Set up Thumbnail - set scale and Load task data for drawing mindMap thumbnail
-        mindMapThumbnailViewModel.mindMap = mainViewModel.editingMindMap!!
-        mindMapThumbnailViewModel.setScale(0.05f)
-        mindMapThumbnailViewModel.refreshView()
+        mainViewModel.editingMindMap?.let {
+            mindMapThumbnailViewModel.mindMap = it
+            mindMapThumbnailViewModel.setScale(0.05f)
+            mindMapThumbnailViewModel.refreshView()
+        }
 
         // return layout
         return ComposeView(requireContext()).apply {
@@ -250,36 +252,40 @@ class MindMapDetailFragment : Fragment() {
             )
 
             // Thumbnail Section
-            val isLoadingState = mindMapThumbnailViewModel.isLoading.observeAsState()
-            isLoadingState.value?.let { isLoading ->
-                if (isLoading) {
-                    Text("Loading...")
-                } else {
-                    Box(modifier = Modifier
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(
-                            Color(
-                                ContextCompat.getColor(
-                                    LocalContext.current,
-                                    R.color.black
+            if (mainViewModel.editingMindMap != null) {
+                val isLoadingState = mindMapThumbnailViewModel.isLoading.observeAsState()
+                isLoadingState.value?.let { isLoading ->
+                    if (isLoading) {
+                        Text("Loading...")
+                    } else {
+                        Box(modifier = Modifier
+                            .clip(RoundedCornerShape(20.dp))
+                            .background(
+                                Color(
+                                    ContextCompat.getColor(
+                                        LocalContext.current,
+                                        R.color.black
+                                    )
                                 )
                             )
-                        )
-                        .height(200.dp)
-                        .fillMaxWidth()
-                        .clickable { navigateToMindMapCreate() }) {
-                        LineContent(
-                            mindMapCreateViewModel = mindMapThumbnailViewModel,
-                            resources = resources,
-                        )
-                        MindMapCreateContent(
-                            modifier = Modifier.fillMaxSize(),
-                            mindMapCreateViewModel = mindMapThumbnailViewModel,
-                            onClickMindMapNode = {},
-                            onClickTaskNode = {},
-                        )
+                            .height(200.dp)
+                            .fillMaxWidth()
+                            .clickable { navigateToMindMapCreate() }) {
+                            LineContent(
+                                mindMapCreateViewModel = mindMapThumbnailViewModel,
+                                resources = resources,
+                            )
+                            MindMapCreateContent(
+                                modifier = Modifier.fillMaxSize(),
+                                mindMapCreateViewModel = mindMapThumbnailViewModel,
+                                onClickMindMapNode = {},
+                                onClickTaskNode = {},
+                            )
+                        }
                     }
                 }
+            } else { // Thumbnail for first time
+                // todo
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -304,7 +310,7 @@ class MindMapDetailFragment : Fragment() {
                 // Edit Mind Map Button
                 WhiteButton(
                     text = "Mind Map",
-                    leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_mind_map_24dp)
+                    leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_mind_map)
                 ) {
                     navigateToMindMapCreate()
                 }

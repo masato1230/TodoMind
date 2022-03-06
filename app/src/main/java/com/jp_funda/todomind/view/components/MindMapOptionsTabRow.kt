@@ -30,7 +30,7 @@ fun MindMapOptionsTabRow(selectedMode: MindMapOptionsMode, onTabChange: (MindMap
             onClick = { onTabChange(MindMapOptionsMode.ADD_CHILD) }) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_mind_map_24dp),
+                    painter = painterResource(id = R.drawable.ic_mind_map),
                     contentDescription = "Edit"
                 )
                 Spacer(modifier = Modifier.width(10.dp))

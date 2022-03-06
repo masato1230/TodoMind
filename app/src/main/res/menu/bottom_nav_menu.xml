@@ -28,7 +28,7 @@
 
     <item
         android:id="@+id/navigation_mind_map"
-        android:icon="@drawable/ic_mind_map_24dp"
+        android:icon="@drawable/ic_mind_map"
         android:title="@string/mind_map" />
 
     <item
