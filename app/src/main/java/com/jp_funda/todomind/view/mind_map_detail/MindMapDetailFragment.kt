@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,7 +22,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -32,6 +30,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
@@ -41,10 +40,8 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
-import com.jp_funda.todomind.view.components.ColumnWithTaskList
-import com.jp_funda.todomind.view.components.OgpThumbnail
-import com.jp_funda.todomind.view.components.WhiteButton
-import com.jp_funda.todomind.view.components.filterTasksByStatus
+import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -53,12 +50,9 @@ import java.util.*
 @AndroidEntryPoint
 class MindMapDetailFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MindMapDetailFragment()
-    }
-
     // ViewModels
     private val mindMapDetailViewModel by viewModels<MindMapDetailViewModel>()
+    private val mindMapThumbnailViewModel by viewModels<MindMapCreateViewModel>()
     private val taskViewModel: TaskViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
@@ -84,6 +78,11 @@ class MindMapDetailFragment : Fragment() {
                 }
             }
         }
+
+        // Set up Thumbnail - set scale and Load task data for drawing mindMap thumbnail
+        mindMapThumbnailViewModel.mindMap = mainViewModel.editingMindMap!!
+        mindMapThumbnailViewModel.setScale(0.05f)
+        mindMapThumbnailViewModel.refreshView()
 
         // return layout
         return ComposeView(requireContext()).apply {
@@ -249,21 +248,39 @@ class MindMapDetailFragment : Fragment() {
                     )
                 }
             )
+
             // Thumbnail Section
-            Image(
-                painter = painterResource(
-                    id = R.drawable.img_mind_map_sample // TODO change image to real mind map
-                ),
-                contentDescription = "Mind Map description",
-                modifier = Modifier
-                    .height(200.dp)
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(20.dp))
-                    .clickable {
-                        navigateToMindMapCreate()
-                    },
-                contentScale = ContentScale.Crop,
-            )
+            val isLoadingState = mindMapThumbnailViewModel.isLoading.observeAsState()
+            isLoadingState.value?.let { isLoading ->
+                if (isLoading) {
+                    Text("Loading...")
+                } else {
+                    Box(modifier = Modifier
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(
+                            Color(
+                                ContextCompat.getColor(
+                                    LocalContext.current,
+                                    R.color.black
+                                )
+                            )
+                        )
+                        .height(200.dp)
+                        .fillMaxWidth()
+                        .clickable { navigateToMindMapCreate() }) {
+                        LineContent(
+                            mindMapCreateViewModel = mindMapThumbnailViewModel,
+                            resources = resources,
+                        )
+                        MindMapCreateContent(
+                            modifier = Modifier.fillMaxSize(),
+                            mindMapCreateViewModel = mindMapThumbnailViewModel,
+                            onClickMindMapNode = {},
+                            onClickTaskNode = {},
+                        )
+                    }
+                }
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
 

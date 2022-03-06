@@ -13,7 +13,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 
 @HiltViewModel
-class MindMapCreateViewModel @Inject constructor(
+open class MindMapCreateViewModel @Inject constructor(
     private val mindMapRepository: MindMapRepository,
     private val taskRepository: TaskRepository,
 ) : ViewModel() {
