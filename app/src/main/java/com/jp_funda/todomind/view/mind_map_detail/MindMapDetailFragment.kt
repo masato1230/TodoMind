@@ -83,7 +83,7 @@ class MindMapDetailFragment : Fragment() {
 
         // Set up Thumbnail - set scale and Load task data for drawing mindMap thumbnail
         mindMapThumbnailViewModel.mindMap = mainViewModel.editingMindMap!!
-        mindMapThumbnailViewModel.setScale(0.1f)
+        mindMapThumbnailViewModel.setScale(0.05f)
         mindMapThumbnailViewModel.refreshView()
 
         // return layout
@@ -257,32 +257,24 @@ class MindMapDetailFragment : Fragment() {
                 if (isLoading) {
                     Text("Loading...")
                 } else {
-                    MindMapCreateContent(
-                        modifier = Modifier
-                            .height(200.dp)
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(20.dp))
-                            .clickable { navigateToMindMapCreate() },
-                        mindMapCreateViewModel = mindMapThumbnailViewModel,
-                        onClickMindMapNode = {},
-                        onClickTaskNode = {},
-                    )
+                    Box(modifier = Modifier
+                        .height(200.dp)
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(20.dp))
+                        .clickable { navigateToMindMapCreate() }) {
+                        LineContent(
+                            mindMapCreateViewModel = mindMapThumbnailViewModel,
+                            resources = resources,
+                        )
+                        MindMapCreateContent(
+                            modifier = Modifier.fillMaxSize(),
+                            mindMapCreateViewModel = mindMapThumbnailViewModel,
+                            onClickMindMapNode = {},
+                            onClickTaskNode = {},
+                        )
+                    }
                 }
             }
-//            Image(
-//                painter = painterResource(
-//                    id = R.drawable.img_mind_map_sample // TODO change image to real mind map
-//                ),
-//                contentDescription = "Mind Map description",
-//                modifier = Modifier
-//                    .height(200.dp)
-//                    .fillMaxWidth()
-//                    .clip(RoundedCornerShape(20.dp))
-//                    .clickable {
-//                        navigateToMindMapCreate()
-//                    },
-//                contentScale = ContentScale.Crop,
-//            )
 
             Spacer(modifier = Modifier.height(20.dp))
 
