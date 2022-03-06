@@ -30,6 +30,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
@@ -255,9 +256,17 @@ class MindMapDetailFragment : Fragment() {
                     Text("Loading...")
                 } else {
                     Box(modifier = Modifier
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(
+                            Color(
+                                ContextCompat.getColor(
+                                    LocalContext.current,
+                                    R.color.black
+                                )
+                            )
+                        )
                         .height(200.dp)
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(20.dp))
                         .clickable { navigateToMindMapCreate() }) {
                         LineContent(
                             mindMapCreateViewModel = mindMapThumbnailViewModel,
