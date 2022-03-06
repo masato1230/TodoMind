@@ -12,7 +12,6 @@ class AddChildViewModel @Inject constructor(
     taskRepository: TaskRepository,
     ogpRepository: OgpRepository,
 ) : TaskEditableViewModel(taskRepository, ogpRepository) {
-
     fun setMindMap(mindMap: MindMap) {
         _task.value!!.mindMap = mindMap
     }
