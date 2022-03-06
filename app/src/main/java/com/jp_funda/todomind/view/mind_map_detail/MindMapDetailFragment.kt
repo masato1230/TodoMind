@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,7 +22,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -41,10 +39,7 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
-import com.jp_funda.todomind.view.components.ColumnWithTaskList
-import com.jp_funda.todomind.view.components.OgpThumbnail
-import com.jp_funda.todomind.view.components.WhiteButton
-import com.jp_funda.todomind.view.components.filterTasksByStatus
+import com.jp_funda.todomind.view.components.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -86,8 +81,9 @@ class MindMapDetailFragment : Fragment() {
             }
         }
 
-        // Load task data for drawing mindMap thumbnail
+        // Set up Thumbnail - set scale and Load task data for drawing mindMap thumbnail
         mindMapThumbnailViewModel.mindMap = mainViewModel.editingMindMap!!
+        mindMapThumbnailViewModel.setScale(0.1f)
         mindMapThumbnailViewModel.refreshView()
 
         // return layout
@@ -254,21 +250,39 @@ class MindMapDetailFragment : Fragment() {
                     )
                 }
             )
+
             // Thumbnail Section
-            Image(
-                painter = painterResource(
-                    id = R.drawable.img_mind_map_sample // TODO change image to real mind map
-                ),
-                contentDescription = "Mind Map description",
-                modifier = Modifier
-                    .height(200.dp)
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(20.dp))
-                    .clickable {
-                        navigateToMindMapCreate()
-                    },
-                contentScale = ContentScale.Crop,
-            )
+            val isLoadingState = mindMapThumbnailViewModel.isLoading.observeAsState()
+            isLoadingState.value?.let { isLoading ->
+                if (isLoading) {
+                    Text("Loading...")
+                } else {
+                    MindMapCreateContent(
+                        modifier = Modifier
+                            .height(200.dp)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(20.dp))
+                            .clickable { navigateToMindMapCreate() },
+                        mindMapCreateViewModel = mindMapThumbnailViewModel,
+                        onClickMindMapNode = {},
+                        onClickTaskNode = {},
+                    )
+                }
+            }
+//            Image(
+//                painter = painterResource(
+//                    id = R.drawable.img_mind_map_sample // TODO change image to real mind map
+//                ),
+//                contentDescription = "Mind Map description",
+//                modifier = Modifier
+//                    .height(200.dp)
+//                    .fillMaxWidth()
+//                    .clip(RoundedCornerShape(20.dp))
+//                    .clickable {
+//                        navigateToMindMapCreate()
+//                    },
+//                contentScale = ContentScale.Crop,
+//            )
 
             Spacer(modifier = Modifier.height(20.dp))
 

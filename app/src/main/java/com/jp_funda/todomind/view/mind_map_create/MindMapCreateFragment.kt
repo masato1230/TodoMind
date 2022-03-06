@@ -76,6 +76,7 @@ class MindMapCreateFragment : Fragment() {
             setContent {
                 if (!mindMapCreateViewModel.isLoading.observeAsState(true).value) {
                     MindMapCreateContent(
+                        modifier = Modifier.fillMaxSize(),
                         mindMapCreateViewModel = mindMapCreateViewModel,
                         onClickMindMapNode = {
                             // Reset Selected Node

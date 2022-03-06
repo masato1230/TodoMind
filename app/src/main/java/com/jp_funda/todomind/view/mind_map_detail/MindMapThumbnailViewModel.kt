@@ -13,4 +13,4 @@ class MindMapThumbnailViewModel @Inject constructor(
 ) : MindMapCreateViewModel(
     mindMapRepository = mindMapRepository,
     taskRepository = taskRepository,
-) {}
+)

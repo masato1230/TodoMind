@@ -1,7 +1,6 @@
 package com.jp_funda.todomind.view.components
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -13,6 +12,7 @@ import com.jp_funda.todomind.view.mind_map_create.nodes.MindMapNode
 
 @Composable
 fun MindMapCreateContent(
+    modifier: Modifier = Modifier,
     mindMapCreateViewModel: MindMapCreateViewModel,
     onClickMindMapNode: (mindMap: MindMap) -> Unit,
     onClickTaskNode: (task: Task) -> Unit,
@@ -21,7 +21,7 @@ fun MindMapCreateContent(
 
     // update views when update count is changed
     observedUpdateCount.value?.let { _ ->
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = modifier) {
 
             MindMapNode(
                 mindMap = mindMapCreateViewModel.mindMap,
