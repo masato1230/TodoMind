@@ -23,8 +23,7 @@ import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.getSize
 import com.jp_funda.todomind.databinding.FragmentMindMapCreateBinding
 import com.jp_funda.todomind.view.MainViewModel
-import com.jp_funda.todomind.view.mind_map_create.nodes.H1
-import com.jp_funda.todomind.view.mind_map_create.nodes.MindMapNode
+import com.jp_funda.todomind.view.components.MindMapCreateContent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
@@ -76,7 +75,19 @@ class MindMapCreateFragment : Fragment() {
         binding.mapView.composeView.apply {
             setContent {
                 if (!mindMapCreateViewModel.isLoading.observeAsState(true).value) {
-                    MindMapCreateContent()
+                    MindMapCreateContent(
+                        mindMapCreateViewModel = mindMapCreateViewModel,
+                        onClickMindMapNode = {
+                            // Reset Selected Node
+                            mainViewModel.selectedNode = null
+                            findNavController().navigate(R.id.navigation_mind_map_options_dialog)
+                        },
+                        onClickTaskNode = { task ->
+                            // Set selected Node
+                            mainViewModel.selectedNode = task
+                            findNavController().navigate(R.id.navigation_mind_map_options_dialog)
+                        }
+                    )
                 }
             }
         }
@@ -97,35 +108,6 @@ class MindMapCreateFragment : Fragment() {
         mindMapCreateViewModel.isLoading.observe(viewLifecycleOwner, loadingObserver)
 
         return binding.root
-    }
-
-    @Composable
-    fun MindMapCreateContent() {
-        val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
-
-        // update views when update count is changed
-        observedUpdateCount.value?.let { _ ->
-            Box(modifier = Modifier.fillMaxSize()) {
-
-                MindMapNode(
-                    mindMap = mindMapCreateViewModel.mindMap,
-                    viewModel = mindMapCreateViewModel,
-                ) {
-                    // Reset Selected Node
-                    mainViewModel.selectedNode = null
-                    findNavController().navigate(R.id.navigation_mind_map_options_dialog)
-                }
-
-                // draw all tasks in mindMap
-                for (task in mindMapCreateViewModel.tasks) {
-                    H1(task = task, viewModel = mindMapCreateViewModel) {
-                        // Set selected Node
-                        mainViewModel.selectedNode = task
-                        findNavController().navigate(R.id.navigation_mind_map_options_dialog)
-                    }
-                }
-            }
-        }
     }
 
     @Composable
