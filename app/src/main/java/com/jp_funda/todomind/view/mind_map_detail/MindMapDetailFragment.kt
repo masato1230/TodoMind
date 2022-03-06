@@ -59,6 +59,7 @@ class MindMapDetailFragment : Fragment() {
 
     // ViewModels
     private val mindMapDetailViewModel by viewModels<MindMapDetailViewModel>()
+    private val mindMapThumbnailViewModel by viewModels<MindMapThumbnailViewModel>()
     private val taskViewModel: TaskViewModel by activityViewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
@@ -84,6 +85,10 @@ class MindMapDetailFragment : Fragment() {
                 }
             }
         }
+
+        // Load task data for drawing mindMap thumbnail
+        mindMapThumbnailViewModel.mindMap = mainViewModel.editingMindMap!!
+        mindMapThumbnailViewModel.refreshView()
 
         // return layout
         return ComposeView(requireContext()).apply {

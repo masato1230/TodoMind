@@ -2,7 +2,6 @@ package com.jp_funda.todomind.view.mind_map_create
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +49,7 @@ class MindMapCreateFragment : Fragment() {
 
         // Set MindMap data
         mindMapCreateViewModel.mindMap = mainViewModel.editingMindMap!!
-        // Load task data
+        // Load task data and refresh view
         mindMapCreateViewModel.refreshView()
 
         _binding = FragmentMindMapCreateBinding.inflate(inflater)
@@ -152,15 +151,6 @@ class MindMapCreateFragment : Fragment() {
                         val startOffsetY = task.parentTask?.y ?: mainViewModel.editingMindMap?.y
                         val endOffsetX = task.x
                         val endOffsetY = task.y
-
-                        Log.d(
-                            "Positions",
-                            "$startOffsetX, $startOffsetY, $endOffsetX, $endOffsetY"
-                        )
-                        Log.d(
-                            "dpi",
-                            "${resources.displayMetrics.density}, ${resources.displayMetrics.ydpi}"
-                        )
 
                         if (
                             startOffsetX == null ||
