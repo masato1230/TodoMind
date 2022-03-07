@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.*
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
@@ -47,6 +48,8 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
         mainViewModel.editingMindMap?.let { addChildViewModel.setMindMap(it) }
         // Set parentTask to addChildViewModel
         mainViewModel.selectedNode?.let { addChildViewModel.setParentTask(it) }
+        // Set addChildViewModel's new task status as open
+        addChildViewModel.setStatus(TaskStatus.Open)
 
         return ComposeView(requireContext()).apply {
             setContent {

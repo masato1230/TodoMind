@@ -192,7 +192,7 @@ fun TaskEditContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { colorDialogState.show() },
-                value = if (task.color != null) "Color(Argb): " + task.color.toString() else "",
+                value = task.colorHex ?: "",
                 onValueChange = {},
                 placeholder = {
                     Text(text = "Set color", color = Color.Gray)
