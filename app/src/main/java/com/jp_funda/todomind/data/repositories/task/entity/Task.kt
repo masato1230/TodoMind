@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.data.repositories.task.entity
 
+import androidx.core.graphics.toColor
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import io.realm.RealmObject
@@ -85,4 +86,12 @@ open class Task(
     companion object {
         val dateFormat = SimpleDateFormat("EEE MM/dd hh:mm aaa", Locale.US)
     }
+
+    val colorHex: String?
+        get() {
+            if (color != null) {
+                return String.format("#%06X", 0xFFFFFF and color!!.toColor().toArgb())
+            }
+            return null
+        }
 }
