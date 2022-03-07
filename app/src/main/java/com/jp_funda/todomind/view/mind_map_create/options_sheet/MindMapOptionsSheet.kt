@@ -13,12 +13,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.*
@@ -58,46 +63,78 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                     Column(
                         modifier = Modifier.padding(bottom = 20.dp)
                     ) {
-                        MindMapOptionsTabRow(selectedMode = selectedMode) {
-                            sheetViewModel.setMode(it)
-                        }
+                        // When taskNode is Selected
+                        if (mainViewModel.selectedNode != null) {
+                            MindMapOptionsTabRow(selectedMode = selectedMode) {
+                                sheetViewModel.setMode(it)
+                            }
 
-                        // Add Child Option
-                        AnimatedVisibility(
-                            visible = selectedMode == MindMapOptionsMode.ADD_CHILD,
-                            enter = slideInHorizontally(
-                                initialOffsetX = { -width }, // small slide 300px
-                                animationSpec = tween(
-                                    durationMillis = 200,
-                                    easing = LinearEasing // interpolator
+                            // Add Child Option
+                            AnimatedVisibility(
+                                visible = selectedMode == MindMapOptionsMode.ADD_CHILD,
+                                enter = slideInHorizontally(
+                                    initialOffsetX = { -width }, // small slide 300px
+                                    animationSpec = tween(
+                                        durationMillis = 200,
+                                        easing = LinearEasing // interpolator
+                                    )
+                                ),
+                                exit = ExitTransition.None
+                            ) {
+                                TaskEditContent(
+                                    fragment = this@MindMapOptionsSheet,
+                                    taskEditableViewModel = addChildViewModel,
+                                    mainViewModel = null,
                                 )
-                            ),
-                            exit = ExitTransition.None
-                        ) {
+                            }
+
+                            // Edit Task Option
+                            // set Editing Task
+                            mainViewModel.selectedNode?.let { editTaskViewModel.setEditingTask(it) }
+                            AnimatedVisibility(
+                                visible = selectedMode == MindMapOptionsMode.EDIT_TASK,
+                                enter = slideInHorizontally(
+                                    initialOffsetX = { width }, // small slide 300px
+                                    animationSpec = tween(
+                                        durationMillis = 200,
+                                        easing = LinearEasing // interpolator
+                                    )
+                                ),
+                                exit = ExitTransition.None
+                            ) {
+                                TaskEditContent(
+                                    fragment = this@MindMapOptionsSheet,
+                                    taskEditableViewModel = editTaskViewModel,
+                                    mainViewModel = null,
+                                )
+                            }
+                        } else { // When mindMap Node is selected
+                            TabRow(
+                                modifier = Modifier.height(50.dp),
+                                selectedTabIndex = selectedMode.ordinal,
+                                backgroundColor = colorResource(id = R.color.transparent),
+                                contentColor = Color.LightGray,
+                            ) {
+                                Tab(
+                                    selected = true,
+                                    onClick = {},
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_mind_map),
+                                            contentDescription = "Edit"
+                                        )
+                                        Spacer(modifier = Modifier.width(10.dp))
+                                        Text(
+                                            "Add Child",
+                                            style = MaterialTheme.typography.subtitle1
+                                        )
+                                    }
+                                }
+                            }
                             TaskEditContent(
                                 fragment = this@MindMapOptionsSheet,
                                 taskEditableViewModel = addChildViewModel,
-                                mainViewModel = null,
-                            )
-                        }
-
-                        // Edit Task Option
-                        // set Editing Task
-                        mainViewModel.selectedNode?.let { editTaskViewModel.setEditingTask(it) }
-                        AnimatedVisibility(
-                            visible = selectedMode == MindMapOptionsMode.EDIT_TASK,
-                            enter = slideInHorizontally(
-                                initialOffsetX = { width }, // small slide 300px
-                                animationSpec = tween(
-                                    durationMillis = 200,
-                                    easing = LinearEasing // interpolator
-                                )
-                            ),
-                            exit = ExitTransition.None
-                        ) {
-                            TaskEditContent(
-                                fragment = this@MindMapOptionsSheet,
-                                taskEditableViewModel = editTaskViewModel,
                                 mainViewModel = null,
                             )
                         }
@@ -110,7 +147,9 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
     /** Set position for adding child node */
     private fun setUpAddingChildNode() {
         mainViewModel.selectedNode?.let { selectedTask ->
-            addChildViewModel.setX((selectedTask.x ?: 0f) + 300) // set child position to right side of parent
+            addChildViewModel.setX(
+                (selectedTask.x ?: 0f) + 300
+            ) // set child position to right side of parent
             addChildViewModel.setY(selectedTask.y ?: 0f)
         } ?: run {
             addChildViewModel.setX((mainViewModel.editingMindMap?.x ?: 0f) + 300f)
