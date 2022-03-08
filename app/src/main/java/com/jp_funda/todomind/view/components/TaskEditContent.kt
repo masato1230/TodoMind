@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.jp_funda.todomind.R
@@ -73,7 +73,7 @@ fun TaskEditContent(
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
-            cursorColor = Color(ContextCompat.getColor(LocalContext.current, R.color.teal_200)),
+            cursorColor = colorResource(id = R.color.teal_200),
         )
 
         LaunchedEffect(ogpResult) {
@@ -200,12 +200,8 @@ fun TaskEditContent(
                 leadingIcon = {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_color_24dp),
-                        tint = Color(
-                            task.color ?: ContextCompat.getColor(
-                                LocalContext.current,
-                                R.color.teal_200
-                            )
-                        ),
+                        tint = task.color?.let { Color(it) }
+                            ?: run { colorResource(id = R.color.teal_200) },
                         contentDescription = "Color",
                     )
                 },
