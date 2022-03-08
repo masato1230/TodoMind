@@ -47,7 +47,7 @@ class MindMapRepository @Inject constructor() {
                 try {
                     val result = realm.where<MindMap>()
                         .findAll()
-                        .sort("createdDate", Sort.DESCENDING)
+                        .sort("updatedDate", Sort.DESCENDING)
                         .first()
                     result?.let {
                         emitter.onSuccess(Realm.getDefaultInstance().copyFromRealm(result))
