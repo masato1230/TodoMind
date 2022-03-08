@@ -8,9 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import com.jp_funda.todomind.R
 
 @Composable
@@ -24,7 +23,7 @@ fun Loading() {
             modifier = Modifier
                 .width(150.dp)
                 .height(150.dp),
-            color = Color(ContextCompat.getColor(LocalContext.current, R.color.teal_200)),
+            color = colorResource(id = R.color.teal_200),
             strokeWidth = 10.dp
         )
         Spacer(modifier = Modifier.height(30.dp))

@@ -3,8 +3,7 @@ package com.jp_funda.todomind.view.components
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
+import androidx.compose.ui.res.colorResource
 import com.jp_funda.todomind.R
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.MaterialDialogState
@@ -24,20 +23,20 @@ fun TimePickerDialog(
     val colorTheme = TimePickerDefaults.colors(
         activeBackgroundColor = Color.White,
         activeTextColor = Color.Black,
-        inactiveBackgroundColor = Color(ContextCompat.getColor(LocalContext.current, R.color.aqua)),
+        inactiveBackgroundColor = colorResource(id = R.color.aqua),
         inactiveTextColor = Color.White,
-        selectorColor = Color(ContextCompat.getColor(LocalContext.current, R.color.teal_200)),
-        borderColor = Color(ContextCompat.getColor(LocalContext.current, R.color.navy_blue))
+        selectorColor = colorResource(R.color.teal_200),
+        borderColor = colorResource(R.color.navy_blue)
     )
 
     MaterialDialog(
         dialogState = timeDialogState,
-        backgroundColor = Color(ContextCompat.getColor(LocalContext.current, R.color.navy_blue)),
+        backgroundColor = colorResource(R.color.navy_blue),
         buttons = {
             positiveButton(
                 "OK",
                 textStyle = MaterialTheme.typography.button.copy(
-                    color = Color(ContextCompat.getColor(LocalContext.current, R.color.teal_200)),
+                    color = colorResource(R.color.teal_200),
                 ),
                 onClick = {
                     onSelected(time)
@@ -47,14 +46,14 @@ fun TimePickerDialog(
                 negativeButton(
                     "Cancel",
                     textStyle = MaterialTheme.typography.button.copy(
-                        color = Color(ContextCompat.getColor(LocalContext.current, R.color.teal_200)),
+                        color = colorResource(id = R.color.teal_200),
                     )
                 )
             } else {
                 negativeButton(
                     "Reset",
                     textStyle = MaterialTheme.typography.button.copy(
-                        color = Color(ContextCompat.getColor(LocalContext.current, R.color.teal_200)),
+                        color = colorResource(id = R.color.teal_200),
                     )
                 ) { onReset() }
             }

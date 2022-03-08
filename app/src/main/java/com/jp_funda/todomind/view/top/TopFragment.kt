@@ -13,11 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -179,7 +177,7 @@ class TopFragment : Fragment() {
                     modifier = Modifier
                         .width(150.dp)
                         .height(150.dp),
-                    color = Color(ContextCompat.getColor(LocalContext.current, R.color.teal_200)),
+                    color = colorResource(id = R.color.teal_200),
                     strokeWidth = 10.dp
                 )
                 Spacer(modifier = Modifier.height(30.dp))

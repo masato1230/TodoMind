@@ -21,11 +21,11 @@ import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.getTextSize
@@ -47,8 +47,7 @@ fun MindMapNode(
 
     val scale = viewModel.getScale()
 
-    val backgroundColor =
-        Color(mindMap.color ?: ContextCompat.getColor(LocalContext.current, R.color.teal_200))
+    val backgroundColor = mindMap.color?.let { Color(it) } ?: run { colorResource(id = R.color.teal_200) }
     val fontColor = if (backgroundColor.getLuminance() > 0.6) Color.Black else Color.White
 
     Box(
