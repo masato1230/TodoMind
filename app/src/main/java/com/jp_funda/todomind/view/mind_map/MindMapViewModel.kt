@@ -1,6 +1,5 @@
 package com.jp_funda.todomind.view.mind_map
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,9 +27,7 @@ class MindMapViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess {
                     _mindMapList.value = emptyList() // Change list length to notify data change
-                    Log.d("Before", it.toString())
                     val sortedMindList = it.sortedWith(compareByDescending { comparingMindMap -> comparingMindMap.updatedDate })
-                    Log.d("After", sortedMindList.toString())
                     _mindMapList.value = sortedMindList
                 }
                 .subscribe()
