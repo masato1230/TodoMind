@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -13,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -49,10 +52,25 @@ class TopFragment : Fragment() {
 
         return ComposeView(requireContext()).apply {
             setContent {
-                NewTaskFAB(onClick = {
-                    NavHostFragment.findNavController(this@TopFragment)
-                        .navigate(R.id.action_navigation_top_to_navigation_task_detail)
-                }) {
+                NewTaskFAB(
+                    topBar = {
+                        TopAppBar(
+                            title = { Text(text = "TodoMind") },
+                            backgroundColor = colorResource(id = R.color.deep_purple),
+                            contentColor = Color.White,
+                            navigationIcon = {
+                                Spacer(modifier = Modifier.width(20.dp))
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_mind_map),
+                                    contentDescription = "App Icon",
+                                )
+                            }
+                        )
+                    },
+                    onClick = {
+                        NavHostFragment.findNavController(this@TopFragment)
+                            .navigate(R.id.action_navigation_top_to_navigation_task_detail)
+                    }) {
                     TopContent()
                 }
             }
@@ -172,5 +190,16 @@ class TopFragment : Fragment() {
                 )
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as AppCompatActivity).supportActionBar?.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Hide default ActionBar
+        (activity as AppCompatActivity).supportActionBar?.hide()
     }
 }

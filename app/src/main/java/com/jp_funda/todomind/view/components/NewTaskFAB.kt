@@ -11,8 +11,13 @@ import androidx.compose.ui.res.colorResource
 import com.jp_funda.todomind.R
 
 @Composable
-fun NewTaskFAB(onClick: () -> Unit, content: @Composable () -> Unit) {
+fun NewTaskFAB(
+    topBar: @Composable () -> Unit = {},
+    onClick: () -> Unit,
+    content: @Composable () -> Unit
+) {
     Scaffold(
+        topBar = topBar,
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 text = { Text(text = "New task") },
