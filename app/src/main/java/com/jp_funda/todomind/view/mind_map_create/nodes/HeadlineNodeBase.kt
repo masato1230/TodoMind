@@ -59,7 +59,9 @@ fun HeadlineNodeBase(
     } else {
         Color.DarkGray
     }
-    val fontColor = if (backgroundColor.getLuminance() > 0.6) Color.Black else Color.White
+    val fontColor = if (task.statusEnum != TaskStatus.Complete) {
+        if (backgroundColor.getLuminance() > 0.6) Color.Black else Color.White
+    } else Color.LightGray
 
     Box(
         modifier = modifier
