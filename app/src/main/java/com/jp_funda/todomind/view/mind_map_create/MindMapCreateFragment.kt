@@ -21,6 +21,7 @@ import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.LineContent
 import com.jp_funda.todomind.view.components.MindMapCreateContent
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 
@@ -50,13 +51,7 @@ class MindMapCreateFragment : Fragment() {
         _binding = FragmentMindMapCreateBinding.inflate(inflater)
 
         // Scale buttons
-        binding.buttonZoomIn.setOnClickListener {
-            mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().plus(0.1f))
-        }
-        binding.buttonZoomOut.setOnClickListener {
-            if (mindMapCreateViewModel.getScale() <= 0.1) return@setOnClickListener
-            mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().minus(0.1f))
-        }
+        initializeZoomButtons()
 
         // UpdateCount Observer
         val updateCountObserver = Observer<Int> {
@@ -109,6 +104,27 @@ class MindMapCreateFragment : Fragment() {
         mindMapCreateViewModel.isLoading.observe(viewLifecycleOwner, loadingObserver)
 
         return binding.root
+    }
+
+    private fun initializeZoomButtons() {
+        val screenWidth = resources.displayMetrics.widthPixels
+        val screenHeight = resources.displayMetrics.heightPixels
+
+        val minScale = min(
+            screenWidth.toFloat() / binding.mapView.mapViewOriginalWidth.toFloat(),
+            screenHeight.toFloat() / binding.mapView.mapViewOriginalHeight.toFloat()
+        )
+
+        binding.buttonZoomIn.setOnClickListener {
+            mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().plus(0.1f))
+        }
+        binding.buttonZoomOut.setOnClickListener {
+            if (mindMapCreateViewModel.getScale() - 0.1 <= minScale) {
+                mindMapCreateViewModel.setScale(minScale)
+            } else {
+                mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().minus(0.1f))
+            }
+        }
     }
 
     private fun scrollToMindMapNode(mindMap: MindMap) {
