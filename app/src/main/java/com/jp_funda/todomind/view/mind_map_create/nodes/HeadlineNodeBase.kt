@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -29,6 +28,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.TextUnit
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.extension.getLuminance
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import kotlin.math.roundToInt
@@ -54,7 +54,11 @@ fun HeadlineNodeBase(
 
     val scale = viewModel.getScale()
 
-    val backgroundColor = task.color?.let { Color(it) } ?: run { colorResource(id = R.color.teal_200) }
+    val backgroundColor = if (task.statusEnum != TaskStatus.Complete) {
+        task.color?.let { Color(it) } ?: run { colorResource(id = R.color.teal_200) }
+    } else {
+        Color.DarkGray
+    }
     val fontColor = if (backgroundColor.getLuminance() > 0.6) Color.Black else Color.White
 
     Box(
