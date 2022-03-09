@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.getSize
+import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 
 @Composable
@@ -49,7 +50,7 @@ fun LineContent(
                     ) return@drawBehind
 
                     drawLine(
-                        color = Color.White,
+                        color = if (task.statusEnum != TaskStatus.Complete) Color.White else Color.DarkGray,
                         start = Offset(
                             startOffsetX + startSizeOffsetX,
                             startOffsetY + startSizeOffsetY
