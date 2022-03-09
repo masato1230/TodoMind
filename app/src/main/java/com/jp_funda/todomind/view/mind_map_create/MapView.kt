@@ -28,8 +28,8 @@ class MapView @JvmOverloads constructor(
     private val screenWidth = resources.displayMetrics.widthPixels
 
     /** Child Views */
-    private val scrollView: DiagonalScrollView
-    private val horizontalScrollView: DiagonalHorizontalScrollView
+    val scrollView: DiagonalScrollView
+    val horizontalScrollView: DiagonalHorizontalScrollView
     private val contentWrapper: LinearLayout
     private val content: ConstraintLayout
     val composeView: ComposeView

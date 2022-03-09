@@ -13,6 +13,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.NodeStyle
+import com.jp_funda.todomind.data.getSize
+import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.databinding.FragmentMindMapCreateBinding
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.LineContent
@@ -85,6 +88,7 @@ class MindMapCreateFragment : Fragment() {
                 }
             }
         }
+        scrollToMindMapNode(mindMapCreateViewModel.mindMap)
 
         // LineView
         binding.mapView.lineComposeView.apply {
@@ -105,6 +109,19 @@ class MindMapCreateFragment : Fragment() {
         mindMapCreateViewModel.isLoading.observe(viewLifecycleOwner, loadingObserver)
 
         return binding.root
+    }
+
+    private fun scrollToMindMapNode(mindMap: MindMap) {
+        val screenWidth = resources.displayMetrics.widthPixels
+        val scrollX = ((mindMap.x) ?: 0f) - screenWidth / 2 + NodeStyle.HEADLINE_1.getSize().width
+        val screenHeight = resources.displayMetrics.heightPixels
+        val scrollY = ((mindMap.y) ?: 0f) - screenHeight / 2 + NodeStyle.HEADLINE_1.getSize().height
+        binding.mapView.horizontalScrollView.post {
+            binding.mapView.horizontalScrollView.smoothScrollTo(scrollX.roundToInt(), 0)
+        }
+        binding.mapView.scrollView.post {
+            binding.mapView.scrollView.smoothScrollTo(0, scrollY.roundToInt())
+        }
     }
 
     override fun onPause() {
