@@ -75,14 +75,14 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                             AnimatedVisibility(
                                 visible = selectedMode == MindMapOptionsMode.EDIT_TASK,
                                 enter = slideInHorizontally(
-                                    initialOffsetX = { width }, // small slide 300px
+                                    initialOffsetX = { -width }, // small slide 300px
                                     animationSpec = tween(
                                         durationMillis = 200,
                                         easing = LinearEasing // interpolator
                                     )
                                 ),
                                 exit = ExitTransition.None
-                            ) {
+                                ) {
                                 TaskEditContent(
                                     fragment = this@MindMapOptionsSheet,
                                     taskEditableViewModel = editTaskViewModel,
@@ -124,7 +124,7 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                         AnimatedVisibility(
                             visible = selectedMode == MindMapOptionsMode.ADD_CHILD,
                             enter = slideInHorizontally(
-                                initialOffsetX = { -width }, // small slide 300px
+                                initialOffsetX = { width }, // small slide 300px
                                 animationSpec = tween(
                                     durationMillis = 200,
                                     easing = LinearEasing // interpolator
