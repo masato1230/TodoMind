@@ -59,9 +59,9 @@ open class MindMapCreateViewModel @Inject constructor(
                 .getTasksInAMindMap(mindMap)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess {
+                    tasks = emptyList()
                     tasks = it
                     _isLoading.value = false
-                    _updateCount.value = _updateCount.value!! + 1
                     onSuccess()
                 }
                 .subscribe({}, {
