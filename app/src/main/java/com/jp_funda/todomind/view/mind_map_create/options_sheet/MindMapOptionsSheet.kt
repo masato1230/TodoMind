@@ -69,25 +69,6 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                                 sheetViewModel.setMode(it)
                             }
 
-                            // Add Child Option
-                            AnimatedVisibility(
-                                visible = selectedMode == MindMapOptionsMode.ADD_CHILD,
-                                enter = slideInHorizontally(
-                                    initialOffsetX = { -width }, // small slide 300px
-                                    animationSpec = tween(
-                                        durationMillis = 200,
-                                        easing = LinearEasing // interpolator
-                                    )
-                                ),
-                                exit = ExitTransition.None
-                            ) {
-                                TaskEditContent(
-                                    fragment = this@MindMapOptionsSheet,
-                                    taskEditableViewModel = addChildViewModel,
-                                    mainViewModel = null,
-                                )
-                            }
-
                             // Edit Task Option
                             // set Editing Task
                             mainViewModel.selectedNode?.let { editTaskViewModel.setEditingTask(it) }
@@ -132,6 +113,25 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                                     }
                                 }
                             }
+                            TaskEditContent(
+                                fragment = this@MindMapOptionsSheet,
+                                taskEditableViewModel = addChildViewModel,
+                                mainViewModel = null,
+                            )
+                        }
+
+                        // Add Child Option
+                        AnimatedVisibility(
+                            visible = selectedMode == MindMapOptionsMode.ADD_CHILD,
+                            enter = slideInHorizontally(
+                                initialOffsetX = { -width }, // small slide 300px
+                                animationSpec = tween(
+                                    durationMillis = 200,
+                                    easing = LinearEasing // interpolator
+                                )
+                            ),
+                            exit = ExitTransition.None
+                        ) {
                             TaskEditContent(
                                 fragment = this@MindMapOptionsSheet,
                                 taskEditableViewModel = addChildViewModel,

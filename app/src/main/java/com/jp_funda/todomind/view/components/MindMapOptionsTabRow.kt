@@ -26,6 +26,15 @@ fun MindMapOptionsTabRow(selectedMode: MindMapOptionsMode, onTabChange: (MindMap
         contentColor = Color.LightGray,
     ) {
         Tab(
+            selected = selectedMode == MindMapOptionsMode.EDIT_TASK,
+            onClick = { onTabChange(MindMapOptionsMode.EDIT_TASK) }) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit")
+                Spacer(modifier = Modifier.width(10.dp))
+                Text("Edit Task", style = MaterialTheme.typography.subtitle1)
+            }
+        }
+        Tab(
             selected = selectedMode == MindMapOptionsMode.ADD_CHILD,
             onClick = { onTabChange(MindMapOptionsMode.ADD_CHILD) }) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -35,15 +44,6 @@ fun MindMapOptionsTabRow(selectedMode: MindMapOptionsMode, onTabChange: (MindMap
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text("Add Child", style = MaterialTheme.typography.subtitle1)
-            }
-        }
-        Tab(
-            selected = selectedMode == MindMapOptionsMode.EDIT_TASK,
-            onClick = { onTabChange(MindMapOptionsMode.EDIT_TASK) }) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(imageVector = Icons.Default.Edit, contentDescription = "Edit")
-                Spacer(modifier = Modifier.width(10.dp))
-                Text("Edit Task", style = MaterialTheme.typography.subtitle1)
             }
         }
     }

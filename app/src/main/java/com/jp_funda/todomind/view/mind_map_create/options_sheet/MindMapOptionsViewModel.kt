@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MindMapOptionsViewModel @Inject constructor() : ViewModel() {
-    private val _selectedMode = MutableLiveData(MindMapOptionsMode.ADD_CHILD)
+    private val _selectedMode = MutableLiveData(MindMapOptionsMode.EDIT_TASK)
     val selectedMode: LiveData<MindMapOptionsMode> = _selectedMode
 
     fun setMode(mode: MindMapOptionsMode) {
