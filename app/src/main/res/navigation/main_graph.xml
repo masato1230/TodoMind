@@ -98,7 +98,11 @@
         android:label="@string/settings" >
         <action
             android:id="@+id/action_navigation_settings_to_navigation_oss_licenses"
-            app:destination="@id/navigation_oss_licenses" />
+            app:destination="@id/navigation_oss_licenses"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
