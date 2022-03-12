@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
@@ -41,6 +42,7 @@ import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
+import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -224,6 +226,11 @@ class MindMapDetailFragment : Fragment() {
             cursorColor = colorResource(id = R.color.teal_200),
         )
 
+        // Set up dialog
+        val colorDialogState = rememberMaterialDialogState()
+        ColorPickerDialog(colorDialogState) { selectedColor ->
+            mindMapDetailViewModel.setColor(selectedColor.toArgb())
+        }
 
         observedMindMap?.let { mindMap ->
 
@@ -331,6 +338,31 @@ class MindMapDetailFragment : Fragment() {
                     navigateToMindMapCreate()
                 }
             }
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            // Color
+            TextField(
+                colors = colors,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { colorDialogState.show() },
+                value = mindMap.colorHex ?: "",
+                onValueChange = {},
+                placeholder = {
+                    Text(text = "Set mind map color", color = Color.Gray)
+                },
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_color_24dp),
+                        tint = mindMap.color?.let { Color(it) }
+                            ?: run { colorResource(id = R.color.teal_200) },
+                        contentDescription = "Color",
+                    )
+                },
+                readOnly = true,
+                enabled = false,
+            )
 
             Spacer(modifier = Modifier.height(15.dp))
 

@@ -50,6 +50,11 @@ class MindMapDetailViewModel @Inject constructor(
         notifyChangeToView()
     }
 
+    fun setColor(argb: Int) {
+        _mindMap.value!!.color = argb
+        notifyChangeToView()
+    }
+
     fun saveMindMapAndClearDisposables() {
         disposables.add(
             if (!isEditing) {
