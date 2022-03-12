@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -25,6 +26,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -85,7 +87,8 @@ class SettingsFragment : Fragment() {
         Row(
             modifier = Modifier
                 .height(50.dp)
-                .padding(horizontal = 15.dp),
+                .padding(horizontal = 15.dp)
+                .clickable { findNavController().navigate(R.id.action_navigation_settings_to_navigation_oss_licenses) },
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(

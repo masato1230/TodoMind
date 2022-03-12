@@ -39,6 +39,11 @@
     </fragment>
 
     <fragment
+        android:id="@+id/navigation_task_detail"
+        android:name="com.jp_funda.todomind.view.task_detail.TaskDetailFragment">
+    </fragment>
+
+    <fragment
         android:id="@+id/navigation_mind_map"
         android:name="com.jp_funda.todomind.view.mind_map.MindMapFragment"
         android:label="@string/mind_map" >
@@ -50,18 +55,6 @@
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
-
-    <fragment
-        android:id="@+id/navigation_record"
-        android:name="com.jp_funda.todomind.view.record.RecordFragment"
-        android:label="@string/record"
-        tools:layout="@layout/record_fragment" />
-
-    <fragment
-        android:id="@+id/navigation_settings"
-        android:name="com.jp_funda.todomind.view.settings.SettingsFragment"
-        android:label="@string/settings"
-        tools:layout="@layout/settings_fragment" />
 
     <fragment
         android:id="@+id/navigation_mind_map_detail"
@@ -95,8 +88,23 @@
         android:name="com.jp_funda.todomind.view.mind_map_detail.ConfirmDeleteMindMapFragment" />
 
     <fragment
-        android:id="@+id/navigation_task_detail"
-        android:name="com.jp_funda.todomind.view.task_detail.TaskDetailFragment">
+        android:id="@+id/navigation_record"
+        android:name="com.jp_funda.todomind.view.record.RecordFragment"
+        android:label="@string/record"
+        tools:layout="@layout/record_fragment" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.jp_funda.todomind.view.settings.SettingsFragment"
+        android:label="@string/settings" >
+        <action
+            android:id="@+id/action_navigation_settings_to_navigation_oss_licenses"
+            app:destination="@id/navigation_oss_licenses" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_oss_licenses"
+        android:name="com.jp_funda.todomind.view.settings.oss_licenses.OssLicensesFragment"
+        android:label="@string/oss_licenses"/>
 
 </navigation>
