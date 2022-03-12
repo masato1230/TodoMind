@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -29,7 +30,9 @@ fun MindMapCreateContent(
             ) { onClickMindMapNode(mindMapCreateViewModel.mindMap) }
 
             // draw all tasks in mindMap
+            Log.d("Count", mindMapCreateViewModel.updateCount.value.toString())
             for (task in mindMapCreateViewModel.tasks) {
+                Log.d(task.title, "${task.x},${task.y}")
                 H1(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
             }
         }

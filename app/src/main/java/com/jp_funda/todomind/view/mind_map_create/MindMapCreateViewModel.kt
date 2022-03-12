@@ -61,7 +61,6 @@ open class MindMapCreateViewModel @Inject constructor(
                 .doOnSuccess {
                     tasks = it
                     _isLoading.value = false
-                    _updateCount.value = _updateCount.value!! + 1
                     onSuccess()
                 }
                 .subscribe({}, {

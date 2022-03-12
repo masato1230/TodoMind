@@ -51,15 +51,22 @@ fun HeadlineNodeBase(
 
     var offsetX by remember { mutableStateOf(task.x ?: 0f) }
     var offsetY by remember { mutableStateOf(task.y ?: 0f) }
+    // Make task state to identify task in callbacks update
+    var rememberedTask by remember { mutableStateOf(task) }
+
+    // Update states before ui update
+    offsetX = task.x ?: 0f
+    offsetY = task.y ?: 0f
+    rememberedTask = task
 
     val scale = viewModel.getScale()
 
-    val backgroundColor = if (task.statusEnum != TaskStatus.Complete) {
-        task.color?.let { Color(it) } ?: run { colorResource(id = R.color.teal_200) }
+    val backgroundColor = if (rememberedTask.statusEnum != TaskStatus.Complete) {
+        rememberedTask.color?.let { Color(it) } ?: run { colorResource(id = R.color.teal_200) }
     } else {
         Color.DarkGray
     }
-    val fontColor = if (task.statusEnum != TaskStatus.Complete) {
+    val fontColor = if (rememberedTask.statusEnum != TaskStatus.Complete) {
         if (backgroundColor.getLuminance() > 0.6) Color.Black else Color.White
     } else Color.LightGray
 
@@ -82,9 +89,9 @@ fun HeadlineNodeBase(
                 detectDragGesturesAfterLongPress(
                     onDragStart = { haptic.performHapticFeedback(HapticFeedbackType.LongPress) },
                     onDragEnd = {
-                        task.x = offsetX
-                        task.y = offsetY
-                        viewModel.updateTask(task)
+                        rememberedTask.x = offsetX
+                        rememberedTask.y = offsetY
+                        viewModel.updateTask(rememberedTask)
                         viewModel.refreshView()
                     }
                 ) { change, dragAmount ->
@@ -97,7 +104,7 @@ fun HeadlineNodeBase(
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = task.title ?: "",
+            text = rememberedTask.title ?: "",
             modifier = Modifier
                 .clip(CircleShape)
                 .padding(textPadding * scale),
