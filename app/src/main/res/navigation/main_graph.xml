@@ -76,8 +76,7 @@
 
     <fragment
         android:id="@+id/navigation_mind_map_create"
-        android:name="com.jp_funda.todomind.view.mind_map_create.MindMapCreateFragment">
-    </fragment>
+        android:name="com.jp_funda.todomind.view.mind_map_create.MindMapCreateFragment" />
 
     <dialog
         android:id="@+id/navigation_mind_map_options_dialog"
