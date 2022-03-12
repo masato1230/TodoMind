@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.TodoMind" >
+        android:theme="@style/Theme.AppSplash" >
         <activity
             android:name=".view.MainActivity"
             android:screenOrientation="portrait"
