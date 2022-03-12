@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.data.repositories.mind_map.entity
 
+import androidx.core.graphics.toColor
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 import java.text.SimpleDateFormat
@@ -35,4 +36,12 @@ open class MindMap(
     companion object {
         val dateFormat = SimpleDateFormat("EEE MM/dd hh:mm aaa", Locale.US)
     }
+
+    val colorHex: String?
+        get() {
+            if (color != null) {
+                return String.format("#%06X", 0xFFFFFF and color!!.toColor().toArgb())
+            }
+            return null
+        }
 }
