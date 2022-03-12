@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.top
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -190,8 +191,10 @@ class TopFragment : Fragment() {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onPause() {
         super.onPause()
+        (activity as AppCompatActivity).supportActionBar?.setShowHideAnimationEnabled(false)
         (activity as AppCompatActivity).supportActionBar?.show()
     }
 
