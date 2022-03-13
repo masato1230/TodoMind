@@ -25,6 +25,6 @@ fun H1(
         fontSize = NodeStyle.HEADLINE_1.getTextSize(),
         textPadding = 30.dp,
         maxLines = 4,
-        behindCircleColor = Color.Black,
+        behindCircleColor = Color.Transparent,
     ) { onClick() }
 }

@@ -25,6 +25,6 @@ fun H3(
         fontSize = NodeStyle.HEADLINE_3.getTextSize(),
         textPadding = 30.dp,
         maxLines = 4,
-        behindCircleColor = Color.Black,
+        behindCircleColor = Color.Transparent,
     ) { onClick() }
 }

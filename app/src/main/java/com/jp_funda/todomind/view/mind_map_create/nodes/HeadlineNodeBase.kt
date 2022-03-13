@@ -45,6 +45,7 @@ fun HeadlineNodeBase(
     maxLines: Int,
     behindCircleColor: Color? = null,
     behindCircleWidth: Float = 10f,
+    behindCircleRadiusOffset: Float = 30f,
     onClick: () -> Unit,
 ) {
     val haptic = LocalHapticFeedback.current
@@ -80,7 +81,7 @@ fun HeadlineNodeBase(
                 behindCircleColor?.let {
                     drawCircle(
                         color = it,
-                        radius = ((size.minDimension - 20 * viewModel.getScale()) / 2f),
+                        radius = ((size.minDimension - behindCircleRadiusOffset * viewModel.getScale()) / 2f),
                         style = Stroke(behindCircleWidth)
                     )
                 }
