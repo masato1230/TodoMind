@@ -30,9 +30,6 @@ fun MindMapCard(
             val createdDate = view.findViewById<TextView>(R.id.map_card_created_date)
             val title = view.findViewById<TextView>(R.id.map_card_title)
             val description = view.findViewById<TextView>(R.id.map_card_description)
-//            val progressPercentageText =
-//                view.findViewById<TextView>(R.id.map_card_progress_percentage)
-//            val progressBar = view.findViewById<ProgressBar>(R.id.map_card_progress_bar)
 
             // card background
             mindMap.color?.let { background.setBackgroundColor(it) }
