@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -434,28 +436,30 @@ class MindMapDetailFragment : Fragment() {
     fun ProgressSection() {
         // observe task status update
         val observedUpdateCount = mindMapThumbnailViewModel.updateCount.observeAsState()
-        // Progress description
-        Row(
-            modifier = Modifier
-                .padding(start = 10.dp, bottom = 5.dp)
-                .fillMaxWidth(),
-        ) {
-            Text(
-                text = "Progress: ",
-                style = MaterialTheme.typography.body1,
-                color = Color.White
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(
-                text = "${mindMapThumbnailViewModel.tasks.getProgressRate().roundToInt()}%",
-                style = MaterialTheme.typography.body1,
-                color = Color.White
+        observedUpdateCount.value?.let {
+            // Progress description
+            Row(
+                modifier = Modifier
+                    .padding(start = 10.dp, bottom = 5.dp)
+                    .fillMaxWidth(),
+            ) {
+                Text(
+                    text = "Progress: ",
+                    style = MaterialTheme.typography.body1,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = "${mindMapThumbnailViewModel.tasks.getProgressRate().roundToInt()}%",
+                    style = MaterialTheme.typography.body1,
+                    color = Color.White
+                )
+            }
+            // Progress bar
+            RoundedProgressBar(
+                percent = mindMapThumbnailViewModel.tasks.getProgressRate().roundToInt()
             )
         }
-        // Progress bar
-        RoundedProgressBar(
-            percent = mindMapThumbnailViewModel.tasks.getProgressRate().roundToInt()
-        )
     }
 
     @Composable
@@ -482,6 +486,7 @@ class MindMapDetailFragment : Fragment() {
             )
             Box(
                 modifier = modifier
+                    .animateContentSize(animationSpec = tween(durationMillis = 1500))
                     .background(foregroundColor)
                     .width(maxWidth * percent / 100)
                     .height(height)
