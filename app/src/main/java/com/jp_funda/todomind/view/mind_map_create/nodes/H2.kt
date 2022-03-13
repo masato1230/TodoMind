@@ -11,7 +11,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 
 @Composable
-fun H1(
+fun H2(
     modifier: Modifier = Modifier,
     task: Task,
     viewModel: MindMapCreateViewModel,
@@ -21,10 +21,10 @@ fun H1(
         modifier = modifier,
         task = task,
         viewModel = viewModel,
-        circleSize = NodeStyle.HEADLINE_1.getSize().width.dp,
-        fontSize = NodeStyle.HEADLINE_1.getTextSize(),
+        circleSize = NodeStyle.HEADLINE_2.getSize().width.dp,
+        fontSize = NodeStyle.HEADLINE_2.getTextSize(),
         textPadding = 30.dp,
         maxLines = 4,
-        behindCircleColor = Color.Transparent,
+        behindCircleColor = Color.Black,
     ) { onClick() }
 }

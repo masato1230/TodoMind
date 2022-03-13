@@ -8,6 +8,8 @@ import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_create.nodes.H1
+import com.jp_funda.todomind.view.mind_map_create.nodes.H2
+import com.jp_funda.todomind.view.mind_map_create.nodes.H3
 import com.jp_funda.todomind.view.mind_map_create.nodes.MindMapNode
 
 @Composable
@@ -29,8 +31,14 @@ fun MindMapCreateContent(
             ) { onClickMindMapNode(mindMapCreateViewModel.mindMap) }
 
             // draw all tasks in mindMap
+            var i = 0
             for (task in mindMapCreateViewModel.tasks) {
-                H1(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                i ++
+                when (i % 3) {
+                    0 -> H1(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                    1 -> H2(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                    2 -> H3(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                }
             }
         }
     }
