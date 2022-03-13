@@ -2,7 +2,6 @@ package com.jp_funda.todomind.view.components
 
 import android.graphics.Color
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
@@ -30,9 +29,10 @@ fun MindMapCard(
             val background = view.findViewById<View>(R.id.map_card_background)
             val createdDate = view.findViewById<TextView>(R.id.map_card_created_date)
             val title = view.findViewById<TextView>(R.id.map_card_title)
-            val progressPercentageText =
-                view.findViewById<TextView>(R.id.map_card_progress_percentage)
-            val progressBar = view.findViewById<ProgressBar>(R.id.map_card_progress_bar)
+            val description = view.findViewById<TextView>(R.id.map_card_description)
+//            val progressPercentageText =
+//                view.findViewById<TextView>(R.id.map_card_progress_percentage)
+//            val progressBar = view.findViewById<ProgressBar>(R.id.map_card_progress_bar)
 
             // card background
             mindMap.color?.let { background.setBackgroundColor(it) }
@@ -46,8 +46,11 @@ fun MindMapCard(
             // title
             title.text = mindMap.title ?: ""
             title.setTextColor(tintColor)
-            // TODO progressPercentageText
-            // TODO progressBar
+
+            // description
+            description.text =
+                if (!mindMap.description.isNullOrBlank()) mindMap.description!! else "No description"
+            description.setTextColor(tintColor)
         },
         modifier = modifier.clickable {
             onClick()
