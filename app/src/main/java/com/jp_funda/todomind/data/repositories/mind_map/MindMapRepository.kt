@@ -17,8 +17,8 @@ class MindMapRepository @Inject constructor() {
                 val now = Date()
                 mindMap.createdDate = now
                 mindMap.updatedDate = now
-                mindMap.x = 100f
-                mindMap.y = 100f
+                mindMap.x = mindMap.x ?: 100f
+                mindMap.y = mindMap.y ?: 100f
                 realm.insertOrUpdate(mindMap)
             }, {
                 emitter.onSuccess(mindMap)

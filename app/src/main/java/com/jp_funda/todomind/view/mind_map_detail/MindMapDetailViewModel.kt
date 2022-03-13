@@ -50,6 +50,10 @@ class MindMapDetailViewModel @Inject constructor(
         notifyChangeToView()
     }
 
+    fun setX(x: Float) {
+        _mindMap.value!!.x = x
+    }
+
     fun setColor(argb: Int) {
         _mindMap.value!!.color = argb
         notifyChangeToView()
