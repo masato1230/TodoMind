@@ -37,6 +37,8 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.NodeStyle
+import com.jp_funda.todomind.data.getSize
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
@@ -61,9 +63,12 @@ class MindMapDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Check whether to edit or create new task by mainViewModel editingMindMap
+        // Check whether to edit or create new mind map by mainViewModel editingMindMap
         mainViewModel.editingMindMap?.let { editingMindMap ->
             mindMapDetailViewModel.setEditingMindMap(editingMindMap)
+        } ?: run { // Create new mind map -> set initial position to horizontal center of mapView
+            val mapViewWidth = resources.getDimensionPixelSize(R.dimen.map_view_width)
+            mindMapDetailViewModel.setX(mapViewWidth.toFloat() / 2 - NodeStyle.HEADLINE_1.getSize().width / 2)
         }
 
         // Refresh TaskList
