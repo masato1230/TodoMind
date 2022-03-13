@@ -7,9 +7,9 @@ import androidx.compose.ui.Modifier
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
+import com.jp_funda.todomind.view.mind_map_create.nodes.Body1
 import com.jp_funda.todomind.view.mind_map_create.nodes.H1
 import com.jp_funda.todomind.view.mind_map_create.nodes.H2
-import com.jp_funda.todomind.view.mind_map_create.nodes.H3
 import com.jp_funda.todomind.view.mind_map_create.nodes.MindMapNode
 
 @Composable
@@ -37,7 +37,7 @@ fun MindMapCreateContent(
                 when (i % 3) {
                     0 -> H1(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
                     1 -> H2(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
-                    2 -> H3(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                    2 -> Body1(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
                 }
             }
         }

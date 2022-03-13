@@ -9,6 +9,7 @@ enum class NodeStyle {
     HEADLINE_1,
     HEADLINE_2,
     HEADLINE_3,
+    BODY_1,
 }
 
 fun NodeStyle.getSize(): Size {
@@ -16,6 +17,7 @@ fun NodeStyle.getSize(): Size {
         NodeStyle.HEADLINE_1 -> Size(250f, 250f)
         NodeStyle.HEADLINE_2 -> Size(220f, 220f)
         NodeStyle.HEADLINE_3 -> Size(170f, 170f)
+        NodeStyle.BODY_1 -> Size(50f, 200f)
     }
 }
 
@@ -25,5 +27,6 @@ fun NodeStyle.getTextSize(): TextUnit {
         NodeStyle.HEADLINE_1 -> MaterialTheme.typography.h4.fontSize
         NodeStyle.HEADLINE_2 -> MaterialTheme.typography.h4.fontSize * 0.9
         NodeStyle.HEADLINE_3 -> MaterialTheme.typography.h4.fontSize * 0.6
+        NodeStyle.BODY_1 -> MaterialTheme.typography.body1.fontSize
     }
 }
