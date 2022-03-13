@@ -432,6 +432,8 @@ class MindMapDetailFragment : Fragment() {
 
     @Composable
     fun ProgressSection() {
+        // observe task status update
+        val observedUpdateCount = mindMapThumbnailViewModel.updateCount.observeAsState()
         // Progress description
         Row(
             modifier = Modifier
@@ -445,13 +447,15 @@ class MindMapDetailFragment : Fragment() {
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = mindMapThumbnailViewModel.tasks.getProgressRate().toString(),
+                text = "${mindMapThumbnailViewModel.tasks.getProgressRate().roundToInt()}%",
                 style = MaterialTheme.typography.body1,
                 color = Color.White
             )
         }
         // Progress bar
-        RoundedProgressBar(percent = mindMapThumbnailViewModel.tasks.getProgressRate().roundToInt())
+        RoundedProgressBar(
+            percent = mindMapThumbnailViewModel.tasks.getProgressRate().roundToInt()
+        )
     }
 
     @Composable
