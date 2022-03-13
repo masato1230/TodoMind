@@ -35,10 +35,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MindMapFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MindMapFragment()
-    }
-
     private val mainViewModel by activityViewModels<MainViewModel>()
     private val mindMapViewModel by viewModels<MindMapViewModel>()
 
