@@ -16,6 +16,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <View
+            android:id="@+id/map_card_background"
+            android:background="@color/aqua"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <ImageView
             android:scaleType="fitXY"
             android:layout_width="match_parent"
@@ -43,59 +49,48 @@
                 style="@style/Headline1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="50dp"
                 android:ellipsize="end"
                 android:maxLines="2"
+                android:textColor="@color/white"
                 android:text="@string/sample_title"
                 android:textAlignment="center"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="5dp" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/map_card_progress_text"
-                style="@style/CaptionSB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="20dp"
-                android:text="@string/progress"
-                android:textColor="@color/white_50"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/map_card_title" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/map_card_progress_percentage"
-                style="@style/CaptionSB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:text="@string/sample_percentage"
-                android:textColor="@color/white_50"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/map_card_title" />
-
-            <ProgressBar
-                android:id="@+id/map_card_progress_bar"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:progressTint="@color/teal_200"
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/map_card_divider"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:scaleY="1.5"
-                android:layout_marginHorizontal="5dp"
-                android:progress="70"
-                app:layout_constraintTop_toBottomOf="@+id/map_card_progress_text"
-                tools:layout_editor_absoluteX="5dp" />
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                app:dividerColor="@color/teal_200"
+                app:layout_constraintTop_toBottomOf="@+id/map_card_title" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/map_card_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="5dp"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                tools:text="@tools:sample/lorem/random"
+                android:ellipsize="end"
+                android:maxLines="3"
+                app:layout_constraintTop_toBottomOf="@+id/map_card_divider" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/materialTextView"
+                style="@style/CaptionSB"
                 android:layout_width="60dp"
                 android:layout_height="30dp"
-                android:paddingTop="6dp"
-                android:textAlignment="center"
-                android:text="@string/detail"
-                style="@style/CaptionSB"
-                android:textColor="@color/deep_purple"
                 android:background="@drawable/bg_top_right_bottom_right_rounded_white"
+                android:paddingTop="6dp"
+                android:text="@string/detail"
+                android:textAlignment="center"
+                android:textColor="@color/deep_purple"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
