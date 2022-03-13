@@ -41,6 +41,7 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.getSize
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.extension.getProgressRate
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
@@ -50,6 +51,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class MindMapDetailFragment : Fragment() {
@@ -443,13 +445,13 @@ class MindMapDetailFragment : Fragment() {
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = "70%",
+                text = mindMapThumbnailViewModel.tasks.getProgressRate().toString(),
                 style = MaterialTheme.typography.body1,
                 color = Color.White
             )
         }
         // Progress bar
-        RoundedProgressBar(percent = 70)
+        RoundedProgressBar(percent = mindMapThumbnailViewModel.tasks.getProgressRate().roundToInt())
     }
 
     @Composable

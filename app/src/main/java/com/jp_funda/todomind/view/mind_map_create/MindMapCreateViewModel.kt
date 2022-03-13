@@ -32,7 +32,7 @@ open class MindMapCreateViewModel @Inject constructor(
     lateinit var mindMap: MindMap
 
     /** Tasks - all tasks in mind map. initialize at Fragment's onCreate */
-    lateinit var tasks: List<Task>
+    var tasks: List<Task> = emptyList()
 
     private val disposables = CompositeDisposable()
 
