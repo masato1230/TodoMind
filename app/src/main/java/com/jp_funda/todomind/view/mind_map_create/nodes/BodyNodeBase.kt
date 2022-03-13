@@ -3,16 +3,15 @@ package com.jp_funda.todomind.view.mind_map_create.nodes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.consumeAllChanges
@@ -22,7 +21,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -37,7 +35,7 @@ fun BodyNodeBase(
     modifier: Modifier = Modifier,
     task: Task,
     viewModel: MindMapCreateViewModel,
-    circleSize: Dp,
+    size: Size,
     // text parameters
     fontSize: TextUnit,
     maxLines: Int,
@@ -71,6 +69,8 @@ fun BodyNodeBase(
             .offset { IntOffset((offsetX * scale).roundToInt(), (offsetY * scale).roundToInt()) }
             .clip(RoundedCornerShape(1000.dp))
             .background(colorResource(id = R.color.deep_purple))
+            .wrapContentHeight()
+            .wrapContentWidth()
             .pointerInput(Unit) {
                 detectDragGesturesAfterLongPress(
                     onDragStart = { haptic.performHapticFeedback(HapticFeedbackType.LongPress) },
@@ -87,12 +87,17 @@ fun BodyNodeBase(
                 }
             }
             .clickable { onClick() },
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_checkbox_unchecked),
             contentDescription = "Circle",
-            tint = rememberedTask.color?.let { Color(it) } ?: colorResource(id = R.color.teal_200))
-        Spacer(modifier = Modifier.width(10.dp))
+            tint = circleColor,
+            modifier = Modifier
+                .height((size.height * scale).dp)
+                .width((size.height * scale).dp)
+        )
+        Spacer(modifier = Modifier.width(10.dp * scale))
         Text(
             text = rememberedTask.title ?: "",
             maxLines = maxLines,
@@ -100,6 +105,8 @@ fun BodyNodeBase(
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center,
             color = fontColor,
+            modifier = Modifier.widthIn(max = ((size.width - size.height - 30) * scale).dp)
         )
+        Spacer(modifier = Modifier.width(20.dp * scale))
     }
 }
