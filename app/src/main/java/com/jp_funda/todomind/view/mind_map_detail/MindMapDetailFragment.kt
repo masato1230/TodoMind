@@ -247,7 +247,7 @@ class MindMapDetailFragment : Fragment() {
                 }
             }
 
-            // Title
+            /** Title */
             TextField(
                 colors = colors,
                 modifier = Modifier.padding(bottom = 10.dp),
@@ -263,65 +263,8 @@ class MindMapDetailFragment : Fragment() {
                 }
             )
 
-            // Thumbnail Section
-            if (mainViewModel.editingMindMap != null) {
-                val isLoadingState = mindMapThumbnailViewModel.isLoading.observeAsState()
-                isLoadingState.value?.let { isLoading ->
-                    if (isLoading) {
-                        Text("Loading...")
-                    } else {
-                        Box(modifier = Modifier
-                            .clip(RoundedCornerShape(20.dp))
-                            .background(Color.Black)
-                            .height(200.dp)
-                            .fillMaxWidth()
-                            .onSizeChanged {
-                                // Adjust mind map scale to fit it to thumbnail
-                                val scale =
-                                    it.width.toFloat() / resources.getDimensionPixelSize(R.dimen.map_view_width)
-                                mindMapThumbnailViewModel.setScale(scale)
-                            }
-                            .clickable { navigateToMindMapCreate() }) {
-                            LineContent(
-                                mindMapCreateViewModel = mindMapThumbnailViewModel,
-                                resources = resources,
-                            )
-                            MindMapCreateContent(
-                                modifier = Modifier.fillMaxSize(),
-                                mindMapCreateViewModel = mindMapThumbnailViewModel,
-                                onClickMindMapNode = {},
-                                onClickTaskNode = {},
-                            )
-                        }
-                    }
-                }
-            } else { // Thumbnail for first time
-                Column(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Color.Black)
-                        .height(200.dp)
-                        .fillMaxWidth()
-                        .clickable { navigateToMindMapCreate() },
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_mind_map),
-                        tint = Color.White,
-                        contentDescription = "Mind Map Icon",
-                        modifier = Modifier
-                            .height(130.dp)
-                            .fillMaxWidth()
-                            .padding(bottom = 10.dp)
-                    )
-                    Text(
-                        text = "Expand mind map",
-                        style = MaterialTheme.typography.caption,
-                        color = Color.White,
-                    )
-                }
-            }
+            /** Thumbnail Section */
+            ThumbnailSection()
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -353,7 +296,7 @@ class MindMapDetailFragment : Fragment() {
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            // Color
+            /** Color Selector Section */
             TextField(
                 colors = colors,
                 modifier = Modifier
@@ -378,6 +321,7 @@ class MindMapDetailFragment : Fragment() {
 
             Spacer(modifier = Modifier.height(15.dp))
 
+            /** Description Section */
             TextField(
                 colors = colors,
                 modifier = Modifier.padding(bottom = 10.dp),
@@ -399,39 +343,20 @@ class MindMapDetailFragment : Fragment() {
                 }
             )
 
-            // OGP thumbnail
+            /** OGP thumbnail */
             ogpResult?.image?.let {
                 OgpThumbnail(ogpResult = ogpResult!!, context = context)
             }
 
-
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Progress Section
-            // Progress description
-            Row(
-                modifier = Modifier
-                    .padding(start = 10.dp, bottom = 5.dp)
-                    .fillMaxWidth(),
-            ) {
-                Text(
-                    text = "Progress: ",
-                    style = MaterialTheme.typography.body1,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    text = "70%",
-                    style = MaterialTheme.typography.body1,
-                    color = Color.White
-                )
-            }
-            // Progress bar
-            RoundedProgressBar(percent = 70)
+            /** Progress Section */
+            ProgressSection()
+
 
             Spacer(modifier = Modifier.height(50.dp))
 
-            // Task list Section
+            /** Task list Section */
             Text(
                 text = "Tasks - ${mindMap.title ?: ""}",
                 color = Color.White,
@@ -441,6 +366,92 @@ class MindMapDetailFragment : Fragment() {
     }
 
     // Mind Map Detail Components
+    @Composable
+    fun ThumbnailSection() {
+        if (mainViewModel.editingMindMap != null) {
+            val isLoadingState = mindMapThumbnailViewModel.isLoading.observeAsState()
+            isLoadingState.value?.let { isLoading ->
+                if (isLoading) {
+                    Text("Loading...")
+                } else {
+                    Box(modifier = Modifier
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(Color.Black)
+                        .height(200.dp)
+                        .fillMaxWidth()
+                        .onSizeChanged {
+                            // Adjust mind map scale to fit it to thumbnail
+                            val scale =
+                                it.width.toFloat() / resources.getDimensionPixelSize(R.dimen.map_view_width)
+                            mindMapThumbnailViewModel.setScale(scale)
+                        }
+                        .clickable { navigateToMindMapCreate() }) {
+                        LineContent(
+                            mindMapCreateViewModel = mindMapThumbnailViewModel,
+                            resources = resources,
+                        )
+                        MindMapCreateContent(
+                            modifier = Modifier.fillMaxSize(),
+                            mindMapCreateViewModel = mindMapThumbnailViewModel,
+                            onClickMindMapNode = {},
+                            onClickTaskNode = {},
+                        )
+                    }
+                }
+            }
+        } else { // Thumbnail for first time
+            Column(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(Color.Black)
+                    .height(200.dp)
+                    .fillMaxWidth()
+                    .clickable { navigateToMindMapCreate() },
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_mind_map),
+                    tint = Color.White,
+                    contentDescription = "Mind Map Icon",
+                    modifier = Modifier
+                        .height(130.dp)
+                        .fillMaxWidth()
+                        .padding(bottom = 10.dp)
+                )
+                Text(
+                    text = "Expand mind map",
+                    style = MaterialTheme.typography.caption,
+                    color = Color.White,
+                )
+            }
+        }
+    }
+
+    @Composable
+    fun ProgressSection() {
+        // Progress description
+        Row(
+            modifier = Modifier
+                .padding(start = 10.dp, bottom = 5.dp)
+                .fillMaxWidth(),
+        ) {
+            Text(
+                text = "Progress: ",
+                style = MaterialTheme.typography.body1,
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(
+                text = "70%",
+                style = MaterialTheme.typography.body1,
+                color = Color.White
+            )
+        }
+        // Progress bar
+        RoundedProgressBar(percent = 70)
+    }
+
     @Composable
     fun RoundedProgressBar(
         modifier: Modifier = Modifier,
