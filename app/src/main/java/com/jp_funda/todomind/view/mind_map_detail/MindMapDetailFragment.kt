@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -274,6 +275,12 @@ class MindMapDetailFragment : Fragment() {
                             .background(Color.Black)
                             .height(200.dp)
                             .fillMaxWidth()
+                            .onSizeChanged {
+                                // Adjust mind map scale to fit it to thumbnail
+                                val scale =
+                                    it.width.toFloat() / resources.getDimensionPixelSize(R.dimen.map_view_width)
+                                mindMapThumbnailViewModel.setScale(scale)
+                            }
                             .clickable { navigateToMindMapCreate() }) {
                             LineContent(
                                 mindMapCreateViewModel = mindMapThumbnailViewModel,
