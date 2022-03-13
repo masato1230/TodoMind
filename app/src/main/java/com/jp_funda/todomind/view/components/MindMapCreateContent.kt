@@ -7,8 +7,7 @@ import androidx.compose.ui.Modifier
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
-import com.jp_funda.todomind.view.mind_map_create.nodes.H1
-import com.jp_funda.todomind.view.mind_map_create.nodes.MindMapNode
+import com.jp_funda.todomind.view.mind_map_create.nodes.*
 
 @Composable
 fun MindMapCreateContent(
@@ -29,8 +28,17 @@ fun MindMapCreateContent(
             ) { onClickMindMapNode(mindMapCreateViewModel.mindMap) }
 
             // draw all tasks in mindMap
+            var i = 0
             for (task in mindMapCreateViewModel.tasks) {
-                H1(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                i ++
+                when (i % 6) {
+                    0 -> H1(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                    1 -> H2(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                    2 -> H3(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                    3 -> H4(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                    4 -> H5(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                    5 -> H6(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                }
             }
         }
     }
