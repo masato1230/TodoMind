@@ -11,7 +11,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 
 @Composable
-fun Body1(
+fun Body2(
     modifier: Modifier = Modifier,
     task: Task,
     viewModel: MindMapCreateViewModel,
@@ -21,7 +21,7 @@ fun Body1(
         modifier = modifier,
         task = task,
         viewModel = viewModel,
-        iconImage = painterResource(id = R.drawable.ic_checkbox_unchecked),
+        iconImage = painterResource(id = R.drawable.ic_arrow_foward_24),
         size = NodeStyle.BODY_1.getSize(),
         fontSize = NodeStyle.BODY_1.getTextSize(),
         maxLines = 1,

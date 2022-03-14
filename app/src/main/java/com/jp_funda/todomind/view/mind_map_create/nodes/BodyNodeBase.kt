@@ -13,12 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
@@ -35,10 +35,12 @@ fun BodyNodeBase(
     modifier: Modifier = Modifier,
     task: Task,
     viewModel: MindMapCreateViewModel,
+    iconImage: Painter,
     size: Size,
     // text parameters
     fontSize: TextUnit,
     maxLines: Int,
+    iconPadding: Float = 0f,
     onClick: () -> Unit,
 ) {
     val haptic = LocalHapticFeedback.current
@@ -62,7 +64,7 @@ fun BodyNodeBase(
     }
     val fontColor = if (rememberedTask.statusEnum != TaskStatus.Complete) {
         Color.White
-    } else Color.LightGray
+    } else Color.Gray
 
     Row(
         modifier = modifier
@@ -90,12 +92,12 @@ fun BodyNodeBase(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_checkbox_unchecked),
+            painter = iconImage,
             contentDescription = "Circle",
             tint = circleColor,
             modifier = Modifier
-                .height((size.height * scale).dp)
-                .width((size.height * scale).dp)
+                .height(((size.height - iconPadding * 2) * scale).dp)
+                .width(((size.height - iconPadding * 2) * scale).dp)
         )
         Spacer(modifier = Modifier.width(10.dp * scale))
         Text(
