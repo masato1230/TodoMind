@@ -5,12 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.TextUnit
 
-enum class NodeStyle {
-    HEADLINE_1,
-    HEADLINE_2,
-    HEADLINE_3,
-    BODY_1,
-    BODY_2,
+enum class NodeStyle(val title: String) {
+    HEADLINE_1(title = "Headline 1"),
+    HEADLINE_2(title = "Headline 2"),
+    HEADLINE_3(title = "Headline 3"),
+    BODY_1(title = "Body 1"),
+    BODY_2(title = "Body 2"),
 }
 
 fun NodeStyle.getSize(): Size {

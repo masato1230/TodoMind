@@ -222,7 +222,7 @@ fun TaskEditContent(
             ) {
                 TextField(
                     colors = colors,
-                    value = "Style - ${task.styleEnum.name}",
+                    value = "Style - ${task.styleEnum.title}",
                     onValueChange = {},
                     leadingIcon = {
                         Icon(
@@ -249,7 +249,7 @@ fun TaskEditContent(
                             taskEditableViewModel.setStyle(option)
                             styleExpanded = false
                         }) {
-                            Text(text = option.name)
+                            Text(text = option.title)
                         }
                     }
                 }
