@@ -226,9 +226,10 @@ fun TaskEditContent(
                     onValueChange = {},
                     leadingIcon = {
                         Icon(
-                            imageVector = Icons.Default.List,
+                            painter = painterResource(id = R.drawable.ic_style_24),
                             contentDescription = "Style",
-                            tint = Color.White
+                            tint = task.color?.let { Color(it) }
+                                ?: run { colorResource(id = R.color.teal_200) },
                         )
                     },
                     trailingIcon = {
