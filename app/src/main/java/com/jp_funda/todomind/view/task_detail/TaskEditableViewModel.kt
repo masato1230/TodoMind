@@ -3,6 +3,7 @@ package com.jp_funda.todomind.view.task_detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
 import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
@@ -98,6 +99,11 @@ open class TaskEditableViewModel(
     fun setY(y: Float) {
         _task.value!!.y = y
         notifyChangeToView() // todo check if is this needed
+    }
+
+    fun setStyle(styleEnum: NodeStyle) {
+        _task.value!!.styleEnum = styleEnum
+        notifyChangeToView()
     }
 
     open fun saveTask() {
