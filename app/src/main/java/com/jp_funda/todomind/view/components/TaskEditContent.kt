@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.task_detail.TaskEditableViewModel
@@ -208,6 +209,50 @@ fun TaskEditContent(
                 readOnly = true,
                 enabled = false,
             )
+
+            // Style
+            val styleOptions = NodeStyle.values()
+            var styleExpanded by remember { mutableStateOf(false) }
+
+            ExposedDropdownMenuBox(
+                expanded = styleExpanded,
+                onExpandedChange = {
+                    styleExpanded = !styleExpanded
+                }
+            ) {
+                TextField(
+                    colors = colors,
+                    value = "Style - ${task.styleEnum.name}",
+                    onValueChange = {},
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.List,
+                            contentDescription = "Style",
+                            tint = Color.White
+                        )
+                    },
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded = styleExpanded
+                        )
+                    },
+                    readOnly = true,
+                )
+                ExposedDropdownMenu(
+                    expanded = styleExpanded,
+                    onDismissRequest = {
+                        styleExpanded = false
+                    }) {
+                    styleOptions.forEach { option ->
+                        DropdownMenuItem(onClick = {
+                            taskEditableViewModel.setStyle(option)
+                            styleExpanded = false
+                        }) {
+                            Text(text = option.name)
+                        }
+                    }
+                }
+            }
 
             // Status
             val statusOptions = TaskStatus.values()
