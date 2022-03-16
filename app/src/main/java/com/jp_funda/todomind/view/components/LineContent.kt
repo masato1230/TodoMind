@@ -11,7 +11,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.jp_funda.todomind.data.NodeStyle
-import com.jp_funda.todomind.data.getSize
+import com.jp_funda.todomind.data.getSizeOffsetForDrawLine
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 
@@ -28,14 +28,10 @@ fun LineContent(
             .fillMaxSize()
             .drawBehind {
                 for (task in mindMapCreateViewModel.tasks) {
-                    val startSizeOffsetX = (task.parentTask?.styleEnum
-                        ?: NodeStyle.HEADLINE_1).getSize().width / 2 * resources.displayMetrics.density
-                    val startSizeOffsetY = (task.parentTask?.styleEnum
-                        ?: NodeStyle.HEADLINE_1).getSize().height / 2 * resources.displayMetrics.density
-                    val endSizeOffsetX =
-                        task.styleEnum.getSize().width / 2 * resources.displayMetrics.density
-                    val endSizeOffsetY =
-                        task.styleEnum.getSize().height / 2 * resources.displayMetrics.density
+
+                    val startSizeOffset = (task.parentTask?.styleEnum
+                        ?: NodeStyle.HEADLINE_1).getSizeOffsetForDrawLine(resources)
+                    val endSizeOffset = (task.styleEnum.getSizeOffsetForDrawLine(resources))
 
                     val startOffsetX = task.parentTask?.x ?: mindMapCreateViewModel.mindMap.x
                     val startOffsetY = task.parentTask?.y ?: mindMapCreateViewModel.mindMap.y
@@ -52,12 +48,12 @@ fun LineContent(
                     drawLine(
                         color = if (task.statusEnum != TaskStatus.Complete) Color.White else Color.DarkGray,
                         start = Offset(
-                            startOffsetX + startSizeOffsetX,
-                            startOffsetY + startSizeOffsetY
+                            startOffsetX + startSizeOffset.width,
+                            startOffsetY + startSizeOffset.height
                         ) * mindMapCreateViewModel.getScale(),
                         end = Offset(
-                            endOffsetX + endSizeOffsetX,
-                            endOffsetY + endSizeOffsetY
+                            endOffsetX + endSizeOffset.width,
+                            endOffsetY + endSizeOffset.height
                         ) * mindMapCreateViewModel.getScale(),
                         strokeWidth = Stroke.DefaultMiter
                     )
