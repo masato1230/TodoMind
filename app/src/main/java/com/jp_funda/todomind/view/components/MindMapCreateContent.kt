@@ -37,7 +37,7 @@ fun MindMapCreateContent(
                     NodeStyle.HEADLINE_4 -> H4(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
                     NodeStyle.BODY_1 -> Body1(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
                     NodeStyle.BODY_2 -> Body2(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
-                    NodeStyle.Link -> Link(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                    NodeStyle.LINK -> Link(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
                 }
             }
         }

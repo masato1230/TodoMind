@@ -13,7 +13,7 @@ enum class NodeStyle(val title: String) {
     HEADLINE_4(title = "Headline 4"),
     BODY_1(title = "Body 1"),
     BODY_2(title = "Body 2"),
-    Link(title = "Link"),
+    LINK(title = "Link"),
 }
 
 fun NodeStyle.getSize(): Size {
@@ -24,7 +24,7 @@ fun NodeStyle.getSize(): Size {
         NodeStyle.HEADLINE_4 -> Size(150f, 150f)
         NodeStyle.BODY_1 -> Size(500f, 30f)
         NodeStyle.BODY_2 -> Size(500f, 25f)
-        NodeStyle.Link -> Size(500f, 25f)
+        NodeStyle.LINK -> Size(500f, 25f)
     }
 }
 
@@ -33,7 +33,7 @@ fun NodeStyle.getSizeOffsetForDrawLine(resources: Resources): Size {
     return when (this) {
         NodeStyle.BODY_1,
         NodeStyle.BODY_2,
-        NodeStyle.Link -> Size(this.getSize().height, this.getSize().height) / 2f * density
+        NodeStyle.LINK -> Size(this.getSize().height, this.getSize().height) / 2f * density
         else -> this.getSize() / 2f * density
     }
 }
@@ -47,6 +47,6 @@ fun NodeStyle.getTextSize(): TextUnit {
         NodeStyle.HEADLINE_4 -> MaterialTheme.typography.h4.fontSize * 0.6
         NodeStyle.BODY_1 -> MaterialTheme.typography.h5.fontSize
         NodeStyle.BODY_2 -> MaterialTheme.typography.h6.fontSize
-        NodeStyle.Link -> MaterialTheme.typography.h5.fontSize
+        NodeStyle.LINK -> MaterialTheme.typography.h5.fontSize
     }
 }

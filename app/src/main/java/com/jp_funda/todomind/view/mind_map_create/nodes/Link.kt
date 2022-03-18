@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
@@ -14,7 +13,6 @@ import com.jp_funda.todomind.data.getTextSize
 import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.util.UrlUtil
-import com.jp_funda.todomind.view.components.OgpThumbnail
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 
 @Composable
@@ -59,6 +57,6 @@ fun Link(
         ) { onClick() }
     }
     ogpResult.value?.let {
-        OgpThumbnail(ogpResult = it, context = LocalContext.current)
+        OgpCard(ogpResult = it, task = task, viewModel = viewModel)
     }
 }
