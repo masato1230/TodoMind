@@ -44,7 +44,7 @@ fun NodeStyle.getTextSize(): TextUnit {
         NodeStyle.HEADLINE_1 -> MaterialTheme.typography.h4.fontSize
         NodeStyle.HEADLINE_2 -> MaterialTheme.typography.h4.fontSize * 0.9
         NodeStyle.HEADLINE_3 -> MaterialTheme.typography.h4.fontSize * 0.6
-        NodeStyle.HEADLINE_4 -> MaterialTheme.typography.h4.fontSize * 0.6
+        NodeStyle.HEADLINE_4 -> MaterialTheme.typography.h4.fontSize * 0.4
         NodeStyle.BODY_1 -> MaterialTheme.typography.h5.fontSize
         NodeStyle.BODY_2 -> MaterialTheme.typography.h6.fontSize
         NodeStyle.LINK -> MaterialTheme.typography.h5.fontSize
