@@ -5,7 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.Fragment
+import com.jp_funda.todomind.R
+import com.jp_funda.todomind.view.components.BackNavigationIcon
 
 class OssLicensesFragment : Fragment() {
     override fun onCreateView(
@@ -15,6 +24,23 @@ class OssLicensesFragment : Fragment() {
     ): View {
         val webView = WebView(requireContext())
         webView.loadUrl("file:///android_asset/licenses.html")
-        return webView
+
+        return ComposeView(requireContext()).apply {
+            setContent {
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = { Text(text = "OSS licenses") },
+                            backgroundColor = colorResource(id = R.color.deep_purple),
+                            contentColor = Color.White,
+                            navigationIcon = { BackNavigationIcon() },
+                        )
+                    },
+                    backgroundColor = colorResource(id = R.color.deep_purple)
+                ) {
+                    AndroidView(factory = { webView })
+                }
+            }
+        }
     }
 }
