@@ -53,7 +53,7 @@ class TaskDetailFragment : Fragment() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text(text = "Task Detail") },
+                            title = { Text(text = if (taskDetailViewModel.isEditing) "Task Detail" else "New Task") },
                             backgroundColor = colorResource(id = R.color.deep_purple),
                             contentColor = Color.White,
                             navigationIcon = { BackNavigationIcon() },

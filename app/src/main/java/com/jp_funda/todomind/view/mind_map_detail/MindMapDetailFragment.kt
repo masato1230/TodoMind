@@ -102,7 +102,7 @@ class MindMapDetailFragment : Fragment() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text(text = "Mind Map Detail") },
+                            title = { Text(text = if (mindMapDetailViewModel.isEditing) "Mind Map Detail" else "New Mind Map") },
                             backgroundColor = colorResource(id = R.color.deep_purple),
                             contentColor = Color.White,
                             navigationIcon = { BackNavigationIcon() },
