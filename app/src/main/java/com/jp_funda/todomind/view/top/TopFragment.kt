@@ -1,11 +1,9 @@
 package com.jp_funda.todomind.view.top
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -192,18 +190,5 @@ class TopFragment : Fragment() {
                 )
             }
         }
-    }
-
-    @SuppressLint("RestrictedApi")
-    override fun onPause() {
-        super.onPause()
-        (activity as AppCompatActivity).supportActionBar?.setShowHideAnimationEnabled(false)
-        (activity as AppCompatActivity).supportActionBar?.show()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // Hide default ActionBar
-        (activity as AppCompatActivity).supportActionBar?.hide()
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -39,13 +38,6 @@ class TaskDetailFragment : Fragment() {
         // Check whether to edit or create new task by mainViewModel editingTask
         mainViewModel.editingTask?.let { editingTask ->
             taskDetailViewModel.setEditingTask(editingTask)
-        }
-
-        // Set ActionBar title
-        if (!taskDetailViewModel.isEditing) {
-            (requireActivity() as AppCompatActivity).supportActionBar?.title = "New Task"
-        } else {
-            (requireActivity() as AppCompatActivity).supportActionBar?.title = "Editing"
         }
 
         return ComposeView(requireContext()).apply {
