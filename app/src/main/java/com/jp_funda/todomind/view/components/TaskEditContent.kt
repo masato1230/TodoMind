@@ -105,6 +105,7 @@ fun TaskEditContent(
             )
 
             // Description TextField
+            val isLinkNode = task.styleEnum == NodeStyle.LINK
             TextField(
                 colors = colors,
                 modifier = Modifier.fillMaxWidth(),
@@ -115,11 +116,14 @@ fun TaskEditContent(
                 },
                 textStyle = MaterialTheme.typography.body1,
                 placeholder = {
-                    Text(text = "Add description", color = Color.Gray)
+                    Text(
+                        text = if (!isLinkNode) "Add description" else "Add Url",
+                        color = Color.Gray
+                    )
                 },
                 leadingIcon = {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_notes_24dp),
+                        painter = painterResource(id = if (!isLinkNode) R.drawable.ic_notes_24dp else R.drawable.ic_link_24),
                         contentDescription = "Description",
                         tint = Color.White
                     )
