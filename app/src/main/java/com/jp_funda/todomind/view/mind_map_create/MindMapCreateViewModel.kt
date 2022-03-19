@@ -5,17 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepository
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
+import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 @HiltViewModel
 open class MindMapCreateViewModel @Inject constructor(
     private val mindMapRepository: MindMapRepository,
     private val taskRepository: TaskRepository,
+    private val ogpRepository: OgpRepository,
 ) : ViewModel() {
     /** UpdateCount - count of view update. To update view count up this. */
     private val _updateCount = MutableLiveData(0)
@@ -85,6 +89,26 @@ open class MindMapCreateViewModel @Inject constructor(
             taskRepository.updateTask(task)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
+        )
+    }
+
+    /** OGP */
+    fun fetchOgp(
+        siteUrl: String,
+        onSuccess: (ogpResult: OpenGraphResult) -> Unit,
+        onError: () -> Unit
+    ) {
+        disposables.add(
+            ogpRepository.fetchOgp(siteUrl)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnSuccess {
+                    onSuccess(it)
+                }
+                .doOnError {
+                    onError()
+                }
+                .subscribe({}, { it.printStackTrace() })
         )
     }
 
