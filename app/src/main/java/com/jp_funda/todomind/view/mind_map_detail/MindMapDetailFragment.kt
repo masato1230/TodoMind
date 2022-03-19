@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -139,7 +138,7 @@ class MindMapDetailFragment : Fragment() {
     @Composable
     fun MindMapDetailContent() {
         val observedTasks by taskViewModel.taskList.observeAsState()
-        var selectedTabStatus by remember { mutableStateOf(TaskStatus.Open) }
+        val selectedTabStatus by taskViewModel.selectedStatusTab.observeAsState(TaskStatus.Open)
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
 
@@ -156,7 +155,7 @@ class MindMapDetailFragment : Fragment() {
             ColumnWithTaskList(
                 selectedTabStatus = selectedTabStatus,
                 onTabChange = { status ->
-                    selectedTabStatus = status
+                    taskViewModel.setSelectedStatusTab(status)
                 },
                 showingTasks = showingTasks,
                 onCheckChanged = { task ->
@@ -493,17 +492,9 @@ class MindMapDetailFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        (activity as AppCompatActivity).supportActionBar?.show()
-
         if (mindMapDetailViewModel.isAutoSaveNeeded) {
             mindMapDetailViewModel.saveMindMapAndClearDisposables()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // Hide default ActionBar
-        (activity as AppCompatActivity).supportActionBar?.hide()
     }
 
     override fun onDestroyView() {
