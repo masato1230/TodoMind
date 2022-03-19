@@ -24,7 +24,6 @@ import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.ColumnWithTaskList
 import com.jp_funda.todomind.view.components.NewTaskFAB
-import com.jp_funda.todomind.view.components.TaskTab
 import com.jp_funda.todomind.view.components.filterTasksByStatus
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -95,14 +94,11 @@ class TaskFragment : Fragment() {
             )
 
             Column {
-                TaskTab(
+                ColumnWithTaskList(
                     selectedTabStatus = selectedTabStatus,
                     onTabChange = { status ->
                         taskViewModel.setSelectedStatusTab(status)
-                    })
-
-                ColumnWithTaskList(
-                    selectedTabStatus = null,
+                    },
                     showingTasks = showingTasks,
                     onCheckChanged = { task ->
                         taskViewModel.updateTaskWithDelay(task)
