@@ -50,6 +50,9 @@ class MindMapCreateFragment : Fragment() {
 
         _binding = FragmentMindMapCreateBinding.inflate(inflater)
 
+        // Initialize header
+        initializeHeader()
+
         // Scale buttons
         initializeZoomButtons()
 
@@ -104,6 +107,11 @@ class MindMapCreateFragment : Fragment() {
         mindMapCreateViewModel.isLoading.observe(viewLifecycleOwner, loadingObserver)
 
         return binding.root
+    }
+
+    private fun initializeHeader() {
+        binding.headerBack.setOnClickListener { findNavController().popBackStack() }
+        binding.headerTitle.text = mindMapCreateViewModel.mindMap.title ?: ""
     }
 
     private fun initializeZoomButtons() {

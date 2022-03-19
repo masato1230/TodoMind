@@ -5,17 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.colorResource
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.MainViewModel
-import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.components.BackNavigationIcon
+import com.jp_funda.todomind.view.components.TaskEditContent
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @androidx.compose.material.ExperimentalMaterialApi
 @AndroidEntryPoint
@@ -47,11 +50,23 @@ class TaskDetailFragment : Fragment() {
 
         return ComposeView(requireContext()).apply {
             setContent {
-                TaskEditContent(
-                    fragment = this@TaskDetailFragment,
-                    taskEditableViewModel = taskDetailViewModel,
-                    mainViewModel = mainViewModel,
-                )
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = { Text(text = if (taskDetailViewModel.isEditing) "Task Detail" else "New Task") },
+                            backgroundColor = colorResource(id = R.color.deep_purple),
+                            contentColor = Color.White,
+                            navigationIcon = { BackNavigationIcon() },
+                        )
+                    },
+                    backgroundColor = colorResource(id = R.color.deep_purple),
+                ) {
+                    TaskEditContent(
+                        fragment = this@TaskDetailFragment,
+                        taskEditableViewModel = taskDetailViewModel,
+                        mainViewModel = mainViewModel,
+                    )
+                }
             }
         }
     }
