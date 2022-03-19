@@ -117,7 +117,6 @@ class MindMapFragment : Fragment() {
     @Composable
     fun MindMapsRow(mindMaps: List<MindMap>) {
         LazyRow(modifier = Modifier.padding(bottom = 20.dp)) {
-            // todo fill with data
             items(items = mindMaps) { mindMap ->
                 MindMapCard(
                     mindMap = mindMap,

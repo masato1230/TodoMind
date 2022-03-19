@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
@@ -106,14 +105,7 @@ class MindMapDetailFragment : Fragment() {
                             title = { Text(text = "Mind Map Detail") },
                             backgroundColor = colorResource(id = R.color.deep_purple),
                             contentColor = Color.White,
-                            navigationIcon = {
-                                IconButton(onClick = { findNavController().popBackStack() }) {
-                                    Icon(
-                                        imageVector = Icons.Default.ArrowBack,
-                                        contentDescription = "Back"
-                                    )
-                                }
-                            },
+                            navigationIcon = { BackNavigationIcon() },
                             actions = {
                                 IconButton(onClick = {
                                     findNavController().popBackStack()
