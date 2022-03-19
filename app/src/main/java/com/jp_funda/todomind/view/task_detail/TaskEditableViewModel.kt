@@ -26,7 +26,8 @@ open class TaskEditableViewModel(
     val taskRepository: TaskRepository,
     val ogpRepository: OgpRepository,
 ) : ViewModel() {
-    protected var _task = MutableLiveData(Task(createdDate = Date()))
+    protected var _task =
+        MutableLiveData(Task(createdDate = Date(), styleEnum = NodeStyle.HEADLINE_2))
     val task: LiveData<Task> = _task
     var isEditing: Boolean = false
 
