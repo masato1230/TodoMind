@@ -13,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -47,7 +48,16 @@ class MindMapFragment : Fragment() {
 
         return ComposeView(requireContext()).apply {
             setContent {
-                Scaffold(backgroundColor = colorResource(id = R.color.deep_purple)) {
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = { Text(text = "MindMap") },
+                            backgroundColor = colorResource(id = R.color.deep_purple),
+                            contentColor = Color.White,
+                        )
+                    },
+                    backgroundColor = colorResource(id = R.color.deep_purple)
+                ) {
                     MindMapContent()
                 }
             }
