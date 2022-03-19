@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -35,29 +36,46 @@ fun OgpCard(
     val density = LocalDensity.current.density
 
     var offsetX by remember { mutableStateOf(task.x ?: 0f) }
-    var offsetY by remember { mutableStateOf((task.y ?: 0f) + NodeStyle.LINK.getSize().height * density + 5f) }
+    var offsetY by remember {
+        mutableStateOf(
+            (task.y ?: 0f) + NodeStyle.LINK.getSize().height * density + 30f
+        )
+    }
     // Update status before ui update
     offsetX = task.x ?: 0f
-    offsetY = (task.y ?: 0f) + NodeStyle.LINK.getSize().height * density + 5f
+    offsetY = (task.y ?: 0f) + NodeStyle.LINK.getSize().height * density + 30f
 
     val scale = viewModel.getScale()
 
     Card(
         modifier = Modifier
             .offset { IntOffset((offsetX * scale).roundToInt(), (offsetY * scale).roundToInt()) }
-            .width(100.dp * viewModel.getScale())
+            .width(150.dp * viewModel.getScale())
             .clickable {
                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(ogpResult.url))
                 context.startActivity(browserIntent)
             }
     ) {
         Column {
-            Text(text = ogpResult.url!!)
             Image(
                 painter = rememberImagePainter(data = ogpResult.image),
                 contentDescription = "Site thumbnail",
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier.heightIn(max = 100.dp * viewModel.getScale())
+            )
+            ogpResult.siteName?.let {
+                Text(
+                    text = it,
+                    color = Color.Black,
+                    modifier = Modifier.padding(horizontal = 5.dp * viewModel.getScale()),
+                    fontSize = MaterialTheme.typography.caption.fontSize * viewModel.getScale()
+                )
+            }
+            Text(
+                text = ogpResult.url!!,
+                color = Color.Blue,
+                modifier = Modifier.padding(horizontal = 3.dp * viewModel.getScale()),
+                fontSize = MaterialTheme.typography.caption.fontSize * viewModel.getScale(),
             )
             ogpResult.title?.let {
                 Text(
@@ -68,7 +86,8 @@ fun OgpCard(
                         bottom = 10.dp * viewModel.getScale(),
                         start = 10.dp * viewModel.getScale(),
                         end = 10.dp * viewModel.getScale(),
-                    )
+                    ),
+                    fontSize = MaterialTheme.typography.body1.fontSize * viewModel.getScale()
                 )
             }
         }
