@@ -22,7 +22,10 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
-import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.components.ColumnWithTaskList
+import com.jp_funda.todomind.view.components.NewTaskFAB
+import com.jp_funda.todomind.view.components.TaskTab
+import com.jp_funda.todomind.view.components.filterTasksByStatus
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.lang.Integer.max
@@ -46,10 +49,18 @@ class TaskFragment : Fragment() {
 
         return ComposeView(requireContext()).apply {
             setContent {
-                NewTaskFAB(onClick = {
-                    NavHostFragment.findNavController(this@TaskFragment)
-                        .navigate(R.id.action_navigation_task_to_navigation_task_detail)
-                }) {
+                NewTaskFAB(
+                    topBar = {
+                        TopAppBar(
+                            title = { Text(text = "Task") },
+                            backgroundColor = colorResource(id = R.color.deep_purple),
+                            contentColor = Color.White,
+                        )
+                    },
+                    onClick = {
+                        NavHostFragment.findNavController(this@TaskFragment)
+                            .navigate(R.id.action_navigation_task_to_navigation_task_detail)
+                    }) {
                     TaskContent()
                 }
             }
