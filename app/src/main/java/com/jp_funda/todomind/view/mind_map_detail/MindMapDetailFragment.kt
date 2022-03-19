@@ -306,7 +306,7 @@ class MindMapDetailFragment : Fragment() {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_color_24dp),
                         tint = mindMap.color?.let { Color(it) }
-                            ?: run { colorResource(id = R.color.teal_200) },
+                            ?: run { colorResource(id = R.color.pink_dark) },
                         contentDescription = "Color",
                     )
                 },

@@ -32,7 +32,7 @@ fun MindMapCard(
             val description = view.findViewById<TextView>(R.id.map_card_description)
 
             // card background
-            mindMap.color?.let { background.setBackgroundColor(it) }
+            background.setBackgroundColor(mindMap.color ?: Color.parseColor("#e91e63"))
 
             // created date
             mindMap.createdDate?.let {

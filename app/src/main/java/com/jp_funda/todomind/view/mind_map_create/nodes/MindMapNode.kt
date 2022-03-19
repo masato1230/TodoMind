@@ -44,7 +44,7 @@ fun MindMapNode(
 
     val scale = viewModel.getScale()
 
-    val backgroundColor = mindMap.color?.let { Color(it) } ?: run { colorResource(id = R.color.teal_200) }
+    val backgroundColor = mindMap.color?.let { Color(it) } ?: run { colorResource(id = R.color.pink_dark) }
     val fontColor = if (backgroundColor.getLuminance() > 0.6) Color.Black else Color.White
 
     Box(
