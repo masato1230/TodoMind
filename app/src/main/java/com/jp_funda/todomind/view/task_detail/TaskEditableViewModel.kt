@@ -26,7 +26,8 @@ open class TaskEditableViewModel(
     val taskRepository: TaskRepository,
     val ogpRepository: OgpRepository,
 ) : ViewModel() {
-    protected var _task = MutableLiveData(Task(createdDate = Date()))
+    protected var _task =
+        MutableLiveData(Task(createdDate = Date(), styleEnum = NodeStyle.HEADLINE_2))
     val task: LiveData<Task> = _task
     var isEditing: Boolean = false
 
@@ -88,17 +89,17 @@ open class TaskEditableViewModel(
 
     fun setParentTask(parentTask: Task) {
         _task.value!!.parentTask = parentTask
-        notifyChangeToView() // todo check if is this needed
+        _task.value!!.styleEnum =
+            if (parentTask.styleEnum.ordinal < NodeStyle.values().size - 1) NodeStyle.values()[parentTask.styleEnum.ordinal + 1]
+            else NodeStyle.HEADLINE_2
     }
 
     fun setX(x: Float) {
         _task.value!!.x = x
-        notifyChangeToView() // todo check if is this needed
     }
 
     fun setY(y: Float) {
         _task.value!!.y = y
-        notifyChangeToView() // todo check if is this needed
     }
 
     fun setStyle(styleEnum: NodeStyle) {
