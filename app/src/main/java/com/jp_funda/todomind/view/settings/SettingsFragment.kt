@@ -35,6 +35,7 @@ import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.BuildConfig
 import com.jp_funda.todomind.R
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.roundToInt
 
 // TODO add dismiss ogp tag setting
 @AndroidEntryPoint
@@ -76,7 +77,7 @@ class SettingsFragment : Fragment() {
                 SettingRowWithNext(
                     icon = Icons.Default.LocationOn,
                     title = "Default Mind Map Scale",
-                    selectedValue = "x ${viewModel.defaultMindMapScale}"
+                    selectedValue = "${(viewModel.defaultMindMapScale * 100).roundToInt()} %"
                 ) { /** TODO something */ }
 
                 Divider(color = colorResource(id = R.color.white_1))
