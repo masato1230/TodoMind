@@ -10,11 +10,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.repositories.task.TaskRepository
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class Reminder : BroadcastReceiver() {
+    @Inject
+    lateinit var taskRepository: TaskRepository
+
+    companion object {
+        const val CHANNEL_ID = "reminder_channel"
+        const val CHANNEL_NAME = "reminder_channel"
+    }
+
     override fun onReceive(context: Context, intent: Intent) {
         try {
-            showNotification(context, "Make it Easy", "Compose Notification")
+            showNotification(
+                context,
+                intent.getStringExtra("title") ?: "title fail",
+                intent.getStringExtra("desc") ?: "desc fail"
+            )
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -22,16 +38,18 @@ class Reminder : BroadcastReceiver() {
 
     private fun showNotification(context: Context, title: String, desc: String) {
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val channelId = "message_channel"
-        val channelName = "message_name"
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
             val channel =
-                NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
+                NotificationChannel(
+                    CHANNEL_ID,
+                    CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
             manager.createNotificationChannel(channel)
         }
 
-        val builder = NotificationCompat.Builder(context, channelId)
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(desc)
             .setColor(Color(R.color.light_purple).toArgb())
@@ -39,4 +57,5 @@ class Reminder : BroadcastReceiver() {
 
         manager.notify(1, builder.build())
     }
+
 }

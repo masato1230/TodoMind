@@ -60,9 +60,9 @@ class MainActivity : AppCompatActivity() {
         val timeSeconds = System.currentTimeMillis() + 10000
         val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, Reminder::class.java)
+            .putExtra("title", "TITLE")
+            .putExtra("desc", "DESC")
         val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, FLAG_IMMUTABLE)
-        val pendingIntent2 = PendingIntent.getBroadcast(context, 0, intent, FLAG_IMMUTABLE)
         alarmManager.set(AlarmManager.RTC_WAKEUP, timeSeconds, pendingIntent)
-        alarmManager.set(AlarmManager.RTC_WAKEUP, timeSeconds, pendingIntent2)
     }
 }
