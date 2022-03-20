@@ -14,12 +14,16 @@ import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -69,18 +73,24 @@ class SettingsFragment : Fragment() {
             SettingsGroup(title = "Personal Settings") {
                 // TODO change selected value
                 // Mind Map Scale
-                SettingRow(
+                SettingRowWithNext(
                     icon = Icons.Default.LocationOn,
                     title = "Default Mind Map Scale",
-                    selectedValue = "1"
+                    selectedValue = "x 1.0"
                 ) { /** TODO something */ }
 
-                //
+                Divider(color = colorResource(id = R.color.white_1))
+
+                // OGP thumbnail setting
+                SettingRowWithSwitch(
+                    painter = painterResource(id = R.drawable.ic_link_24),
+                    title = "Show Link Thumbnail",
+                    onCheckedChange = { /** TODO Something */ })
             }
 
             SettingsGroup("About TodoMind") {
                 // APP version
-                SettingRow(
+                SettingRowOnlyText(
                     icon = Icons.Default.Build,
                     title = "App version",
                     value = BuildConfig.VERSION_NAME
@@ -89,7 +99,7 @@ class SettingsFragment : Fragment() {
                 Divider(color = colorResource(id = R.color.white_1))
 
                 // OSS Licenses
-                SettingRow(
+                SettingRowWithNext(
                     icon = Icons.Default.List,
                     title = "Open source licenses"
                 ) { findNavController().navigate(R.id.action_navigation_settings_to_navigation_oss_licenses) }
@@ -121,7 +131,7 @@ class SettingsFragment : Fragment() {
 
     /** SettingRow with only text info */
     @Composable
-    fun SettingRow(
+    fun SettingRowOnlyText(
         icon: ImageVector,
         title: String,
         value: String,
@@ -151,7 +161,7 @@ class SettingsFragment : Fragment() {
 
     /** SettingRow with next screen */
     @Composable
-    fun SettingRow(
+    fun SettingRowWithNext(
         icon: ImageVector,
         title: String,
         selectedValue: String? = null,
@@ -183,6 +193,60 @@ class SettingsFragment : Fragment() {
                 imageVector = Icons.Default.ArrowForward,
                 tint = colorResource(id = R.color.grey),
                 contentDescription = "Next"
+            )
+        }
+    }
+
+    /** SettingRow with switch */
+    @Composable
+    fun SettingRowWithSwitch(
+        icon: ImageVector? = null,
+        painter: Painter? = null,
+        title: String,
+        onCheckedChange: (Boolean) -> Unit,
+    ) {
+        val checkedState = remember { mutableStateOf(true) }
+
+        Row(
+            modifier = Modifier
+                .height(50.dp)
+                .padding(horizontal = 15.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            icon?.let {
+                Icon(
+                    imageVector = it,
+                    tint = colorResource(id = R.color.grey),
+                    contentDescription = "Title",
+                    modifier = Modifier.height(40.dp)
+                )
+            }
+            painter?.let {
+                Icon(
+                    painter = it,
+                    tint = colorResource(id = R.color.grey),
+                    contentDescription = "Title",
+                    modifier = Modifier.height(40.dp)
+                )
+            }
+            Spacer(modifier = Modifier.width(15.dp))
+            Text(
+                text = title,
+                color = Color.White,
+                style = MaterialTheme.typography.subtitle1,
+            )
+            Spacer(Modifier.weight(1f))
+            Switch(
+                checked = checkedState.value,
+                onCheckedChange = {
+                    checkedState.value = it
+                    onCheckedChange(it)
+                },
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = colorResource(id = R.color.teal_200),
+                    checkedTrackColor = colorResource(id = R.color.teal_200),
+                    checkedTrackAlpha = 0.8f,
+                )
             )
         }
     }
