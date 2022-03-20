@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,10 +12,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.ComposeView
@@ -67,8 +66,19 @@ class SettingsFragment : Fragment() {
             modifier = Modifier.padding(top = 10.dp, start = 20.dp, end = 20.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
+            SettingsGroup(title = "Personal Settings") {
+                // TODO change selected value
+                // Mind Map Scale
+                SettingRow(
+                    icon = Icons.Default.LocationOn,
+                    title = "Default Mind Map Scale",
+                    selectedValue = "1"
+                ) { /** TODO something */ }
+
+                //
+            }
+
             SettingsGroup("About TodoMind") {
-                // TODO fill with data
                 // APP version
                 SettingRow(
                     icon = Icons.Default.Build,
@@ -76,12 +86,13 @@ class SettingsFragment : Fragment() {
                     value = BuildConfig.VERSION_NAME
                 )
 
+                Divider(color = colorResource(id = R.color.white_1))
+
                 // OSS Licenses
                 SettingRow(
                     icon = Icons.Default.List,
                     title = "Open source licenses"
                 ) { findNavController().navigate(R.id.action_navigation_settings_to_navigation_oss_licenses) }
-                Divider(color = colorResource(id = R.color.white_1))
             }
         }
     }
@@ -98,11 +109,13 @@ class SettingsFragment : Fragment() {
                 color = Color.LightGray,
                 modifier = Modifier.padding(start = 20.dp, bottom = 10.dp),
             )
-            Column(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(colorResource(id = R.color.steel_dark))
-            ) { content() }
+            Surface(
+                elevation = 8.dp,
+                shape = RoundedCornerShape(20.dp),
+                color = colorResource(id = R.color.steel_dark)
+            ) {
+                Column { content() }
+            }
         }
     }
 
@@ -165,6 +178,7 @@ class SettingsFragment : Fragment() {
             )
             Spacer(Modifier.weight(1f))
             selectedValue?.let { Text(text = it, color = Color.White) }
+            Spacer(modifier = Modifier.width(10.dp))
             Icon(
                 imageVector = Icons.Default.ArrowForward,
                 tint = colorResource(id = R.color.grey),
