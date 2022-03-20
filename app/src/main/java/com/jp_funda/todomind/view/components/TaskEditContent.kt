@@ -78,7 +78,7 @@ fun TaskEditContent(
         )
 
         LaunchedEffect(ogpResult) {
-            if (!task.description.isNullOrEmpty()) {
+            if (!task.description.isNullOrEmpty() && taskEditableViewModel.isShowOgpThumbnail) {
                 taskEditableViewModel.extractUrlAndFetchOgp(task.description!!)
             }
         }
@@ -112,7 +112,10 @@ fun TaskEditContent(
                 value = task.description ?: "",
                 onValueChange = {
                     taskEditableViewModel.setDescription(it)
-                    taskEditableViewModel.extractUrlAndFetchOgp(it)
+                    // do not check description contains url when isShowOgpThumbnail setting is off
+                    if (taskEditableViewModel.isShowOgpThumbnail) {
+                        taskEditableViewModel.extractUrlAndFetchOgp(it)
+                    }
                 },
                 textStyle = MaterialTheme.typography.body1,
                 placeholder = {

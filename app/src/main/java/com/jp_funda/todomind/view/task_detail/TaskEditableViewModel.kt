@@ -9,6 +9,8 @@ import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
+import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.util.UrlUtil
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -25,11 +27,13 @@ import java.util.*
 open class TaskEditableViewModel(
     val taskRepository: TaskRepository,
     val ogpRepository: OgpRepository,
+    settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
     protected var _task =
         MutableLiveData(Task(createdDate = Date(), styleEnum = NodeStyle.HEADLINE_2))
     val task: LiveData<Task> = _task
     var isEditing: Boolean = false
+    val isShowOgpThumbnail = settingsPreferences.getBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL)
 
     // ogp
     private val _ogpResult = MutableLiveData<OpenGraphResult?>()

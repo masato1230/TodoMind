@@ -8,14 +8,14 @@
     <fragment
         android:id="@+id/navigation_top"
         android:name="com.jp_funda.todomind.view.top.TopFragment"
-        android:label="@string/app_name" >
+        android:label="@string/app_name">
         <action
             android:id="@+id/action_navigation_top_to_navigation_mind_map_detail"
             app:destination="@id/navigation_mind_map_detail"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_navigation_top_to_navigation_task_detail"
             app:destination="@id/navigation_task_detail"
@@ -28,7 +28,7 @@
     <fragment
         android:id="@+id/navigation_task"
         android:name="com.jp_funda.todomind.view.task.TaskFragment"
-        android:label="@string/task" >
+        android:label="@string/task">
         <action
             android:id="@+id/action_navigation_task_to_navigation_task_detail"
             app:destination="@id/navigation_task_detail"
@@ -40,13 +40,12 @@
 
     <fragment
         android:id="@+id/navigation_task_detail"
-        android:name="com.jp_funda.todomind.view.task_detail.TaskDetailFragment">
-    </fragment>
+        android:name="com.jp_funda.todomind.view.task_detail.TaskDetailFragment"></fragment>
 
     <fragment
         android:id="@+id/navigation_mind_map"
         android:name="com.jp_funda.todomind.view.mind_map.MindMapFragment"
-        android:label="@string/mind_map" >
+        android:label="@string/mind_map">
         <action
             android:id="@+id/action_navigation_mind_map_to_navigation_mind_map_detail"
             app:destination="@id/navigation_mind_map_detail"
@@ -58,7 +57,7 @@
 
     <fragment
         android:id="@+id/navigation_mind_map_detail"
-        android:name="com.jp_funda.todomind.view.mind_map_detail.MindMapDetailFragment" >
+        android:name="com.jp_funda.todomind.view.mind_map_detail.MindMapDetailFragment">
         <action
             android:id="@+id/action_navigation_mind_map_detail_to_navigation_task_detail"
             app:destination="@id/navigation_task_detail" />
@@ -80,7 +79,7 @@
 
     <dialog
         android:id="@+id/navigation_mind_map_options_dialog"
-        android:name="com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheet"/>
+        android:name="com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheet" />
 
     <dialog
         android:id="@+id/navigation_confirm_mind_map_delete"
@@ -95,7 +94,7 @@
     <fragment
         android:id="@+id/navigation_settings"
         android:name="com.jp_funda.todomind.view.settings.SettingsFragment"
-        android:label="@string/settings" >
+        android:label="@string/settings">
         <action
             android:id="@+id/action_navigation_settings_to_navigation_oss_licenses"
             app:destination="@id/navigation_oss_licenses"
@@ -103,11 +102,18 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_navigation_settings_to_navigation_mind_map_scale"
+            app:destination="@id/navigation_mind_map_scale" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_oss_licenses"
         android:name="com.jp_funda.todomind.view.settings.oss_licenses.OssLicensesFragment"
-        android:label="@string/oss_licenses"/>
+        android:label="@string/oss_licenses" />
+
+    <fragment
+        android:id="@+id/navigation_mind_map_scale"
+        android:name="com.jp_funda.todomind.view.settings.mind_map_scale.MindMapScaleFragment" />
 
 </navigation>

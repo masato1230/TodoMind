@@ -7,6 +7,8 @@ import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepository
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
 import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
+import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
+import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -21,7 +23,8 @@ import javax.inject.Inject
 class MindMapDetailViewModel @Inject constructor(
     private val mindMapRepository: MindMapRepository,
     private val ogpRepository: OgpRepository,
-) : ViewModel() {
+    settingsPreferences: SettingsPreferences,
+    ) : ViewModel() {
     private var _mindMap = MutableLiveData(MindMap(createdDate = Date()))
     val mindMap: LiveData<MindMap> = _mindMap
 
@@ -32,6 +35,10 @@ class MindMapDetailViewModel @Inject constructor(
 
     var isEditing: Boolean = false
     var isAutoSaveNeeded: Boolean = true
+
+    /** isShowOgpThumbnail */
+    val isShowOgpThumbnail = settingsPreferences.getBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL)
+
 
     private val disposables = CompositeDisposable()
 
