@@ -9,6 +9,8 @@ import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
 import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
+import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -20,6 +22,7 @@ open class MindMapCreateViewModel @Inject constructor(
     private val mindMapRepository: MindMapRepository,
     private val taskRepository: TaskRepository,
     private val ogpRepository: OgpRepository,
+    private val settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
     /** UpdateCount - count of view update. To update view count up this. */
     private val _updateCount = MutableLiveData(0)
@@ -30,7 +33,9 @@ open class MindMapCreateViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> = _isLoading
 
     /** Scale factor */
-    private var scale = 1f
+    private var scale =
+        if (settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE) < 0) 1f
+        else settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE)
 
     /** MindMap - initialize at Fragment's onCreate */
     lateinit var mindMap: MindMap

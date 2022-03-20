@@ -40,10 +40,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = SettingsFragment()
-    }
-
     private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreateView(
@@ -80,7 +76,7 @@ class SettingsFragment : Fragment() {
                 SettingRowWithNext(
                     icon = Icons.Default.LocationOn,
                     title = "Default Mind Map Scale",
-                    selectedValue = "x 1.0"
+                    selectedValue = "x ${viewModel.defaultMindMapScale}"
                 ) { /** TODO something */ }
 
                 Divider(color = colorResource(id = R.color.white_1))
