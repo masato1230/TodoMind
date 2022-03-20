@@ -1,5 +1,10 @@
 package com.jp_funda.todomind.view
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.databinding.ActivityMainBinding
+import com.jp_funda.todomind.reminder.Reminder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,11 +51,18 @@ class MainActivity : AppCompatActivity() {
                 else -> findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.GONE
             }
         }
+
+        // todo delete
+        setAlarm(context = applicationContext)
     }
 
-    // Set Up Back Arrow at ToolBar
-//    override fun onSupportNavigateUp(): Boolean {
-//        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-//        return navController.navigateUp() || super.onSupportNavigateUp()
-//    }
+    private fun setAlarm(context: Context) {
+        val timeSeconds = System.currentTimeMillis() + 10000
+        val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, Reminder::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, FLAG_IMMUTABLE)
+        val pendingIntent2 = PendingIntent.getBroadcast(context, 0, intent, FLAG_IMMUTABLE)
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timeSeconds, pendingIntent)
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timeSeconds, pendingIntent2)
+    }
 }
