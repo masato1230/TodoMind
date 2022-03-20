@@ -237,7 +237,7 @@ class MindMapDetailFragment : Fragment() {
 
             // Launch effect
             LaunchedEffect(ogpResult) {
-                if (!mindMap.description.isNullOrEmpty()) {
+                if (!mindMap.description.isNullOrEmpty() && mindMapDetailViewModel.isShowOgpThumbnail) {
                     mindMapDetailViewModel.extractUrlAndFetchOgp(mindMap.description!!)
                 }
             }
@@ -323,7 +323,10 @@ class MindMapDetailFragment : Fragment() {
                 value = mindMap.description ?: "",
                 onValueChange = {
                     mindMapDetailViewModel.setDescription(it)
-                    mindMapDetailViewModel.extractUrlAndFetchOgp(it)
+                    // do not check whether description contains url when isShowOgpThumbnail setting is off
+                    if (mindMapDetailViewModel.isShowOgpThumbnail) {
+                        mindMapDetailViewModel.extractUrlAndFetchOgp(it)
+                    }
                 },
                 textStyle = MaterialTheme.typography.body1,
                 placeholder = {

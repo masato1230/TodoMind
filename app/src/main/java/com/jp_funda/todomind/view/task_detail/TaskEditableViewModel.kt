@@ -27,7 +27,7 @@ import java.util.*
 open class TaskEditableViewModel(
     val taskRepository: TaskRepository,
     val ogpRepository: OgpRepository,
-    private val settingsPreferences: SettingsPreferences,
+    settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
     protected var _task =
         MutableLiveData(Task(createdDate = Date(), styleEnum = NodeStyle.HEADLINE_2))

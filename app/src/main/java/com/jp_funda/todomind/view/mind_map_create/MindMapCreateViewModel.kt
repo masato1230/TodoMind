@@ -22,7 +22,7 @@ open class MindMapCreateViewModel @Inject constructor(
     private val mindMapRepository: MindMapRepository,
     private val taskRepository: TaskRepository,
     private val ogpRepository: OgpRepository,
-    private val settingsPreferences: SettingsPreferences,
+    settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
     /** UpdateCount - count of view update. To update view count up this. */
     private val _updateCount = MutableLiveData(0)
