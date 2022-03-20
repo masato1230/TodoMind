@@ -391,8 +391,8 @@ class MindMapDetailFragment : Fragment() {
                         MindMapCreateContent(
                             modifier = Modifier.fillMaxSize(),
                             mindMapCreateViewModel = mindMapThumbnailViewModel,
-                            onClickMindMapNode = {},
-                            onClickTaskNode = {},
+                            onClickMindMapNode = { navigateToMindMapCreate() },
+                            onClickTaskNode = { navigateToMindMapCreate() },
                         )
                     }
                 }
