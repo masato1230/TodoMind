@@ -22,7 +22,7 @@ open class MindMapCreateViewModel @Inject constructor(
     private val mindMapRepository: MindMapRepository,
     private val taskRepository: TaskRepository,
     private val ogpRepository: OgpRepository,
-    settingsPreferences: SettingsPreferences,
+    private val settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
     /** UpdateCount - count of view update. To update view count up this. */
     private val _updateCount = MutableLiveData(0)
@@ -33,9 +33,7 @@ open class MindMapCreateViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> = _isLoading
 
     /** Scale factor */
-    private var scale =
-        if (settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE) < 0) 1f
-        else settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE)
+    private var scale = 1f
 
     /** MindMap - initialize at Fragment's onCreate */
     lateinit var mindMap: MindMap
@@ -44,6 +42,11 @@ open class MindMapCreateViewModel @Inject constructor(
     var tasks: List<Task> = emptyList()
 
     private val disposables = CompositeDisposable()
+
+    private fun initializeScale() {
+        scale = if (settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE) < 0f) 1f
+        else settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE)
+    }
 
     /** Refresh MapView and scale percentage text */
     fun refreshView() {
@@ -120,8 +123,8 @@ open class MindMapCreateViewModel @Inject constructor(
     /** Clear cached data */
     fun clearData() {
         tasks = emptyList()
+        initializeScale()
         _isLoading.value = false
-        scale = 1f
         disposables.clear()
     }
 

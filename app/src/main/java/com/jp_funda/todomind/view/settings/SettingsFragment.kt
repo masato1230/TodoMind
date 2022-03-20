@@ -78,7 +78,7 @@ class SettingsFragment : Fragment() {
                     icon = Icons.Default.LocationOn,
                     title = "Default Mind Map Scale",
                     selectedValue = "${(viewModel.defaultMindMapScale * 100).roundToInt()} %"
-                ) { /** TODO something */ }
+                ) { findNavController().navigate(R.id.action_navigation_settings_to_navigation_mind_map_scale) }
 
                 Divider(color = colorResource(id = R.color.white_1))
 
