@@ -86,7 +86,10 @@ class SettingsFragment : Fragment() {
                 SettingRowWithSwitch(
                     painter = painterResource(id = R.drawable.ic_link_24),
                     title = "Show Link Thumbnail",
-                    onCheckedChange = { /** TODO Something */ })
+                    initialValue = viewModel.isShowOgpThumbnail,
+                ) {
+                    viewModel.setIsShowOgpThumbnail(it)
+                }
             }
 
             SettingsGroup("About TodoMind") {
@@ -111,6 +114,20 @@ class SettingsFragment : Fragment() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Text(
+                    text = "Mind Map task management app",
+                    color = Color.White,
+                    fontSize = MaterialTheme.typography.subtitle2.fontSize * 0.8,
+                    modifier = Modifier.alpha(0.6f)
+                )
+
+                Divider(
+                    color = colorResource(id = R.color.white_1),
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .width(200.dp)
+                )
+
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(10.dp))
@@ -232,9 +249,10 @@ class SettingsFragment : Fragment() {
         icon: ImageVector? = null,
         painter: Painter? = null,
         title: String,
+        initialValue: Boolean,
         onCheckedChange: (Boolean) -> Unit,
     ) {
-        val checkedState = remember { mutableStateOf(true) }
+        val checkedState = remember { mutableStateOf(initialValue) }
 
         Row(
             modifier = Modifier
