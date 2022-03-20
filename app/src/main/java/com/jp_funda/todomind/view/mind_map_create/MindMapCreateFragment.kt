@@ -137,9 +137,11 @@ class MindMapCreateFragment : Fragment() {
 
     private fun scrollToMindMapNode(mindMap: MindMap) {
         val screenWidth = resources.displayMetrics.widthPixels
-        val scrollX = ((mindMap.x) ?: 0f) - screenWidth / 2 + NodeStyle.HEADLINE_1.getSize().width
+        val scrollX = ((mindMap.x) ?: 0f) * mindMapCreateViewModel.getScale() -
+                screenWidth / 2 + NodeStyle.HEADLINE_1.getSize().width * mindMapCreateViewModel.getScale()
         val screenHeight = resources.displayMetrics.heightPixels
-        val scrollY = ((mindMap.y) ?: 0f) - screenHeight / 2 + NodeStyle.HEADLINE_1.getSize().height
+        val scrollY = ((mindMap.y) ?: 0f) * mindMapCreateViewModel.getScale() -
+                screenHeight / 2 + NodeStyle.HEADLINE_1.getSize().height * mindMapCreateViewModel.getScale()
         binding.mapView.horizontalScrollView.post {
             binding.mapView.horizontalScrollView.smoothScrollTo(scrollX.roundToInt(), 0)
         }
