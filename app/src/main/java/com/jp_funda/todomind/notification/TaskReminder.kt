@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -43,10 +42,33 @@ class TaskReminder : BroadcastReceiver() {
                     .putExtra(TITLE_KEY, task.title ?: "No title")
                     .putExtra(DESC_KEY, task.description ?: "No description")
                     .putExtra(ID_KEY, task.id.toString())
-                Log.d("before", task.id.extractFirstFiveDigits().toString())
-                val pendingIntent = PendingIntent.getBroadcast(context, task.id.extractFirstFiveDigits(), intent, FLAG_IMMUTABLE)
-                alarmManager.set(AlarmManager.RTC_WAKEUP, dueDate.time + 1000 /** todo remove 1000 */, pendingIntent)
+                val pendingIntent = PendingIntent.getBroadcast(
+                    context,
+                    task.id.extractFirstFiveDigits(),
+                    intent,
+                    FLAG_IMMUTABLE
+                )
+                alarmManager.set(
+                    AlarmManager.RTC_WAKEUP, dueDate.time + 1000
+                    /** todo remove 1000 */
+                    , pendingIntent
+                )
             }
+        }
+
+        fun cancelTaskReminder(task: Task, context: Context) {
+            val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
+            val intent = Intent(context, TaskReminder::class.java)
+                .putExtra(TITLE_KEY, task.title ?: "No title")
+                .putExtra(DESC_KEY, task.description ?: "No description")
+                .putExtra(ID_KEY, task.id.toString())
+            val pendingIntent = PendingIntent.getBroadcast(
+                context,
+                task.id.extractFirstFiveDigits(),
+                intent,
+                FLAG_IMMUTABLE
+            )
+            alarmManager.cancel(pendingIntent)
         }
     }
 
@@ -54,9 +76,9 @@ class TaskReminder : BroadcastReceiver() {
         try {
             showNotification(
                 context,
-                intent.getStringExtra(TITLE_KEY) ?: "title fail",
-                intent.getStringExtra(DESC_KEY) ?: "desc_fail",
-                intent.getStringExtra(ID_KEY) ?: "id_fail",
+                intent.getStringExtra(TITLE_KEY) ?: "",
+                intent.getStringExtra(DESC_KEY) ?: "",
+                intent.getStringExtra(ID_KEY) ?: "",
             )
         } catch (e: Exception) {
             e.printStackTrace()
@@ -84,7 +106,6 @@ class TaskReminder : BroadcastReceiver() {
         val resultIntent = Intent(context, TaskReminderActivity::class.java)
         val resultPendingIntent: PendingIntent = TaskStackBuilder.create(context).run {
             addNextIntentWithParentStack(resultIntent)
-            Log.d("after", UUID.fromString(taskId).extractFirstFiveDigits().toString())
             getPendingIntent(UUID.fromString(taskId).extractFirstFiveDigits(), FLAG_IMMUTABLE)
         }
 

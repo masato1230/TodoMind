@@ -58,7 +58,11 @@ class MainActivity : AppCompatActivity() {
 
         // todo delete
 //        setAlarm(context = applicationContext)
-        TaskReminder.setTaskReminder(task = Task(dueDate = Date()), context = applicationContext)
+        val task = Task(dueDate = Date())
+        TaskReminder.setTaskReminder(task = task, context = applicationContext)
+        task.title = "hello"
+        TaskReminder.setTaskReminder(task = task, context = applicationContext)
+        TaskReminder.cancelTaskReminder(task, applicationContext)
     }
 
     private fun setAlarm(context: Context) {
