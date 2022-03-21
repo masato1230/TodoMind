@@ -2,6 +2,7 @@ package com.jp_funda.todomind.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -11,6 +12,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
+import com.jp_funda.todomind.view.ReminderActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -49,7 +51,15 @@ class Reminder : BroadcastReceiver() {
             manager.createNotificationChannel(channel)
         }
 
+        val notifyIntent = Intent(context, ReminderActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val notifyPendingIntent = PendingIntent.getActivity(
+            context, 0, notifyIntent, PendingIntent.FLAG_IMMUTABLE
+        )
+
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setContentIntent(notifyPendingIntent)
             .setContentTitle(title)
             .setContentText(desc)
             .setColor(Color(R.color.light_purple).toArgb())

@@ -26,6 +26,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".view.ReminderActivity"
+            android:theme="@style/Theme.TodoMind"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask"
+            android:taskAffinity="" />
+
         <receiver
             android:name=".notification.Reminder"
             android:enabled="true"

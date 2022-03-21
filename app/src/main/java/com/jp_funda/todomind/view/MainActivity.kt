@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
 
         // todo delete
         setAlarm(context = applicationContext)
+//        setNotification(context = applicationContext)
     }
 
     private fun setAlarm(context: Context) {
@@ -64,5 +65,18 @@ class MainActivity : AppCompatActivity() {
             .putExtra("desc", "DESC")
         val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, FLAG_IMMUTABLE)
         alarmManager.set(AlarmManager.RTC_WAKEUP, timeSeconds, pendingIntent)
+    }
+
+    private fun setNotification(context: Context) {
+        val timeSeconds = System.currentTimeMillis() + 5000
+        val notifyIntent = Intent(this, ReminderActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val notifyPendingIntent = PendingIntent.getActivity(
+            this, 0, notifyIntent, FLAG_IMMUTABLE
+        )
+
+        val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timeSeconds, notifyPendingIntent)
     }
 }
