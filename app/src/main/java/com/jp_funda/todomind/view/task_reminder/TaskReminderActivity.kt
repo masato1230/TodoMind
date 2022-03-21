@@ -67,6 +67,7 @@ class TaskReminderActivity : AppCompatActivity() {
                         TaskEditContent(
                             taskEditableViewModel = viewModel,
                             mainViewModel = mainViewModel,
+                            isReminder = true,
                         ) { navigateToMainActivity() }
                     } else {
                         LoadingView()
