@@ -7,24 +7,24 @@ import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
+import com.jp_funda.todomind.extension.extractFirstFiveDigits
 import com.jp_funda.todomind.view.task_reminder.TaskReminderActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class TaskReminder : BroadcastReceiver() {
-    @Inject
-    lateinit var taskRepository: TaskRepository
 
     @Inject
     lateinit var notificationPreferences: NotificationPreferences
@@ -43,7 +43,8 @@ class TaskReminder : BroadcastReceiver() {
                     .putExtra(TITLE_KEY, task.title ?: "No title")
                     .putExtra(DESC_KEY, task.description ?: "No description")
                     .putExtra(ID_KEY, task.id.toString())
-                val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, FLAG_IMMUTABLE)
+                Log.d("before", task.id.extractFirstFiveDigits().toString())
+                val pendingIntent = PendingIntent.getBroadcast(context, task.id.extractFirstFiveDigits(), intent, FLAG_IMMUTABLE)
                 alarmManager.set(AlarmManager.RTC_WAKEUP, dueDate.time + 1000 /** todo remove 1000 */, pendingIntent)
             }
         }
@@ -83,7 +84,8 @@ class TaskReminder : BroadcastReceiver() {
         val resultIntent = Intent(context, TaskReminderActivity::class.java)
         val resultPendingIntent: PendingIntent = TaskStackBuilder.create(context).run {
             addNextIntentWithParentStack(resultIntent)
-            getPendingIntent(0, FLAG_IMMUTABLE)
+            Log.d("after", UUID.fromString(taskId).extractFirstFiveDigits().toString())
+            getPendingIntent(UUID.fromString(taskId).extractFirstFiveDigits(), FLAG_IMMUTABLE)
         }
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
