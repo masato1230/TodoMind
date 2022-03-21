@@ -14,7 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.databinding.ActivityMainBinding
-import com.jp_funda.todomind.reminder.Reminder
+import com.jp_funda.todomind.notification.Reminder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

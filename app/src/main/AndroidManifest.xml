@@ -27,7 +27,7 @@
         </activity>
 
         <receiver
-            android:name=".reminder.Reminder"
+            android:name=".notification.Reminder"
             android:enabled="true"
             android:exported="true" />
 

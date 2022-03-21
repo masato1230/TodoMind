@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.reminder
+package com.jp_funda.todomind.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -54,7 +54,6 @@ class Reminder : BroadcastReceiver() {
             .setContentText(desc)
             .setColor(Color(R.color.light_purple).toArgb())
             .setSmallIcon(R.drawable.ic_mind_map)
-
         manager.notify(1, builder.build())
     }
 
