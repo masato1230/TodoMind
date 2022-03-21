@@ -18,6 +18,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.databinding.ActivityMainBinding
 import com.jp_funda.todomind.notification.TaskReminder
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
@@ -56,7 +57,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         // todo delete
-        setAlarm(context = applicationContext)
+//        setAlarm(context = applicationContext)
+        TaskReminder.setTaskReminder(task = Task(dueDate = Date()), context = applicationContext)
     }
 
     private fun setAlarm(context: Context) {

@@ -1,11 +1,10 @@
 package com.jp_funda.todomind.notification
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.TaskStackBuilder
+import android.app.*
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
 import androidx.compose.material.ExperimentalMaterialApi
@@ -14,6 +13,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
+import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.view.task_reminder.TaskReminderActivity
@@ -35,6 +35,18 @@ class TaskReminder : BroadcastReceiver() {
         const val TITLE_KEY = "task_reminder_title"
         const val DESC_KEY = "task_reminder_desc"
         const val ID_KEY = "task_reminder_id"
+
+        fun setTaskReminder(task: Task, context: Context) {
+            task.dueDate?.let { dueDate ->
+                val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
+                val intent = Intent(context, TaskReminder::class.java)
+                    .putExtra(TITLE_KEY, task.title ?: "No title")
+                    .putExtra(DESC_KEY, task.description ?: "No description")
+                    .putExtra(ID_KEY, task.id.toString())
+                val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, FLAG_IMMUTABLE)
+                alarmManager.set(AlarmManager.RTC_WAKEUP, dueDate.time + 1000 /** todo remove 1000 */, pendingIntent)
+            }
+        }
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -71,7 +83,7 @@ class TaskReminder : BroadcastReceiver() {
         val resultIntent = Intent(context, TaskReminderActivity::class.java)
         val resultPendingIntent: PendingIntent = TaskStackBuilder.create(context).run {
             addNextIntentWithParentStack(resultIntent)
-            getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
+            getPendingIntent(0, FLAG_IMMUTABLE)
         }
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
@@ -80,6 +92,6 @@ class TaskReminder : BroadcastReceiver() {
             .setContentText(desc)
             .setColor(Color(R.color.light_purple).toArgb())
             .setSmallIcon(R.drawable.ic_mind_map)
-        manager.notify(1, builder.build())
+        manager.notify(0, builder.build())
     }
 }
