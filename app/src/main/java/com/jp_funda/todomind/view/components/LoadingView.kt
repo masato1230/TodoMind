@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.R
 
 @Composable
-fun Loading() {
+fun LoadingView() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,

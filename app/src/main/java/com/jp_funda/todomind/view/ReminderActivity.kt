@@ -8,23 +8,26 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.components.TaskEditContent
-import com.jp_funda.todomind.view.task_detail.TaskEditableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class ReminderActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<TaskEditableViewModel>()
+    private val viewModel by viewModels<ReminderViewModel>()
     private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(ComposeView(applicationContext)).apply {
             setContent {
                 Scaffold(
@@ -45,10 +48,16 @@ class ReminderActivity : AppCompatActivity() {
                     },
                     backgroundColor = colorResource(id = R.color.deep_purple),
                 ) {
-                    TaskEditContent(
-                        taskEditableViewModel = viewModel,
-                        mainViewModel = mainViewModel,
-                    ) { navigateToMainActivity() }
+                    val isLoading by viewModel.isLoading.observeAsState(true)
+
+                    if (!isLoading) {
+                        TaskEditContent(
+                            taskEditableViewModel = viewModel,
+                            mainViewModel = mainViewModel,
+                        ) { navigateToMainActivity() }
+                    } else {
+                        LoadingView()
+                    }
                 }
             }
         }

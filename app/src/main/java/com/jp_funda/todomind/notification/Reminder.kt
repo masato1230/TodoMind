@@ -7,6 +7,8 @@ import android.app.TaskStackBuilder
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.os.Build
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.graphics.Color
@@ -34,7 +36,7 @@ class Reminder : BroadcastReceiver() {
             showNotification(
                 context,
                 intent.getStringExtra("title") ?: "title fail",
-                intent.getStringExtra("desc") ?: "desc fail"
+                intent.getStringExtra("desc") ?: "id"
             )
         } catch (e: Exception) {
             e.printStackTrace()
@@ -57,6 +59,7 @@ class Reminder : BroadcastReceiver() {
 
         // Create an Intent for the ReminderActivity
         val resultIntent = Intent(context, ReminderActivity::class.java)
+        resultIntent.flags = FLAG_ACTIVITY_SINGLE_TOP or FLAG_ACTIVITY_CLEAR_TOP
         val resultPendingIntent: PendingIntent = TaskStackBuilder.create(context).run {
             addNextIntentWithParentStack(resultIntent)
             getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)

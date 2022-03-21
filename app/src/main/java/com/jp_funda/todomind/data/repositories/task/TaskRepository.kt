@@ -8,7 +8,6 @@ import io.realm.Realm
 import io.realm.kotlin.where
 import java.util.*
 import javax.inject.Inject
-import kotlin.Comparator
 
 class TaskRepository @Inject constructor() {
 
@@ -49,6 +48,20 @@ class TaskRepository @Inject constructor() {
                 val result1 = realm.where<Task>().findAll()
                 val result2 = Realm.getDefaultInstance().copyFromRealm(result1)
                 emitter.onSuccess(result2)
+            }
+        }
+    }
+
+    fun getTask(id: UUID): Single<Task> {
+        return Single.create { emitter ->
+            Realm.getDefaultInstance().executeTransactionAsync { realm ->
+                val result = realm.where<Task>().equalTo("id", id.toString()).findFirst()
+                if (result != null) {
+                    val resultCopy = Realm.getDefaultInstance().copyFromRealm(result)
+                    emitter.onSuccess(resultCopy)
+                } else {
+                    emitter.onError(Exception("No data"))
+                }
             }
         }
     }
