@@ -19,8 +19,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
@@ -34,9 +32,9 @@ import java.util.*
 @Composable
 fun TaskEditContent(
     modifier: Modifier = Modifier,
-    fragment: Fragment,
     taskEditableViewModel: TaskEditableViewModel,
     mainViewModel: MainViewModel?,
+    onComplete: () -> Unit,
 ) {
     val context = LocalContext.current
     // Set up data
@@ -316,7 +314,7 @@ fun TaskEditContent(
                     leadingIcon = Icons.Default.Check,
                 ) {
                     taskEditableViewModel.saveTask()
-                    findNavController(fragment).popBackStack()
+                    onComplete()
                 }
 
                 Spacer(modifier = Modifier.width(30.dp))
@@ -329,7 +327,7 @@ fun TaskEditContent(
                         // Delete task from DB(Edit mode) or Only Pop fragment(Create mode)
                         taskEditableViewModel.deleteTask(
                             task = task,
-                            onSuccess = { findNavController(fragment).popBackStack() })
+                            onSuccess = { onComplete() })
                         // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
                         if (taskEditableViewModel.isEditing) {
                             mainViewModel?.currentlyDeletedTask = task

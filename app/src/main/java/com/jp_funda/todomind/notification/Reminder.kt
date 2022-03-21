@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
@@ -17,6 +18,7 @@ import com.jp_funda.todomind.view.ReminderActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class Reminder : BroadcastReceiver() {
     @Inject
@@ -39,6 +41,7 @@ class Reminder : BroadcastReceiver() {
         }
     }
 
+    @ExperimentalMaterialApi
     private fun showNotification(context: Context, title: String, desc: String) {
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 

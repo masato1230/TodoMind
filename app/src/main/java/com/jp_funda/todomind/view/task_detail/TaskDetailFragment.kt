@@ -13,6 +13,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
@@ -54,10 +55,9 @@ class TaskDetailFragment : Fragment() {
                     backgroundColor = colorResource(id = R.color.deep_purple),
                 ) {
                     TaskEditContent(
-                        fragment = this@TaskDetailFragment,
                         taskEditableViewModel = taskDetailViewModel,
                         mainViewModel = mainViewModel,
-                    )
+                    ) { findNavController().popBackStack() }
                 }
             }
         }

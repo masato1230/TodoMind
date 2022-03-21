@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
@@ -84,10 +85,9 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                                 exit = ExitTransition.None
                                 ) {
                                 TaskEditContent(
-                                    fragment = this@MindMapOptionsSheet,
                                     taskEditableViewModel = editTaskViewModel,
                                     mainViewModel = null,
-                                )
+                                ) { findNavController().popBackStack() }
                             }
                         } else { // When mindMap Node is selected
                             TabRow(
@@ -114,10 +114,9 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                                 }
                             }
                             TaskEditContent(
-                                fragment = this@MindMapOptionsSheet,
                                 taskEditableViewModel = addChildViewModel,
                                 mainViewModel = null,
-                            )
+                            ) { findNavController().popBackStack() }
                         }
 
                         // Add Child Option
@@ -133,10 +132,9 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                             exit = ExitTransition.None
                         ) {
                             TaskEditContent(
-                                fragment = this@MindMapOptionsSheet,
                                 taskEditableViewModel = addChildViewModel,
                                 mainViewModel = null,
-                            )
+                            ) { findNavController().popBackStack() }
                         }
                     }
                 }
