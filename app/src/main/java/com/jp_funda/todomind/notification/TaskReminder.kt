@@ -12,18 +12,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.extension.extractFirstFiveDigits
 import com.jp_funda.todomind.view.task_reminder.TaskReminderActivity
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.abs
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class TaskReminder : BroadcastReceiver() {
+
+    @Inject
+    lateinit var taskRepository: TaskRepository
 
     @Inject
     lateinit var notificationPreferences: NotificationPreferences
@@ -31,16 +38,12 @@ class TaskReminder : BroadcastReceiver() {
     companion object {
         const val CHANNEL_ID = "task_reminder_channel"
         const val CHANNEL_NAME = "task_reminder_channel"
-        const val TITLE_KEY = "task_reminder_title"
-        const val DESC_KEY = "task_reminder_desc"
         const val ID_KEY = "task_reminder_id"
 
         fun setTaskReminder(task: Task, context: Context) {
             task.dueDate?.let { dueDate ->
                 val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
                 val intent = Intent(context, TaskReminder::class.java)
-                    .putExtra(TITLE_KEY, task.title ?: "No title")
-                    .putExtra(DESC_KEY, task.description ?: "No description")
                     .putExtra(ID_KEY, task.id.toString())
                 val pendingIntent = PendingIntent.getBroadcast(
                     context,
@@ -49,9 +52,9 @@ class TaskReminder : BroadcastReceiver() {
                     FLAG_IMMUTABLE
                 )
                 alarmManager.set(
-                    AlarmManager.RTC_WAKEUP, dueDate.time + 1000
-                    /** todo remove 1000 */
-                    , pendingIntent
+                    AlarmManager.RTC_WAKEUP,
+                    dueDate.time,
+                    pendingIntent
                 )
             }
         }
@@ -59,8 +62,6 @@ class TaskReminder : BroadcastReceiver() {
         fun cancelTaskReminder(task: Task, context: Context) {
             val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
             val intent = Intent(context, TaskReminder::class.java)
-                .putExtra(TITLE_KEY, task.title ?: "No title")
-                .putExtra(DESC_KEY, task.description ?: "No description")
                 .putExtra(ID_KEY, task.id.toString())
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
@@ -73,15 +74,25 @@ class TaskReminder : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        try {
-            showNotification(
-                context,
-                intent.getStringExtra(TITLE_KEY) ?: "",
-                intent.getStringExtra(DESC_KEY) ?: "",
-                intent.getStringExtra(ID_KEY) ?: "",
-            )
-        } catch (e: Exception) {
-            e.printStackTrace()
+        val taskId = intent.getStringExtra(ID_KEY)
+        taskId?.let {
+            taskRepository.getTask(UUID.fromString(it))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess { task ->
+                    if (task.dueDate == null || abs(task.dueDate!!.time - Date().time) > 1000 * 60) return@doOnSuccess
+                    try {
+                        showNotification(
+                            context,
+                            task.title ?: "",
+                            task.description ?: "",
+                            task.id.toString(),
+                        )
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                }
+                .subscribe()
         }
     }
 

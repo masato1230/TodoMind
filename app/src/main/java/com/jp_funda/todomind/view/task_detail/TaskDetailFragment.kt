@@ -1,6 +1,7 @@
 package com.jp_funda.todomind.view.task_detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.notification.TaskReminder
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.TaskEditContent
@@ -40,6 +42,10 @@ class TaskDetailFragment : Fragment() {
         mainViewModel.editingTask?.let { editingTask ->
             taskDetailViewModel.setEditingTask(editingTask)
         }
+
+        // todo delete
+        Log.d("id-fragment", mainViewModel.editingTask!!.id.toString())
+        TaskReminder.setTaskReminder(mainViewModel.editingTask!!, requireContext())
 
         return ComposeView(requireContext()).apply {
             setContent {
