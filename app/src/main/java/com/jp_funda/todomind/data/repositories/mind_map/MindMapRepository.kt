@@ -13,49 +13,55 @@ class MindMapRepository @Inject constructor() {
     // CREATE
     fun createMindMap(mindMap: MindMap): Single<MindMap> {
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
-                val now = Date()
-                mindMap.createdDate = now
-                mindMap.updatedDate = now
-                mindMap.x = mindMap.x ?: 100f
-                mindMap.y = mindMap.y ?: 100f
-                realm.insertOrUpdate(mindMap)
-            }, {
-                emitter.onSuccess(mindMap)
-            }, {
-                emitter.onError(it)
-            })
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync({ realm ->
+                    val now = Date()
+                    mindMap.createdDate = now
+                    mindMap.updatedDate = now
+                    mindMap.x = mindMap.x ?: 100f
+                    mindMap.y = mindMap.y ?: 100f
+                    realm.insertOrUpdate(mindMap)
+                }, {
+                    emitter.onSuccess(mindMap)
+                }, { e ->
+                    emitter.onError(e)
+                })
+            }
         }
     }
 
     // READ
     fun getAllMindMaps(): Single<List<MindMap>> {
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                val result1 = realm.where<MindMap>()
-                    .findAll()
-                    .sort("createdDate", Sort.DESCENDING)
-                val result2 = Realm.getDefaultInstance().copyFromRealm(result1)
-                emitter.onSuccess(result2)
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync { realm ->
+                    val result1 = realm.where<MindMap>()
+                        .findAll()
+                        .sort("createdDate", Sort.DESCENDING)
+                    val result2 = Realm.getDefaultInstance().copyFromRealm(result1)
+                    emitter.onSuccess(result2)
+                }
             }
         }
     }
 
     fun getMostRecentlyUpdatedMindMap(): Single<MindMap> {
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                try {
-                    val result = realm.where<MindMap>()
-                        .findAll()
-                        .sort("updatedDate", Sort.DESCENDING)
-                        .first()
-                    result?.let {
-                        emitter.onSuccess(Realm.getDefaultInstance().copyFromRealm(result))
-                    } ?: run {
-                        emitter.onError(Throwable("No data"))
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync { realm ->
+                    try {
+                        val result = realm.where<MindMap>()
+                            .findAll()
+                            .sort("updatedDate", Sort.DESCENDING)
+                            .first()
+                        result?.let {
+                            emitter.onSuccess(Realm.getDefaultInstance().copyFromRealm(result))
+                        } ?: run {
+                            emitter.onError(Throwable("No data"))
+                        }
+                    } catch (e: Exception) {
+                        emitter.onError(e)
                     }
-                } catch (e: Exception) {
-                    emitter.onError(e)
                 }
             }
         }
@@ -64,27 +70,31 @@ class MindMapRepository @Inject constructor() {
     // UPDATE
     fun updateMindMap(updatedMindMap: MindMap): Single<MindMap> {
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync({ realm ->
-                updatedMindMap.updatedDate = Date()
-                realm.copyToRealmOrUpdate(updatedMindMap)
-            }, {
-                emitter.onSuccess(updatedMindMap)
-            }, {
-                emitter.onError(it)
-            })
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync({ realm ->
+                    updatedMindMap.updatedDate = Date()
+                    realm.copyToRealmOrUpdate(updatedMindMap)
+                }, {
+                    emitter.onSuccess(updatedMindMap)
+                }, { e ->
+                    emitter.onError(e)
+                })
+            }
         }
     }
 
     // DELETE
     fun deleteMindMap(mindMap: MindMap): Single<MindMap> {
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                val realmMindMap = realm.where<MindMap>().equalTo("id", mindMap.id).findFirst()
-                realmMindMap?.let {
-                    it.deleteFromRealm()
-                    emitter.onSuccess(mindMap)
-                } ?: run {
-                    emitter.onError(Throwable("Error at delete mindMap"))
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync { realm ->
+                    val realmMindMap = realm.where<MindMap>().equalTo("id", mindMap.id).findFirst()
+                    realmMindMap?.let { deletingMindMap ->
+                        deletingMindMap.deleteFromRealm()
+                        emitter.onSuccess(mindMap)
+                    } ?: run {
+                        emitter.onError(Throwable("Error at delete mindMap"))
+                    }
                 }
             }
         }
