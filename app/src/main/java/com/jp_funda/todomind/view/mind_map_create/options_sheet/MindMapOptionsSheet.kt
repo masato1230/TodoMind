@@ -11,7 +11,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,10 +25,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
-import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.components.MindMapOptionsTabRow
+import com.jp_funda.todomind.view.components.TaskEditContent
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
@@ -84,10 +83,9 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                                 exit = ExitTransition.None
                                 ) {
                                 TaskEditContent(
-                                    fragment = this@MindMapOptionsSheet,
                                     taskEditableViewModel = editTaskViewModel,
                                     mainViewModel = null,
-                                )
+                                ) { dismiss() }
                             }
                         } else { // When mindMap Node is selected
                             TabRow(
@@ -114,10 +112,9 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                                 }
                             }
                             TaskEditContent(
-                                fragment = this@MindMapOptionsSheet,
                                 taskEditableViewModel = addChildViewModel,
                                 mainViewModel = null,
-                            )
+                            ) { dismiss() }
                         }
 
                         // Add Child Option
@@ -133,10 +130,9 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                             exit = ExitTransition.None
                         ) {
                             TaskEditContent(
-                                fragment = this@MindMapOptionsSheet,
                                 taskEditableViewModel = addChildViewModel,
                                 mainViewModel = null,
-                            )
+                            ) { dismiss() }
                         }
                     }
                 }

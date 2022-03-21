@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.task_detail
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.util.UrlUtil
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -19,12 +21,15 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.util.*
+import javax.inject.Inject
 
 /**
  * ViewModel for task editing or addTask
  * use setEditingTask() to switch to EditingMode
  */
-open class TaskEditableViewModel(
+@ExperimentalMaterialApi
+@HiltViewModel
+open class TaskEditableViewModel @Inject constructor(
     val taskRepository: TaskRepository,
     val ogpRepository: OgpRepository,
     settingsPreferences: SettingsPreferences,

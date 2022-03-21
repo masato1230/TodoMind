@@ -29,6 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.lang.Integer.max
 
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class TaskFragment : Fragment() {
 

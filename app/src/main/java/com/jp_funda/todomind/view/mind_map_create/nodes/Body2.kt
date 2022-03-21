@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.mind_map_create.nodes
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -10,6 +11,7 @@ import com.jp_funda.todomind.data.getTextSize
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 
+@ExperimentalMaterialApi
 @Composable
 fun Body2(
     modifier: Modifier = Modifier,

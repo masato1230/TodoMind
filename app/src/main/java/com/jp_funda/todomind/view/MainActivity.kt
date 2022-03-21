@@ -3,6 +3,7 @@ package com.jp_funda.todomind.view
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -11,6 +12,7 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -46,10 +48,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    // Set Up Back Arrow at ToolBar
-//    override fun onSupportNavigateUp(): Boolean {
-//        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-//        return navController.navigateUp() || super.onSupportNavigateUp()
-//    }
 }

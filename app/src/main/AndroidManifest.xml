@@ -3,28 +3,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.jp_funda.todomind">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
-        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.AppSplash" >
+        android:theme="@style/Theme.AppSplash"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".view.MainActivity"
-            android:screenOrientation="portrait"
             android:exported="true"
+            android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".view.task_reminder.TaskReminderActivity"
+            android:parentActivityName=".view.MainActivity"
+            android:theme="@style/Theme.TodoMind" />
+
+        <receiver
+            android:name=".notification.TaskReminder"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="false" />
+
     </application>
 
 </manifest>

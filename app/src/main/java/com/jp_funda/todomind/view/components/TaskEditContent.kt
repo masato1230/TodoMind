@@ -19,8 +19,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
@@ -34,9 +32,10 @@ import java.util.*
 @Composable
 fun TaskEditContent(
     modifier: Modifier = Modifier,
-    fragment: Fragment,
     taskEditableViewModel: TaskEditableViewModel,
     mainViewModel: MainViewModel?,
+    isReminder: Boolean = false,
+    onComplete: () -> Unit,
 ) {
     val context = LocalContext.current
     // Set up data
@@ -138,84 +137,88 @@ fun TaskEditContent(
             }
 
             // Date & Time
-            Row(modifier = Modifier.fillMaxWidth()) {
-                // Date
-                TextField(
-                    colors = colors,
-                    modifier = Modifier
-                        .fillMaxWidth(0.5f)
-                        .clickable { dateDialogState.show() },
-                    value = if (task.dueDate != null)
-                        SimpleDateFormat(
-                            "EEE MM/dd",
-                            Locale.getDefault()
-                        ).format(task.dueDate!!) else "",
-                    onValueChange = {},
-                    placeholder = {
-                        Text("Add date/time", color = Color.Gray)
-                    },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            tint = Color.White,
-                            contentDescription = "Date",
-                        )
-                    },
-                    readOnly = true,
-                    enabled = false,
-                )
+            if (!isReminder) { // when called from reminder, don't show this section
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    // Date
+                    TextField(
+                        colors = colors,
+                        modifier = Modifier
+                            .fillMaxWidth(0.5f)
+                            .clickable { dateDialogState.show() },
+                        value = if (task.dueDate != null)
+                            SimpleDateFormat(
+                                "EEE MM/dd",
+                                Locale.getDefault()
+                            ).format(task.dueDate!!) else "",
+                        onValueChange = {},
+                        placeholder = {
+                            Text("Add date/time", color = Color.Gray)
+                        },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.DateRange,
+                                tint = Color.White,
+                                contentDescription = "Date",
+                            )
+                        },
+                        readOnly = true,
+                        enabled = false,
+                    )
 
-                // Time
+                    // Time
+                    TextField(
+                        colors = colors,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                timeDialogState.show()
+                            },
+                        value = if (task.dueDate != null)
+                            SimpleDateFormat(
+                                "hh:mm aaa",
+                                Locale.getDefault()
+                            ).format(task.dueDate!!) else "",
+                        onValueChange = {},
+                        placeholder = {
+                            Text(text = "Add time", color = Color.Gray)
+                        },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_alarm_24dp),
+                                tint = Color.White,
+                                contentDescription = "Time",
+                            )
+                        },
+                        readOnly = true,
+                        enabled = false,
+                    )
+                }
+            }
+
+            // Color
+            if (!isReminder) { // when called from reminder, don't show this section
                 TextField(
                     colors = colors,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            timeDialogState.show()
-                        },
-                    value = if (task.dueDate != null)
-                        SimpleDateFormat(
-                            "hh:mm aaa",
-                            Locale.getDefault()
-                        ).format(task.dueDate!!) else "",
+                        .clickable { colorDialogState.show() },
+                    value = task.colorHex ?: "",
                     onValueChange = {},
                     placeholder = {
-                        Text(text = "Add time", color = Color.Gray)
+                        Text(text = "Set color", color = Color.Gray)
                     },
                     leadingIcon = {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_alarm_24dp),
-                            tint = Color.White,
-                            contentDescription = "Time",
+                            painter = painterResource(id = R.drawable.ic_color_24dp),
+                            tint = task.color?.let { Color(it) }
+                                ?: run { colorResource(id = R.color.teal_200) },
+                            contentDescription = "Color",
                         )
                     },
                     readOnly = true,
                     enabled = false,
                 )
             }
-
-            // Color
-            TextField(
-                colors = colors,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { colorDialogState.show() },
-                value = task.colorHex ?: "",
-                onValueChange = {},
-                placeholder = {
-                    Text(text = "Set color", color = Color.Gray)
-                },
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_color_24dp),
-                        tint = task.color?.let { Color(it) }
-                            ?: run { colorResource(id = R.color.teal_200) },
-                        contentDescription = "Color",
-                    )
-                },
-                readOnly = true,
-                enabled = false,
-            )
 
             // Style
             val styleOptions = NodeStyle.values()
@@ -316,7 +319,7 @@ fun TaskEditContent(
                     leadingIcon = Icons.Default.Check,
                 ) {
                     taskEditableViewModel.saveTask()
-                    findNavController(fragment).popBackStack()
+                    onComplete()
                 }
 
                 Spacer(modifier = Modifier.width(30.dp))
@@ -329,7 +332,7 @@ fun TaskEditContent(
                         // Delete task from DB(Edit mode) or Only Pop fragment(Create mode)
                         taskEditableViewModel.deleteTask(
                             task = task,
-                            onSuccess = { findNavController(fragment).popBackStack() })
+                            onSuccess = { onComplete() })
                         // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
                         if (taskEditableViewModel.isEditing) {
                             mainViewModel?.currentlyDeletedTask = task

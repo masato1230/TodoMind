@@ -53,6 +53,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class MindMapDetailFragment : Fragment() {
 
