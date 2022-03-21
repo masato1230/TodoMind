@@ -13,7 +13,7 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class ReminderViewModel @Inject constructor(
+class TaskReminderViewModel @Inject constructor(
     taskRepository: TaskRepository,
     ogpRepository: OgpRepository,
     settingsPreferences: SettingsPreferences,

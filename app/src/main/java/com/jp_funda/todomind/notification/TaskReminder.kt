@@ -16,13 +16,13 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
-import com.jp_funda.todomind.view.ReminderActivity
+import com.jp_funda.todomind.view.TaskReminderActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
-class Reminder : BroadcastReceiver() {
+class TaskReminder : BroadcastReceiver() {
     @Inject
     lateinit var taskRepository: TaskRepository
 
@@ -58,7 +58,7 @@ class Reminder : BroadcastReceiver() {
         }
 
         // Create an Intent for the ReminderActivity
-        val resultIntent = Intent(context, ReminderActivity::class.java)
+        val resultIntent = Intent(context, TaskReminderActivity::class.java)
         resultIntent.flags = FLAG_ACTIVITY_SINGLE_TOP or FLAG_ACTIVITY_CLEAR_TOP
         val resultPendingIntent: PendingIntent = TaskStackBuilder.create(context).run {
             addNextIntentWithParentStack(resultIntent)

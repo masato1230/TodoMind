@@ -20,9 +20,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
-class ReminderActivity : AppCompatActivity() {
+class TaskReminderActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<ReminderViewModel>()
+    private val viewModel by viewModels<TaskReminderViewModel>()
     private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

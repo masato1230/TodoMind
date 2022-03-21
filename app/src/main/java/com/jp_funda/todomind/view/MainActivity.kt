@@ -15,7 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.databinding.ActivityMainBinding
-import com.jp_funda.todomind.notification.Reminder
+import com.jp_funda.todomind.notification.TaskReminder
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalMaterialApi
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     private fun setAlarm(context: Context) {
         val timeSeconds = System.currentTimeMillis() + 1000
         val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, Reminder::class.java)
+        val intent = Intent(context, TaskReminder::class.java)
             .putExtra("title", "TITLE")
             .putExtra("desc", "Task().id.toString()")
         val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, FLAG_IMMUTABLE)

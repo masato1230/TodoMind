@@ -25,12 +25,12 @@
         </activity>
 
         <activity
-            android:name=".view.ReminderActivity"
+            android:name=".view.TaskReminderActivity"
             android:parentActivityName=".view.MainActivity"
             android:theme="@style/Theme.TodoMind" />
 
         <receiver
-            android:name=".notification.Reminder"
+            android:name=".notification.TaskReminder"
             android:enabled="true"
             android:exported="true"
             android:permission="false" />
