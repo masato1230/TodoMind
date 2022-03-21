@@ -12,7 +12,11 @@ class NotificationPreferences @Inject constructor(context: Context) {
     
     private val preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     
-    fun getString(key: PreferenceKeys): String {
-        return preferences.getString()
+    fun getString(key: PreferenceKeys): String? {
+        return preferences.getString(key.key, null)
+    }
+
+    fun setString(key: PreferenceKeys, value: String) {
+        preferences.edit().putString(key.key, value).apply()
     }
 }

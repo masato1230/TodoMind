@@ -55,7 +55,7 @@ class TaskRepository @Inject constructor() {
     fun getTask(id: UUID): Single<Task> {
         return Single.create { emitter ->
             Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                val result = realm.where<Task>().equalTo("id", id.toString()).findFirst()
+                val result = realm.where<Task>().equalTo("id", id).findFirst()
                 if (result != null) {
                     val resultCopy = Realm.getDefaultInstance().copyFromRealm(result)
                     emitter.onSuccess(resultCopy)

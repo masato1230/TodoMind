@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
+import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
+import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.view.task_reminder.TaskReminderActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -23,6 +25,9 @@ import javax.inject.Inject
 class TaskReminder : BroadcastReceiver() {
     @Inject
     lateinit var taskRepository: TaskRepository
+
+    @Inject
+    lateinit var notificationPreferences: NotificationPreferences
 
     companion object {
         const val CHANNEL_ID = "task_reminder_channel"
@@ -46,6 +51,10 @@ class TaskReminder : BroadcastReceiver() {
     }
 
     private fun showNotification(context: Context, title: String, desc: String, taskId: String) {
+        // set reminding task id to shared preference
+        notificationPreferences.setString(PreferenceKeys.REMINDING_TASK_ID, taskId)
+
+        // notify
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {

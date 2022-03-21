@@ -14,11 +14,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
+import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.view.MainActivity
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.components.TaskEditContent
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import javax.inject.Inject
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
@@ -27,8 +31,15 @@ class TaskReminderActivity : AppCompatActivity() {
     private val viewModel by viewModels<TaskReminderViewModel>()
     private val mainViewModel by viewModels<MainViewModel>()
 
+    @Inject
+    lateinit var notificationPreferences: NotificationPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Get reminding task id from shared preference
+        val taskId = notificationPreferences.getString(PreferenceKeys.REMINDING_TASK_ID)
+        taskId?.let { viewModel.getTask(UUID.fromString(it)) }
 
         setContentView(ComposeView(applicationContext)).apply {
             setContent {
