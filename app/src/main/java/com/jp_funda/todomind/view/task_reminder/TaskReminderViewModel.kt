@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.task_reminder
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
@@ -12,6 +13,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
 
+@ExperimentalMaterialApi
 @HiltViewModel
 class TaskReminderViewModel @Inject constructor(
     taskRepository: TaskRepository,

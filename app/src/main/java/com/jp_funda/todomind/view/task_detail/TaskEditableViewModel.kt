@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.task_detail
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,6 +27,7 @@ import javax.inject.Inject
  * ViewModel for task editing or addTask
  * use setEditingTask() to switch to EditingMode
  */
+@ExperimentalMaterialApi
 @HiltViewModel
 open class TaskEditableViewModel @Inject constructor(
     val taskRepository: TaskRepository,

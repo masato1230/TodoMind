@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.SnackbarResult
 import androidx.lifecycle.LiveData
@@ -15,6 +16,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+@ExperimentalMaterialApi
 @HiltViewModel
 class TaskViewModel @Inject constructor(
     private val repository: TaskRepository

@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.mind_map_create
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,6 +18,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
+@ExperimentalMaterialApi
 @HiltViewModel
 open class MindMapCreateViewModel @Inject constructor(
     private val mindMapRepository: MindMapRepository,
