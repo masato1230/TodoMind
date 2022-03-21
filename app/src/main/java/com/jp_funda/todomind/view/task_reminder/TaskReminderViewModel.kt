@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view
+package com.jp_funda.todomind.view.task_reminder
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

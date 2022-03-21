@@ -14,6 +14,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.databinding.ActivityMainBinding
 import com.jp_funda.todomind.notification.TaskReminder
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,8 +63,9 @@ class MainActivity : AppCompatActivity() {
         val timeSeconds = System.currentTimeMillis() + 1000
         val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, TaskReminder::class.java)
-            .putExtra("title", "TITLE")
-            .putExtra("desc", "Task().id.toString()")
+            .putExtra(TaskReminder.TITLE_KEY, "TITLE")
+            .putExtra(TaskReminder.DESC_KEY, "DESCRIPTION")
+            .putExtra(TaskReminder.ID_KEY, Task().id.toString())
         val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, FLAG_IMMUTABLE)
         alarmManager.set(AlarmManager.RTC_WAKEUP, timeSeconds, pendingIntent)
     }

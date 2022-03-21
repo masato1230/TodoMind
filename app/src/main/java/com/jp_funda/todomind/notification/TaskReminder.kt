@@ -7,8 +7,6 @@ import android.app.TaskStackBuilder
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
-import android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP
 import android.os.Build
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.graphics.Color
@@ -16,7 +14,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
-import com.jp_funda.todomind.view.TaskReminderActivity
+import com.jp_funda.todomind.view.task_reminder.TaskReminderActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -27,24 +25,27 @@ class TaskReminder : BroadcastReceiver() {
     lateinit var taskRepository: TaskRepository
 
     companion object {
-        const val CHANNEL_ID = "reminder_channel"
-        const val CHANNEL_NAME = "reminder_channel"
+        const val CHANNEL_ID = "task_reminder_channel"
+        const val CHANNEL_NAME = "task_reminder_channel"
+        const val TITLE_KEY = "task_reminder_title"
+        const val DESC_KEY = "task_reminder_desc"
+        const val ID_KEY = "task_reminder_id"
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         try {
             showNotification(
                 context,
-                intent.getStringExtra("title") ?: "title fail",
-                intent.getStringExtra("desc") ?: "id"
+                intent.getStringExtra(TITLE_KEY) ?: "title fail",
+                intent.getStringExtra(DESC_KEY) ?: "desc_fail",
+                intent.getStringExtra(ID_KEY) ?: "id_fail",
             )
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    @ExperimentalMaterialApi
-    private fun showNotification(context: Context, title: String, desc: String) {
+    private fun showNotification(context: Context, title: String, desc: String, taskId: String) {
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
@@ -59,7 +60,6 @@ class TaskReminder : BroadcastReceiver() {
 
         // Create an Intent for the ReminderActivity
         val resultIntent = Intent(context, TaskReminderActivity::class.java)
-        resultIntent.flags = FLAG_ACTIVITY_SINGLE_TOP or FLAG_ACTIVITY_CLEAR_TOP
         val resultPendingIntent: PendingIntent = TaskStackBuilder.create(context).run {
             addNextIntentWithParentStack(resultIntent)
             getPendingIntent(0, PendingIntent.FLAG_IMMUTABLE)
