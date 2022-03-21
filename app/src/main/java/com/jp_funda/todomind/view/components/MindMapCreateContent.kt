@@ -1,6 +1,7 @@
 package com.jp_funda.todomind.view.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -10,6 +11,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_create.nodes.*
 
+@ExperimentalMaterialApi
 @Composable
 fun MindMapCreateContent(
     modifier: Modifier = Modifier,

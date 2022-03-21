@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
@@ -25,6 +26,7 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 
 
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class MindMapCreateFragment : Fragment() {
 
