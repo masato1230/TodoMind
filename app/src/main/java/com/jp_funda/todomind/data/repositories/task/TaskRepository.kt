@@ -23,19 +23,21 @@ class TaskRepository @Inject constructor(
         task.dueDate?.let { TaskReminder.setTaskReminder(task, context) }
 
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                val maxReversedOrder =
-                    realm.copyFromRealm(realm.where<Task>().findAll())
-                        .maxWithOrNull(Comparator.comparingInt {
-                            it.reversedOrder ?: 0
-                        })?.reversedOrder
-                        ?: 0
-                task.reversedOrder = maxReversedOrder + 1
-                val now = Date()
-                task.createdDate = now
-                task.updatedDate = now
-                realm.insertOrUpdate(task)
-                emitter.onSuccess(task)
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync { realm ->
+                    val maxReversedOrder =
+                        realm.copyFromRealm(realm.where<Task>().findAll())
+                            .maxWithOrNull(Comparator.comparingInt { lastTask ->
+                                lastTask.reversedOrder ?: 0
+                            })?.reversedOrder
+                            ?: 0
+                    task.reversedOrder = maxReversedOrder + 1
+                    val now = Date()
+                    task.createdDate = now
+                    task.updatedDate = now
+                    realm.insertOrUpdate(task)
+                    emitter.onSuccess(task)
+                }
             }
         }
     }
@@ -45,10 +47,12 @@ class TaskRepository @Inject constructor(
         task.dueDate?.let { TaskReminder.setTaskReminder(task, context) }
 
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                task.updatedDate = Date()
-                realm.insertOrUpdate(task)
-                emitter.onSuccess(task)
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync { realm ->
+                    task.updatedDate = Date()
+                    realm.insertOrUpdate(task)
+                    emitter.onSuccess(task)
+                }
             }
         }
     }
@@ -56,23 +60,27 @@ class TaskRepository @Inject constructor(
     // READ
     fun getAllTasks(): Single<List<Task>> {
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                val result1 = realm.where<Task>().findAll()
-                val result2 = Realm.getDefaultInstance().copyFromRealm(result1)
-                emitter.onSuccess(result2)
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync { realm ->
+                    val result1 = realm.where<Task>().findAll()
+                    val result2 = Realm.getDefaultInstance().copyFromRealm(result1)
+                    emitter.onSuccess(result2)
+                }
             }
         }
     }
 
     fun getTask(id: UUID): Single<Task> {
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                val result = realm.where<Task>().equalTo("id", id).findFirst()
-                if (result != null) {
-                    val resultCopy = Realm.getDefaultInstance().copyFromRealm(result)
-                    emitter.onSuccess(resultCopy)
-                } else {
-                    emitter.onError(Exception("No data"))
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync { realm ->
+                    val result = realm.where<Task>().equalTo("id", id).findFirst()
+                    if (result != null) {
+                        val resultCopy = Realm.getDefaultInstance().copyFromRealm(result)
+                        emitter.onSuccess(resultCopy)
+                    } else {
+                        emitter.onError(Exception("No data"))
+                    }
                 }
             }
         }
@@ -80,19 +88,23 @@ class TaskRepository @Inject constructor(
 
     fun getTasksInAMindMap(mindMap: MindMap): Single<List<Task>> {
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                val result1 = realm.where<Task>().equalTo("mindMap.id", mindMap.id).findAll()
-                val result2 = Realm.getDefaultInstance().copyFromRealm(result1)
-                emitter.onSuccess(result2)
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync { realm ->
+                    val result1 = realm.where<Task>().equalTo("mindMap.id", mindMap.id).findAll()
+                    val result2 = Realm.getDefaultInstance().copyFromRealm(result1)
+                    emitter.onSuccess(result2)
+                }
             }
         }
     }
 
     fun getTasksFilteredByStatus(status: TaskStatus): Single<List<Task>> {
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                val result = realm.where<Task>().equalTo("status", status.state).findAll()
-                emitter.onSuccess(result)
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync { realm ->
+                    val result = realm.where<Task>().equalTo("status", status.state).findAll()
+                    emitter.onSuccess(result)
+                }
             }
         }
     }
@@ -103,10 +115,12 @@ class TaskRepository @Inject constructor(
         updatedTask.dueDate?.let { TaskReminder.setTaskReminder(updatedTask, context) }
 
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                updatedTask.updatedDate = Date()
-                realm.copyToRealmOrUpdate(updatedTask)
-                emitter.onSuccess(updatedTask)
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync { realm ->
+                    updatedTask.updatedDate = Date()
+                    realm.copyToRealmOrUpdate(updatedTask)
+                    emitter.onSuccess(updatedTask)
+                }
             }
         }
     }
@@ -114,13 +128,15 @@ class TaskRepository @Inject constructor(
     // DELETE
     fun deleteTask(task: Task): Single<Task> {
         return Single.create { emitter ->
-            Realm.getDefaultInstance().executeTransactionAsync { realm ->
-                val realmTask = realm.where<Task>().equalTo("id", task.id).findFirst()
-                realmTask?.let {
-                    it.deleteFromRealm()
-                    emitter.onSuccess(task)
-                } ?: run {
-                    emitter.onError(Throwable("Error at deleteTask"))
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync { realm ->
+                    val realmTask = realm.where<Task>().equalTo("id", task.id).findFirst()
+                    realmTask?.let { deletingTask ->
+                        deletingTask.deleteFromRealm()
+                        emitter.onSuccess(task)
+                    } ?: run {
+                        emitter.onError(Throwable("Error at deleteTask"))
+                    }
                 }
             }
         }
