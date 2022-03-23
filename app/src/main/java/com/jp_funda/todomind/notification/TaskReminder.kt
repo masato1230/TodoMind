@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -79,6 +80,7 @@ class TaskReminder : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
+        Log.d("OnReceive", "Receive")
         val taskId = intent.getStringExtra(ID_KEY)
         taskId?.let {
             taskRepository.getTask(UUID.fromString(it))
