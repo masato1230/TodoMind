@@ -2,6 +2,7 @@ package com.jp_funda.todomind.notification
 
 import android.app.*
 import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.app.PendingIntent.getBroadcast
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Context.ALARM_SERVICE
@@ -40,14 +41,18 @@ class TaskReminder : BroadcastReceiver() {
         const val CHANNEL_NAME = "task_reminder_channel"
         const val ID_KEY = "task_reminder_id"
 
+//        fun setReminder2(task: Task, context: Context) {
+//            task.dueDate?let { dueDate ->}
+//        }
+
         fun setTaskReminder(task: Task, context: Context) {
             task.dueDate?.let { dueDate ->
                 val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
                 val intent = Intent(context, TaskReminder::class.java)
                     .putExtra(ID_KEY, task.id.toString())
-                val pendingIntent = PendingIntent.getBroadcast(
+                val pendingIntent = getBroadcast(
                     context,
-                    task.id.extractFirstFiveDigits(),
+                    0,
                     intent,
                     FLAG_IMMUTABLE
                 )
@@ -88,6 +93,8 @@ class TaskReminder : BroadcastReceiver() {
                             task.description ?: "",
                             task.id.toString(),
                         )
+                        task.dueDate!!.time = task.dueDate!!.time + 5000
+                        setTaskReminder(task, context)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -128,4 +135,8 @@ class TaskReminder : BroadcastReceiver() {
             .setSmallIcon(R.drawable.ic_mind_map)
         manager.notify(0, builder.build())
     }
+//
+//    private fun setNearest() {
+//        taskRepository.
+//    }
 }
