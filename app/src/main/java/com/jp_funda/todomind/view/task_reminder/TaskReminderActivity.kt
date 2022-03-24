@@ -46,7 +46,7 @@ class TaskReminderActivity : AppCompatActivity() {
                 Scaffold(
                     topBar = {
                         TopAppBar(
-                            title = { Text(text = if (viewModel.isEditing) "Task Detail" else "New Task") },
+                            title = { Text(text = "Task Detail") },
                             backgroundColor = colorResource(id = R.color.deep_purple),
                             contentColor = Color.White,
                             navigationIcon = {
@@ -79,6 +79,7 @@ class TaskReminderActivity : AppCompatActivity() {
 
     private fun navigateToMainActivity() {
         startActivity(Intent(applicationContext, MainActivity::class.java))
+        finish()
     }
 
     // Navigate to MainActivity when back pressed
