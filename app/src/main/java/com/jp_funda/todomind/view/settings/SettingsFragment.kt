@@ -71,8 +71,8 @@ class SettingsFragment : Fragment() {
             modifier = Modifier.padding(top = 10.dp, start = 20.dp, end = 20.dp),
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
+            /** Personal Settings */
             SettingsGroup(title = "Personal Settings") {
-                // TODO change selected value
                 // Mind Map Scale
                 SettingRowWithNext(
                     icon = Icons.Default.LocationOn,
@@ -92,6 +92,7 @@ class SettingsFragment : Fragment() {
                 }
             }
 
+            /** About TodoMind */
             SettingsGroup("About TodoMind") {
                 // APP version
                 SettingRowOnlyText(
@@ -107,6 +108,16 @@ class SettingsFragment : Fragment() {
                     icon = Icons.Default.List,
                     title = "Open source licenses"
                 ) { findNavController().navigate(R.id.action_navigation_settings_to_navigation_oss_licenses) }
+            }
+
+            /** Notifications */
+            SettingsGroup("Notifications") {
+                SettingRowWithSwitch(
+                    title = "Remind task deadline",
+                    initialValue = viewModel.isRemindTaskDeadline,
+                ) {
+                    viewModel.setIsRemindTaskDeadline(it)
+                }
             }
 
             // Copy Light
