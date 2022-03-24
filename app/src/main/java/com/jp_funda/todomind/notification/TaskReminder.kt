@@ -16,6 +16,7 @@ import androidx.core.app.NotificationCompat
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
@@ -89,9 +90,13 @@ class TaskReminder : BroadcastReceiver() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess { task ->
                     Log.d("onSuccess", "OK")
-                    if (task.dueDate == null || abs(task.dueDate!!.time - Date().time) > 1000 * 120) return@doOnSuccess
                     try {
-                        if (settingsPreferences.getBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE)) {
+                        if (
+                            settingsPreferences.getBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE) &&
+                            task.dueDate != null &&
+                            abs(task.dueDate!!.time - Date().time) < 1000 * 120 &&
+                            task.statusEnum != TaskStatus.Complete
+                        ) {
                             showNotification(
                                 context,
                                 task.title ?: "",
