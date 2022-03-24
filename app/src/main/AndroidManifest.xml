@@ -31,7 +31,6 @@
 
         <activity
             android:name=".view.task_reminder.TaskReminderActivity"
-            android:parentActivityName=".view.MainActivity"
             android:theme="@style/Theme.TodoMind" />
 
         <receiver
