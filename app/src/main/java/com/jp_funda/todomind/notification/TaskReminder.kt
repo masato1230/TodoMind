@@ -18,6 +18,7 @@ import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
+import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.extension.extractFirstFiveDigits
 import com.jp_funda.todomind.view.task_reminder.TaskReminderActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +37,9 @@ class TaskReminder : BroadcastReceiver() {
 
     @Inject
     lateinit var notificationPreferences: NotificationPreferences
+
+    @Inject
+    lateinit var settingsPreferences: SettingsPreferences
 
     companion object {
         const val CHANNEL_ID = "task_reminder_channel"
@@ -87,12 +91,14 @@ class TaskReminder : BroadcastReceiver() {
                     Log.d("onSuccess", "OK")
                     if (task.dueDate == null || abs(task.dueDate!!.time - Date().time) > 1000 * 120) return@doOnSuccess
                     try {
-                        showNotification(
-                            context,
-                            task.title ?: "",
-                            task.description ?: "",
-                            task.id.toString(),
-                        )
+                        if (settingsPreferences.getBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE)) {
+                            showNotification(
+                                context,
+                                task.title ?: "",
+                                task.description ?: "",
+                                task.id.toString(),
+                            )
+                        }
                         // set next reminder
                         taskRepository.getNextRemindTask(task)
                             .doOnSuccess { nextTask ->
