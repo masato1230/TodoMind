@@ -2,11 +2,13 @@ package com.jp_funda.todomind.notification
 
 import android.app.*
 import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.app.PendingIntent.getBroadcast
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -45,13 +47,13 @@ class TaskReminder : BroadcastReceiver() {
                 val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
                 val intent = Intent(context, TaskReminder::class.java)
                     .putExtra(ID_KEY, task.id.toString())
-                val pendingIntent = PendingIntent.getBroadcast(
+                val pendingIntent = getBroadcast(
                     context,
                     task.id.extractFirstFiveDigits(),
                     intent,
                     FLAG_IMMUTABLE
                 )
-                alarmManager.set(
+                alarmManager.setExact(
                     AlarmManager.RTC_WAKEUP,
                     dueDate.time,
                     pendingIntent
@@ -63,7 +65,7 @@ class TaskReminder : BroadcastReceiver() {
             val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
             val intent = Intent(context, TaskReminder::class.java)
                 .putExtra(ID_KEY, task.id.toString())
-            val pendingIntent = PendingIntent.getBroadcast(
+            val pendingIntent = getBroadcast(
                 context,
                 task.id.extractFirstFiveDigits(),
                 intent,
@@ -74,13 +76,16 @@ class TaskReminder : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
+        Log.d("OnReceive", "Receive")
         val taskId = intent.getStringExtra(ID_KEY)
+        Log.d("id", taskId.toString())
         taskId?.let {
             taskRepository.getTask(UUID.fromString(it))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess { task ->
-                    if (task.dueDate == null || abs(task.dueDate!!.time - Date().time) > 1000 * 60) return@doOnSuccess
+                    Log.d("onSuccess", "OK")
+                    if (task.dueDate == null || abs(task.dueDate!!.time - Date().time) > 1000 * 120) return@doOnSuccess
                     try {
                         showNotification(
                             context,
@@ -88,6 +93,13 @@ class TaskReminder : BroadcastReceiver() {
                             task.description ?: "",
                             task.id.toString(),
                         )
+                        // set next reminder
+                        taskRepository.getNextRemindTask(task)
+                            .doOnSuccess { nextTask ->
+                                setTaskReminder(nextTask, context)
+                            }
+                            .subscribe()
+
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
