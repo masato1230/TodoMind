@@ -81,7 +81,7 @@ class TaskRepository @Inject constructor(
                 it.executeTransactionAsync { realm ->
                     val result = realm.where<Task>().equalTo("id", id).findFirst()
                     if (result != null) {
-                        val resultCopy = Realm.getDefaultInstance().copyFromRealm(result)
+                        val resultCopy = realm.copyFromRealm(result)
                         emitter.onSuccess(resultCopy)
                     } else {
                         emitter.onError(Exception("No data"))
@@ -102,7 +102,7 @@ class TaskRepository @Inject constructor(
                         .greaterThan("updatedDate", lastRemindedTask?.updatedDate ?: Date(0))
                         .findFirst()
                     if (result == null) emitter.onError(Throwable("No task to remind")) else {
-                        val copy = it.copyFromRealm(result)
+                        val copy = realm.copyFromRealm(result)
                         emitter.onSuccess(copy)
                     }
                 }

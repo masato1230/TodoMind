@@ -57,7 +57,7 @@ class TaskReminder : BroadcastReceiver() {
                     intent,
                     FLAG_IMMUTABLE
                 )
-                alarmManager.set(
+                alarmManager.setExact(
                     AlarmManager.RTC_WAKEUP,
                     dueDate.time,
                     pendingIntent
@@ -82,12 +82,14 @@ class TaskReminder : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Log.d("OnReceive", "Receive")
         val taskId = intent.getStringExtra(ID_KEY)
+        Log.d("id", taskId.toString())
         taskId?.let {
             taskRepository.getTask(UUID.fromString(it))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess { task ->
-                    if (task.dueDate == null || abs(task.dueDate!!.time - Date().time) > 1000 * 60) return@doOnSuccess
+                    Log.d("onSuccess", "OK")
+                    if (task.dueDate == null || abs(task.dueDate!!.time - Date().time) > 1000 * 120) return@doOnSuccess
                     try {
                         showNotification(
                             context,
@@ -95,8 +97,13 @@ class TaskReminder : BroadcastReceiver() {
                             task.description ?: "",
                             task.id.toString(),
                         )
-                        task.dueDate!!.time = task.dueDate!!.time + 5000
-                        setTaskReminder(task, context)
+                        // set next reminder
+                        taskRepository.getNextRemindTask(task)
+                            .doOnSuccess { nextTask ->
+                                setTaskReminder(nextTask, context)
+                            }
+                            .subscribe()
+
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
