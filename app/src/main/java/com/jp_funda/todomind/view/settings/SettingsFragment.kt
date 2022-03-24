@@ -11,10 +11,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -113,6 +110,7 @@ class SettingsFragment : Fragment() {
             /** Notifications */
             SettingsGroup("Notifications") {
                 SettingRowWithSwitch(
+                    icon = Icons.Default.Notifications,
                     title = "Remind task deadline",
                     initialValue = viewModel.isRemindTaskDeadline,
                 ) {
