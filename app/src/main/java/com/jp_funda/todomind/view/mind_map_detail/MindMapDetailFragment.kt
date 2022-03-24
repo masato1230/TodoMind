@@ -349,9 +349,8 @@ class MindMapDetailFragment : Fragment() {
 
             /** Mark as Completed */
             val clickableColors = TextFieldDefaults.textFieldColors(
-                textColor = mindMap.color?.let { Color(it) }
+                disabledTextColor = mindMap.color?.let { Color(it) }
                     ?: run { colorResource(id = R.color.pink_dark) },
-                disabledTextColor = Color.LightGray,
                 backgroundColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
