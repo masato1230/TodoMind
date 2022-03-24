@@ -53,7 +53,7 @@ class TaskReminder : BroadcastReceiver() {
                     .putExtra(ID_KEY, task.id.toString())
                 val pendingIntent = getBroadcast(
                     context,
-                    0,
+                    task.id.extractFirstFiveDigits(),
                     intent,
                     FLAG_IMMUTABLE
                 )

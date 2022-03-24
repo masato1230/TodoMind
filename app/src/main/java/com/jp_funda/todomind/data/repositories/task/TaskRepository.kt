@@ -45,9 +45,6 @@ class TaskRepository @Inject constructor(
     }
 
     fun restoreTask(task: Task): Single<Task> {
-        // set reminder
-        task.dueDate?.let { TaskReminder.setTaskReminder(task, context) }
-
         return Single.create { emitter ->
             Realm.getDefaultInstance().use {
                 it.executeTransactionAsync { realm ->
@@ -135,9 +132,6 @@ class TaskRepository @Inject constructor(
 
     // UPDATE
     fun updateTask(updatedTask: Task): Single<Task> {
-        // set reminder
-        updatedTask.dueDate?.let { TaskReminder.setTaskReminder(updatedTask, context) }
-
         return Single.create { emitter ->
             Realm.getDefaultInstance().use {
                 it.executeTransactionAsync { realm ->
