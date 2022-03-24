@@ -21,7 +21,16 @@ class SettingsViewModel @Inject constructor(private val settingsPreferences: Set
             return settingsPreferences.getBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL)
         }
 
+    val isRemindTaskDeadline: Boolean
+        get() {
+            return settingsPreferences.getBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE)
+        }
+
     fun setIsShowOgpThumbnail(isShow: Boolean) {
         settingsPreferences.setBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL, isShow)
+    }
+
+    fun setIsRemindTaskDeadline(isRemind: Boolean) {
+        settingsPreferences.setBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE, isRemind)
     }
 }
