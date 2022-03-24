@@ -347,11 +347,47 @@ class MindMapDetailFragment : Fragment() {
                 OgpThumbnail(ogpResult = ogpResult!!, context = context)
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+            /** Mark as Completed */
+            val clickableColors = TextFieldDefaults.textFieldColors(
+                textColor = mindMap.color?.let { Color(it) }
+                    ?: run { colorResource(id = R.color.pink_dark) },
+                disabledTextColor = Color.LightGray,
+                backgroundColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+                cursorColor = colorResource(id = R.color.teal_200),
+            )
+            TextField(
+                colors = clickableColors,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        mindMapDetailViewModel.setIsCompleted(
+                            !(mindMap.isCompleted ?: false)
+                        )
+                    },
+                value = if (mindMap.isCompleted == false) "Mark ${mindMap.title ?: ""} as Completed"
+                else "${mindMap.title ?: ""} Completed",
+                onValueChange = {},
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(
+                            id =
+                            if (mindMap.isCompleted == false) R.drawable.ic_checkbox_unchecked
+                            else R.drawable.ic_checkbox_checked
+                        ),
+                        tint = mindMap.color?.let { Color(it) }
+                            ?: run { colorResource(id = R.color.pink_dark) },
+                        contentDescription = "mind map status"
+                    )
+                },
+                readOnly = true,
+                enabled = false,
+            )
 
             /** Progress Section */
             ProgressSection()
-
 
             Spacer(modifier = Modifier.height(50.dp))
 

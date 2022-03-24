@@ -51,6 +51,7 @@ class MindMapRepository @Inject constructor() {
                 it.executeTransactionAsync { realm ->
                     try {
                         val result = realm.where<MindMap>()
+                            .equalTo("isCompleted", false)
                             .findAll()
                             .sort("updatedDate", Sort.DESCENDING)
                             .first()

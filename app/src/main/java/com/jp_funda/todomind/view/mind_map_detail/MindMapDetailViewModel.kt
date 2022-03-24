@@ -66,6 +66,11 @@ class MindMapDetailViewModel @Inject constructor(
         notifyChangeToView()
     }
 
+    fun setIsCompleted(isCompleted: Boolean) {
+        _mindMap.value!!.isCompleted = isCompleted
+        notifyChangeToView()
+    }
+
     fun saveMindMapAndClearDisposables() {
         disposables.add(
             if (!isEditing) {
