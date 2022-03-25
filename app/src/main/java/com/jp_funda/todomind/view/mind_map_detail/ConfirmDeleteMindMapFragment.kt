@@ -22,7 +22,8 @@ class ConfirmDeleteMindMapFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
-            builder.setMessage(R.string.question_confirm_delete)
+            builder.setTitle(R.string.question_confirm_delete)
+                .setMessage(R.string.notify_tasks_delete)
                 .setPositiveButton(R.string.delete
                 ) { _, _ ->
                     setFragmentResult(REQUEST_KEY, bundleOf(KEY to DELETE))
