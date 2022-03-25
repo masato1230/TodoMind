@@ -1,6 +1,7 @@
 package com.jp_funda.todomind.data.repositories.mind_map
 
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.data.repositories.task.entity.Task
 import io.reactivex.rxjava3.core.Single
 import io.realm.Realm
 import io.realm.Sort
@@ -91,6 +92,7 @@ class MindMapRepository @Inject constructor() {
                 it.executeTransactionAsync { realm ->
                     val realmMindMap = realm.where<MindMap>().equalTo("id", mindMap.id).findFirst()
                     realmMindMap?.let { deletingMindMap ->
+                        deleteTasksInAMindMap(realm, deletingMindMap)
                         deletingMindMap.deleteFromRealm()
                         emitter.onSuccess(mindMap)
                     } ?: run {
@@ -99,5 +101,9 @@ class MindMapRepository @Inject constructor() {
                 }
             }
         }
+    }
+
+    private fun deleteTasksInAMindMap(realm: Realm, mindMap: MindMap) {
+        realm.where<Task>().equalTo("mindMap.id", mindMap.id).findAll().deleteAllFromRealm()
     }
 }
