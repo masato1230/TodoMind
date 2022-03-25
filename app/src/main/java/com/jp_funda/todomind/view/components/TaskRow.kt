@@ -38,6 +38,7 @@ fun TaskRow(
             title.text = task.title
             description.text = task.description
             task.dueDate?.let {
+                date.visibility = View.VISIBLE
                 date.text = Task.dateFormat.format(task.dueDate!!)
             } ?: run {
                 date.visibility = View.GONE
