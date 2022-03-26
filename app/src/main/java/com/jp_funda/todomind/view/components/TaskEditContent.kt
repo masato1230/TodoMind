@@ -221,45 +221,47 @@ fun TaskEditContent(
             }
 
             // Style
-            val styleOptions = NodeStyle.values()
-            var styleExpanded by remember { mutableStateOf(false) }
+            if (task.mindMap != null) {
+                val styleOptions = NodeStyle.values()
+                var styleExpanded by remember { mutableStateOf(false) }
 
-            ExposedDropdownMenuBox(
-                expanded = styleExpanded,
-                onExpandedChange = {
-                    styleExpanded = !styleExpanded
-                }
-            ) {
-                TextField(
-                    colors = colors,
-                    value = "Style - ${task.styleEnum.title}",
-                    onValueChange = {},
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_style_24),
-                            contentDescription = "Style",
-                            tint = task.color?.let { Color(it) }
-                                ?: run { colorResource(id = R.color.teal_200) },
-                        )
-                    },
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(
-                            expanded = styleExpanded
-                        )
-                    },
-                    readOnly = true,
-                )
-                ExposedDropdownMenu(
+                ExposedDropdownMenuBox(
                     expanded = styleExpanded,
-                    onDismissRequest = {
-                        styleExpanded = false
-                    }) {
-                    styleOptions.forEach { option ->
-                        DropdownMenuItem(onClick = {
-                            taskEditableViewModel.setStyle(option)
+                    onExpandedChange = {
+                        styleExpanded = !styleExpanded
+                    }
+                ) {
+                    TextField(
+                        colors = colors,
+                        value = "Style - ${task.styleEnum.title}",
+                        onValueChange = {},
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_style_24),
+                                contentDescription = "Style",
+                                tint = task.color?.let { Color(it) }
+                                    ?: run { colorResource(id = R.color.teal_200) },
+                            )
+                        },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(
+                                expanded = styleExpanded
+                            )
+                        },
+                        readOnly = true,
+                    )
+                    ExposedDropdownMenu(
+                        expanded = styleExpanded,
+                        onDismissRequest = {
                             styleExpanded = false
                         }) {
-                            Text(text = option.title)
+                        styleOptions.forEach { option ->
+                            DropdownMenuItem(onClick = {
+                                taskEditableViewModel.setStyle(option)
+                                styleExpanded = false
+                            }) {
+                                Text(text = option.title)
+                            }
                         }
                     }
                 }
@@ -268,7 +270,6 @@ fun TaskEditContent(
             // Status
             val statusOptions = TaskStatus.values()
             var expanded by remember { mutableStateOf(false) }
-//            var selectedStatus by remember { mutableStateOf(statusOptions[0]) }
 
             ExposedDropdownMenuBox(
                 expanded = expanded,
