@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -50,6 +49,17 @@ class TaskDetailFragment : Fragment() {
                             backgroundColor = colorResource(id = R.color.deep_purple),
                             contentColor = Color.White,
                             navigationIcon = { BackNavigationIcon() },
+                            actions = {
+                                IconButton(onClick = {
+                                    // TODO navigation
+                                    findNavController().popBackStack()
+                                }) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_mind_map),
+                                        contentDescription = "Mind Map"
+                                    )
+                                }
+                            }
                         )
                     },
                     backgroundColor = colorResource(id = R.color.deep_purple),
