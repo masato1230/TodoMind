@@ -51,7 +51,7 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
         // Set mind map to addChildViewModel
         mainViewModel.editingMindMap?.let { addChildViewModel.setMindMap(it) }
         // Set parentTask to addChildViewModel
-        mainViewModel.selectedNode?.let { addChildViewModel.setParentTask(it) }
+        mainViewModel.selectedNode?.let { addChildViewModel.initializeParentTask(it) }
         // Set addChildViewModel's new task status as open
         addChildViewModel.setStatus(TaskStatus.Open)
 

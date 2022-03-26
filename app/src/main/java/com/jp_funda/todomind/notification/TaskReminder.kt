@@ -89,7 +89,6 @@ class TaskReminder : BroadcastReceiver() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess { task ->
-                    Log.d("onSuccess", "OK")
                     try {
                         if (
                             settingsPreferences.getBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE) &&

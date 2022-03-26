@@ -96,7 +96,7 @@ open class TaskEditableViewModel @Inject constructor(
         notifyChangeToView()
     }
 
-    fun setParentTask(parentTask: Task) {
+    fun initializeParentTask(parentTask: Task) {
         _task.value!!.parentTask = parentTask
         _task.value!!.styleEnum =
             if (parentTask.styleEnum.ordinal < NodeStyle.values().size - 1) NodeStyle.values()[parentTask.styleEnum.ordinal + 1]
@@ -183,6 +183,31 @@ open class TaskEditableViewModel @Inject constructor(
         } else {
             cachedSiteUrl = null
             _ogpResult.value = null
+        }
+    }
+
+    // For ParentSelectDialog
+    // Load task data
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> = _isLoading
+    var tasksInSameMindMap = listOf<Task>()
+
+    fun setParentTask(task: Task?) {
+        _task.value!!.parentTask = task
+        notifyChangeToView()
+    }
+
+    fun loadTasksInSameMindMap() {
+        _isLoading.value = true
+        _task.value?.mindMap?.let {
+            taskRepository.getTasksInAMindMap(mindMap = it)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .doOnSuccess {
+                    tasksInSameMindMap = it
+                }
+                .doFinally { _isLoading.value = false }
+                .subscribe()
         }
     }
 

@@ -61,9 +61,9 @@ class TaskReminderActivity : AppCompatActivity() {
                     },
                     backgroundColor = colorResource(id = R.color.deep_purple),
                 ) {
-                    val isLoading by viewModel.isLoading.observeAsState(true)
+                    val loading by viewModel.loading.observeAsState(true)
 
-                    if (!isLoading) {
+                    if (!loading) {
                         TaskEditContent(
                             taskEditableViewModel = viewModel,
                             mainViewModel = mainViewModel,
