@@ -318,7 +318,9 @@ fun TaskEditContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable { parentSelectDialogState = true },
-                    value = "parent - " + if (task.parentTask?.title != null) task.parentTask!!.title!! else "",
+                    value =
+                    "parent - " + if (task.parentTask?.title != null) task.parentTask!!.title!!
+                    else task.mindMap?.title ?: "",
                     onValueChange = {},
                     leadingIcon = {
                         Icon(
@@ -346,8 +348,6 @@ fun TaskEditContent(
                     )
                 }
             }
-
-            Spacer(modifier = Modifier.height(20.dp))
 
             // Buttons
             Row(modifier = Modifier.fillMaxWidth()) {
