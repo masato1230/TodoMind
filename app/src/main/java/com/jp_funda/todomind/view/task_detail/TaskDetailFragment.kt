@@ -17,6 +17,7 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.TaskEditContent
+import com.jp_funda.todomind.view.mind_map_create.Location
 import dagger.hilt.android.AndroidEntryPoint
 
 @androidx.compose.material.ExperimentalMaterialApi
@@ -53,6 +54,12 @@ class TaskDetailFragment : Fragment() {
                                 taskDetailViewModel.task.value?.mindMap?.let {
                                     IconButton(onClick = {
                                         mainViewModel.editingMindMap = it
+                                        val action =
+                                            TaskDetailFragmentDirections.actionNavigationTaskDetailToNavigationMindMapCreate()
+                                        action.initialLocation = Location(
+                                            x = taskDetailViewModel.task.value?.x ?: 0f,
+                                            y = taskDetailViewModel.task.value?.y ?: 0f,
+                                        )
                                         findNavController().navigate(R.id.action_navigation_task_detail_to_navigation_mind_map_create)
                                     }) {
                                         Icon(

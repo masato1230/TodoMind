@@ -5,6 +5,8 @@ plugins {
     id 'realm-android'
     id 'dagger.hilt.android.plugin'
     id "com.cookpad.android.plugin.license-tools"
+    id 'androidx.navigation.safeargs'
+    id 'kotlin-parcelize'
 }
 
 android {

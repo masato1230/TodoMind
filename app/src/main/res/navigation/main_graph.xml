@@ -79,7 +79,13 @@
 
     <fragment
         android:id="@+id/navigation_mind_map_create"
-        android:name="com.jp_funda.todomind.view.mind_map_create.MindMapCreateFragment" />
+        android:name="com.jp_funda.todomind.view.mind_map_create.MindMapCreateFragment" >
+        <argument
+            android:name="initialLocation"
+            app:argType=".view.mind_map_create.Location"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 
     <dialog
         android:id="@+id/navigation_mind_map_options_dialog"

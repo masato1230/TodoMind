@@ -1,5 +1,6 @@
 ### Data Entities Proguard
 -keep class * extends io.realm.RealmObject
+-keep class * extends Parcelable
 
 ### Libraries Proguard
 # Hilt
