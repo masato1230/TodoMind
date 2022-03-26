@@ -271,11 +271,8 @@ class MindMapDetailFragment : Fragment() {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 // Date
-                val dateString = mindMap.createdDate?.let {
-                    SimpleDateFormat("EEE MM/dd", Locale.getDefault()).format(it)
-                } ?: run {
-                    SimpleDateFormat("EEE MM/dd", Locale.getDefault()).format(Date())
-                }
+                val dateString =
+                    SimpleDateFormat("EEE MM/dd", Locale.getDefault()).format(mindMap.createdDate)
                 Text(
                     text = "Created on: $dateString",
                     style = MaterialTheme.typography.subtitle1,
@@ -361,19 +358,15 @@ class MindMapDetailFragment : Fragment() {
                 colors = clickableColors,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {
-                        mindMapDetailViewModel.setIsCompleted(
-                            !(mindMap.isCompleted ?: false)
-                        )
-                    },
-                value = if (mindMap.isCompleted == false) "Mark ${mindMap.title ?: ""} as Completed"
+                    .clickable { mindMapDetailViewModel.setIsCompleted(!(mindMap.isCompleted)) },
+                value = if (!mindMap.isCompleted) "Mark ${mindMap.title ?: ""} as Completed"
                 else "${mindMap.title ?: ""} Completed",
                 onValueChange = {},
                 leadingIcon = {
                     Icon(
                         painter = painterResource(
                             id =
-                            if (mindMap.isCompleted == false) R.drawable.ic_checkbox_unchecked
+                            if (!mindMap.isCompleted) R.drawable.ic_checkbox_unchecked
                             else R.drawable.ic_checkbox_checked
                         ),
                         tint = mindMap.color?.let { Color(it) }

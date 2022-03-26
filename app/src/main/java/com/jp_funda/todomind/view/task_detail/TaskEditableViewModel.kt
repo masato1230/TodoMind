@@ -34,8 +34,7 @@ open class TaskEditableViewModel @Inject constructor(
     val ogpRepository: OgpRepository,
     settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
-    protected var _task =
-        MutableLiveData(Task(createdDate = Date(), styleEnum = NodeStyle.HEADLINE_2))
+    protected var _task = MutableLiveData(Task())
     val task: LiveData<Task> = _task
     var isEditing: Boolean = false
     val isShowOgpThumbnail = settingsPreferences.getBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL)

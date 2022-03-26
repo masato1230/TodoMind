@@ -15,7 +15,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -25,7 +24,7 @@ class MindMapDetailViewModel @Inject constructor(
     private val ogpRepository: OgpRepository,
     settingsPreferences: SettingsPreferences,
     ) : ViewModel() {
-    private var _mindMap = MutableLiveData(MindMap(createdDate = Date()))
+    private var _mindMap = MutableLiveData(MindMap())
     val mindMap: LiveData<MindMap> = _mindMap
 
     // ogp

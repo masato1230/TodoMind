@@ -72,8 +72,8 @@ class MindMapFragment : Fragment() {
         val scrollState = rememberScrollState()
 
         observedMindMapList?.let { mindMapList ->
-            val yetCompletedMindMaps = mindMapList.filter { !(it.isCompleted ?: false) }
-            val completedMindMaps = mindMapList.filter { it.isCompleted ?: false }
+            val yetCompletedMindMaps = mindMapList.filter { !it.isCompleted }
+            val completedMindMaps = mindMapList.filter { it.isCompleted }
 
             Column(
                 modifier = Modifier.verticalScroll(scrollState)

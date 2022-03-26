@@ -35,11 +35,7 @@ fun MindMapCard(
             background.setBackgroundColor(mindMap.color ?: Color.parseColor("#e91e63"))
 
             // created date
-            mindMap.createdDate?.let {
-                createdDate.text = MindMap.dateFormat.format(it)
-            } ?: run {
-                createdDate.visibility = View.GONE
-            }
+            createdDate.text = MindMap.dateFormat.format(mindMap.createdDate)
             // title
             title.text = mindMap.title ?: ""
             title.setTextColor(tintColor)
