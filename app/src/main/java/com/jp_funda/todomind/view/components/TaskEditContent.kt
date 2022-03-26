@@ -350,6 +350,8 @@ fun TaskEditContent(
                 }
             }
 
+            Spacer(modifier = Modifier.height(10.dp))
+
             // Buttons
             Row(modifier = Modifier.fillMaxWidth()) {
                 WhiteButton(
