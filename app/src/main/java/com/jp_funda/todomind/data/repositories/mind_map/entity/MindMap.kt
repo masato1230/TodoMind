@@ -12,7 +12,7 @@ open class MindMap(
     var description: String? = null,
     var createdDate: Date? = null,
     var updatedDate: Date? = null,
-    var isCompleted: Boolean? = null,
+    var isCompleted: Boolean? = false,
     // for mind map create
     var x: Float? = null,
     var y: Float? = null,
