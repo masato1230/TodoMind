@@ -311,35 +311,40 @@ fun TaskEditContent(
             }
 
             // Parent Node
-            var parentSelectDialogState by remember { mutableStateOf(false) }
-            TextField(
-                colors = colors,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { parentSelectDialogState = true },
-                value = "parent - " + if (task.parentTask?.title != null) task.parentTask!!.title!! else "",
-                onValueChange = {},
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_node_24),
-                        tint = task.parentTask?.color?.let { Color(it) } ?: Color.White,
-                        contentDescription = "Parent Node",
-                    )
-                },
-                readOnly = true,
-                enabled = false,
-            )
-            if (parentSelectDialogState) {
-                ParentSelectDialog(
-                    mindMap = mainViewModel?.editingMindMap,
-                    optionsList = listOf(task),
-                    initialValue = task.parentTask,
-                    onSubmitButtonClick = {
-                        // TODO update db
-                        parentSelectDialogState = false
+            if (task.mindMap != null) {
+                var parentSelectDialogState by remember { mutableStateOf(false) }
+                TextField(
+                    colors = colors,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { parentSelectDialogState = true },
+                    value = "parent - " + if (task.parentTask?.title != null) task.parentTask!!.title!! else "",
+                    onValueChange = {},
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_node_24),
+                            tint = task.parentTask?.color?.let { Color(it) }
+                                ?: colorResource(id = R.color.teal_200),
+                            contentDescription = "Parent Node",
+                        )
                     },
-                    onDismissRequest = { parentSelectDialogState = false }
+                    readOnly = true,
+                    enabled = false,
                 )
+                if (parentSelectDialogState) {
+                    ParentSelectDialog(
+                        mindMap = task.mindMap,
+                        viewModel = taskEditableViewModel,
+                        initialValue = task.parentTask,
+                        onSubmitButtonClick = {
+                            taskEditableViewModel.setParentTask(it)
+                            parentSelectDialogState = false
+                        },
+                        onDismissRequest = {
+                            parentSelectDialogState = false
+                        }
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(20.dp))

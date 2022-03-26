@@ -24,15 +24,15 @@ class TaskReminderViewModel @Inject constructor(
     ogpRepository = ogpRepository,
     settingsPreferences = settingsPreferences
 ) {
-    private val _isLoading = MutableLiveData(true)
-    val isLoading: LiveData<Boolean> = _isLoading
+    private val _loading = MutableLiveData(true)
+    val loading: LiveData<Boolean> = _loading
 
     fun getTask(id: UUID) {
         taskRepository.getTask(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess {
-                _isLoading.value = false
+                _loading.value = false
                 setEditingTask(it)
             }
             .subscribe()
