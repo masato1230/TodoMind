@@ -320,7 +320,7 @@ fun TaskEditContent(
                         .fillMaxWidth()
                         .clickable { parentSelectDialogState = true },
                     value =
-                    "parent - " + if (task.parentTask?.title != null) task.parentTask!!.title!!
+                    "Parent - " + if (task.parentTask?.title != null) task.parentTask!!.title!!
                     else task.mindMap?.title ?: "",
                     onValueChange = {},
                     leadingIcon = {
