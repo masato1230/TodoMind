@@ -249,12 +249,12 @@ class MindMapDetailFragment : Fragment() {
                 modifier = Modifier.padding(bottom = 10.dp),
                 value = mindMap.title ?: "",
                 onValueChange = mindMapDetailViewModel::setTitle,
-                textStyle = MaterialTheme.typography.h4,
+                textStyle = MaterialTheme.typography.h5,
                 placeholder = {
                     Text(
                         text = "Enter title",
                         color = Color.Gray,
-                        style = MaterialTheme.typography.h4,
+                        style = MaterialTheme.typography.h5,
                     )
                 }
             )
