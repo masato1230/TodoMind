@@ -10,9 +10,9 @@ open class MindMap(
     @PrimaryKey var id: UUID = UUID.randomUUID(),
     var title: String? = null,
     var description: String? = null,
-    var createdDate: Date? = null,
-    var updatedDate: Date? = null,
-    var isCompleted: Boolean? = false,
+    var createdDate: Date = Date(),
+    var updatedDate: Date = Date(),
+    var isCompleted: Boolean = false,
     // for mind map create
     var x: Float? = null,
     var y: Float? = null,

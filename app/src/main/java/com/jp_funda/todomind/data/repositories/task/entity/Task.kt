@@ -20,8 +20,8 @@ open class Task(
     var mindMap: MindMap? = null,
     var title: String? = null,
     var description: String? = null,
-    var createdDate: Date? = Date(),
-    var updatedDate: Date? = Date(),
+    var createdDate: Date = Date(),
+    var updatedDate: Date = Date(),
 
     // To-Do list fields
     var dueDate: Date? = null,
@@ -34,10 +34,10 @@ open class Task(
     var parentTask: Task? = null,
     var color: Int? = null, // Color Argb int
 
-    styleEnum: NodeStyle? = NodeStyle.HEADLINE_1,
-    statusEnum: TaskStatus? = TaskStatus.InProgress,
+    styleEnum: NodeStyle = NodeStyle.HEADLINE_1,
+    statusEnum: TaskStatus = TaskStatus.InProgress,
 ) : RealmObject() {
-    private var status: String = statusEnum?.name ?: TaskStatus.InProgress.name
+    private var status: String = statusEnum.name
     var statusEnum: TaskStatus
         get() {
             // default the state to "Open" if the state is unreadable
@@ -53,7 +53,7 @@ open class Task(
             status = value.state
         }
 
-    private var style: String = styleEnum?.name ?: NodeStyle.HEADLINE_1.name
+    private var style: String = styleEnum.name
     var styleEnum: NodeStyle
         get() {
             return NodeStyle.valueOf(style)
