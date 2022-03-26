@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
+import com.jp_funda.todomind.data.getSize
 import com.jp_funda.todomind.data.getTextSize
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.extension.getLuminance
@@ -54,7 +55,7 @@ fun MindMapNode(
             .offset { IntOffset((offsetX * scale).roundToInt(), (offsetY * scale).roundToInt()) }
             .clip(CircleShape)
             .background(backgroundColor)
-            .size(250.dp * scale)
+            .size(NodeStyle.HEADLINE_1.getSize().width.dp * scale)
             .pointerInput(Unit) {
                 detectDragGesturesAfterLongPress(
                     onDragStart = { haptic.performHapticFeedback(HapticFeedbackType.LongPress) },

@@ -18,7 +18,7 @@ enum class NodeStyle(val title: String) {
 
 fun NodeStyle.getSize(): Size {
     return when (this) {
-        NodeStyle.HEADLINE_1 -> Size(250f, 250f)
+        NodeStyle.HEADLINE_1 -> Size(300f, 300f)
         NodeStyle.HEADLINE_2 -> Size(220f, 220f)
         NodeStyle.HEADLINE_3 -> Size(170f, 170f)
         NodeStyle.HEADLINE_4 -> Size(150f, 150f)
