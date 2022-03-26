@@ -40,7 +40,11 @@
 
     <fragment
         android:id="@+id/navigation_task_detail"
-        android:name="com.jp_funda.todomind.view.task_detail.TaskDetailFragment"></fragment>
+        android:name="com.jp_funda.todomind.view.task_detail.TaskDetailFragment" >
+        <action
+            android:id="@+id/action_navigation_task_detail_to_navigation_mind_map_create"
+            app:destination="@id/navigation_mind_map_create" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_mind_map"

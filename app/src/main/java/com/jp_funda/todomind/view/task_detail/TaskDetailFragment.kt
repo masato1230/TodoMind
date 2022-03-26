@@ -50,14 +50,16 @@ class TaskDetailFragment : Fragment() {
                             contentColor = Color.White,
                             navigationIcon = { BackNavigationIcon() },
                             actions = {
-                                IconButton(onClick = {
-                                    // TODO navigation
-                                    findNavController().popBackStack()
-                                }) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_mind_map),
-                                        contentDescription = "Mind Map"
-                                    )
+                                taskDetailViewModel.task.value?.mindMap?.let {
+                                    IconButton(onClick = {
+                                        mainViewModel.editingMindMap = it
+                                        findNavController().navigate(R.id.action_navigation_task_detail_to_navigation_mind_map_create)
+                                    }) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.ic_mind_map),
+                                            contentDescription = "Mind Map"
+                                        )
+                                    }
                                 }
                             }
                         )
