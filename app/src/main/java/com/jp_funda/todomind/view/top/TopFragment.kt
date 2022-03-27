@@ -20,6 +20,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
@@ -101,6 +102,11 @@ class TopFragment : Fragment() {
 
         // Main Contents
         observedTasks?.let { tasks ->
+            // Check whether to request review is needed
+            if (topViewModel.isReviewRequested && tasks.size > 20) {
+                requestReview()
+                topViewModel.setIsReviewRequested(true)
+            }
             var showingTasks by remember { mutableStateOf(tasks) }
 
             showingTasks = filterTasksByStatus(
@@ -189,6 +195,23 @@ class TopFragment : Fragment() {
                     style = MaterialTheme.typography.h5,
                     color = Color.White
                 )
+            }
+        }
+    }
+
+    private fun requestReview() {
+        val manager = ReviewManagerFactory.create(requireActivity())
+        val request = manager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                // We got the ReviewInfo object
+                val reviewInfo = task.result
+                activity?.let {
+                    manager.launchReviewFlow(it, reviewInfo)
+                }
+            } else {
+                // There was some problem, log or handle the error code.
+                task.exception?.printStackTrace()
             }
         }
     }
