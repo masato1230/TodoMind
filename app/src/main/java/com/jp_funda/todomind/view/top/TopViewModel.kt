@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepository
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
+import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -13,10 +15,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TopViewModel @Inject constructor(
-    private val mindMapRepository: MindMapRepository
+    private val mindMapRepository: MindMapRepository,
+    private val settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
     private var _mostRecentlyUpdatedMindMap = MutableLiveData<MindMap?>(null)
     val mostRecentlyUpdatedMindMap: LiveData<MindMap?> = _mostRecentlyUpdatedMindMap
+
+    val isReviewRequested =
+        settingsPreferences.getBoolean(PreferenceKeys.IS_REVIEW_REQUESTED)
 
     // Dispose
     private val disposables = CompositeDisposable()
@@ -34,6 +40,10 @@ class TopViewModel @Inject constructor(
                 }
                 .subscribe({}, {}) // add lambdas to avoid onError not implemented error
         )
+    }
+
+    fun setIsReviewRequested(isRequested: Boolean) {
+        settingsPreferences.setBoolean(PreferenceKeys.IS_REVIEW_REQUESTED, isRequested)
     }
 
     override fun onCleared() {

@@ -5,6 +5,7 @@ enum class PreferenceKeys(val key: String) {
     DEFAULT_MIND_MAP_SCALE(key = "default mind map scale"),
     IS_SHOW_OGP_THUMBNAIL(key = "is show ogp thumbnail"),
     IS_REMIND_TASK_DEADLINE("is remind task deadline"),
+    IS_REVIEW_REQUESTED(key = "is review requested"),
     // notification
     REMINDING_TASK_ID(key = "reminding task id"),
 }
