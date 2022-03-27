@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.getSize
@@ -32,6 +33,8 @@ class MindMapCreateFragment : Fragment() {
 
     private var _binding: FragmentMindMapCreateBinding? = null
     private val binding get() = _binding!!
+
+    private val args: MindMapCreateFragmentArgs by navArgs()
 
     private val mindMapCreateViewModel by activityViewModels<MindMapCreateViewModel>()
     private val mainViewModel by activityViewModels<MainViewModel>()
@@ -88,7 +91,13 @@ class MindMapCreateFragment : Fragment() {
                 }
             }
         }
-        scrollToMindMapNode(mindMapCreateViewModel.mindMap)
+
+        // Initial Scroll
+        args.initialLocation?.let {
+            scrollToLocation(it)
+        } ?: run {
+            scrollToMindMapNode(mindMapCreateViewModel.mindMap)
+        }
 
         // LineView
         binding.mapView.lineComposeView.apply {
@@ -144,6 +153,21 @@ class MindMapCreateFragment : Fragment() {
         val screenHeight = resources.displayMetrics.heightPixels
         val scrollY = ((mindMap.y) ?: 0f) * mindMapCreateViewModel.getScale() -
                 screenHeight / 2 + NodeStyle.HEADLINE_1.getSize().height * mindMapCreateViewModel.getScale()
+        binding.mapView.horizontalScrollView.post {
+            binding.mapView.horizontalScrollView.smoothScrollTo(scrollX.roundToInt(), 0)
+        }
+        binding.mapView.scrollView.post {
+            binding.mapView.scrollView.smoothScrollTo(0, scrollY.roundToInt())
+        }
+    }
+
+    private fun scrollToLocation(location: Location) {
+        val scale = mindMapCreateViewModel.getScale()
+        val screenWidth = resources.displayMetrics.widthPixels
+        val screenHeight = resources.displayMetrics.heightPixels
+
+        val scrollX = location.x * scale - screenWidth / 2 + 100
+        val scrollY = location.y * scale - screenHeight / 2 + 100
         binding.mapView.horizontalScrollView.post {
             binding.mapView.horizontalScrollView.smoothScrollTo(scrollX.roundToInt(), 0)
         }
