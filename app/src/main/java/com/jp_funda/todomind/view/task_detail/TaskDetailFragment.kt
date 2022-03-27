@@ -85,7 +85,6 @@ class TaskDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        taskDetailViewModel.isEditing = false
         mainViewModel.editingTask = null
     }
 }
