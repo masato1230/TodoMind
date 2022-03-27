@@ -60,7 +60,7 @@ class TaskDetailFragment : Fragment() {
                                             x = taskDetailViewModel.task.value?.x ?: 0f,
                                             y = taskDetailViewModel.task.value?.y ?: 0f,
                                         )
-                                        findNavController().navigate(R.id.action_navigation_task_detail_to_navigation_mind_map_create)
+                                        findNavController().navigate(action)
                                     }) {
                                         Icon(
                                             painter = painterResource(id = R.drawable.ic_mind_map),
