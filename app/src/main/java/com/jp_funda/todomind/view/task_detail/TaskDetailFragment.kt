@@ -4,11 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -52,7 +59,7 @@ class TaskDetailFragment : Fragment() {
                             navigationIcon = { BackNavigationIcon() },
                             actions = {
                                 taskDetailViewModel.task.value?.mindMap?.let {
-                                    IconButton(onClick = {
+                                    val onClick = {
                                         mainViewModel.editingMindMap = it
                                         val action =
                                             TaskDetailFragmentDirections.actionNavigationTaskDetailToNavigationMindMapCreate()
@@ -61,12 +68,26 @@ class TaskDetailFragment : Fragment() {
                                             y = taskDetailViewModel.task.value?.y ?: 0f,
                                         )
                                         findNavController().navigate(action)
-                                    }) {
+                                    }
+                                    val color = it.color?.let { color -> Color(color) }
+                                        ?: run { colorResource(id = R.color.crimson) }
+                                    IconButton(onClick = onClick) {
                                         Icon(
                                             painter = painterResource(id = R.drawable.ic_mind_map),
-                                            contentDescription = "Mind Map"
+                                            contentDescription = "Mind Map",
+                                            tint = color,
                                         )
                                     }
+                                    Text(
+                                        text = it.title ?: "",
+                                        color = color,
+                                        overflow = TextOverflow.Ellipsis,
+                                        maxLines = 1,
+                                        modifier = Modifier
+                                            .widthIn(max = 120.dp)
+                                            .clickable { onClick() }
+                                    )
+                                    Spacer(modifier = Modifier.width(10.dp))
                                 }
                             }
                         )
