@@ -103,7 +103,7 @@ class TopFragment : Fragment() {
         // Main Contents
         observedTasks?.let { tasks ->
             // Check whether to request review is needed
-            if (topViewModel.isReviewRequested && tasks.size > 20) {
+            if (!topViewModel.isReviewRequested && tasks.size > 20) {
                 requestReview()
                 topViewModel.setIsReviewRequested(true)
             }
