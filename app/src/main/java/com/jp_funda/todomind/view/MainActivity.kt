@@ -8,6 +8,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +46,27 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_settings -> findViewById<BottomNavigationView>(R.id.nav_view).visibility =
                     View.VISIBLE
                 else -> findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.GONE
+            }
+        }
+
+        // todo delete
+        requestReview()
+    }
+
+    private fun requestReview() {
+        val manager = ReviewManagerFactory.create(this)
+        val request = manager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                // We got the ReviewInfo object
+                val reviewInfo = task.result
+                val flow = manager.launchReviewFlow(this, reviewInfo)
+                flow.addOnCompleteListener { _ ->
+                    // TODO update SP
+                }
+            } else {
+                // There was some problem, log or handle the error code.
+                task.exception?.printStackTrace()
             }
         }
     }
