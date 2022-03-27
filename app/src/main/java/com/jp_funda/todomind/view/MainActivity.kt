@@ -7,6 +7,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.databinding.ActivityMainBinding
@@ -47,5 +48,8 @@ class MainActivity : AppCompatActivity() {
                 else -> findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.GONE
             }
         }
+
+        // Google Ad mob
+        MobileAds.initialize(this@MainActivity)
     }
 }

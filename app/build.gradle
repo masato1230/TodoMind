@@ -112,4 +112,7 @@ dependencies {
 
     // Play Core
     implementation 'com.google.android.play:core:1.10.3'
+
+    // Add Mob
+    implementation 'com.google.android.gms:play-services-ads:20.6.0'
 }
