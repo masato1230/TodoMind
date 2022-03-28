@@ -32,6 +32,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "advertisement"
+    productFlavors {
+        staging {
+            dimension "advertisement"
+            buildConfigField "String", "topBannerUnitId", "\"ca-app-pub-3940256099942544/6300978111\""
+        }
+        product {
+            dimension "advertisement"
+            buildConfigField "String", "topBannerUnitId", "\"ca-app-pub-8353659026777346/3156330546\""
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
