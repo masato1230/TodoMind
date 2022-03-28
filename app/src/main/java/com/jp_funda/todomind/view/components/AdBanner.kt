@@ -10,12 +10,15 @@ import com.google.android.gms.ads.AdView
 import com.jp_funda.todomind.BuildConfig
 
 @Composable
-fun TopBannerAd(modifier: Modifier) {
+fun BannerAd(
+    width: Int,
+    modifier: Modifier = Modifier,
+) {
     AndroidView(
         modifier = modifier.fillMaxWidth(),
         factory = { context ->
             val adView = AdView(context)
-            adView.adSize = AdSize.BANNER
+            adView.adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, width)
             adView.adUnitId = BuildConfig.topBannerUnitId
             adView.loadAd(AdRequest.Builder().build())
             return@AndroidView adView
