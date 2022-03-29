@@ -34,7 +34,7 @@ open class Task(
     var parentTask: Task? = null,
     var color: Int? = null, // Color Argb int
 
-    styleEnum: NodeStyle = NodeStyle.HEADLINE_1,
+    styleEnum: NodeStyle = NodeStyle.HEADLINE_2,
     statusEnum: TaskStatus = TaskStatus.InProgress,
 ) : RealmObject() {
     private var status: String = statusEnum.name
