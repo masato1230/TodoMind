@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,9 +21,11 @@ import androidx.navigation.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
+import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.TaskEditContent
 import com.jp_funda.todomind.view.mind_map_create.Location
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.roundToInt
 
 @androidx.compose.material.ExperimentalMaterialApi
 @AndroidEntryPoint
@@ -94,10 +94,18 @@ class TaskDetailFragment : Fragment() {
                     },
                     backgroundColor = colorResource(id = R.color.deep_purple),
                 ) {
-                    TaskEditContent(
-                        taskEditableViewModel = taskDetailViewModel,
-                        mainViewModel = mainViewModel,
-                    ) { findNavController().popBackStack() }
+                    Column {
+                        TaskEditContent(
+                            taskEditableViewModel = taskDetailViewModel,
+                            mainViewModel = mainViewModel,
+                        ) { findNavController().popBackStack() }
+                        
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        val width =
+                            (resources.displayMetrics.widthPixels / resources.displayMetrics.density).roundToInt()
+                        BannerAd(width = width, modifier = Modifier.heightIn(min = 60.dp))
+                    }
                 }
             }
         }

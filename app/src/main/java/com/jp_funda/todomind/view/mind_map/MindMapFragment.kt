@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -29,9 +30,11 @@ import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.view.MainViewModel
+import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.MindMapCard
 import com.jp_funda.todomind.view.components.RecentMindMapSection
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class MindMapFragment : Fragment() {
@@ -78,6 +81,12 @@ class MindMapFragment : Fragment() {
             Column(
                 modifier = Modifier.verticalScroll(scrollState)
             ) {
+                // Banner Advertisement
+                val width =
+                    (resources.displayMetrics.widthPixels / resources.displayMetrics.density).roundToInt()
+                BannerAd(width = width, modifier = Modifier.heightIn(min = 60.dp))
+
+                // Recent mind map section
                 RecentMindMapSection(
                     mindMap = yetCompletedMindMaps.firstOrNull(),
                     onRecentMindMapClick = {

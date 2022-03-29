@@ -314,6 +314,8 @@ fun TaskEditContent(
             // Parent Node
             if (task.mindMap != null) {
                 var parentSelectDialogState by remember { mutableStateOf(false) }
+                val parentColor = task.parentTask?.color?.let { Color(it) }
+                    ?: task.mindMap?.color?.let { Color(it) } ?: colorResource(id = R.color.crimson)
                 TextField(
                     colors = colors,
                     modifier = Modifier
@@ -326,8 +328,7 @@ fun TaskEditContent(
                     leadingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_node_24),
-                            tint = task.parentTask?.color?.let { Color(it) }
-                                ?: colorResource(id = R.color.teal_200),
+                            tint = parentColor,
                             contentDescription = "Parent Node",
                         )
                     },

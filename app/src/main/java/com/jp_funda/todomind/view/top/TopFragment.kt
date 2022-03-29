@@ -25,12 +25,10 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
-import com.jp_funda.todomind.view.components.ColumnWithTaskList
-import com.jp_funda.todomind.view.components.NewTaskFAB
-import com.jp_funda.todomind.view.components.RecentMindMapSection
-import com.jp_funda.todomind.view.components.filterTasksByStatus
+import com.jp_funda.todomind.view.components.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
@@ -156,6 +154,16 @@ class TopFragment : Fragment() {
                     onNewMindMapClick = {
                         findNavController().navigate(R.id.action_navigation_top_to_navigation_mind_map_detail)
                     })
+
+                // Advertisement
+                val width =
+                    (resources.displayMetrics.widthPixels / resources.displayMetrics.density).roundToInt()
+                BannerAd(
+                    width = width,
+                    modifier = Modifier.heightIn(min = 60.dp),
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
 
                 // Section Tasks
                 Text(
