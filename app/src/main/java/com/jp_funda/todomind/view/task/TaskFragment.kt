@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -22,12 +21,11 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
-import com.jp_funda.todomind.view.components.ColumnWithTaskList
-import com.jp_funda.todomind.view.components.NewTaskFAB
-import com.jp_funda.todomind.view.components.filterTasksByStatus
+import com.jp_funda.todomind.view.components.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.lang.Integer.max
+import kotlin.math.roundToInt
 
 @ExperimentalMaterialApi
 @AndroidEntryPoint
@@ -124,7 +122,15 @@ class TaskFragment : Fragment() {
                         mainViewModel.editingTask = task
                         findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
                     }
-                )
+                ) {
+                    // Advertisement
+                    val width =
+                        (resources.displayMetrics.widthPixels / resources.displayMetrics.density).roundToInt()
+                    BannerAd(
+                        width = width,
+                        modifier = Modifier.heightIn(50.dp),
+                    )
+                }
 
                 Column(
                     modifier = Modifier.fillMaxHeight(),
@@ -138,25 +144,7 @@ class TaskFragment : Fragment() {
                 }
             }
         } ?: run {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(150.dp),
-                    color = colorResource(R.color.teal_200),
-                    strokeWidth = 10.dp
-                )
-                Spacer(modifier = Modifier.height(30.dp))
-                Text(
-                    text = "Loading...",
-                    style = MaterialTheme.typography.h5,
-                    color = Color.White
-                )
-            }
+            LoadingView()
         }
     }
 
