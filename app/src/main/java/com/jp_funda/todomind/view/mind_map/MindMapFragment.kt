@@ -84,7 +84,7 @@ class MindMapFragment : Fragment() {
                 // Banner Advertisement
                 val width =
                     (resources.displayMetrics.widthPixels / resources.displayMetrics.density).roundToInt()
-                BannerAd(width = width, modifier = Modifier.heightIn(min = 50.dp))
+                BannerAd(width = width, modifier = Modifier.heightIn(min = 60.dp))
 
                 // Recent mind map section
                 RecentMindMapSection(

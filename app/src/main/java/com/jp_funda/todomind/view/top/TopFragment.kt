@@ -144,14 +144,6 @@ class TopFragment : Fragment() {
                 isScrollToTopAtLaunch = true,
             ) {
                 // TOP ORIGINAL CONTENT
-                // Advertisement
-                val width =
-                    (resources.displayMetrics.widthPixels / resources.displayMetrics.density).roundToInt()
-                BannerAd(
-                    width = width,
-                    modifier = Modifier.heightIn(50.dp),
-                )
-
                 // Section Recent Mind Map
                 RecentMindMapSection(
                     mindMap = mostRecentlyUpdatedMindMap,
@@ -162,6 +154,16 @@ class TopFragment : Fragment() {
                     onNewMindMapClick = {
                         findNavController().navigate(R.id.action_navigation_top_to_navigation_mind_map_detail)
                     })
+
+                // Advertisement
+                val width =
+                    (resources.displayMetrics.widthPixels / resources.displayMetrics.density).roundToInt()
+                BannerAd(
+                    width = width,
+                    modifier = Modifier.heightIn(min = 60.dp),
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
 
                 // Section Tasks
                 Text(

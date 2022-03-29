@@ -128,7 +128,7 @@ class TaskFragment : Fragment() {
                         (resources.displayMetrics.widthPixels / resources.displayMetrics.density).roundToInt()
                     BannerAd(
                         width = width,
-                        modifier = Modifier.heightIn(50.dp),
+                        modifier = Modifier.heightIn(min = 60.dp),
                     )
                 }
 
