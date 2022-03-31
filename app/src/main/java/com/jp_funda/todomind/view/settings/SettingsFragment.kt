@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -65,7 +63,11 @@ class SettingsFragment : Fragment() {
     @Composable
     fun SettingsContent() {
         Column(
-            modifier = Modifier.padding(top = 10.dp, start = 20.dp, end = 20.dp),
+            modifier = Modifier
+                .padding(top = 10.dp, start = 20.dp, end = 20.dp)
+                .verticalScroll(
+                    rememberScrollState()
+                ),
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
             /** Personal Settings */
@@ -116,6 +118,11 @@ class SettingsFragment : Fragment() {
                 ) {
                     viewModel.setIsRemindTaskDeadline(it)
                 }
+            }
+
+            /** Under Construction */
+            SettingsGroup("Under Construction") {
+                // TODO buck up row
             }
 
             // Copy Light
@@ -187,7 +194,8 @@ class SettingsFragment : Fragment() {
     /** SettingRow with only text info */
     @Composable
     fun SettingRowOnlyText(
-        icon: ImageVector,
+        icon: ImageVector? = null,
+        painter: Painter? = null,
         title: String,
         value: String,
     ) {
@@ -197,12 +205,22 @@ class SettingsFragment : Fragment() {
                 .padding(horizontal = 15.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(
-                imageVector = icon,
-                tint = colorResource(id = R.color.grey),
-                contentDescription = "Title",
-                modifier = Modifier.height(40.dp)
-            )
+            icon?.let {
+                Icon(
+                    imageVector = it,
+                    tint = colorResource(id = R.color.grey),
+                    contentDescription = "Title",
+                    modifier = Modifier.height(40.dp)
+                )
+            }
+            painter?.let {
+                Icon(
+                    painter = it,
+                    tint = colorResource(id = R.color.grey),
+                    contentDescription = "Title",
+                    modifier = Modifier.height(40.dp)
+                )
+            }
             Spacer(modifier = Modifier.width(15.dp))
             Text(
                 text = title,
