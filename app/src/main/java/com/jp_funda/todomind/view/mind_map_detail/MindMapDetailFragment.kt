@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -437,19 +438,17 @@ class MindMapDetailFragment : Fragment() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_mind_map),
-                    tint = Color.White,
-                    contentDescription = "Mind Map Icon",
+                Image(
+                    painter = painterResource(id = R.drawable.img_think_mind_map),
+                    contentDescription = "Mind Map Image",
                     modifier = Modifier
                         .height(130.dp)
-                        .fillMaxWidth()
-                        .padding(bottom = 10.dp)
+                        .fillMaxWidth(),
                 )
                 Text(
-                    text = "Expand mind map",
+                    text = "Click here to start mind mapping!",
                     style = MaterialTheme.typography.caption,
-                    color = Color.White,
+                    color = Color.LightGray,
                 )
             }
         }
