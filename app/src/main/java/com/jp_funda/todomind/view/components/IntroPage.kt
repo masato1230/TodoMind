@@ -7,10 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.jp_funda.todomind.R
 
 @Composable
 fun IntroPage(
@@ -18,8 +16,9 @@ fun IntroPage(
     thumbnail: @Composable () -> Unit,
     mainText: String,
     subText: String,
+    copyrightText: String? = null,
 ) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.padding(horizontal = 40.dp)) {
         Column(
             modifier = Modifier
                 .fillMaxHeight(0.6f)
@@ -34,7 +33,7 @@ fun IntroPage(
             text = mainText,
             color = Color.White,
             modifier = Modifier
-                .padding(horizontal = 60.dp)
+                .padding(horizontal = 20.dp)
                 .fillMaxWidth(),
             style = MaterialTheme.typography.h5,
             textAlign = TextAlign.Center,
@@ -46,10 +45,16 @@ fun IntroPage(
             text = subText,
             color = Color.Gray,
             modifier = Modifier
-                .padding(horizontal = 40.dp)
                 .fillMaxWidth(),
             style = MaterialTheme.typography.body2,
             textAlign = TextAlign.Center,
         )
+        copyrightText?.let {
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Spacer(modifier = Modifier.weight(1f))
+                Text(text = it, color = Color.Gray, style = MaterialTheme.typography.caption)
+            }
+        }
     }
 }

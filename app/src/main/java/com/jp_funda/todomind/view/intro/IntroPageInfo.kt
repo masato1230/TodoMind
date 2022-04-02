@@ -18,6 +18,7 @@ import com.jp_funda.todomind.view.components.IntroPage
 enum class IntroPageInfo(
     val mainText: String,
     val subText: String,
+    val copyrightText: String? = null,
     val thumbnail: @Composable () -> Unit,
 ) {
     AboutMindTodo(
@@ -42,6 +43,7 @@ enum class IntroPageInfo(
     SetYourGoal(
         mainText = "1. Set your goal",
         subText = "create new mind map and set your goal as the title.",
+        copyrightText = "(undraw.co)",
         thumbnail = {
             Image(
                 painter = painterResource(id = com.jp_funda.todomind.R.drawable.img_set_your_goal),
@@ -50,7 +52,7 @@ enum class IntroPageInfo(
                     .fillMaxSize()
                     .padding(horizontal = 40.dp)
             )
-        }
+        },
     ),
     BreakDownGoal(
         mainText = "2. Breakdown your goal",
@@ -81,6 +83,7 @@ enum class IntroPageInfo(
     Achieve(
         mainText = "4. Achieve your Goal!",
         subText = "Do tasks one by one and achieve your goal.",
+        copyrightText = "(undraw.co)",
         thumbnail = {
             Image(
                 painter = androidx.compose.ui.res.painterResource(id = R.drawable.img_archieve),
@@ -98,7 +101,8 @@ enum class IntroPageInfo(
                 IntroPage(
                     thumbnail = { thumbnail() },
                     mainText = mainText,
-                    subText = subText
+                    subText = subText,
+                    copyrightText = copyrightText,
                 )
             }
         }
