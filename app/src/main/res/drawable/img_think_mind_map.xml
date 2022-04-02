@@ -2,7 +2,7 @@
     android:width="300dp"
     android:height="300dp"
     android:viewportWidth="400"
-    android:viewportHeight="300">
+    android:viewportHeight="400">
   <path
       android:pathData="M391.891,170.898C391.082,169.579 390.898,167.969 391.39,166.502C391.882,165.035 392.998,163.861 394.439,163.295L393.7,144.728L401.966,149.719L401.401,166.586C402.207,169.125 400.987,171.866 398.561,172.966C396.135,174.066 393.27,173.178 391.891,170.898Z"
       android:strokeLineJoin="miter"
