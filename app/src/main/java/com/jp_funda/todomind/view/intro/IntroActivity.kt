@@ -3,9 +3,7 @@ package com.jp_funda.todomind.view.intro
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -43,21 +41,36 @@ class IntroActivity : AppCompatActivity() {
     private fun IntroContents() {
         val pagerState = rememberPagerState()
 
-        // Display 10 items
-        HorizontalPager(
-            count = 10,
-            state = pagerState,
-            // Add 32.dp horizontal padding to 'center' the pages
-            contentPadding = PaddingValues(horizontal = 32.dp),
-            modifier = Modifier
-                .fillMaxSize(),
-        ) { page ->
-            Text("android", color = Color.White)
-        }
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            // Display 10 items
+            HorizontalPager(
+                count = 5,
+                state = pagerState,
+                // Add 32.dp horizontal padding to 'center' the pages
+                contentPadding = PaddingValues(horizontal = 32.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.9f)
+            ) { page ->
+                Text("android", color = Color.White)
+            }
 
-        HorizontalPagerIndicator(
-            pagerState = pagerState,
-            modifier = Modifier.padding(16.dp),
-        )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                HorizontalPagerIndicator(
+                    pagerState = pagerState,
+                    activeColor = Color.LightGray,
+                    inactiveColor = Color.DarkGray,
+                    indicatorWidth = 16.dp,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxHeight(0.1f),
+                )
+            }
+        }
     }
 }
