@@ -5,6 +5,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
@@ -12,6 +13,7 @@ import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_create.nodes.*
 
 @ExperimentalMaterialApi
+@ExperimentalPagerApi
 @Composable
 fun MindMapCreateContent(
     modifier: Modifier = Modifier,

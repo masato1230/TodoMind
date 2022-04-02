@@ -13,6 +13,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
@@ -29,6 +30,7 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.math.abs
 
+@ExperimentalPagerApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class TaskReminder : BroadcastReceiver() {

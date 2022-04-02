@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
@@ -27,7 +28,8 @@ import com.jp_funda.todomind.view.mind_map_create.Location
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
-@androidx.compose.material.ExperimentalMaterialApi
+@ExperimentalMaterialApi
+@ExperimentalPagerApi
 @AndroidEntryPoint
 class TaskDetailFragment : Fragment() {
 
@@ -99,7 +101,7 @@ class TaskDetailFragment : Fragment() {
                             taskEditableViewModel = taskDetailViewModel,
                             mainViewModel = mainViewModel,
                         ) { findNavController().popBackStack() }
-                        
+
                         Spacer(modifier = Modifier.weight(1f))
 
                         val width =

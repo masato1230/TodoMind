@@ -1,7 +1,7 @@
 package com.jp_funda.todomind.view.intro
 
 import android.os.Bundle
-import android.os.PersistableBundle
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,26 +12,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
+import com.jp_funda.todomind.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalPagerApi
 @AndroidEntryPoint
 class IntroActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        setContentView(
-            ComposeView(this).apply {
-                setContent {
-                    Scaffold {
-                        IntroContents()
-                    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(ComposeView(this)).apply {
+            setContent {
+                Scaffold(
+                    backgroundColor = colorResource(id = R.color.deep_purple),
+                ) {
+                    IntroContents()
                 }
             }
-        )
+        }
     }
 
     @Composable

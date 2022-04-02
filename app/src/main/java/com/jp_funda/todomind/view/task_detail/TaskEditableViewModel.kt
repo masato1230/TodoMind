@@ -4,6 +4,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
 import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
@@ -28,6 +29,7 @@ import javax.inject.Inject
  * use setEditingTask() to switch to EditingMode
  */
 @ExperimentalMaterialApi
+@ExperimentalPagerApi
 @HiltViewModel
 open class TaskEditableViewModel @Inject constructor(
     val taskRepository: TaskRepository,

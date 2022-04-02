@@ -3,6 +3,7 @@ package com.jp_funda.todomind.data.repositories.task
 import android.content.Context
 import android.util.Log
 import androidx.compose.material.ExperimentalMaterialApi
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
@@ -14,6 +15,7 @@ import io.realm.kotlin.where
 import java.util.*
 import javax.inject.Inject
 
+@ExperimentalPagerApi
 @ExperimentalMaterialApi
 class TaskRepository @Inject constructor(
     private val context: Context

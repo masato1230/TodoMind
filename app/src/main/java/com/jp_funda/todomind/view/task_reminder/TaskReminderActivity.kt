@@ -13,6 +13,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
@@ -24,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
 
+@ExperimentalPagerApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class TaskReminderActivity : AppCompatActivity() {
@@ -41,7 +43,7 @@ class TaskReminderActivity : AppCompatActivity() {
         val taskId = notificationPreferences.getString(PreferenceKeys.REMINDING_TASK_ID)
         taskId?.let { viewModel.getTask(UUID.fromString(it)) }
 
-        setContentView(ComposeView(applicationContext)).apply {
+        setContentView(ComposeView(this)).apply {
             setContent {
                 Scaffold(
                     topBar = {
