@@ -36,11 +36,15 @@
 
         <activity
             android:name=".view.intro.IntroActivity"
-            android:theme="@style/Theme.TodoMind" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TodoMind"
+            tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name=".view.task_reminder.TaskReminderActivity"
-            android:theme="@style/Theme.TodoMind" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TodoMind"
+            tools:ignore="LockedOrientationActivity" />
 
         <receiver
             android:name=".notification.TaskReminder"

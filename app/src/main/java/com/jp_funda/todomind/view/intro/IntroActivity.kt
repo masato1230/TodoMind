@@ -4,12 +4,14 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,7 +24,9 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.view.components.IntroPage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @AndroidEntryPoint
@@ -45,6 +49,7 @@ class IntroActivity : AppCompatActivity() {
     @Composable
     private fun IntroContents() {
         val pagerState = rememberPagerState()
+        val scope = rememberCoroutineScope()
 
         Column(
             modifier = Modifier.fillMaxSize()
@@ -59,9 +64,13 @@ class IntroActivity : AppCompatActivity() {
                     .fillMaxWidth()
                     .fillMaxHeight(0.8f)
             ) { page ->
-                Text("android", color = Color.White)
+                IntroPage(
+                    thumbnail = { /*TODO*/ },
+                    mainText = "First",
+                    subText = "Sample text Sample text Sample text Sample text."
+                )
             }
-            
+
             Spacer(modifier = Modifier.weight(1f))
 
             Row(
@@ -80,7 +89,7 @@ class IntroActivity : AppCompatActivity() {
                 )
             }
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             Row(
                 modifier = Modifier
@@ -88,18 +97,41 @@ class IntroActivity : AppCompatActivity() {
                     .widthIn(500.dp)
                     .height(50.dp)
                     .clip(RoundedCornerShape(1000.dp))
-                    .background(Color.White),
+                    .background(
+                        if (pagerState.currentPage + 1 < pagerState.pageCount) {
+                            Color.White
+                        } else {
+                            colorResource(id = R.color.teal_200)
+                        }
+                    )
+                    .clickable {
+                        if (pagerState.currentPage + 1 < pagerState.pageCount) {
+                            scope.launch {
+                                pagerState.animateScrollToPage(page = pagerState.currentPage + 1)
+                            }
+                        } else {
+                            onBackPressed()
+                        }
+                    },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = "Next",
-                    color = Color.Black,
-                    style = MaterialTheme.typography.h6,
-                )
+                if (pagerState.currentPage + 1 < pagerState.pageCount) {
+                    Text(
+                        text = "Next",
+                        color = Color.Black,
+                        style = MaterialTheme.typography.h6,
+                    )
+                } else {
+                    Text(
+                        text = "Start!",
+                        color = Color.Black,
+                        style = MaterialTheme.typography.h6,
+                    )
+                }
             }
-            
-            Spacer(modifier = Modifier.height(20.dp))
+
+            Spacer(modifier = Modifier.height(40.dp))
         }
     }
 }
