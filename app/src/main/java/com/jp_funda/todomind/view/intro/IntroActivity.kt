@@ -24,6 +24,8 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
+import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -53,6 +55,7 @@ class IntroActivity : AppCompatActivity() {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
+            // Pager
             HorizontalPager(
                 count = IntroPageInfo.values().size,
                 state = pagerState,
@@ -73,6 +76,7 @@ class IntroActivity : AppCompatActivity() {
 
             Spacer(modifier = Modifier.weight(1f))
 
+            // Indicator
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -91,6 +95,7 @@ class IntroActivity : AppCompatActivity() {
 
             Spacer(modifier = Modifier.height(20.dp))
 
+            // Next or Start button
             Row(
                 modifier = Modifier
                     .padding(horizontal = 20.dp)
@@ -110,6 +115,10 @@ class IntroActivity : AppCompatActivity() {
                                 pagerState.animateScrollToPage(page = pagerState.currentPage + 1)
                             }
                         } else {
+                            SettingsPreferences(this@IntroActivity).setBoolean(
+                                PreferenceKeys.IS_SHOWED_INTRO,
+                                true
+                            )
                             onBackPressed()
                         }
                     },

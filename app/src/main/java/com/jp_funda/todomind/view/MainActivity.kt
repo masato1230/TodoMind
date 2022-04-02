@@ -13,6 +13,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
+import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.databinding.ActivityMainBinding
 import com.jp_funda.todomind.view.intro.IntroActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,8 +31,10 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         installSplashScreen()
 
-        // todo delete
-        startActivity(Intent(this, IntroActivity::class.java))
+        // Show intro to first time visitor
+        if (!SettingsPreferences(this).getBoolean(PreferenceKeys.IS_SHOWED_INTRO)) {
+            startActivity(Intent(this, IntroActivity::class.java))
+        }
 
         // Set up Binding
         binding = ActivityMainBinding.inflate(layoutInflater)
