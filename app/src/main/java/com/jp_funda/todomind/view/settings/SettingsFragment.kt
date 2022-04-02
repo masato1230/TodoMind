@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -15,6 +13,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -32,6 +31,7 @@ import androidx.navigation.fragment.findNavController
 import com.jp_funda.todomind.BuildConfig
 import com.jp_funda.todomind.R
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 // TODO add dismiss ogp tag setting
@@ -64,8 +64,15 @@ class SettingsFragment : Fragment() {
 
     @Composable
     fun SettingsContent() {
+        val snackbarHostState = remember { SnackbarHostState() }
+        val coroutineScope = rememberCoroutineScope()
+
         Column(
-            modifier = Modifier.padding(top = 10.dp, start = 20.dp, end = 20.dp),
+            modifier = Modifier
+                .padding(top = 10.dp, start = 20.dp, end = 20.dp)
+                .verticalScroll(
+                    rememberScrollState()
+                ),
             verticalArrangement = Arrangement.spacedBy(30.dp),
         ) {
             /** Personal Settings */
@@ -118,6 +125,22 @@ class SettingsFragment : Fragment() {
                 }
             }
 
+            /** Under Construction */
+            SettingsGroup("Under Development") {
+                SettingRowComingSoon(
+                    painter = painterResource(id = R.drawable.ic_backup_24),
+                    title = "Cloud Backup",
+                    subTitle = "coming soon...",
+                ) {
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = "This feature is under construction",
+                            actionLabel = "OK"
+                        )
+                    }
+                }
+            }
+
             // Copy Light
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -160,6 +183,15 @@ class SettingsFragment : Fragment() {
                 )
             }
         }
+
+        // Snackbar
+        Column(
+            modifier = Modifier.fillMaxHeight(),
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            // Status update Snackbar
+            SnackbarHost(hostState = snackbarHostState)
+        }
     }
 
     @Composable
@@ -187,7 +219,8 @@ class SettingsFragment : Fragment() {
     /** SettingRow with only text info */
     @Composable
     fun SettingRowOnlyText(
-        icon: ImageVector,
+        icon: ImageVector? = null,
+        painter: Painter? = null,
         title: String,
         value: String,
     ) {
@@ -197,12 +230,22 @@ class SettingsFragment : Fragment() {
                 .padding(horizontal = 15.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(
-                imageVector = icon,
-                tint = colorResource(id = R.color.grey),
-                contentDescription = "Title",
-                modifier = Modifier.height(40.dp)
-            )
+            icon?.let {
+                Icon(
+                    imageVector = it,
+                    tint = colorResource(id = R.color.grey),
+                    contentDescription = "Title",
+                    modifier = Modifier.height(40.dp)
+                )
+            }
+            painter?.let {
+                Icon(
+                    painter = it,
+                    tint = colorResource(id = R.color.grey),
+                    contentDescription = "Title",
+                    modifier = Modifier.height(40.dp)
+                )
+            }
             Spacer(modifier = Modifier.width(15.dp))
             Text(
                 text = title,
@@ -304,6 +347,48 @@ class SettingsFragment : Fragment() {
                     checkedTrackAlpha = 0.8f,
                 )
             )
+        }
+    }
+
+    @Composable
+    fun SettingRowComingSoon(
+        icon: ImageVector? = null,
+        painter: Painter? = null,
+        title: String,
+        subTitle: String,
+        onClick: () -> Unit,
+    ) {
+        Row(
+            modifier = Modifier
+                .height(50.dp)
+                .padding(horizontal = 15.dp)
+                .clickable { onClick() },
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            icon?.let {
+                Icon(
+                    imageVector = it,
+                    tint = colorResource(id = R.color.grey),
+                    contentDescription = "Title",
+                    modifier = Modifier.height(40.dp)
+                )
+            }
+            painter?.let {
+                Icon(
+                    painter = it,
+                    tint = colorResource(id = R.color.grey),
+                    contentDescription = "Title",
+                    modifier = Modifier.height(40.dp)
+                )
+            }
+            Spacer(modifier = Modifier.width(15.dp))
+            Text(
+                text = title,
+                color = Color.DarkGray,
+                style = MaterialTheme.typography.subtitle1,
+            )
+            Spacer(Modifier.weight(1f))
+            Text(text = subTitle, color = Color.White)
         }
     }
 }

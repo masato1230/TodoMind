@@ -356,7 +356,7 @@ fun TaskEditContent(
             // Buttons
             Row(modifier = Modifier.fillMaxWidth()) {
                 WhiteButton(
-                    text = "OK",
+                    text = "Save",
                     leadingIcon = Icons.Default.Check,
                 ) {
                     taskEditableViewModel.saveTask()
