@@ -9,6 +9,7 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -60,7 +61,9 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                 val observedMode = sheetViewModel.selectedMode.observeAsState()
                 observedMode.value?.let { selectedMode ->
                     Column(
-                        modifier = Modifier.padding(bottom = 20.dp)
+                        modifier = Modifier
+                            .padding(bottom = 20.dp)
+                            .background(colorResource(id = R.color.deep_purple)),
                     ) {
                         // When taskNode is Selected
                         if (mainViewModel.selectedNode != null) {
@@ -81,7 +84,7 @@ class MindMapOptionsSheet : BottomSheetDialogFragment() {
                                     )
                                 ),
                                 exit = ExitTransition.None
-                                ) {
+                            ) {
                                 TaskEditContent(
                                     taskEditableViewModel = editTaskViewModel,
                                     mainViewModel = null,
