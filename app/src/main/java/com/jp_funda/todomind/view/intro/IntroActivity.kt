@@ -24,7 +24,6 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.view.components.IntroPage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -54,9 +53,8 @@ class IntroActivity : AppCompatActivity() {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            // Display 10 items
             HorizontalPager(
-                count = 5,
+                count = IntroPageInfo.values().size,
                 state = pagerState,
                 // Add 32.dp horizontal padding to 'center' the pages
                 contentPadding = PaddingValues(horizontal = 32.dp),
@@ -64,11 +62,13 @@ class IntroActivity : AppCompatActivity() {
                     .fillMaxWidth()
                     .fillMaxHeight(0.8f)
             ) { page ->
-                IntroPage(
-                    thumbnail = { /*TODO*/ },
-                    mainText = "First",
-                    subText = "Sample text Sample text Sample text Sample text."
-                )
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    IntroPageInfo.values()[page].compose()
+                }
             }
 
             Spacer(modifier = Modifier.weight(1f))

@@ -1,14 +1,16 @@
 package com.jp_funda.todomind.view.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.jp_funda.todomind.R
 
 @Composable
 fun IntroPage(
@@ -18,7 +20,13 @@ fun IntroPage(
     subText: String,
 ) {
     Column(modifier = modifier) {
-        Card(modifier = Modifier.fillMaxHeight(0.6f)) {
+        Column(
+            modifier = Modifier
+                .fillMaxHeight(0.6f)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
             thumbnail()
         }
 
@@ -36,11 +44,11 @@ fun IntroPage(
 
         Text(
             text = subText,
-            color = Color.DarkGray,
+            color = Color.Gray,
             modifier = Modifier
                 .padding(horizontal = 40.dp)
                 .fillMaxWidth(),
-            style = MaterialTheme.typography.body1,
+            style = MaterialTheme.typography.body2,
             textAlign = TextAlign.Center,
         )
     }
