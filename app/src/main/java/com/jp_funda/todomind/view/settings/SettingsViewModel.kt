@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.settings
 
+import androidx.compose.material.SnackbarHostState
 import androidx.lifecycle.ViewModel
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
@@ -32,5 +33,16 @@ class SettingsViewModel @Inject constructor(private val settingsPreferences: Set
 
     fun setIsRemindTaskDeadline(isRemind: Boolean) {
         settingsPreferences.setBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE, isRemind)
+    }
+
+    // snackbar
+    // Show Undo delete Snackbar
+    suspend fun showUndoDeleteSnackbar(
+        snackbarHostState: SnackbarHostState
+    ) {
+        snackbarHostState.showSnackbar(
+            message = "This feature is under construction",
+            actionLabel = "OK"
+        )
     }
 }
