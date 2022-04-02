@@ -124,7 +124,7 @@ class IntroActivity : AppCompatActivity() {
                     )
                 } else {
                     Text(
-                        text = "Start!",
+                        text = "Start",
                         color = Color.Black,
                         style = MaterialTheme.typography.h6,
                     )

@@ -50,7 +50,6 @@ enum class IntroPageInfo(
                 contentDescription = "Goal",
                 modifier = androidx.compose.ui.Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 40.dp)
             )
         },
     ),
@@ -63,7 +62,6 @@ enum class IntroPageInfo(
                 contentDescription = "mind map sample",
                 modifier = Modifier
                     .clip(androidx.compose.foundation.shape.RoundedCornerShape(5.dp))
-                    .padding(horizontal = 40.dp)
             )
         }
     ),
@@ -76,7 +74,6 @@ enum class IntroPageInfo(
                 contentDescription = "mind map sample",
                 modifier = Modifier
                     .clip(androidx.compose.foundation.shape.RoundedCornerShape(5.dp))
-                    .padding(horizontal = 40.dp)
             )
         }
     ),
@@ -90,7 +87,6 @@ enum class IntroPageInfo(
                 contentDescription = "Achieve",
                 modifier = Modifier
                     .clip(androidx.compose.foundation.shape.RoundedCornerShape(5.dp))
-                    .padding(horizontal = 40.dp)
             )
         }
     );
