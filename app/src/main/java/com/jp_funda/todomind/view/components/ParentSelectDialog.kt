@@ -14,12 +14,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.task_detail.TaskEditableViewModel
 
 @ExperimentalMaterialApi
+@ExperimentalPagerApi
 @Composable
 fun ParentSelectDialog(
     title: String = "Select Parent Node",

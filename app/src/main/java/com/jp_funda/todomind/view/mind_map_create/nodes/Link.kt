@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.getSize
@@ -17,6 +18,7 @@ import com.jp_funda.todomind.util.UrlUtil
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 
 @ExperimentalMaterialApi
+@ExperimentalPagerApi
 @Composable
 fun Link(
     modifier: Modifier = Modifier,

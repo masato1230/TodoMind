@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.getSize
@@ -28,6 +29,7 @@ import kotlin.math.roundToInt
 
 
 @ExperimentalMaterialApi
+@ExperimentalPagerApi
 @AndroidEntryPoint
 class MindMapCreateFragment : Fragment() {
 

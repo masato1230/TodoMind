@@ -20,6 +20,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
@@ -31,6 +32,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @ExperimentalMaterialApi
+@ExperimentalPagerApi
 @AndroidEntryPoint
 class TopFragment : Fragment() {
 

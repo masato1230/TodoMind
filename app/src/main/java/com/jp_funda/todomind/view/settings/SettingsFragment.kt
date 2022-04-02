@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,13 +29,16 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.BuildConfig
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.view.intro.IntroActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 // TODO add dismiss ogp tag setting
+@ExperimentalPagerApi
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
@@ -112,6 +116,17 @@ class SettingsFragment : Fragment() {
                     icon = Icons.Default.List,
                     title = "Open source licenses"
                 ) { findNavController().navigate(R.id.action_navigation_settings_to_navigation_oss_licenses) }
+
+                Divider(color = colorResource(id = R.color.white_1))
+
+                // Intro
+                SettingRowOnlyText(
+                    icon = Icons.Default.Info,
+                    title = "Watch Introduction",
+                    value = "",
+                ) {
+                    startActivity(Intent(requireContext(), IntroActivity::class.java))
+                }
             }
 
             /** Notifications */
@@ -223,11 +238,13 @@ class SettingsFragment : Fragment() {
         painter: Painter? = null,
         title: String,
         value: String,
+        onClick: () -> Unit = {},
     ) {
         Row(
             modifier = Modifier
                 .height(50.dp)
-                .padding(horizontal = 15.dp),
+                .padding(horizontal = 15.dp)
+                .clickable { onClick() },
             verticalAlignment = Alignment.CenterVertically,
         ) {
             icon?.let {

@@ -119,11 +119,16 @@ dependencies {
     implementation 'io.coil-kt:coil-compose:1.4.0'
 
     // Splash
-    implementation 'androidx.core:core-splashscreen:1.0.0-beta01'
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 
     // Play Core
     implementation 'com.google.android.play:core:1.10.3'
 
     // Add Mob
     implementation 'com.google.android.gms:play-services-ads:20.6.0'
+
+    // accompanist
+    def accompanist_version = "0.19.0"
+    implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
 }

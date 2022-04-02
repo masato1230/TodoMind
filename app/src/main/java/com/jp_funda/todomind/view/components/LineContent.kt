@@ -11,12 +11,14 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.getSizeOffsetForDrawLine
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 
 @ExperimentalMaterialApi
+@ExperimentalPagerApi
 @Composable
 fun LineContent(
     mindMapCreateViewModel: MindMapCreateViewModel,

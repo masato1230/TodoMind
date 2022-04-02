@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
@@ -29,6 +30,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @ExperimentalMaterialApi
+@ExperimentalPagerApi
 @Composable
 fun TaskEditContent(
     modifier: Modifier = Modifier,

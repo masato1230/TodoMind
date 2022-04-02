@@ -6,6 +6,7 @@ import androidx.compose.material.SnackbarResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
@@ -17,6 +18,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @ExperimentalMaterialApi
+@ExperimentalPagerApi
 @HiltViewModel
 class TaskViewModel @Inject constructor(
     private val repository: TaskRepository
