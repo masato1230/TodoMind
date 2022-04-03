@@ -48,7 +48,7 @@ fun RecentMindMapSection(
                 // TODO show something
             }
             Button(
-                onClick = onNewMindMapClick, // todo navigate to add mind map view
+                onClick = onNewMindMapClick,
                 modifier = Modifier
                     .padding(start = 30.dp)
                     .height(200.dp)

@@ -55,7 +55,7 @@ open class MindMap(
                 "isCompleted = ${this.isCompleted}, " +
                 "x = ${this.x}, " +
                 "y = ${this.y}, " +
-                "color = ${this.color}, "
+                "color = ${this.color}, " +
                 ")"
     }
 }

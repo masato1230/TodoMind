@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.mind_map_create
 
+import android.util.Log
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -75,6 +76,7 @@ open class MindMapCreateViewModel @Inject constructor(
                 .getTasksInAMindMap(mindMap)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess {
+                    Log.d("Tasks In A Mind Map", it.toString())
                     tasks = it
                     _isLoading.value = false
                     onSuccess()
