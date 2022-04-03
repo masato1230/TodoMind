@@ -4,11 +4,14 @@ import android.content.res.ColorStateList
 import android.graphics.Paint
 import android.view.View
 import android.widget.CheckBox
+import android.widget.ImageView
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.material.textview.MaterialTextView
@@ -30,9 +33,19 @@ fun TaskRow(
         update = { view ->
             // Initialize view
             val checkBox = view.findViewById<CheckBox>(R.id.row_task_checkbox)
+            val mindMapIcon = view.findViewById<ImageView>(R.id.row_task_ic_mind_map)
+            val mindMapLabel = view.findViewById<MaterialTextView>(R.id.row_task_label_mind_map)
             val title = view.findViewById<MaterialTextView>(R.id.row_task_title)
             val description = view.findViewById<MaterialTextView>(R.id.row_task_description)
             val date = view.findViewById<MaterialTextView>(R.id.row_task_date)
+
+            // MindMapIcon & MindMapImage setting
+            task.mindMap?.let { mindmap ->
+                mindMapIcon.visibility = View.VISIBLE
+                mindMapIcon.setColorFilter(mindmap.color ?: Color(R.color.crimson).toArgb())
+                mindMapLabel.text = mindmap.title
+                mindMapLabel.setTextColor(mindmap.color ?: Color(R.color.crimson).toArgb())
+            } ?: run { mindMapIcon.visibility = View.GONE }
 
             // Settings : common to all statuses
             title.text = task.title
