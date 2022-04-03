@@ -146,6 +146,17 @@ class MindMapDetailFragment : Fragment() {
         val snackbarHostState = remember { SnackbarHostState() }
         val scope = rememberCoroutineScope()
 
+        // Show Undo snackbar if currentlyDeletedTask is not null
+        LaunchedEffect(snackbarHostState) {
+            mainViewModel.currentlyDeletedTask?.let {
+                taskViewModel.showUndoDeleteSnackbar(
+                    snackbarHostState = snackbarHostState,
+                    deletedTask = it
+                )
+            }
+            mainViewModel.currentlyDeletedTask = null
+        }
+
         observedTasks?.let { tasks ->
             var showingTasks by remember { mutableStateOf(tasks) }
 
@@ -156,60 +167,58 @@ class MindMapDetailFragment : Fragment() {
                             (task.statusEnum == selectedTabStatus)
                 },
             )
-            ColumnWithTaskList(
-                selectedTabStatus = selectedTabStatus,
-                onTabChange = { status ->
-                    taskViewModel.setSelectedStatusTab(status)
-                },
-                showingTasks = showingTasks,
-                onCheckChanged = { task ->
-                    taskViewModel.updateTaskWithDelay(task)
-                    scope.launch {
-                        taskViewModel.showCheckBoxChangedSnackbar(
-                            task,
-                            snackbarHostState
-                        )
+
+            // MainUI
+            Column {
+                ColumnWithTaskList(
+                    selectedTabStatus = selectedTabStatus,
+                    onTabChange = { status ->
+                        taskViewModel.setSelectedStatusTab(status)
+                    },
+                    showingTasks = showingTasks,
+                    onCheckChanged = { task ->
+                        taskViewModel.updateTaskWithDelay(task)
+                        scope.launch {
+                            taskViewModel.showCheckBoxChangedSnackbar(
+                                task,
+                                snackbarHostState
+                            )
+                        }
+                    },
+                    onRowMove = { fromIndex, toIndex ->
+                        // Replace task's reversedOrder property
+                        if (Integer.max(fromIndex, toIndex) < showingTasks.size) {
+                            val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                                .reversed()[fromIndex]
+                            val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                                .reversed()[toIndex]
+                            taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
+                        }
+                    },
+                    onRowClick = { task ->
+                        mainViewModel.editingTask = task
+                        findNavController().navigate(R.id.action_navigation_mind_map_detail_to_navigation_task_detail)
                     }
-                },
-                onRowMove = { fromIndex, toIndex ->
-                    // Replace task's reversedOrder property
-                    if (Integer.max(fromIndex, toIndex) < showingTasks.size) {
-                        val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
-                            .reversed()[fromIndex]
-                        val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
-                            .reversed()[toIndex]
-                        taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
+                ) {
+                    Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+                        MindMapDetailTopContent()
                     }
-                },
-                onRowClick = { task ->
-                    mainViewModel.editingTask = task
-                    findNavController().navigate(R.id.action_navigation_mind_map_detail_to_navigation_task_detail)
-                }
-            ) {
-                Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-                    MindMapDetailTopContent()
                 }
             }
-        } ?: run { // Loading
+
+            // Snackbar
             Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.fillMaxHeight(),
+                verticalArrangement = Arrangement.Bottom,
             ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(150.dp),
-                    color = colorResource(id = R.color.teal_200),
-                    strokeWidth = 10.dp
-                )
-                Spacer(modifier = Modifier.height(30.dp))
-                Text(
-                    text = "Loading...",
-                    style = MaterialTheme.typography.h5,
-                    color = Color.White
+                // Status update Snackbar
+                SnackbarHost(
+                    hostState = snackbarHostState,
+                    modifier = Modifier.padding(bottom = 10.dp),
                 )
             }
+        } ?: run {
+            LoadingView()
         }
     }
 
