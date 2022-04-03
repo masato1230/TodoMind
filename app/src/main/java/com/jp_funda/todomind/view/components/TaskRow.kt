@@ -10,10 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import com.google.android.material.textview.MaterialTextView
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.Task
@@ -42,9 +41,19 @@ fun TaskRow(
             // MindMapIcon & MindMapImage setting
             task.mindMap?.let { mindmap ->
                 mindMapIcon.visibility = View.VISIBLE
-                mindMapIcon.setColorFilter(mindmap.color ?: Color(R.color.crimson).toArgb())
+                mindMapIcon.setColorFilter(
+                    mindmap.color ?: ContextCompat.getColor(
+                        view.context,
+                        R.color.crimson
+                    )
+                )
                 mindMapLabel.text = mindmap.title
-                mindMapLabel.setTextColor(mindmap.color ?: Color(R.color.crimson).toArgb())
+                mindMapLabel.setTextColor(
+                    mindmap.color ?: ContextCompat.getColor(
+                        view.context,
+                        R.color.crimson
+                    )
+                )
             } ?: run { mindMapIcon.visibility = View.GONE }
 
             // Settings : common to all statuses
@@ -81,7 +90,8 @@ fun TaskRow(
                 // update db with task instance
                 onCheckChanged(task)
             }
-            checkBox.buttonTintList = ColorStateList.valueOf(task.color ?: 0x0f03dac5).withAlpha(0xFF)
+            checkBox.buttonTintList =
+                ColorStateList.valueOf(task.color ?: 0x0f03dac5).withAlpha(0xFF)
         },
         modifier = modifier
             .clickable { onClick() }
