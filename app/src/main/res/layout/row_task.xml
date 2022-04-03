@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -26,21 +27,50 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/row_task_ic_mind_map"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="@string/mind_map"
+            android:src="@drawable/ic_mind_map"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/row_task_label_mind_map"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/crimson" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/row_task_label_mind_map"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:ellipsize="end"
+            style="@style/Caption"
+            android:maxLines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@tools:sample/lorem/random"
+            tools:textColor="@color/crimson" />
+
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/row_task_title"
             style="@style/Body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-5dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="-5dp"
             android:layout_marginEnd="20dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/sample_title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/row_task_checkbox"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/sample_title" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -60,12 +90,12 @@
                 android:layout_marginEnd="10dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@string/sample_description"
                 android:textColor="@color/grey"
                 app:layout_constraintEnd_toStartOf="@+id/row_task_date"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/sample_description" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/row_task_date"
@@ -73,9 +103,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
-                android:text="@string/sample_date"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="@string/sample_date" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
