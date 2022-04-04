@@ -76,7 +76,10 @@ open class MindMapCreateViewModel @Inject constructor(
                 .getTasksInAMindMap(mindMap)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess {
-                    Log.d("Tasks In A Mind Map", it.toString())
+                    // Todo delete
+                    for (task in it) {
+                        Log.d("Tasks In A Mind Map", task.toString())
+                    }
                     tasks = it
                     _isLoading.value = false
                     onSuccess()
