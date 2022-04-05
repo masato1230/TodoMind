@@ -13,7 +13,7 @@ object SampleData {
         y = 1364.0999f,
         color = -1499549,
     )
-    val programmingLanguage = Task(
+    private val programmingLanguage = Task(
         mindMap = mindMap,
         title = "Programming Language",
         description = "This is a sample task. Please delete sample mind map.",
@@ -23,7 +23,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_2,
         statusEnum = TaskStatus.Open,
     )
-    val versionControl = Task(
+    private val versionControl = Task(
         mindMap = mindMap,
         title = "Version Control",
         description = "This is a sample task. Please delete sample mind map.",
@@ -33,7 +33,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_2,
         statusEnum = TaskStatus.Open,
     )
-    val masterMajorLibraries = Task(
+    private val masterMajorLibraries = Task(
         mindMap = mindMap,
         title = "Master Major Libraries",
         description = "This is a sample task. Please delete sample mind map.",
@@ -43,7 +43,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_2,
         statusEnum = TaskStatus.Open,
     )
-    val learnEnglish = Task(
+    private val learnEnglish = Task(
         mindMap = mindMap,
         title = "Learn English",
         description = "This is a sample task. Please delete sample mind map.",
@@ -53,7 +53,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_2,
         statusEnum = TaskStatus.Open,
     )
-    val kotlin = Task(
+    private val kotlin = Task(
         mindMap = mindMap,
         title = "kotlin",
         description = "This is a sample task. Please delete sample mind map.",
@@ -64,7 +64,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Open,
     )
-    val gitCommands = Task(
+    private val gitCommands = Task(
         mindMap = mindMap,
         title = "git commands",
         description = "This is a sample task. Please delete sample mind map.",
@@ -75,7 +75,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Complete,
     )
-    val github = Task(
+    private val github = Task(
         mindMap = mindMap,
         title = "github",
         description = "This is a sample task. Please delete sample mind map.",
@@ -86,7 +86,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Open,
     )
-    val rxJava = Task(
+    private val rxJava = Task(
         mindMap = mindMap,
         title = "RxJava",
         description = "This is a sample task. Please delete sample mind map.",
@@ -97,7 +97,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Open,
     )
-    val jetpackCompose = Task(
+    private val jetpackCompose = Task(
         mindMap = mindMap,
         title = "jetpack compose",
         description = "This is a sample task. Please delete sample mind map.",
@@ -108,7 +108,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Open,
     )
-    val reading = Task(
+    private val reading = Task(
         mindMap = mindMap,
         title = "Reading",
         description = "This is a sample task. Please delete sample mind map.",
@@ -119,7 +119,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Complete,
     )
-    val writing = Task(
+    private val writing = Task(
         mindMap = mindMap,
         title = "Writing",
         description = "This is a sample task. Please delete sample mind map.",
@@ -130,7 +130,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Open,
     )
-    val learnByWriteStackoverflowAnswers = Task(
+    private val learnByWriteStackoverflowAnswers = Task(
         mindMap = mindMap,
         title = "learn by write stackoberflow answers",
         description = "This is a sample task. Please delete sample mind map.",
@@ -141,7 +141,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.Open,
     )
-    val write50Answers = Task(
+    private val write50Answers = Task(
         mindMap = mindMap,
         title = "Write 50 answers",
         description = "This is a sample task. Please delete sample mind map.",
@@ -152,7 +152,7 @@ object SampleData {
         styleEnum = NodeStyle.BODY_1,
         statusEnum = TaskStatus.InProgress,
     )
-    val takeAnUdemyCourse = Task(
+    private val takeAnUdemyCourse = Task(
         mindMap = mindMap,
         title = "Take an Udemy Course",
         description = "This is a sample task. Please delete sample mind map.",
@@ -163,7 +163,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.Complete,
     )
-    val room = Task(
+    private val room = Task(
         mindMap = mindMap,
         title = "Room",
         description = "This is a sample task. Please delete sample mind map.",
@@ -174,7 +174,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Open,
     )
-    val realm = Task(
+    private val realm = Task(
         mindMap = mindMap,
         title = "Realm",
         description = "This is a sample task. Please delete sample mind map.",
@@ -185,7 +185,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Open,
     )
-    val hilt = Task(
+    private val hilt = Task(
         mindMap = mindMap,
         title = "Hilt",
         description = "This is a sample task. Please delete sample mind map.",
@@ -196,7 +196,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Complete,
     )
-    val retrofit = Task(
+    private val retrofit = Task(
         mindMap = mindMap,
         title = "Retrofit",
         description = "This is a sample task. Please delete sample mind map.",
@@ -207,7 +207,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Open,
     )
-    val architecture = Task(
+    private val architecture = Task(
         mindMap = mindMap,
         title = "Architecture",
         description = "This is a sample task. Please delete sample mind map.",
@@ -218,7 +218,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Open,
     )
-    val mvvmPlusRepository = Task(
+    private val mvvmPlusRepository = Task(
         mindMap = mindMap,
         title = "MVVM+Repository",
         description = "This is a sample task. Please delete sample mind map.",
@@ -229,7 +229,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.Open,
     )
-    val androidSpecificTopics = Task(
+    private val androidSpecificTopics = Task(
         mindMap = mindMap,
         title = "Android Specific Topics",
         description = "This is a sample task. Please delete sample mind map.",
@@ -240,7 +240,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_2,
         statusEnum = TaskStatus.Open,
     )
-    val proguardRule = Task(
+    private val proguardRule = Task(
         mindMap = mindMap,
         title = "proguard rule",
         description = "This is a sample task. Please delete sample mind map.",
@@ -251,7 +251,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Complete,
     )
-    val cleanArchitecture = Task(
+    private val cleanArchitecture = Task(
         mindMap = mindMap,
         title = "Clean Architecture",
         description = "This is a sample task. Please delete sample mind map.",
@@ -262,7 +262,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.Open,
     )
-    val dataStructureAndAlgorithm = Task(
+    private val dataStructureAndAlgorithm = Task(
         mindMap = mindMap,
         title = "Data Structure & Algorithm",
         description = "This is a sample task. Please delete sample mind map.",
@@ -273,7 +273,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.Open,
     )
-    val oopBasics = Task(
+    private val oopBasics = Task(
         mindMap = mindMap,
         title = "OOP basics",
         description = "This is a sample task. Please delete sample mind map.",
@@ -284,7 +284,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.Open,
     )
-    val masterInOjt = Task(
+    private val masterInOjt = Task(
         mindMap = mindMap,
         title = "Master in OJT",
         description = "This is a sample task. Please delete sample mind map.",
@@ -295,7 +295,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.Open,
     )
-    val makeOssContribution = Task(
+    private val makeOssContribution = Task(
         mindMap = mindMap,
         title = "Make OSS contribution",
         description = "This is a sample task. Please delete sample mind map.",
@@ -306,7 +306,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.Open,
     )
-    val create200IssuesOrPullRequest = Task(
+    private val create200IssuesOrPullRequest = Task(
         mindMap = mindMap,
         title = "Create 200 issues or pull request",
         description = "This is a sample task. Please delete sample mind map.",
@@ -317,7 +317,7 @@ object SampleData {
         styleEnum = NodeStyle.BODY_1,
         statusEnum = TaskStatus.Complete,
     )
-    val findProjectToContribute = Task(
+    private val findProjectToContribute = Task(
         mindMap = mindMap,
         title = "Find Project to contribute",
         description = "This is a sample task. Please delete sample mind map.",
@@ -328,7 +328,7 @@ object SampleData {
         styleEnum = NodeStyle.BODY_1,
         statusEnum = TaskStatus.InProgress,
     )
-    val marge10PullRequests = Task(
+    private val marge10PullRequests = Task(
         mindMap = mindMap,
         title = "Marge 10 pull requests",
         description = "This is a sample task. Please delete sample mind map.",
@@ -339,7 +339,7 @@ object SampleData {
         styleEnum = NodeStyle.BODY_1,
         statusEnum = TaskStatus.Open,
     )
-    val githubActions = Task(
+    private val githubActions = Task(
         mindMap = mindMap,
         title = "github actions",
         description = "This is a sample task. Please delete sample mind map.",
@@ -350,7 +350,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.Open,
     )
-    val kotlinMultiPlatform = Task(
+    private val kotlinMultiPlatform = Task(
         mindMap = mindMap,
         title = "Kotlin multi platform",
         description = "This is a sample task. Please delete sample mind map.",
@@ -361,7 +361,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.Open,
     )
-    val tdd = Task(
+    private val tdd = Task(
         mindMap = mindMap,
         title = "TDD",
         description = "This is a sample task. Please delete sample mind map.",
@@ -372,7 +372,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_3,
         statusEnum = TaskStatus.Open,
     )
-    val gitCourse = Task(
+    private val gitCourse = Task(
         mindMap = mindMap,
         title = "Git course",
         description = "I'm really enjoying this course on Udemy and think you might like it too.\n" +
@@ -384,7 +384,7 @@ object SampleData {
         styleEnum = NodeStyle.LINK,
         statusEnum = TaskStatus.Complete,
     )
-    val joinToCommunity = Task(
+    private val joinToCommunity = Task(
         mindMap = mindMap,
         title = "Join to community",
         description = "This is a sample task. Please delete sample mind map.",
@@ -395,7 +395,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.Open,
     )
-    val tryAtOwnProjectForAnWeek = Task(
+    private val tryAtOwnProjectForAnWeek = Task(
         mindMap = mindMap,
         title = "Try at own project for an week",
         description = "This is a sample task. Please delete sample mind map.",
@@ -406,7 +406,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.InProgress,
     )
-    val tryQuickStartAsyncSectionInDocumentation = Task(
+    private val tryQuickStartAsyncSectionInDocumentation = Task(
         mindMap = mindMap,
         title = "Try quick start async section in documentation",
         description = "This is a sample task. Please delete sample mind map.",
@@ -417,7 +417,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.Complete,
     )
-    val learnByGoogleCodeLab = Task(
+    private val learnByGoogleCodeLab = Task(
         mindMap = mindMap,
         title = "Learn by Google code lab",
         description = "This is a sample task. Please delete sample mind map.",
@@ -428,7 +428,7 @@ object SampleData {
         styleEnum = NodeStyle.HEADLINE_4,
         statusEnum = TaskStatus.Complete,
     )
-    val tryHandsOnBookByPackt = Task(
+    private val tryHandsOnBookByPackt = Task(
         mindMap = mindMap,
         title = "Try hands on book by packt",
         description = "This is a sample task. Please delete sample mind map.",
@@ -439,7 +439,7 @@ object SampleData {
         styleEnum = NodeStyle.BODY_1,
         statusEnum = TaskStatus.InProgress,
     )
-    val handsOnDataStructure = Task(
+    private val handsOnDataStructure = Task(
         mindMap = mindMap,
         title = "hands on data structure",
         description = "This is a sample task. Please delete sample mind map.",
@@ -449,5 +449,48 @@ object SampleData {
         color = -26624,
         styleEnum = NodeStyle.LINK,
         statusEnum = TaskStatus.Open,
+    )
+
+    val sampleTasks = listOf(
+        programmingLanguage,
+        versionControl,
+        masterMajorLibraries,
+        learnEnglish,
+        kotlin,
+        gitCommands,
+        github,
+        rxJava,
+        jetpackCompose,
+        reading,
+        writing,
+        learnByWriteStackoverflowAnswers,
+        write50Answers,
+        takeAnUdemyCourse,
+        room,
+        realm,
+        hilt,
+        retrofit,
+        architecture,
+        mvvmPlusRepository,
+        androidSpecificTopics,
+        proguardRule,
+        cleanArchitecture,
+        dataStructureAndAlgorithm,
+        oopBasics,
+        masterInOjt,
+        makeOssContribution,
+        create200IssuesOrPullRequest,
+        findProjectToContribute,
+        marge10PullRequests,
+        githubActions,
+        kotlinMultiPlatform,
+        tdd,
+        gitCourse,
+        joinToCommunity,
+        tryAtOwnProjectForAnWeek,
+        tryQuickStartAsyncSectionInDocumentation,
+        learnByGoogleCodeLab,
+        tryHandsOnBookByPackt,
+        handsOnDataStructure,
     )
 }
