@@ -62,10 +62,9 @@ class TaskRepository @Inject constructor(
                         task.createdDate = now
                         task.updatedDate = now
                         realm.insertOrUpdate(task)
-
-                        // set Reminder
                     }
                     emitter.onSuccess(true)
+                    // set Reminder
                     setNextReminder(realm)
                 }
             }
