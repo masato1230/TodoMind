@@ -46,6 +46,31 @@ class TaskRepository @Inject constructor(
         }
     }
 
+    fun createAll(tasks: List<Task>): Single<Boolean> {
+        return Single.create { emitter ->
+            Realm.getDefaultInstance().use {
+                it.executeTransactionAsync { realm ->
+                    for (task in tasks) {
+                        val maxReversedOrder =
+                            realm.copyFromRealm(realm.where<Task>().findAll())
+                                .maxWithOrNull(Comparator.comparingInt { lastTask ->
+                                    lastTask.reversedOrder ?: 0
+                                })?.reversedOrder
+                                ?: 0
+                        task.reversedOrder = maxReversedOrder + 1
+                        val now = Date()
+                        task.createdDate = now
+                        task.updatedDate = now
+                        realm.insertOrUpdate(task)
+                    }
+                    emitter.onSuccess(true)
+                    // set Reminder
+                    setNextReminder(realm)
+                }
+            }
+        }
+    }
+
     fun restoreTask(task: Task): Single<Task> {
         return Single.create { emitter ->
             Realm.getDefaultInstance().use {

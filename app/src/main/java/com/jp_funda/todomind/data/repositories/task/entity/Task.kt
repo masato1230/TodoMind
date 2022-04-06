@@ -94,4 +94,23 @@ open class Task(
             }
             return null
         }
+
+    override fun toString(): String {
+        return "Task(" +
+                "id = ${this.id}, " +
+                "mindMap_id = ${this.mindMap?.id} ,\n" +
+                "title = ${this.title},\n " +
+                "description = ${this.description},\n " +
+                "createdDate = ${this.createdDate},\n " +
+                "updatedDate = ${this.updatedDate},\n " +
+                "dueDate = ${this.dueDate},\n " +
+                "reversedOrder = ${this.reversedOrder},\n " +
+                "x = ${this.x},\n " +
+                "y = ${this.y},\n " +
+                "parentTask_id = ${this.parentTask?.id},\n " +
+                "color = ${this.color},\n " +
+                "styleEnum = ${this.styleEnum},\n " +
+                "statusEnum = ${this.statusEnum},\n " +
+                ")"
+    }
 }

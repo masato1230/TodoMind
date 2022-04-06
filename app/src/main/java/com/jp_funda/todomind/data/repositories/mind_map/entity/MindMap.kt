@@ -44,4 +44,18 @@ open class MindMap(
             }
             return null
         }
+
+    override fun toString(): String {
+        return "MindMap(" +
+                "id = ${this.id}, " +
+                "title = ${this.title}, " +
+                "description = ${this.description}, " +
+                "createdDate = ${this.createdDate}, " +
+                "updatedDate = ${this.updatedDate}, " +
+                "isCompleted = ${this.isCompleted}, " +
+                "x = ${this.x}, " +
+                "y = ${this.y}, " +
+                "color = ${this.color}, " +
+                ")"
+    }
 }

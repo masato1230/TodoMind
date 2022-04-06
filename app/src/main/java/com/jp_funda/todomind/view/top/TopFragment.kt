@@ -23,6 +23,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
@@ -103,7 +104,7 @@ class TopFragment : Fragment() {
         // Main Contents
         observedTasks?.let { tasks ->
             // Check whether to request review is needed
-            if (!topViewModel.isReviewRequested && tasks.size > 20) {
+            if (!topViewModel.isReviewRequested && tasks.size > 10 + SampleData.sampleTasks.size) {
                 requestReview()
                 topViewModel.setIsReviewRequested(true)
             }

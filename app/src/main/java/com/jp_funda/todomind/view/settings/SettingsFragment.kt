@@ -37,7 +37,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
-// TODO add dismiss ogp tag setting
 @ExperimentalPagerApi
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
