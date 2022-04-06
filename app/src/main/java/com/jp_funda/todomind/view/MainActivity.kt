@@ -3,6 +3,7 @@ package com.jp_funda.todomind.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material.ExperimentalMaterialApi
@@ -25,15 +26,25 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         installSplashScreen()
 
-        // Show intro to first time visitor
+        // Show intro
         if (!SettingsPreferences(this).getBoolean(PreferenceKeys.IS_SHOWED_INTRO)) {
             startActivity(Intent(this, IntroActivity::class.java))
+        }
+
+        // Add sample data and Settings for first time launch
+        SettingsPreferences(this).apply {
+            if (!getBoolean(PreferenceKeys.IS_NOT_FIRST_TIME_LAUNCH)) {
+                setBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL, true)
+                setBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE, true)
+                viewModel.addSampleData()
+            }
         }
 
         // Set up Binding

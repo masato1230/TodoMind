@@ -6,7 +6,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 
 object SampleData {
     val mindMap = MindMap(
-        title = "Become a better Android Developer",
+        title = "[Sample] Become a better Android Developer",
         description = "This is a sample mind map. Please delete.",
         isCompleted = false,
         x = 5469.2354f,
@@ -57,8 +57,8 @@ object SampleData {
         mindMap = mindMap,
         title = "kotlin",
         description = "This is a sample task. Please delete sample mind map.",
-        x = 985.1459f,
-        y = 592.839f,
+        x = 1075.2339f,
+        y = 5836.1613f,
         parentTask = programmingLanguage,
         color = -13730510,
         styleEnum = NodeStyle.HEADLINE_3,
@@ -442,7 +442,7 @@ object SampleData {
     private val handsOnDataStructure = Task(
         mindMap = mindMap,
         title = "hands on data structure",
-        description = "This is a sample task. Please delete sample mind map.",
+        description = "https://www.packtpub.com/product/hands-on-data-structures-and-algorithms-with-kotlin/9781788994019\n",
         x = 1770.7932f,
         y = 7626.931f,
         parentTask = tryHandsOnBookByPackt,
