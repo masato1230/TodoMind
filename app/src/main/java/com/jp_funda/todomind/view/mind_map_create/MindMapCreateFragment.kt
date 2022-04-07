@@ -119,12 +119,23 @@ class MindMapCreateFragment : Fragment() {
         }
         mindMapCreateViewModel.isLoading.observe(viewLifecycleOwner, loadingObserver)
 
+        // todo Show tutorial dialog for first time
+        showTutorialDialog()
+
         return binding.root
     }
 
     private fun initializeHeader() {
         binding.headerBack.setOnClickListener { findNavController().popBackStack() }
         binding.headerTitle.text = mindMapCreateViewModel.mindMap.title ?: ""
+        binding.headerInfo.setOnClickListener { showTutorialDialog() }
+    }
+
+    private fun showTutorialDialog() {
+        // Show tutorial dialog
+        val action =
+            MindMapCreateFragmentDirections.actionNavigationMindMapCreateToMindMapCreateTutorialDialog()
+        findNavController().navigate(action)
     }
 
     private fun initializeZoomButtons() {

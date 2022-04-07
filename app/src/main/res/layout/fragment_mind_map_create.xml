@@ -25,8 +25,8 @@
 
                 <ImageView
                     android:id="@+id/header_back"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginStart="4dp"
                     android:contentDescription="@string/back"
                     android:src="@drawable/ic_arrow_back_24"
@@ -46,6 +46,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/header_back"
                     tools:text="@tools:sample/lorem" />
+
+                <Button
+                    android:id="@+id/header_info"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/ic_info_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/header_title"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
