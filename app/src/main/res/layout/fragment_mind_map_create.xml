@@ -85,7 +85,7 @@
             android:id="@+id/textScale"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="100%"
+            tools:text="100%"
             android:textAlignment="center" />
 
         <ImageButton
@@ -99,7 +99,8 @@
             android:id="@+id/buttonZoomOut"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/ic_zoom_out_24dp" />
+            android:src="@drawable/ic_zoom_out_24dp"
+            android:contentDescription="@string/zoom_out" />
     </LinearLayout>
 
     <LinearLayout

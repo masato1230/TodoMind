@@ -15,6 +15,7 @@
     <string name="sample_title">Sample Title Sample Title Sample Title</string>
     <string name="sample_description" tools:ignore="Typos">description description description description description description</string>
     <string name="zoom">Zoom</string>
+    <string name="zoom_out">Zoom out</string>
     <string name="percent">%</string>
     <string name="loading">Loading…</string>
     <string name="oss_licenses">OSS licenses</string>
