@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -59,16 +60,16 @@ class MindMapFragment : Fragment() {
                             contentColor = Color.White,
                         )
                     },
-                    backgroundColor = colorResource(id = R.color.deep_purple)
+                    backgroundColor = colorResource(id = R.color.deep_purple),
                 ) {
-                    MindMapContent()
+                    MindMapContent(it)
                 }
             }
         }
     }
 
     @Composable
-    fun MindMapContent() {
+    fun MindMapContent(padding: PaddingValues) {
         // Set up data
         val observedMindMapList by mindMapViewModel.mindMapList.observeAsState()
 
@@ -79,7 +80,9 @@ class MindMapFragment : Fragment() {
             val completedMindMaps = mindMapList.filter { it.isCompleted }
 
             Column(
-                modifier = Modifier.verticalScroll(scrollState)
+                modifier = Modifier
+                    .verticalScroll(scrollState)
+                    .padding(padding)
             ) {
                 // Banner Advertisement
                 val width =
