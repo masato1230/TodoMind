@@ -1,7 +1,6 @@
 package com.jp_funda.todomind.view.mind_map_create.tutorial
 
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,9 +26,9 @@ import com.google.android.exoplayer2.source.LoopingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.util.Util
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.view.components.IntroPage
 
 class MindMapCreateTutorialDialog : DialogFragment() {
     override fun onCreateView(
@@ -45,12 +44,14 @@ class MindMapCreateTutorialDialog : DialogFragment() {
                     shape = RoundedCornerShape(10.dp),
                 ) {
                     Column(modifier = Modifier.padding(10.dp)) {
-//                        VideoPlayer()
-                        IntroPage(
-                            thumbnail = { /*TODO*/ },
-                            mainText = "Move Node",
-                            subText = "Drag & Drop to move a node(task or mind map)."
-                        )
+//                        IntroPage(
+//                            thumbnail = {
+//                                VideoPlayer(R.raw.edit_or_add)
+//                            },
+//                            mainText = "Move Node",
+//                            subText = "Drag & Drop to move a node(task or mind map)."
+//                        )
+                        VideoPlayer(R.raw.edit_or_add)
                     }
                 }
             }
@@ -58,14 +59,13 @@ class MindMapCreateTutorialDialog : DialogFragment() {
     }
 
     @Composable
-    fun VideoPlayer() {
+    fun VideoPlayer(rawResId: Int) {
         // Fetching the Local Context
         val context = LocalContext.current
 
         // Declaring a string value
         // that stores raw video url
-        val videoUrl =
-            "https://cdn.videvo.net/videvo_files/video/free/2020-05/large_watermarked/3d_ocean_1590675653_preview.mp4"
+        val videoUri = RawResourceDataSource.buildRawResourceUri(rawResId)
 
         // Declaring ExoPlayer
         val exoPlayer = remember(context) {
@@ -75,7 +75,7 @@ class MindMapCreateTutorialDialog : DialogFragment() {
                     Util.getUserAgent(context, context.packageName)
                 )
                 val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(Uri.parse(videoUrl))
+                    .createMediaSource(videoUri)
                 val loopingMediaSource = LoopingMediaSource(source)
                 prepare(loopingMediaSource)
             }
