@@ -19,6 +19,8 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.getSize
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
+import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.databinding.FragmentMindMapCreateBinding
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.LineContent
@@ -119,12 +121,27 @@ class MindMapCreateFragment : Fragment() {
         }
         mindMapCreateViewModel.isLoading.observe(viewLifecycleOwner, loadingObserver)
 
+        // Show tutorial dialog for first time
+        val settingsPreferences = SettingsPreferences(requireContext())
+        if (!settingsPreferences.getBoolean(PreferenceKeys.IS_NOT_FIRST_TIME_CREATE_SCREEN)) {
+            showTutorialDialog()
+            settingsPreferences.setBoolean(PreferenceKeys.IS_NOT_FIRST_TIME_CREATE_SCREEN, true)
+        }
+
         return binding.root
     }
 
     private fun initializeHeader() {
         binding.headerBack.setOnClickListener { findNavController().popBackStack() }
         binding.headerTitle.text = mindMapCreateViewModel.mindMap.title ?: ""
+        binding.headerInfo.setOnClickListener { showTutorialDialog() }
+    }
+
+    private fun showTutorialDialog() {
+        // Show tutorial dialog
+        val action =
+            MindMapCreateFragmentDirections.actionNavigationMindMapCreateToMindMapCreateTutorialDialog()
+        findNavController().navigate(action)
     }
 
     private fun initializeZoomButtons() {
