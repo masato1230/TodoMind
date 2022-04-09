@@ -41,19 +41,21 @@ class IntroActivity : AppCompatActivity() {
                 Scaffold(
                     backgroundColor = colorResource(id = R.color.deep_purple),
                 ) {
-                    IntroContents()
+                    IntroContents(it)
                 }
             }
         }
     }
 
     @Composable
-    private fun IntroContents() {
+    private fun IntroContents(padding: PaddingValues) {
         val pagerState = rememberPagerState()
         val scope = rememberCoroutineScope()
 
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
         ) {
             // Pager
             HorizontalPager(

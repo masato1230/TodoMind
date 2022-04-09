@@ -98,6 +98,7 @@ class TaskDetailFragment : Fragment() {
                 ) {
                     Column {
                         TaskEditContent(
+                            modifier = Modifier.padding(it),
                             taskEditableViewModel = taskDetailViewModel,
                             mainViewModel = mainViewModel,
                         ) { findNavController().popBackStack() }

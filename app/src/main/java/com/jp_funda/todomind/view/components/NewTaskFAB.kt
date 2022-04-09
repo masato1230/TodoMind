@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.components
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -14,7 +15,7 @@ import com.jp_funda.todomind.R
 fun NewTaskFAB(
     topBar: @Composable () -> Unit = {},
     onClick: () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable (padding: PaddingValues) -> Unit
 ) {
     Scaffold(
         topBar = topBar,
@@ -27,6 +28,6 @@ fun NewTaskFAB(
         },
         backgroundColor = colorResource(id = R.color.deep_purple)
     ) {
-        content()
+        content(it)
     }
 }
