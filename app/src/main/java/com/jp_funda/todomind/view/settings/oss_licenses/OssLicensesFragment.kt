@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
@@ -38,7 +40,7 @@ class OssLicensesFragment : Fragment() {
                     },
                     backgroundColor = colorResource(id = R.color.deep_purple)
                 ) {
-                    AndroidView(factory = { webView })
+                    AndroidView(factory = { webView }, modifier = Modifier.padding(it))
                 }
             }
         }

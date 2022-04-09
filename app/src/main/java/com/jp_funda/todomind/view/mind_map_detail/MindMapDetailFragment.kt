@@ -132,15 +132,14 @@ class MindMapDetailFragment : Fragment() {
                     },
                     backgroundColor = colorResource(id = R.color.deep_purple)
                 ) {
-                    MindMapDetailContent()
+                    MindMapDetailContent(it)
                 }
             }
         }
     }
 
-    @Preview
     @Composable
-    fun MindMapDetailContent() {
+    fun MindMapDetailContent(padding: PaddingValues) {
         val observedTasks by taskViewModel.taskList.observeAsState()
         val selectedTabStatus by taskViewModel.selectedStatusTab.observeAsState(TaskStatus.Open)
         val snackbarHostState = remember { SnackbarHostState() }
@@ -169,7 +168,7 @@ class MindMapDetailFragment : Fragment() {
             )
 
             // MainUI
-            Column {
+            Column(modifier = Modifier.padding(padding)) {
                 ColumnWithTaskList(
                     selectedTabStatus = selectedTabStatus,
                     onTabChange = { status ->

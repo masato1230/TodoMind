@@ -50,7 +50,7 @@ class MindMapScaleFragment : Fragment() {
                 ) {
                     var scale by remember { mutableStateOf(viewModel.scale) }
 
-                    Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+                    Column(modifier = Modifier.padding(vertical = it.calculateTopPadding(), horizontal = 20.dp)) {
                         Text(
                             text = "Scale (min: 10%, max: 200%)",
                             style = MaterialTheme.typography.subtitle2,
@@ -71,8 +71,8 @@ class MindMapScaleFragment : Fragment() {
                                 Slider(
                                     value = scale,
                                     valueRange = 0.1f..2f,
-                                    onValueChange = {
-                                        scale = it
+                                    onValueChange = { value ->
+                                        scale = value
                                     },
                                     onValueChangeFinished = {
                                         viewModel.scale = scale

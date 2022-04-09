@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.record
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ class RecordFragment : Fragment() {
 
     private lateinit var viewModel: RecordViewModel
 
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
