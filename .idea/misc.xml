@@ -47,7 +47,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/card_mind_map.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_mind_map_options.xml" value="0.21" />
-        <entry key="app/src/main/res/layout/fragment_mind_map_create.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_mind_map_create.xml" value="0.1" />
         <entry key="app/src/main/res/layout/mind_map_fragment.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/layout/record_fragment.xml" value="0.11503623188405797" />
         <entry key="app/src/main/res/layout/row_task.xml" value="0.37552083333333336" />

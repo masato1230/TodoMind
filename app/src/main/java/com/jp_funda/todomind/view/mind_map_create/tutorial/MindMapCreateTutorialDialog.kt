@@ -10,6 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -21,13 +22,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.DialogFragment
-import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.source.LoopingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -47,7 +46,7 @@ class MindMapCreateTutorialDialog : DialogFragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 Surface(
-                    color = colorResource(id = R.color.dark),
+                    color = colorResource(id = R.color.light_purple),
                     shape = RoundedCornerShape(10.dp),
                 ) {
                     var currentindex by remember { mutableStateOf(0) }
@@ -55,30 +54,55 @@ class MindMapCreateTutorialDialog : DialogFragment() {
                     val pageCount = TutorialInfo.values().size
 
                     Column {
+                        Row(
+                            modifier = Modifier
+                                .padding(start = 10.dp, top = 5.dp)
+                                .clip(RoundedCornerShape(5.dp))
+                                .background(Color.LightGray),
+                        ) {
+                            Text(
+                                text = "How to use",
+                                color = Color.Black,
+                                style = MaterialTheme.typography.caption,
+                                modifier = Modifier.padding(horizontal = 5.dp),
+                            )
+                        }
+
                         // Title
                         Text(
                             text = currentInfo.title,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 15.dp),
+                                .padding(top = 10.dp, bottom = 15.dp),
                             textAlign = TextAlign.Center,
                             color = Color.White,
                             style = MaterialTheme.typography.h5,
                         )
 
+                        Divider(
+                            color = Color.LightGray,
+                            modifier = Modifier.padding(horizontal = 10.dp)
+                        )
+
                         // Video and Description
                         Row(
-                            modifier = Modifier.padding(10.dp),
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .fillMaxWidth()
+                                .height(310.dp),
                         ) {
                             VideoPlayer(currentInfo.rawResId)
                             Column(
-                                modifier = Modifier.padding(10.dp),
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .fillMaxHeight(),
                                 horizontalAlignment = CenterHorizontally,
                                 verticalArrangement = Arrangement.Center,
                             ) {
                                 Text(
                                     text = currentInfo.description,
                                     color = Color.LightGray,
+                                    textAlign = TextAlign.Center,
                                     style = MaterialTheme.typography.body1,
                                     modifier = Modifier
                                         .padding(horizontal = 5.dp)
@@ -87,7 +111,12 @@ class MindMapCreateTutorialDialog : DialogFragment() {
                             }
                         }
 
-                        Spacer(modifier = Modifier.height(20.dp))
+                        Divider(
+                            color = Color.LightGray,
+                            modifier = Modifier.padding(horizontal = 10.dp)
+                        )
+
+                        Spacer(modifier = Modifier.height(25.dp))
 
                         // Next or Start button
                         Row(
@@ -126,7 +155,7 @@ class MindMapCreateTutorialDialog : DialogFragment() {
                             }
                         }
 
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(15.dp))
                     }
                 }
             }
@@ -136,13 +165,15 @@ class MindMapCreateTutorialDialog : DialogFragment() {
     @Composable
     fun VideoPlayer(rawResId: Int) {
         // Declaring ExoPlayer
-        val exoPlayer = createPlayer(LocalContext.current, rawResId)
+        var exoPlayer: ExoPlayer
 
         // Implementing ExoPlayer
         AndroidView(
             factory = {
                 PlayerView(it).apply {
                     player?.release()
+                    player = null
+                    exoPlayer = createPlayer(it, rawResId)
                     player = exoPlayer
                     useController = false
                     fitsSystemWindows = true
@@ -151,13 +182,14 @@ class MindMapCreateTutorialDialog : DialogFragment() {
             update = {
                 // Declaring ExoPlayer
                 it.player?.release()
-                val exoplayer = createPlayer(it.context, rawResId)
-                it.player = exoplayer
+                it.player = null
+                exoPlayer = createPlayer(it.context, rawResId)
+                it.player = exoPlayer
             },
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .width(150.dp)
-                .heightIn(max = 320.dp),
+                .heightIn(max = 310.dp),
         )
     }
 

@@ -4,8 +4,8 @@ import com.jp_funda.todomind.R
 
 enum class TutorialInfo(val rawResId: Int, val title: String, val description: String) {
     MOVE_NODE(
-        rawResId = R.raw.drag_and_drop,
-        title = "Move Node",
+        rawResId = R.raw.move_the_node,
+        title = "Move the Node",
         description = "Drag & Drop a node to move it.",
     ),
     EDIT_OR_ADD(
