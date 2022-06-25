@@ -11,7 +11,7 @@ sealed class BottomBarMenuItem(
     @DrawableRes
     val iconRes: Int,
 ) {
-    object Home: BottomBarMenuItem(
+    object Top: BottomBarMenuItem(
         route = NavigationRoutes.Top,
         titleRes = R.string.top,
         iconRes = R.drawable.ic_top_24dp,
