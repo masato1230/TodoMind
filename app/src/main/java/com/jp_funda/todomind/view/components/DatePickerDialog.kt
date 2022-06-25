@@ -24,10 +24,10 @@ fun DatePickerDialog(
     val colorTheme = DatePickerDefaults.colors(
         headerBackgroundColor = colorResource(R.color.aqua),
         headerTextColor = Color.White,
-        activeBackgroundColor = Color.White,
-        inactiveBackgroundColor = Color.Black,
-        activeTextColor = Color.Black,
-        inactiveTextColor = Color.White,
+        dateActiveBackgroundColor = Color.White,
+        dateInactiveBackgroundColor = Color.Black,
+        dateActiveTextColor = Color.Black,
+        dateInactiveTextColor = Color.White,
     )
 
     MaterialDialog(
