@@ -18,7 +18,7 @@ fun BannerAd(
         modifier = modifier.fillMaxWidth(),
         factory = { context ->
             val adView = AdView(context)
-            adView.adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, width)
+            adView.setAdSize(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, width))
             adView.adUnitId = BuildConfig.topBannerUnitId
             adView.loadAd(AdRequest.Builder().build())
             return@AndroidView adView
