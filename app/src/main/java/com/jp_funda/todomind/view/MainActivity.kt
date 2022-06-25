@@ -15,6 +15,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
@@ -50,6 +51,11 @@ class MainActivity : AppCompatActivity() {
 
         // Google Ad mob
         MobileAds.initialize(this@MainActivity)
+        MobileAds.setRequestConfiguration(
+            RequestConfiguration.Builder()
+                .setTestDeviceIds(listOf("64AFF500F888621E71FEFCF52C544C6B"))
+                .build()
+        )
 
         setContent {
             Surface(

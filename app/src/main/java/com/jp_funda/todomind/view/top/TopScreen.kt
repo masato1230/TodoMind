@@ -145,7 +145,6 @@ fun TopContent(mainViewModel: MainViewModel) {
                 })
 
             // Advertisement
-            // TODO delete val width = (resources.displayMetrics.widthPixels / resources.displayMetrics.density).roundToInt()
             BannerAd(
                 width = LocalConfiguration.current.screenWidthDp,
                 modifier = Modifier.heightIn(min = 60.dp),
