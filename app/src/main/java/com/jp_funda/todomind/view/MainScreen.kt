@@ -18,6 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.navigation.BottomBarMenuItem
+import com.jp_funda.todomind.navigation.BottomNavGraph
 import com.jp_funda.todomind.navigation.NavigationRoutes
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -32,7 +33,7 @@ fun MainScreen() {
             BottomBar(navController = navController)
         }
     }) {
-        
+        BottomNavGraph(navController, bottomBarState)
     }
 }
 
@@ -73,7 +74,7 @@ fun RowScope.AddItem(
                 contentDescription = "navigation icon",
             )
         },
-        selected = currentDestination?.hierarchy?.any{ it.route == menuItem.route } == true,
+        selected = currentDestination?.hierarchy?.any { it.route == menuItem.route } == true,
         onClick = {
             if (navController.currentDestination?.route != menuItem.route) {
                 navController.navigate(menuItem.route) { popUpTo(NavigationRoutes.Top) }
