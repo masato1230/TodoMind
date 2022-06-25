@@ -1,7 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.TodoMind" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:statusBarColor">@color/deep_purple</item>
+        <item name="android:navigationBarColor">@color/deep_purple</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/teal_200</item>
         <item name="colorPrimaryVariant">@color/deep_purple</item>
