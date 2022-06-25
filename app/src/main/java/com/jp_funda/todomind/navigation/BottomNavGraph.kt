@@ -1,28 +1,39 @@
 package com.jp_funda.todomind.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.jp_funda.todomind.view.MainViewModel
+import com.jp_funda.todomind.view.top.TopScreen
 
+@ExperimentalMaterialApi
+@ExperimentalPagerApi
 @ExperimentalAnimationApi
 @Composable
 fun BottomNavGraph(
+    modifier: Modifier = Modifier,
     navController: NavHostController,
     bottomBarState: MutableState<Boolean>,
 ) {
+    val mainViewModel = hiltViewModel<MainViewModel>()
+
     AnimatedNavHost(
         navController = navController,
-        startDestination = NavigationRoutes.Top
+        startDestination = NavigationRoutes.Top,
+        modifier = modifier,
     ) {
-        /** Home Screen. */
+        /** Top Screen. */
         composable(route = BottomBarMenuItem.Top.route) {
             bottomBarState.value = true
-            // TODO
-            Text(text = BottomBarMenuItem.Top.route)
+            TopScreen(mainViewModel = mainViewModel)
         }
 
         /** Task Screen. */
