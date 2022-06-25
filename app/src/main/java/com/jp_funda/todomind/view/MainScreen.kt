@@ -100,6 +100,6 @@ fun RowScope.AddItem(
             }
         },
         selectedContentColor = colorResource(id = R.color.teal_200),
-        unselectedContentColor = Color.DarkGray,
+        unselectedContentColor = Color.LightGray,
     )
 }
