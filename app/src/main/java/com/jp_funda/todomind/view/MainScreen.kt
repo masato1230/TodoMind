@@ -1,13 +1,14 @@
 package com.jp_funda.todomind.view
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -18,12 +19,14 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.navigation.BottomBarMenuItem
 import com.jp_funda.todomind.navigation.BottomNavGraph
 import com.jp_funda.todomind.navigation.NavigationRoutes
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@ExperimentalPagerApi
+@ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
 fun MainScreen() {
@@ -38,7 +41,11 @@ fun MainScreen() {
         },
         backgroundColor = colorResource(id = R.color.deep_purple),
     ) {
-        BottomNavGraph(navController, bottomBarState)
+        BottomNavGraph(
+            modifier = Modifier.padding(it),
+            navController = navController,
+            bottomBarState = bottomBarState,
+        )
     }
 }
 
