@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view.task_detail
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,6 +29,7 @@ import javax.inject.Inject
  * ViewModel for task editing or addTask
  * use setEditingTask() to switch to EditingMode
  */
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @HiltViewModel

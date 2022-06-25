@@ -1,6 +1,7 @@
 package com.jp_funda.todomind.view.components
 
 import android.content.res.Resources
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
@@ -17,6 +18,7 @@ import com.jp_funda.todomind.data.getSizeOffsetForDrawLine
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable

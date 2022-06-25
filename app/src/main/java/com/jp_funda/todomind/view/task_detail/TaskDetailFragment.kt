@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -28,6 +29,7 @@ import com.jp_funda.todomind.view.mind_map_create.Location
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @AndroidEntryPoint
