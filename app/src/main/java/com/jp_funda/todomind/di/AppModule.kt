@@ -1,6 +1,7 @@
 package com.jp_funda.todomind.di
 
 import android.content.Context
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepository
@@ -15,6 +16,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Module

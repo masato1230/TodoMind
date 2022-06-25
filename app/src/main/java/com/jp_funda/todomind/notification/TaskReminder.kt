@@ -9,6 +9,7 @@ import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -30,6 +31,7 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.math.abs
 
+@ExperimentalAnimationApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint

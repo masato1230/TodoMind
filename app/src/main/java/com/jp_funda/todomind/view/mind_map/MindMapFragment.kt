@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.heightIn
@@ -35,6 +36,7 @@ import com.jp_funda.todomind.view.components.RecentMindMapSection
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @AndroidEntryPoint

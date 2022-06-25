@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.view
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.ViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -15,6 +16,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 
+@ExperimentalAnimationApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @HiltViewModel

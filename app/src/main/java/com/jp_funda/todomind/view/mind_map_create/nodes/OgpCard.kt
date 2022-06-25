@@ -2,6 +2,7 @@ package com.jp_funda.todomind.view.mind_map_create.nodes
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -26,6 +27,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import kotlin.math.roundToInt
 
+@ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable

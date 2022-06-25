@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -27,6 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
 
+@ExperimentalAnimationApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
