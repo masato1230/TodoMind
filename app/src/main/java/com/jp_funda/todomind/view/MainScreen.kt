@@ -8,9 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -28,11 +30,14 @@ fun MainScreen() {
     val navController = rememberAnimatedNavController()
     val bottomBarState = remember { mutableStateOf(true) }
 
-    Scaffold(bottomBar = {
-        if (bottomBarState.value) {
-            BottomBar(navController = navController)
-        }
-    }) {
+    Scaffold(
+        bottomBar = {
+            if (bottomBarState.value) {
+                BottomBar(navController = navController)
+            }
+        },
+        backgroundColor = colorResource(id = R.color.deep_purple),
+    ) {
         BottomNavGraph(navController, bottomBarState)
     }
 }
@@ -67,7 +72,14 @@ fun RowScope.AddItem(
     navController: NavController,
 ) {
     BottomNavigationItem(
-        label = { Text(text = stringResource(id = menuItem.titleRes)) },
+        label = {
+            Text(
+                text = stringResource(id = menuItem.titleRes),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontSize = MaterialTheme.typography.caption.fontSize * 0.8,
+            )
+        },
         icon = {
             Icon(
                 painter = painterResource(id = menuItem.iconRes),
@@ -79,6 +91,8 @@ fun RowScope.AddItem(
             if (navController.currentDestination?.route != menuItem.route) {
                 navController.navigate(menuItem.route) { popUpTo(NavigationRoutes.Top) }
             }
-        }
+        },
+        selectedContentColor = colorResource(id = R.color.teal_200),
+        unselectedContentColor = Color.Black,
     )
 }
