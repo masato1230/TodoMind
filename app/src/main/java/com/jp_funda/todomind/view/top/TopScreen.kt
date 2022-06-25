@@ -31,6 +31,15 @@ import kotlinx.coroutines.launch
 @ExperimentalPagerApi
 @Composable
 fun TopScreen(mainViewModel: MainViewModel) {
+    val taskViewModel = hiltViewModel<TaskViewModel>()
+    val topViewModel = hiltViewModel<TopViewModel>()
+
+    LaunchedEffect(Unit) {
+        // Load data
+        taskViewModel.refreshTaskListData()
+        topViewModel.getMostRecentlyUpdatedMindMap()
+    }
+
     NewTaskFAB(
         topBar = {
             TopAppBar(
