@@ -86,7 +86,7 @@ fun TaskDetailScreen(
         },
         backgroundColor = colorResource(id = R.color.deep_purple),
     ) {
-        TaskDetailContent(mainViewModel)
+        TaskDetailContent(navController, mainViewModel)
     }
 }
 
@@ -94,14 +94,17 @@ fun TaskDetailScreen(
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
-fun TaskDetailContent(mainViewModel: MainViewModel) {
+fun TaskDetailContent(
+    navController: NavController,
+    mainViewModel: MainViewModel,
+) {
     val taskDetailViewModel = hiltViewModel<TaskDetailViewModel>()
 
     Column {
         TaskEditContent(
             taskEditableViewModel = taskDetailViewModel,
             mainViewModel = mainViewModel,
-        ) { /* todo findNavController().popBackStack() */ }
+        ) { navController.popBackStack() }
 
         Spacer(modifier = Modifier.weight(1f))
 
