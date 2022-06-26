@@ -2,7 +2,6 @@ package com.jp_funda.todomind.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -14,6 +13,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.mind_map.MindMapScreen
 import com.jp_funda.todomind.view.record.RecordScreen
+import com.jp_funda.todomind.view.settings.SettingsScreen
 import com.jp_funda.todomind.view.task.TaskScreen
 import com.jp_funda.todomind.view.top.TopScreen
 
@@ -60,8 +60,7 @@ fun BottomNavGraph(
         /** Settings Screen. */
         composable(route = BottomBarMenuItem.Settings.route) {
             bottomBarState.value = true
-            // TODO
-            Text(text = BottomBarMenuItem.Settings.route)
+            SettingsScreen()
         }
     }
 }
