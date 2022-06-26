@@ -39,7 +39,11 @@ fun BottomNavGraph(
         modifier = modifier,
     ) {
         /** Top Screen. */
-        composable(route = NavigationRoutes.Top) {
+        composable(
+            route = NavigationRoutes.Top,
+            popEnterTransition = { getRightSlideInTransaction() },
+            popExitTransition = { getRightSlideOutTransaction() },
+        ) {
             bottomBarState.value = true
             TopScreen(
                 navController = navController,
@@ -48,7 +52,11 @@ fun BottomNavGraph(
         }
 
         /** Task Screen. */
-        composable(route = NavigationRoutes.Task) {
+        composable(
+            route = NavigationRoutes.Task,
+            popEnterTransition = { getRightSlideInTransaction() },
+            popExitTransition = { getRightSlideOutTransaction() },
+        ) {
             bottomBarState.value = true
             TaskScreen(
                 navController = navController,
