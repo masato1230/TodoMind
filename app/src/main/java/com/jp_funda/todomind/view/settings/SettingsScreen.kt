@@ -106,7 +106,7 @@ fun SettingsContent(navController: NavController) {
             SettingRowWithNext(
                 icon = Icons.Default.List,
                 title = "Open source licenses"
-            ) { /* todo findNavController().navigate(R.id.action_navigation_settings_to_navigation_oss_licenses) */ }
+            ) { navController.navigate(NavigationRoutes.OssLicenses) }
 
             Divider(color = colorResource(id = R.color.white_1))
 

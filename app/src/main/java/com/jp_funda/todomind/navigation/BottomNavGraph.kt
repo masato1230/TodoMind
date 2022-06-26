@@ -19,6 +19,7 @@ import com.jp_funda.todomind.view.mind_map.MindMapScreen
 import com.jp_funda.todomind.view.record.RecordScreen
 import com.jp_funda.todomind.view.settings.SettingsScreen
 import com.jp_funda.todomind.view.settings.mind_map_scale.MindMapScaleScreen
+import com.jp_funda.todomind.view.settings.oss_licenses.OssLicensesScreen
 import com.jp_funda.todomind.view.task.TaskScreen
 import com.jp_funda.todomind.view.task_detail.TaskDetailScreen
 import com.jp_funda.todomind.view.top.TopScreen
@@ -102,7 +103,7 @@ fun BottomNavGraph(
             )
         }
 
-        // Screens - Setttings
+        // Screens - Settings
         /** MindMapScale Screen. */
         composable(
             route = NavigationRoutes.MindMapScale,
@@ -113,6 +114,18 @@ fun BottomNavGraph(
         ) {
             bottomBarState.value = false
             MindMapScaleScreen(navController = navController)
+        }
+
+        /** OssLicenses Screen. */
+        composable(
+            route = NavigationRoutes.OssLicenses,
+            enterTransition = { getLeftSlideInTransaction() },
+            exitTransition = { getLeftSlideOutTransaction() },
+            popEnterTransition = { getRightSlideInTransaction() },
+            popExitTransition = { getRightSlideOutTransaction() },
+        ) {
+            bottomBarState.value = false
+            OssLicensesScreen(navController = navController)
         }
     }
 }
