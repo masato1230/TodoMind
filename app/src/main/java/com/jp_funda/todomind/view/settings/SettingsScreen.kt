@@ -24,9 +24,11 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.BuildConfig
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.navigation.NavigationRoutes
 import com.jp_funda.todomind.view.intro.IntroActivity
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -34,7 +36,7 @@ import kotlin.math.roundToInt
 @ExperimentalPagerApi
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -45,13 +47,13 @@ fun SettingsScreen() {
         },
         backgroundColor = colorResource(id = R.color.deep_purple)
     ) {
-        SettingsContent()
+        SettingsContent(navController)
     }
 }
 
 @ExperimentalPagerApi
 @Composable
-fun SettingsContent() {
+fun SettingsContent(navController: NavController) {
     val context = LocalContext.current
     val viewModel = hiltViewModel<SettingsViewModel>()
 
@@ -67,14 +69,13 @@ fun SettingsContent() {
         verticalArrangement = Arrangement.spacedBy(30.dp),
     ) {
         /** Personal Settings */
-        /** Personal Settings */
         SettingsGroup(title = "Personal Settings") {
             // Mind Map Scale
             SettingRowWithNext(
                 icon = Icons.Default.LocationOn,
                 title = "Default Mind Map Scale",
                 selectedValue = "${(viewModel.defaultMindMapScale * 100).roundToInt()} %"
-            ) { /* todo findNavController().navigate(R.id.action_navigation_settings_to_navigation_mind_map_scale) */ }
+            ) { navController.navigate(NavigationRoutes.MindMapScale) }
 
             Divider(color = colorResource(id = R.color.white_1))
 
@@ -105,7 +106,7 @@ fun SettingsContent() {
             SettingRowWithNext(
                 icon = Icons.Default.List,
                 title = "Open source licenses"
-            ) { /* todo findNavController().navigate(R.id.action_navigation_settings_to_navigation_oss_licenses) */ }
+            ) { navController.navigate(NavigationRoutes.OssLicenses) }
 
             Divider(color = colorResource(id = R.color.white_1))
 

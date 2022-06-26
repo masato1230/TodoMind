@@ -18,6 +18,8 @@ import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.mind_map.MindMapScreen
 import com.jp_funda.todomind.view.record.RecordScreen
 import com.jp_funda.todomind.view.settings.SettingsScreen
+import com.jp_funda.todomind.view.settings.mind_map_scale.MindMapScaleScreen
+import com.jp_funda.todomind.view.settings.oss_licenses.OssLicensesScreen
 import com.jp_funda.todomind.view.task.TaskScreen
 import com.jp_funda.todomind.view.task_detail.TaskDetailScreen
 import com.jp_funda.todomind.view.top.TopScreen
@@ -77,9 +79,13 @@ fun BottomNavGraph(
         }
 
         /** Settings Screen. */
-        composable(route = NavigationRoutes.Settings) {
+        composable(
+            route = NavigationRoutes.Settings,
+            popEnterTransition = { getRightSlideInTransaction() },
+            popExitTransition = { getRightSlideOutTransaction() },
+        ) {
             bottomBarState.value = true
-            SettingsScreen()
+            SettingsScreen(navController = navController)
         }
 
         /** TaskDetail Screen. */
@@ -95,6 +101,31 @@ fun BottomNavGraph(
                 navController = navController,
                 mainViewModel = mainViewModel,
             )
+        }
+
+        // Screens - Settings
+        /** MindMapScale Screen. */
+        composable(
+            route = NavigationRoutes.MindMapScale,
+            enterTransition = { getLeftSlideInTransaction() },
+            exitTransition = { getLeftSlideOutTransaction() },
+            popEnterTransition = { getRightSlideInTransaction() },
+            popExitTransition = { getRightSlideOutTransaction() },
+        ) {
+            bottomBarState.value = false
+            MindMapScaleScreen(navController = navController)
+        }
+
+        /** OssLicenses Screen. */
+        composable(
+            route = NavigationRoutes.OssLicenses,
+            enterTransition = { getLeftSlideInTransaction() },
+            exitTransition = { getLeftSlideOutTransaction() },
+            popEnterTransition = { getRightSlideInTransaction() },
+            popExitTransition = { getRightSlideOutTransaction() },
+        ) {
+            bottomBarState.value = false
+            OssLicensesScreen(navController = navController)
         }
     }
 }
