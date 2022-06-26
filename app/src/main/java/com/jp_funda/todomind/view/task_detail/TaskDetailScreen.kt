@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.MainViewModel
@@ -28,7 +29,10 @@ import com.jp_funda.todomind.view.mind_map_create.Location
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
-fun TaskDetailScreen(mainViewModel: MainViewModel) {
+fun TaskDetailScreen(
+    navController: NavController,
+    mainViewModel: MainViewModel,
+) {
     val taskDetailViewModel = hiltViewModel<TaskDetailViewModel>()
 
     LaunchedEffect(Unit) {
@@ -44,7 +48,7 @@ fun TaskDetailScreen(mainViewModel: MainViewModel) {
                 title = { Text(text = if (taskDetailViewModel.isEditing) "Task Detail" else "New Task") },
                 backgroundColor = colorResource(id = R.color.deep_purple),
                 contentColor = Color.White,
-                navigationIcon = { BackNavigationIcon() },
+                navigationIcon = { BackNavigationIcon(navController) },
                 actions = {
                     taskDetailViewModel.task.value?.mindMap?.let {
                         val onClick = {

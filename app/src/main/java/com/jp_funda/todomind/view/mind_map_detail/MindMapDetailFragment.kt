@@ -110,7 +110,7 @@ class MindMapDetailFragment : Fragment() {
                             title = { Text(text = if (mindMapDetailViewModel.isEditing) "Mind Map Detail" else "New Mind Map") },
                             backgroundColor = colorResource(id = R.color.deep_purple),
                             contentColor = Color.White,
-                            navigationIcon = { BackNavigationIcon() },
+//                            navigationIcon = { BackNavigationIcon() },
                             actions = {
                                 IconButton(onClick = {
                                     findNavController().popBackStack()

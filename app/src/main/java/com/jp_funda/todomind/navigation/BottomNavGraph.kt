@@ -37,7 +37,10 @@ fun BottomNavGraph(
         /** Top Screen. */
         composable(route = NavigationRoutes.Top) {
             bottomBarState.value = true
-            TopScreen(mainViewModel = mainViewModel)
+            TopScreen(
+                navController = navController,
+                mainViewModel = mainViewModel,
+            )
         }
 
         /** Task Screen. */
@@ -67,7 +70,10 @@ fun BottomNavGraph(
         /** TaskDetail Screen. */
         composable(route = NavigationRoutes.TaskDetail) {
             bottomBarState.value = false
-            TaskDetailScreen(mainViewModel = mainViewModel)
+            TaskDetailScreen(
+                navController = navController,
+                mainViewModel = mainViewModel,
+            )
         }
     }
 }

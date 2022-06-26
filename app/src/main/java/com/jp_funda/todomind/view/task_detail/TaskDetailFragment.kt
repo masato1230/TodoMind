@@ -22,7 +22,6 @@ import androidx.navigation.findNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.MainViewModel
-import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.TaskEditContent
 import com.jp_funda.todomind.view.mind_map_create.Location
@@ -60,7 +59,7 @@ class TaskDetailFragment : Fragment() {
                             title = { Text(text = if (taskDetailViewModel.isEditing) "Task Detail" else "New Task") },
                             backgroundColor = colorResource(id = R.color.deep_purple),
                             contentColor = Color.White,
-                            navigationIcon = { BackNavigationIcon() },
+//                            navigationIcon = { BackNavigationIcon() },
                             actions = {
                                 taskDetailViewModel.task.value?.mindMap?.let {
                                     val onClick = {

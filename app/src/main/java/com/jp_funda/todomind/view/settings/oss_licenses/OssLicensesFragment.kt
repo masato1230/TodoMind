@@ -16,7 +16,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.Fragment
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.view.components.BackNavigationIcon
 
 class OssLicensesFragment : Fragment() {
     override fun onCreateView(
@@ -35,7 +34,7 @@ class OssLicensesFragment : Fragment() {
                             title = { Text(text = "OSS licenses") },
                             backgroundColor = colorResource(id = R.color.deep_purple),
                             contentColor = Color.White,
-                            navigationIcon = { BackNavigationIcon() },
+//                            navigationIcon = { BackNavigationIcon() },
                         )
                     },
                     backgroundColor = colorResource(id = R.color.deep_purple)

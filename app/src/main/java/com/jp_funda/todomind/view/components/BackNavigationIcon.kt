@@ -5,12 +5,10 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalView
-import androidx.navigation.findNavController
+import androidx.navigation.NavController
 
 @Composable
-fun BackNavigationIcon() {
-    val navController = LocalView.current.findNavController()
+fun BackNavigationIcon(navController: NavController) {
     IconButton(onClick = { navController.popBackStack() }) {
         Icon(
             imageVector = Icons.Default.ArrowBack,
