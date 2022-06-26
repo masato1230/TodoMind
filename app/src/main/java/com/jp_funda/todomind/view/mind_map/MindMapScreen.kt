@@ -20,9 +20,11 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.navigation.NavigationRoutes
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.MindMapCard
@@ -33,7 +35,10 @@ import com.jp_funda.todomind.view.components.RecentMindMapSection
 @ExperimentalAnimationApi
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MindMapScreen(mainViewModel: MainViewModel) {
+fun MindMapScreen(
+    navController: NavController,
+    mainViewModel: MainViewModel,
+) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -44,7 +49,7 @@ fun MindMapScreen(mainViewModel: MainViewModel) {
         },
         backgroundColor = colorResource(id = R.color.deep_purple),
     ) {
-        MindMapContent(mainViewModel)
+        MindMapContent(navController, mainViewModel)
     }
 }
 
@@ -52,7 +57,10 @@ fun MindMapScreen(mainViewModel: MainViewModel) {
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
 @Composable
-fun MindMapContent(mainViewModel: MainViewModel) {
+fun MindMapContent(
+    navController: NavController,
+    mainViewModel: MainViewModel,
+) {
     val mindMapViewModel = hiltViewModel<MindMapViewModel>()
 
     LaunchedEffect(Unit) {
@@ -81,10 +89,10 @@ fun MindMapContent(mainViewModel: MainViewModel) {
                 mindMap = yetCompletedMindMaps.firstOrNull(),
                 onRecentMindMapClick = {
                     mainViewModel.editingMindMap = yetCompletedMindMaps.firstOrNull()
-                    // todo findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+                    navController.navigate(NavigationRoutes.MindMapDetail)
                 },
                 onNewMindMapClick = {
-                    // todo findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+                    navController.navigate(NavigationRoutes.MindMapDetail)
                 }
             )
 
@@ -95,7 +103,11 @@ fun MindMapContent(mainViewModel: MainViewModel) {
                 color = Color.White,
                 style = MaterialTheme.typography.h6,
             )
-            MindMapsRow(yetCompletedMindMaps, mainViewModel)
+            MindMapsRow(
+                navController = navController,
+                mindMaps = yetCompletedMindMaps,
+                mainViewModel = mainViewModel,
+            )
 
             // Completed Section
             if (completedMindMaps.isNotEmpty()) {
@@ -105,7 +117,11 @@ fun MindMapContent(mainViewModel: MainViewModel) {
                     color = Color.White,
                     style = MaterialTheme.typography.h6,
                 )
-                MindMapsRow(completedMindMaps, mainViewModel)
+                MindMapsRow(
+                    navController = navController,
+                    mindMaps = completedMindMaps,
+                    mainViewModel = mainViewModel,
+                )
             }
         }
     }
@@ -115,14 +131,18 @@ fun MindMapContent(mainViewModel: MainViewModel) {
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
 @Composable
-fun MindMapsRow(mindMaps: List<MindMap>, mainViewModel: MainViewModel) {
+fun MindMapsRow(
+    navController: NavController,
+    mindMaps: List<MindMap>,
+    mainViewModel: MainViewModel,
+) {
     LazyRow(modifier = Modifier.padding(bottom = 20.dp)) {
         items(items = mindMaps) { mindMap ->
             MindMapCard(
                 mindMap = mindMap,
                 onClick = {
                     mainViewModel.editingMindMap = mindMap
-                    // todo findNavController().navigate(R.id.action_navigation_mind_map_to_navigation_mind_map_detail)
+                    navController.navigate(NavigationRoutes.MindMapDetail)
                 })
         }
     }

@@ -68,9 +68,16 @@ fun BottomNavGraph(
         }
 
         /** MindMap Screen. */
-        composable(route = NavigationRoutes.MindMap) {
+        composable(
+            route = NavigationRoutes.MindMap,
+            popEnterTransition = { getRightSlideInTransaction() },
+            popExitTransition = { getRightSlideOutTransaction() },
+        ) {
             bottomBarState.value = true
-            MindMapScreen(mainViewModel = mainViewModel)
+            MindMapScreen(
+                navController = navController,
+                mainViewModel = mainViewModel,
+            )
         }
 
         /** Record Screen. */
