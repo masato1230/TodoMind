@@ -13,6 +13,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.mind_map.MindMapScreen
+import com.jp_funda.todomind.view.record.RecordScreen
 import com.jp_funda.todomind.view.task.TaskScreen
 import com.jp_funda.todomind.view.top.TopScreen
 
@@ -53,8 +54,7 @@ fun BottomNavGraph(
         /** Record Screen. */
         composable(route = BottomBarMenuItem.Record.route) {
             bottomBarState.value = true
-            // TODO
-            Text(text = BottomBarMenuItem.Record.route)
+            RecordScreen()
         }
 
         /** Settings Screen. */
