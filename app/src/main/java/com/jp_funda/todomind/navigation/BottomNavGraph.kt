@@ -112,6 +112,7 @@ fun BottomNavGraph(
         }
 
         // Screens - MindMap
+        /** MindMapDetail Screen. */
         composable(
             route = NavigationRoutes.MindMapDetail,
             enterTransition = { getLeftSlideInTransaction() },

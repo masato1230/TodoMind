@@ -38,6 +38,7 @@ import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.getSize
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.extension.getProgressRate
+import com.jp_funda.todomind.navigation.NavigationRoutes
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
@@ -135,7 +136,7 @@ fun MindMapDetailScreen(
             )
         }
 
-        MindMapDetailContent(mainViewModel)
+        MindMapDetailContent(navController, mainViewModel)
     }
 }
 
@@ -143,7 +144,10 @@ fun MindMapDetailScreen(
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
 @Composable
-fun MindMapDetailContent(mainViewModel: MainViewModel) {
+fun MindMapDetailContent(
+    navController: NavController,
+    mainViewModel: MainViewModel,
+) {
     val taskViewModel = hiltViewModel<TaskViewModel>()
     val mindMapDetailViewModel = hiltViewModel<MindMapDetailViewModel>()
 
@@ -203,7 +207,7 @@ fun MindMapDetailContent(mainViewModel: MainViewModel) {
                 },
                 onRowClick = { task ->
                     mainViewModel.editingTask = task
-                    // todo findNavController().navigate(R.id.action_navigation_mind_map_detail_to_navigation_task_detail)
+                    navController.navigate(NavigationRoutes.TaskDetail)
                 }
             ) {
                 Column(modifier = Modifier.padding(horizontal = 20.dp)) {
