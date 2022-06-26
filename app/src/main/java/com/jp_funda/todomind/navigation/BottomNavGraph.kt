@@ -10,6 +10,10 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.jp_funda.todomind.extension.getLeftSlideInTransaction
+import com.jp_funda.todomind.extension.getLeftSlideOutTransaction
+import com.jp_funda.todomind.extension.getRightSlideInTransaction
+import com.jp_funda.todomind.extension.getRightSlideOutTransaction
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.mind_map.MindMapScreen
 import com.jp_funda.todomind.view.record.RecordScreen
@@ -71,7 +75,13 @@ fun BottomNavGraph(
         }
 
         /** TaskDetail Screen. */
-        composable(route = NavigationRoutes.TaskDetail) {
+        composable(
+            route = NavigationRoutes.TaskDetail,
+            enterTransition = { getLeftSlideInTransaction() },
+            exitTransition = { getLeftSlideOutTransaction() },
+            popEnterTransition = { getRightSlideInTransaction() },
+            popExitTransition = { getRightSlideOutTransaction() },
+        ) {
             bottomBarState.value = false
             TaskDetailScreen(
                 navController = navController,

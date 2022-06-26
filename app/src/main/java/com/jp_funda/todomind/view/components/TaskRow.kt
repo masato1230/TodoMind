@@ -47,6 +47,7 @@ fun TaskRow(
                         R.color.crimson
                     )
                 )
+                mindMapLabel.visibility = View.VISIBLE
                 mindMapLabel.text = mindmap.title
                 mindMapLabel.setTextColor(
                     mindmap.color ?: ContextCompat.getColor(
@@ -54,7 +55,10 @@ fun TaskRow(
                         R.color.crimson
                     )
                 )
-            } ?: run { mindMapIcon.visibility = View.GONE }
+            } ?: run {
+                mindMapIcon.visibility = View.GONE
+                mindMapLabel.visibility = View.GONE
+            }
 
             // Settings : common to all statuses
             title.text = task.title
