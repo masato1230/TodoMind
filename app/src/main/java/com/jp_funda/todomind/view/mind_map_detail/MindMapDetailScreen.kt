@@ -45,6 +45,7 @@ import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -78,6 +79,7 @@ fun MindMapDetailScreen(
         taskViewModel.refreshTaskListData()
 
         // Set up Thumbnail - set scale and Load task data for drawing mindMap thumbnail
+        delay(1000) // todo delete
         mainViewModel.editingMindMap?.let {
             mindMapThumbnailViewModel.mindMap = it
             mindMapThumbnailViewModel.setScale(0.05f)
