@@ -81,6 +81,15 @@ fun MindMapDetailScreen(
         }
     }
 
+    DisposableEffect(key1 = mindMapDetailViewModel) {
+        onDispose {
+            if (mindMapDetailViewModel.isAutoSaveNeeded) {
+                mindMapDetailViewModel.saveMindMapAndClearDisposables()
+            }
+            mainViewModel.editingMindMap = null
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
