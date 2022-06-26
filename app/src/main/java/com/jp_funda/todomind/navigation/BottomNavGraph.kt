@@ -18,6 +18,7 @@ import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.mind_map.MindMapScreen
 import com.jp_funda.todomind.view.record.RecordScreen
 import com.jp_funda.todomind.view.settings.SettingsScreen
+import com.jp_funda.todomind.view.settings.mind_map_scale.MindMapScaleScreen
 import com.jp_funda.todomind.view.task.TaskScreen
 import com.jp_funda.todomind.view.task_detail.TaskDetailScreen
 import com.jp_funda.todomind.view.top.TopScreen
@@ -77,7 +78,11 @@ fun BottomNavGraph(
         }
 
         /** Settings Screen. */
-        composable(route = NavigationRoutes.Settings) {
+        composable(
+            route = NavigationRoutes.Settings,
+            popEnterTransition = { getRightSlideInTransaction() },
+            popExitTransition = { getRightSlideOutTransaction() },
+        ) {
             bottomBarState.value = true
             SettingsScreen()
         }
@@ -95,6 +100,19 @@ fun BottomNavGraph(
                 navController = navController,
                 mainViewModel = mainViewModel,
             )
+        }
+
+        // Screens - Setttings
+        /** MindMapScale Screen. */
+        composable(
+            route = NavigationRoutes.MindMapScale,
+            enterTransition = { getLeftSlideInTransaction() },
+            exitTransition = { getLeftSlideOutTransaction() },
+            popEnterTransition = { getRightSlideInTransaction() },
+            popExitTransition = { getRightSlideOutTransaction() },
+        ) {
+            bottomBarState.value = false
+            MindMapScaleScreen(navController = navController)
         }
     }
 }
