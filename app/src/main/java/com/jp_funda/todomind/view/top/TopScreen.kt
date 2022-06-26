@@ -26,6 +26,7 @@ import com.jp_funda.todomind.navigation.NavigationRoutes
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @ExperimentalAnimationApi
@@ -42,6 +43,7 @@ fun TopScreen(
     LaunchedEffect(Unit) {
         // Load data
         taskViewModel.refreshTaskListData()
+        delay(1000) // todo delete
         topViewModel.getMostRecentlyUpdatedMindMap()
     }
 

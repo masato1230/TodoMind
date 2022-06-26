@@ -27,8 +27,10 @@ import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.navigation.NavigationRoutes
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BannerAd
+import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.components.MindMapCard
 import com.jp_funda.todomind.view.components.RecentMindMapSection
+import kotlinx.coroutines.delay
 
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
@@ -64,6 +66,7 @@ fun MindMapContent(
     val mindMapViewModel = hiltViewModel<MindMapViewModel>()
 
     LaunchedEffect(Unit) {
+        delay(1000) // todo delete
         mindMapViewModel.refreshMindMapListData()
     }
 
@@ -124,7 +127,7 @@ fun MindMapContent(
                 )
             }
         }
-    }
+    } ?: LoadingView()
 }
 
 @ExperimentalMaterialApi
