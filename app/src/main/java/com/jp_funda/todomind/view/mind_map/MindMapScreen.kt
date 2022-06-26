@@ -95,6 +95,7 @@ fun MindMapContent(
                     navController.navigate(NavigationRoutes.MindMapDetail)
                 },
                 onNewMindMapClick = {
+                    mainViewModel.editingMindMap = null
                     navController.navigate(NavigationRoutes.MindMapDetail)
                 }
             )

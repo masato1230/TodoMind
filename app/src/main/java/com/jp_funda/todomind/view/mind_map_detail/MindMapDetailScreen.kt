@@ -92,7 +92,6 @@ fun MindMapDetailScreen(
             if (mindMapDetailViewModel.isAutoSaveNeeded) {
                 mindMapDetailViewModel.saveMindMapAndClearDisposables()
             }
-            mainViewModel.editingMindMap = null
         }
     }
 
