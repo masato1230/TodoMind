@@ -84,7 +84,7 @@ fun BottomNavGraph(
             popExitTransition = { getRightSlideOutTransaction() },
         ) {
             bottomBarState.value = true
-            SettingsScreen()
+            SettingsScreen(navController = navController)
         }
 
         /** TaskDetail Screen. */
