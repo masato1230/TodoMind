@@ -15,12 +15,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.extension.getActivity
+import com.jp_funda.todomind.navigation.NavigationRoutes
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
@@ -30,7 +32,10 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
-fun TopScreen(mainViewModel: MainViewModel) {
+fun TopScreen(
+    navController: NavController,
+    mainViewModel: MainViewModel,
+) {
     val taskViewModel = hiltViewModel<TaskViewModel>()
     val topViewModel = hiltViewModel<TopViewModel>()
 
@@ -55,8 +60,8 @@ fun TopScreen(mainViewModel: MainViewModel) {
                 }
             )
         },
-        onClick = { /* todo navigate to detail screen */ }) {
-        TopContent(mainViewModel)
+        onClick = { navController.navigate(NavigationRoutes.TaskDetail) }) {
+        TopContent(navController, mainViewModel)
     }
 }
 
@@ -64,7 +69,10 @@ fun TopScreen(mainViewModel: MainViewModel) {
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
-fun TopContent(mainViewModel: MainViewModel) {
+fun TopContent(
+    navController: NavController,
+    mainViewModel: MainViewModel,
+) {
     val topViewModel = hiltViewModel<TopViewModel>()
     val taskViewModel = hiltViewModel<TaskViewModel>()
 
@@ -128,7 +136,7 @@ fun TopContent(mainViewModel: MainViewModel) {
             },
             onRowClick = { task ->
                 mainViewModel.editingTask = task
-                // TODO findNavController().navigate(R.id.action_navigation_top_to_navigation_task_detail)
+                navController.navigate(NavigationRoutes.TaskDetail)
             },
             isScrollToTopAtLaunch = true,
         ) {

@@ -43,7 +43,7 @@ class MindMapScaleFragment : Fragment() {
                             title = { Text(text = "Default Mind Map Scale") },
                             backgroundColor = colorResource(id = R.color.deep_purple),
                             contentColor = Color.White,
-                            navigationIcon = { BackNavigationIcon() },
+//                            navigationIcon = { BackNavigationIcon() },
                         )
                     },
                     backgroundColor = colorResource(id = R.color.deep_purple)
