@@ -7,4 +7,6 @@ object NavigationRoutes {
     const val MindMap = "mind map"
     const val Record = "record"
     const val Settings = "settings"
+    // Other
+    const val TaskDetail = "task detail"
 }

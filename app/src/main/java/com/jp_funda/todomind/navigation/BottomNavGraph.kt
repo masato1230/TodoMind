@@ -15,6 +15,7 @@ import com.jp_funda.todomind.view.mind_map.MindMapScreen
 import com.jp_funda.todomind.view.record.RecordScreen
 import com.jp_funda.todomind.view.settings.SettingsScreen
 import com.jp_funda.todomind.view.task.TaskScreen
+import com.jp_funda.todomind.view.task_detail.TaskDetailScreen
 import com.jp_funda.todomind.view.top.TopScreen
 
 @ExperimentalMaterialApi
@@ -34,33 +35,39 @@ fun BottomNavGraph(
         modifier = modifier,
     ) {
         /** Top Screen. */
-        composable(route = BottomBarMenuItem.Top.route) {
+        composable(route = NavigationRoutes.Top) {
             bottomBarState.value = true
             TopScreen(mainViewModel = mainViewModel)
         }
 
         /** Task Screen. */
-        composable(route = BottomBarMenuItem.Task.route) {
+        composable(route = NavigationRoutes.Task) {
             bottomBarState.value = true
             TaskScreen(mainViewModel = mainViewModel)
         }
 
         /** MindMap Screen. */
-        composable(route = BottomBarMenuItem.MindMap.route) {
+        composable(route = NavigationRoutes.MindMap) {
             bottomBarState.value = true
             MindMapScreen(mainViewModel = mainViewModel)
         }
 
         /** Record Screen. */
-        composable(route = BottomBarMenuItem.Record.route) {
+        composable(route = NavigationRoutes.Record) {
             bottomBarState.value = true
             RecordScreen()
         }
 
         /** Settings Screen. */
-        composable(route = BottomBarMenuItem.Settings.route) {
+        composable(route = NavigationRoutes.Settings) {
             bottomBarState.value = true
             SettingsScreen()
+        }
+
+        /** TaskDetail Screen. */
+        composable(route = NavigationRoutes.TaskDetail) {
+            bottomBarState.value = false
+            TaskDetailScreen(mainViewModel = mainViewModel)
         }
     }
 }
