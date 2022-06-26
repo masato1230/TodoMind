@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -60,6 +61,7 @@ fun MindMapDetailScreen(
     val mindMapDetailViewModel = hiltViewModel<MindMapDetailViewModel>()
     val mindMapThumbnailViewModel = hiltViewModel<MindMapCreateViewModel>()
     val taskViewModel = hiltViewModel<TaskViewModel>()
+    val isShowConfirmDeleteDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         // Check whether to edit or create new mind map by mainViewModel editingMindMap
@@ -108,7 +110,7 @@ fun MindMapDetailScreen(
                     }
                     IconButton(onClick = {
                         // show dialog
-                        // todo findNavController().navigate(R.id.action_navigation_mind_map_detail_to_navigation_confirm_mind_map_delete)
+                        isShowConfirmDeleteDialog.value = true
                     }) {
                         Icon(
                             imageVector = Icons.Default.Delete,
@@ -120,6 +122,19 @@ fun MindMapDetailScreen(
         },
         backgroundColor = colorResource(id = R.color.deep_purple)
     ) {
+        // Confirm Dialog for Deleting mind map
+        if (isShowConfirmDeleteDialog.value) {
+            ConfirmDialog(
+                title = stringResource(id = R.string.question_confirm_delete),
+                message = stringResource(id = R.string.notify_tasks_delete),
+                isShowDialog = isShowConfirmDeleteDialog,
+                isShowNegativeButton = true,
+                onClickPositive = {
+                    mindMapDetailViewModel.deleteMindMapAndClearDisposables { navController.popBackStack() }
+                },
+            )
+        }
+
         MindMapDetailContent(mainViewModel)
     }
 }
