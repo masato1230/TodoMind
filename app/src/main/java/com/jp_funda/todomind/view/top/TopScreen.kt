@@ -146,10 +146,10 @@ fun TopContent(
                 mindMap = mostRecentlyUpdatedMindMap,
                 onRecentMindMapClick = {
                     mainViewModel.editingMindMap = mostRecentlyUpdatedMindMap
-                    // TODO findNavController().navigate(R.id.action_navigation_top_to_navigation_mind_map_detail)
+                    navController.navigate(NavigationRoutes.MindMapDetail)
                 },
                 onNewMindMapClick = {
-                    // TODO findNavController().navigate(R.id.action_navigation_top_to_navigation_mind_map_detail)
+                    navController.navigate(NavigationRoutes.MindMapDetail)
                 })
 
             // Advertisement

@@ -58,6 +58,7 @@ fun MindMapDetailScreen(
 ) {
     val context = LocalContext.current
     val mindMapDetailViewModel = hiltViewModel<MindMapDetailViewModel>()
+    val mindMapThumbnailViewModel = hiltViewModel<MindMapCreateViewModel>()
     val taskViewModel = hiltViewModel<TaskViewModel>()
 
     LaunchedEffect(Unit) {
@@ -71,6 +72,13 @@ fun MindMapDetailScreen(
 
         // Refresh TaskList
         taskViewModel.refreshTaskListData()
+
+        // Set up Thumbnail - set scale and Load task data for drawing mindMap thumbnail
+        mainViewModel.editingMindMap?.let {
+            mindMapThumbnailViewModel.mindMap = it
+            mindMapThumbnailViewModel.setScale(0.05f)
+            mindMapThumbnailViewModel.refreshView()
+        }
     }
 
     Scaffold(
