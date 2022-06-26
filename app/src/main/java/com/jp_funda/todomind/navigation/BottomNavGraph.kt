@@ -16,6 +16,7 @@ import com.jp_funda.todomind.extension.getRightSlideInTransaction
 import com.jp_funda.todomind.extension.getRightSlideOutTransaction
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.mind_map.MindMapScreen
+import com.jp_funda.todomind.view.mind_map_detail.MindMapDetailScreen
 import com.jp_funda.todomind.view.record.RecordScreen
 import com.jp_funda.todomind.view.settings.SettingsScreen
 import com.jp_funda.todomind.view.settings.mind_map_scale.MindMapScaleScreen
@@ -67,9 +68,16 @@ fun BottomNavGraph(
         }
 
         /** MindMap Screen. */
-        composable(route = NavigationRoutes.MindMap) {
+        composable(
+            route = NavigationRoutes.MindMap,
+            popEnterTransition = { getRightSlideInTransaction() },
+            popExitTransition = { getRightSlideOutTransaction() },
+        ) {
             bottomBarState.value = true
-            MindMapScreen(mainViewModel = mainViewModel)
+            MindMapScreen(
+                navController = navController,
+                mainViewModel = mainViewModel,
+            )
         }
 
         /** Record Screen. */
@@ -101,6 +109,19 @@ fun BottomNavGraph(
                 navController = navController,
                 mainViewModel = mainViewModel,
             )
+        }
+
+        // Screens - MindMap
+        /** MindMapDetail Screen. */
+        composable(
+            route = NavigationRoutes.MindMapDetail,
+            enterTransition = { getLeftSlideInTransaction() },
+            exitTransition = { getLeftSlideOutTransaction() },
+            popEnterTransition = { getRightSlideInTransaction() },
+            popExitTransition = { getRightSlideOutTransaction() },
+        ) {
+            bottomBarState.value = false
+            MindMapDetailScreen(navController = navController, mainViewModel = mainViewModel)
         }
 
         // Screens - Settings

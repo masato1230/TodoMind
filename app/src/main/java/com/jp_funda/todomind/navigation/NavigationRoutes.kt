@@ -9,6 +9,8 @@ object NavigationRoutes {
     const val Settings = "settings"
     // Other
     const val TaskDetail = "task detail"
+    // MindMap
+    const val MindMapDetail = "mind map detail"
     // Settings
     const val MindMapScale = "mind map scale"
     const val OssLicenses = "oss licenses"
