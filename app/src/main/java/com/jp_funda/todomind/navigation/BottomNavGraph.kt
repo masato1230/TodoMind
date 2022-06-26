@@ -46,7 +46,10 @@ fun BottomNavGraph(
         /** Task Screen. */
         composable(route = NavigationRoutes.Task) {
             bottomBarState.value = true
-            TaskScreen(mainViewModel = mainViewModel)
+            TaskScreen(
+                navController = navController,
+                mainViewModel = mainViewModel,
+            )
         }
 
         /** MindMap Screen. */

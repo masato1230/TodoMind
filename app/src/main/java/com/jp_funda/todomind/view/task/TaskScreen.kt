@@ -11,9 +11,11 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.navigation.NavigationRoutes
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
@@ -23,7 +25,10 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
-fun TaskScreen(mainViewModel: MainViewModel) {
+fun TaskScreen(
+    navController: NavController,
+    mainViewModel: MainViewModel,
+) {
     val taskViewModel = hiltViewModel<TaskViewModel>()
 
     LaunchedEffect(Unit) {
@@ -38,10 +43,9 @@ fun TaskScreen(mainViewModel: MainViewModel) {
                 contentColor = Color.White,
             )
         },
-        onClick = {
-            // todo NavHostFragment.findNavController(this@TaskFragment).navigate(R.id.action_navigation_task_to_navigation_task_detail)
-        }) {
-        TaskContent(mainViewModel)
+        onClick = { navController.navigate(NavigationRoutes.TaskDetail) }
+    ) {
+        TaskContent(navController, mainViewModel)
     }
 }
 
@@ -49,7 +53,10 @@ fun TaskScreen(mainViewModel: MainViewModel) {
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
-fun TaskContent(mainViewModel: MainViewModel) {
+fun TaskContent(
+    navController: NavController,
+    mainViewModel: MainViewModel,
+) {
     val taskViewModel = hiltViewModel<TaskViewModel>()
 
     val observedTasks by taskViewModel.taskList.observeAsState()
@@ -105,7 +112,7 @@ fun TaskContent(mainViewModel: MainViewModel) {
                 },
                 onRowClick = { task ->
                     mainViewModel.editingTask = task
-                    // todo findNavController().navigate(R.id.action_navigation_task_to_navigation_task_detail)
+                    navController.navigate(NavigationRoutes.TaskDetail)
                 }
             ) {
                 // Advertisement
