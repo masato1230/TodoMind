@@ -213,7 +213,7 @@ fun MindMapDetailContent(
                 }
             ) {
                 Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-                    MindMapDetailTopContent(mainViewModel)
+                    MindMapDetailTopContent(navController, mainViewModel)
                 }
             }
         }
@@ -238,7 +238,10 @@ fun MindMapDetailContent(
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
 @Composable
-fun MindMapDetailTopContent(mainViewModel: MainViewModel) {
+fun MindMapDetailTopContent(
+    navController: NavController,
+    mainViewModel: MainViewModel,
+) {
     val context = LocalContext.current
     val mindMapDetailViewModel = hiltViewModel<MindMapDetailViewModel>()
 
@@ -289,7 +292,7 @@ fun MindMapDetailTopContent(mainViewModel: MainViewModel) {
         )
 
         /** Thumbnail Section */
-        ThumbnailSection(mainViewModel)
+        ThumbnailSection(navController, mainViewModel)
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -312,7 +315,7 @@ fun MindMapDetailTopContent(mainViewModel: MainViewModel) {
                 text = "Mind Map",
                 leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_mind_map)
             ) {
-                /* todo navigateToMindMapCreate() */
+                navigateToMindMapCreate(navController, mainViewModel, mindMapDetailViewModel)
             }
         }
 
@@ -426,8 +429,12 @@ fun MindMapDetailTopContent(mainViewModel: MainViewModel) {
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
 @Composable
-fun ThumbnailSection(mainViewModel: MainViewModel) {
+fun ThumbnailSection(
+    navController: NavController,
+    mainViewModel: MainViewModel,
+) {
     val context = LocalContext.current
+    val mindMapDetailViewModel = hiltViewModel<MindMapDetailViewModel>()
     val mindMapThumbnailViewModel = hiltViewModel<MindMapCreateViewModel>()
 
     if (mainViewModel.editingMindMap != null) {
@@ -447,7 +454,13 @@ fun ThumbnailSection(mainViewModel: MainViewModel) {
                             it.width.toFloat() / context.resources.getDimensionPixelSize(R.dimen.map_view_width)
                         mindMapThumbnailViewModel.setScale(scale)
                     }
-                    .clickable { /* todo navigateToMindMapCreate() */ }) {
+                    .clickable {
+                        navigateToMindMapCreate(
+                            navController,
+                            mainViewModel,
+                            mindMapDetailViewModel,
+                        )
+                    }) {
                     LineContent(
                         mindMapCreateViewModel = mindMapThumbnailViewModel,
                         resources = context.resources,
@@ -455,8 +468,20 @@ fun ThumbnailSection(mainViewModel: MainViewModel) {
                     MindMapCreateContent(
                         modifier = Modifier.fillMaxSize(),
                         mindMapCreateViewModel = mindMapThumbnailViewModel,
-                        onClickMindMapNode = { /* todo navigateToMindMapCreate() */ },
-                        onClickTaskNode = { /* todo navigateToMindMapCreate() */ },
+                        onClickMindMapNode = {
+                            navigateToMindMapCreate(
+                                navController,
+                                mainViewModel,
+                                mindMapDetailViewModel,
+                            )
+                        },
+                        onClickTaskNode = {
+                            navigateToMindMapCreate(
+                                navController,
+                                mainViewModel,
+                                mindMapDetailViewModel,
+                            )
+                        },
                     )
                 }
             }
@@ -468,7 +493,13 @@ fun ThumbnailSection(mainViewModel: MainViewModel) {
                 .background(Color.Black)
                 .height(200.dp)
                 .fillMaxWidth()
-                .clickable { /* todo navigateToMindMapCreate() */ },
+                .clickable {
+                    navigateToMindMapCreate(
+                        navController,
+                        mainViewModel,
+                        mindMapDetailViewModel,
+                    )
+                },
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
@@ -553,4 +584,16 @@ fun RoundedProgressBar(
                 .height(height)
         )
     }
+}
+
+@ExperimentalMaterialApi
+@ExperimentalPagerApi
+@ExperimentalAnimationApi
+private fun navigateToMindMapCreate(
+    navController: NavController,
+    mainViewModel: MainViewModel,
+    mindMapDetailViewModel: MindMapDetailViewModel,
+) {
+    mainViewModel.editingMindMap = mindMapDetailViewModel.mindMap.value
+    navController.navigate(NavigationRoutes.MindMapCreate)
 }
