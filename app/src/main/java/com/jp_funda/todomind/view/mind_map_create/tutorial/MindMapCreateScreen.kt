@@ -25,6 +25,7 @@ import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
+import com.jp_funda.todomind.view.components.LineContent
 import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.mind_map_create.MapView
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
@@ -86,6 +87,7 @@ fun MindMapCreateContent(
         factory = { mapView },
     )
 
+    // Node Graph
     mapView.composeView.setContent {
         NodeGraph(
             modifier = Modifier.fillMaxSize(),
@@ -101,6 +103,9 @@ fun MindMapCreateContent(
             }
         )
     }
+
+    // Line View
+    mapView.lineComposeView.setContent { LineView() }
 }
 
 @ExperimentalPagerApi
@@ -139,4 +144,15 @@ fun NodeGraph(
             }
         }
     }
+}
+
+@ExperimentalPagerApi
+@ExperimentalMaterialApi
+@ExperimentalAnimationApi
+@Composable
+fun LineView() {
+    val context = LocalContext.current
+    val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
+
+    LineContent(mindMapCreateViewModel = mindMapCreateViewModel, resources = context.resources)
 }
