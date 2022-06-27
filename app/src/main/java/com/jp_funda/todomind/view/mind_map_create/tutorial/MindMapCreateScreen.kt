@@ -2,19 +2,21 @@ package com.jp_funda.todomind.view.mind_map_create.tutorial
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -49,7 +51,8 @@ fun MindMapCreateScreen(
         mindMapCreateViewModel.refreshView()
     }
     // TODO Zoom buttons
-    // TODO Update Count observer
+    // TODO InitializeScroll
+    // TODO Show tutorial dialog at first time
 
     val isLoading = mindMapCreateViewModel.isLoading.observeAsState()
 
@@ -86,6 +89,8 @@ fun MindMapCreateContent(
     AndroidView(
         factory = { mapView },
     )
+
+    ZoomButtonsOverlay()
 
     // Node Graph
     mapView.composeView.setContent {
@@ -133,13 +138,34 @@ fun NodeGraph(
             // draw all tasks in mindMap
             for (task in mindMapCreateViewModel.tasks) {
                 when (task.styleEnum) {
-                    NodeStyle.HEADLINE_1 -> H1(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
-                    NodeStyle.HEADLINE_2 -> H2(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
-                    NodeStyle.HEADLINE_3 -> H3(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
-                    NodeStyle.HEADLINE_4 -> H4(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
-                    NodeStyle.BODY_1 -> Body1(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
-                    NodeStyle.BODY_2 -> Body2(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
-                    NodeStyle.LINK -> Link(task = task, viewModel = mindMapCreateViewModel) { onClickTaskNode(task) }
+                    NodeStyle.HEADLINE_1 -> H1(
+                        task = task,
+                        viewModel = mindMapCreateViewModel
+                    ) { onClickTaskNode(task) }
+                    NodeStyle.HEADLINE_2 -> H2(
+                        task = task,
+                        viewModel = mindMapCreateViewModel
+                    ) { onClickTaskNode(task) }
+                    NodeStyle.HEADLINE_3 -> H3(
+                        task = task,
+                        viewModel = mindMapCreateViewModel
+                    ) { onClickTaskNode(task) }
+                    NodeStyle.HEADLINE_4 -> H4(
+                        task = task,
+                        viewModel = mindMapCreateViewModel
+                    ) { onClickTaskNode(task) }
+                    NodeStyle.BODY_1 -> Body1(
+                        task = task,
+                        viewModel = mindMapCreateViewModel
+                    ) { onClickTaskNode(task) }
+                    NodeStyle.BODY_2 -> Body2(
+                        task = task,
+                        viewModel = mindMapCreateViewModel
+                    ) { onClickTaskNode(task) }
+                    NodeStyle.LINK -> Link(
+                        task = task,
+                        viewModel = mindMapCreateViewModel
+                    ) { onClickTaskNode(task) }
                 }
             }
         }
@@ -155,4 +181,39 @@ fun LineView() {
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
 
     LineContent(mindMapCreateViewModel = mindMapCreateViewModel, resources = context.resources)
+}
+
+@Composable
+fun ZoomButtonsOverlay() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomEnd,
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(10.dp)
+                .clip(RoundedCornerShape(50.dp))
+                .background(Color.White.copy(alpha = 0.1f)),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            IconButton(
+                onClick = { /*TODO*/ }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_zoom_24dp),
+                    contentDescription = "Zoom in",
+                    tint = Color.LightGray,
+                )
+            }
+            Box(modifier = Modifier.height(50.dp), contentAlignment = Alignment.Center) {
+                Text(text = "100%", color = Color.LightGray)
+            }
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_zoom_out_24dp),
+                    contentDescription = "Zoom out",
+                    tint = Color.LightGray,
+                )
+            }
+        }
+    }
 }
