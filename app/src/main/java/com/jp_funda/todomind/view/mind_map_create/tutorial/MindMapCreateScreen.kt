@@ -23,6 +23,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
+import com.jp_funda.todomind.data.getSize
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.view.MainViewModel
@@ -52,7 +53,6 @@ fun MindMapCreateScreen(
         // Load task data and refresh view
         mindMapCreateViewModel.refreshView()
     }
-    // TODO Zoom buttons
     // TODO InitializeScroll
     // TODO Show tutorial dialog at first time
 
@@ -88,6 +88,10 @@ fun MindMapCreateContent(
     val context = LocalContext.current
     val mapView = MapView(context)
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
+
+    LaunchedEffect(Unit) {
+        scrollToMindMapNode(mapView, mindMapCreateViewModel.mindMap, mindMapCreateViewModel)
+    }
 
     val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
     observedUpdateCount.value?.let {
@@ -245,5 +249,29 @@ fun ZoomButtonsOverlay(mapView: MapView) {
                 )
             }
         }
+    }
+}
+
+@ExperimentalPagerApi
+@ExperimentalMaterialApi
+@ExperimentalAnimationApi
+private fun scrollToMindMapNode(
+    mapView: MapView,
+    mindMap: MindMap,
+    mindMapCreateViewModel: MindMapCreateViewModel,
+) {
+    val context = mapView.context
+
+    val screenWidth = context.resources.displayMetrics.widthPixels
+    val scrollX = ((mindMap.x) ?: 0f) * mindMapCreateViewModel.getScale() -
+            screenWidth / 2 + NodeStyle.HEADLINE_1.getSize().width * mindMapCreateViewModel.getScale()
+    val screenHeight = context.resources.displayMetrics.heightPixels
+    val scrollY = ((mindMap.y) ?: 0f) * mindMapCreateViewModel.getScale() -
+            screenHeight / 2 + NodeStyle.HEADLINE_1.getSize().height * mindMapCreateViewModel.getScale()
+    mapView.horizontalScrollView.post {
+        mapView.horizontalScrollView.smoothScrollTo(scrollX.roundToInt(), 0)
+    }
+    mapView.scrollView.post {
+        mapView.scrollView.smoothScrollTo(0, scrollY.roundToInt())
     }
 }
