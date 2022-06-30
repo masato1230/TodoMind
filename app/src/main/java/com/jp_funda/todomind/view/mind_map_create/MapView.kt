@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -130,6 +131,7 @@ class MapView @JvmOverloads constructor(
      * Adjust scrollPosition and indicator size corresponding with scale change
      */
     fun onScaleChange(newScale: Float) {
+        Log.d("onScaleChange", newScale.toString())
         // Auto scrolling
         horizontalScrollView.scrollTo(
             ((horizontalScrollView.scrollX.toFloat() + screenWidth.toFloat() / 2) / scale * newScale - screenWidth.toFloat() / 2).roundToInt(),
@@ -139,7 +141,6 @@ class MapView @JvmOverloads constructor(
             0,
             ((scrollView.scrollY.toFloat() + screenHeight.toFloat() / 2) / scale * newScale - screenHeight.toFloat() / 2).roundToInt()
         )
-
         // Adjust views width & height
         val newMapViewHeight = (mapViewOriginalHeight * newScale).roundToInt()
         val newMapViewWidth = (mapViewOriginalWidth * newScale).roundToInt()

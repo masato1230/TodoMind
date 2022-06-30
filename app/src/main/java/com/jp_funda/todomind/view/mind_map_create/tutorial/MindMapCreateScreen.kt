@@ -32,6 +32,8 @@ import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.mind_map_create.MapView
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_create.nodes.*
+import kotlin.math.min
+import kotlin.math.roundToInt
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalPagerApi
@@ -85,12 +87,15 @@ fun MindMapCreateContent(
 ) {
     val context = LocalContext.current
     val mapView = MapView(context)
+    val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
 
-    AndroidView(
-        factory = { mapView },
-    )
+    val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
+    observedUpdateCount.value?.let {
+        mapView.onScaleChange(mindMapCreateViewModel.getScale())
+    }
 
-    ZoomButtonsOverlay()
+    AndroidView(factory = { mapView })
+    ZoomButtonsOverlay(mapView)
 
     // Node Graph
     mapView.composeView.setContent {
@@ -183,8 +188,22 @@ fun LineView() {
     LineContent(mindMapCreateViewModel = mindMapCreateViewModel, resources = context.resources)
 }
 
+@ExperimentalPagerApi
+@ExperimentalMaterialApi
+@ExperimentalAnimationApi
 @Composable
-fun ZoomButtonsOverlay() {
+fun ZoomButtonsOverlay(mapView: MapView) {
+    val context = LocalContext.current
+    val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
+
+    val screenWidth = context.resources.displayMetrics.widthPixels
+    val screenHeight = context.resources.displayMetrics.heightPixels
+
+    val minScale = min(
+        screenWidth.toFloat() / mapView.mapViewOriginalWidth.toFloat(),
+        screenHeight.toFloat() / mapView.mapViewOriginalHeight.toFloat()
+    )
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomEnd,
@@ -197,7 +216,9 @@ fun ZoomButtonsOverlay() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             IconButton(
-                onClick = { /*TODO*/ }) {
+                onClick = {
+                    mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().plus(0.1f))
+                }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_zoom_24dp),
                     contentDescription = "Zoom in",
@@ -205,9 +226,18 @@ fun ZoomButtonsOverlay() {
                 )
             }
             Box(modifier = Modifier.height(50.dp), contentAlignment = Alignment.Center) {
-                Text(text = "100%", color = Color.LightGray)
+                Text(
+                    text = "${(mindMapCreateViewModel.getScale() * 100).roundToInt()}%",
+                    color = Color.LightGray,
+                )
             }
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {
+                if (mindMapCreateViewModel.getScale() - 0.1 <= minScale) {
+                    mindMapCreateViewModel.setScale(minScale)
+                } else {
+                    mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().minus(0.1f))
+                }
+            }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_zoom_out_24dp),
                     contentDescription = "Zoom out",
