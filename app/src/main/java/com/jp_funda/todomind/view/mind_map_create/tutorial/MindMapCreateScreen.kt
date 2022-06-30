@@ -30,6 +30,7 @@ import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.LineContent
 import com.jp_funda.todomind.view.components.LoadingView
+import com.jp_funda.todomind.view.mind_map_create.Location
 import com.jp_funda.todomind.view.mind_map_create.MapView
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_create.nodes.*
@@ -44,6 +45,7 @@ import kotlin.math.roundToInt
 fun MindMapCreateScreen(
     navController: NavController,
     mainViewModel: MainViewModel,
+    initialLocation: Location? = null,
 ) {
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
 
@@ -53,7 +55,6 @@ fun MindMapCreateScreen(
         // Load task data and refresh view
         mindMapCreateViewModel.refreshView()
     }
-    // TODO InitializeScroll
     // TODO Show tutorial dialog at first time
 
     val isLoading = mindMapCreateViewModel.isLoading.observeAsState()
@@ -70,7 +71,7 @@ fun MindMapCreateScreen(
             },
             backgroundColor = colorResource(id = R.color.deep_purple),
         ) {
-            MindMapCreateContent(navController, mainViewModel)
+            MindMapCreateContent(navController, mainViewModel, initialLocation)
         }
     } else {
         LoadingView()
@@ -84,13 +85,19 @@ fun MindMapCreateScreen(
 fun MindMapCreateContent(
     navController: NavController,
     mainViewModel: MainViewModel,
+    initialLocation: Location?,
 ) {
     val context = LocalContext.current
     val mapView = MapView(context)
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
 
+    // Initial Scroll
     LaunchedEffect(Unit) {
-        scrollToMindMapNode(mapView, mindMapCreateViewModel.mindMap, mindMapCreateViewModel)
+        if (initialLocation == null) {
+            scrollToMindMapNode(mapView, mindMapCreateViewModel.mindMap, mindMapCreateViewModel)
+        } else {
+            scrollToLocation(mapView, initialLocation, mindMapCreateViewModel)
+        }
     }
 
     val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
@@ -268,6 +275,30 @@ private fun scrollToMindMapNode(
     val screenHeight = context.resources.displayMetrics.heightPixels
     val scrollY = ((mindMap.y) ?: 0f) * mindMapCreateViewModel.getScale() -
             screenHeight / 2 + NodeStyle.HEADLINE_1.getSize().height * mindMapCreateViewModel.getScale()
+    mapView.horizontalScrollView.post {
+        mapView.horizontalScrollView.smoothScrollTo(scrollX.roundToInt(), 0)
+    }
+    mapView.scrollView.post {
+        mapView.scrollView.smoothScrollTo(0, scrollY.roundToInt())
+    }
+}
+
+@ExperimentalPagerApi
+@ExperimentalMaterialApi
+@ExperimentalAnimationApi
+private fun scrollToLocation(
+    mapView: MapView,
+    location: Location,
+    mindMapCreateViewModel: MindMapCreateViewModel,
+) {
+    val context = mapView.context
+
+    val scale = mindMapCreateViewModel.getScale()
+    val screenWidth = context.resources.displayMetrics.widthPixels
+    val screenHeight = context.resources.displayMetrics.heightPixels
+
+    val scrollX = location.x * scale - screenWidth / 2 + 100
+    val scrollY = location.y * scale - screenHeight / 2 + 100
     mapView.horizontalScrollView.post {
         mapView.horizontalScrollView.smoothScrollTo(scrollX.roundToInt(), 0)
     }
