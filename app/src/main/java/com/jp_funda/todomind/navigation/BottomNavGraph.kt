@@ -16,6 +16,7 @@ import com.jp_funda.todomind.extension.getRightSlideInTransaction
 import com.jp_funda.todomind.extension.getRightSlideOutTransaction
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.mind_map.MindMapScreen
+import com.jp_funda.todomind.view.mind_map_create.Location
 import com.jp_funda.todomind.view.mind_map_create.tutorial.MindMapCreateScreen
 import com.jp_funda.todomind.view.mind_map_detail.MindMapDetailScreen
 import com.jp_funda.todomind.view.record.RecordScreen
@@ -133,8 +134,16 @@ fun BottomNavGraph(
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
         ) {
+            val initialLocation =
+                navController.previousBackStackEntry?.arguments?.getParcelable<Location?>(
+                    NavigationKeys.InitialLocationKey
+                )
             bottomBarState.value = false
-            MindMapCreateScreen(navController = navController, mainViewModel = mainViewModel)
+            MindMapCreateScreen(
+                navController = navController,
+                mainViewModel = mainViewModel,
+                initialLocation = initialLocation,
+            )
         }
 
         // Screens - Settings

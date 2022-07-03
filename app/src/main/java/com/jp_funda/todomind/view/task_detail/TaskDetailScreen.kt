@@ -18,6 +18,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.navigation.NavigationKeys
+import com.jp_funda.todomind.navigation.NavigationRoutes
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.BannerAd
@@ -53,13 +55,15 @@ fun TaskDetailScreen(
                     taskDetailViewModel.task.value?.mindMap?.let {
                         val onClick = {
                             mainViewModel.editingMindMap = it
-                            val action =
-                                TaskDetailFragmentDirections.actionNavigationTaskDetailToNavigationMindMapCreate()
-                            action.initialLocation = Location(
+                            val initialLocation = Location(
                                 x = taskDetailViewModel.task.value?.x ?: 0f,
                                 y = taskDetailViewModel.task.value?.y ?: 0f,
                             )
-                            // todo findNavController().navigate(action)
+                            navController.currentBackStackEntry?.arguments?.putParcelable(
+                                NavigationKeys.InitialLocationKey,
+                                initialLocation,
+                            )
+                            navController.navigate(NavigationRoutes.MindMapCreate)
                         }
                         val color = it.color?.let { color -> Color(color) }
                             ?: run { colorResource(id = R.color.crimson) }
