@@ -54,7 +54,6 @@ fun MindMapCreateScreen(
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed),
-        drawerState = DrawerState(initialValue = DrawerValue.Open),
     )
 
     LaunchedEffect(Unit) {
@@ -252,48 +251,57 @@ fun ZoomButtonsOverlay() {
         screenHeight.toFloat() / mapViewOriginalHeight.toFloat()
     )
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.BottomEnd,
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(10.dp)
-                .clip(RoundedCornerShape(50.dp))
-                .background(Color.White.copy(alpha = 0.1f)),
-            horizontalAlignment = Alignment.CenterHorizontally
+    val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
+
+    observedUpdateCount.value.run {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomEnd,
         ) {
-            IconButton(
-                onClick = {
-                    mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().plus(0.1f))
-                }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_zoom_24dp),
-                    contentDescription = "Zoom in",
-                    tint = Color.LightGray,
-                )
-            }
-            Box(modifier = Modifier.height(50.dp), contentAlignment = Alignment.Center) {
-                Text(
-                    text = "${(mindMapCreateViewModel.getScale() * 100).roundToInt()}%",
-                    color = Color.LightGray,
-                )
-            }
-            IconButton(onClick = {
-                if (mindMapCreateViewModel.getScale() - 0.1 <= minScale) {
-                    mindMapCreateViewModel.setScale(minScale)
-                } else {
-                    mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().minus(0.1f))
+            Column(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(50.dp))
+                    .background(Color.White.copy(alpha = 0.1f)),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                IconButton(
+                    onClick = {
+                        mindMapCreateViewModel.setScale(
+                            mindMapCreateViewModel.getScale().plus(0.1f)
+                        )
+                    }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_zoom_24dp),
+                        contentDescription = "Zoom in",
+                        tint = Color.LightGray,
+                    )
                 }
-            }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_zoom_out_24dp),
-                    contentDescription = "Zoom out",
-                    tint = Color.LightGray,
-                )
+                Box(modifier = Modifier.height(50.dp), contentAlignment = Alignment.Center) {
+                    Text(
+                        text = "${(mindMapCreateViewModel.getScale() * 100).roundToInt()}%",
+                        color = Color.LightGray,
+                    )
+                }
+                IconButton(onClick = {
+                    if (mindMapCreateViewModel.getScale() - 0.1 <= minScale) {
+                        mindMapCreateViewModel.setScale(minScale)
+                    } else {
+                        mindMapCreateViewModel.setScale(
+                            mindMapCreateViewModel.getScale().minus(0.1f)
+                        )
+                    }
+                }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_zoom_out_24dp),
+                        contentDescription = "Zoom out",
+                        tint = Color.LightGray,
+                    )
+                }
             }
         }
     }
+
 }
 
 @ExperimentalPagerApi
