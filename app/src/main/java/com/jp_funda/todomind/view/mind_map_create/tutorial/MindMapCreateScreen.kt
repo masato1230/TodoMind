@@ -53,7 +53,8 @@ fun MindMapCreateScreen(
 ) {
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed)
+        bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed),
+        drawerState = DrawerState(initialValue = DrawerValue.Open),
     )
 
     LaunchedEffect(Unit) {
@@ -89,6 +90,7 @@ fun MindMapCreateScreen(
                     mainViewModel = mainViewModel,
                 )
             },
+            sheetBackgroundColor = colorResource(id = R.color.deep_purple),
             floatingActionButton = {
                 ZoomButtonsOverlay()
             },
