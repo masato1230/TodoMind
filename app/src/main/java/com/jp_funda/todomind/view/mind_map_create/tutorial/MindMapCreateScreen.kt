@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +36,8 @@ import com.jp_funda.todomind.view.mind_map_create.Location
 import com.jp_funda.todomind.view.mind_map_create.MapView
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_create.nodes.*
+import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetScreen
+import kotlinx.coroutines.launch
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -49,6 +52,9 @@ fun MindMapCreateScreen(
     initialLocation: Location? = null,
 ) {
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed)
+    )
 
     LaunchedEffect(Unit) {
         // Set mind map data
@@ -61,7 +67,7 @@ fun MindMapCreateScreen(
     val isLoading = mindMapCreateViewModel.isLoading.observeAsState()
 
     if (isLoading.value == false) {
-        Scaffold(
+        BottomSheetScaffold(
             topBar = {
                 TopAppBar(
                     title = {
@@ -76,9 +82,24 @@ fun MindMapCreateScreen(
                     navigationIcon = { BackNavigationIcon(navController) },
                 )
             },
+            scaffoldState = bottomSheetScaffoldState,
+            sheetContent = {
+                MindMapOptionsSheetScreen(
+                    bottomSheetState = bottomSheetScaffoldState.bottomSheetState,
+                    mainViewModel = mainViewModel,
+                )
+            },
+            floatingActionButton = {
+                ZoomButtonsOverlay()
+            },
             backgroundColor = colorResource(id = R.color.deep_purple),
         ) {
-            MindMapCreateContent(navController, mainViewModel, initialLocation)
+            MindMapCreateContent(
+                navController,
+                mainViewModel,
+                initialLocation,
+                bottomSheetScaffoldState.bottomSheetState,
+            )
         }
     } else {
         LoadingView()
@@ -93,10 +114,12 @@ fun MindMapCreateContent(
     navController: NavController,
     mainViewModel: MainViewModel,
     initialLocation: Location?,
+    bottomSheetState: BottomSheetState,
 ) {
     val context = LocalContext.current
     val mapView = MapView(context)
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
+    val coroutineScope = rememberCoroutineScope()
 
     // Initial Scroll
     LaunchedEffect(Unit) {
@@ -113,7 +136,6 @@ fun MindMapCreateContent(
     }
 
     AndroidView(factory = { mapView })
-    ZoomButtonsOverlay(mapView)
 
     // Node Graph
     mapView.composeView.setContent {
@@ -122,12 +144,16 @@ fun MindMapCreateContent(
             onClickMindMapNode = {
                 // Reset Selected Node
                 mainViewModel.selectedNode = null
-                // todo findNavController().navigate(R.id.navigation_mind_map_options_dialog)
+                coroutineScope.launch {
+                    bottomSheetState.expand()
+                }
             },
             onClickTaskNode = { task ->
                 // Set selected Node
                 mainViewModel.selectedNode = task
-                // todo findNavController().navigate(R.id.navigation_mind_map_options_dialog)
+                coroutineScope.launch {
+                    bottomSheetState.expand()
+                }
             }
         )
     }
@@ -210,16 +236,18 @@ fun LineView() {
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
-fun ZoomButtonsOverlay(mapView: MapView) {
+fun ZoomButtonsOverlay() {
     val context = LocalContext.current
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
 
     val screenWidth = context.resources.displayMetrics.widthPixels
     val screenHeight = context.resources.displayMetrics.heightPixels
+    val mapViewOriginalHeight = context.resources.getDimensionPixelSize(R.dimen.map_view_height)
+    val mapViewOriginalWidth = context.resources.getDimensionPixelSize(R.dimen.map_view_width)
 
     val minScale = min(
-        screenWidth.toFloat() / mapView.mapViewOriginalWidth.toFloat(),
-        screenHeight.toFloat() / mapView.mapViewOriginalHeight.toFloat()
+        screenWidth.toFloat() / mapViewOriginalWidth.toFloat(),
+        screenHeight.toFloat() / mapViewOriginalHeight.toFloat()
     )
 
     Box(
