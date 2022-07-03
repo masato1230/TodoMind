@@ -16,6 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.MindMapOptionsTabRow
 import com.jp_funda.todomind.view.components.TaskEditContent
+import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
@@ -35,6 +37,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MindMapOptionsSheetScreen(bottomSheetState: BottomSheetState, mainViewModel: MainViewModel) {
     val addChildViewModel = hiltViewModel<AddChildViewModel>()
+    val sheetViewModel = hiltViewModel<MindMapOptionsViewModel>()
 
     LaunchedEffect(Unit) {
         // Set mind map to addChildViewModel
@@ -45,7 +48,15 @@ fun MindMapOptionsSheetScreen(bottomSheetState: BottomSheetState, mainViewModel:
         addChildViewModel.setStatus(TaskStatus.Open)
     }
 
-    MindMapOptionsSheetContent(bottomSheetState = bottomSheetState, mainViewModel = mainViewModel)
+    val observedNode = sheetViewModel.selectedNode.observeAsState()
+    observedNode.value.run {
+        setUpAddingChildNode(this, mainViewModel, addChildViewModel)
+
+        MindMapOptionsSheetContent(
+            bottomSheetState = bottomSheetState,
+            mainViewModel = mainViewModel,
+        )
+    }
 }
 
 @ExperimentalMaterialApi
@@ -56,15 +67,19 @@ fun MindMapOptionsSheetContent(bottomSheetState: BottomSheetState, mainViewModel
     val sheetViewModel = hiltViewModel<MindMapOptionsViewModel>()
     val addChildViewModel = hiltViewModel<AddChildViewModel>()
     val editTaskViewModel = hiltViewModel<EditTaskViewModel>()
+    val mindMapCreteViewModel = hiltViewModel<MindMapCreateViewModel>()
 
     val coroutineScope = rememberCoroutineScope()
+    val sheetHeight = LocalConfiguration.current.screenHeightDp * 0.7
 
     val observedMode = sheetViewModel.selectedMode.observeAsState()
+
     observedMode.value?.let { selectedMode ->
         Column(
             modifier = Modifier
                 .padding(bottom = 20.dp)
                 .background(colorResource(id = R.color.deep_purple))
+                .height(sheetHeight.dp)
         ) {
             // When taskNode is Selected
             if (mainViewModel.selectedNode != null) {
@@ -90,6 +105,7 @@ fun MindMapOptionsSheetContent(bottomSheetState: BottomSheetState, mainViewModel
                         taskEditableViewModel = editTaskViewModel,
                         mainViewModel = null,
                     ) {
+                        mindMapCreteViewModel.refreshView()
                         coroutineScope.launch { bottomSheetState.collapse() }
                     }
                 }
@@ -107,7 +123,7 @@ fun MindMapOptionsSheetContent(bottomSheetState: BottomSheetState, mainViewModel
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_mind_map),
-                                contentDescription = "Edit"
+                                contentDescription = "Add child"
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
@@ -121,6 +137,7 @@ fun MindMapOptionsSheetContent(bottomSheetState: BottomSheetState, mainViewModel
                     taskEditableViewModel = addChildViewModel,
                     mainViewModel = null,
                 ) {
+                    mindMapCreteViewModel.refreshView()
                     coroutineScope.launch { bottomSheetState.collapse() }
                 }
             }
@@ -141,6 +158,7 @@ fun MindMapOptionsSheetContent(bottomSheetState: BottomSheetState, mainViewModel
                     taskEditableViewModel = addChildViewModel,
                     mainViewModel = null,
                 ) {
+                    mindMapCreteViewModel.refreshView()
                     coroutineScope.launch { bottomSheetState.collapse() }
                 }
             }

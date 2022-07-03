@@ -37,6 +37,7 @@ import com.jp_funda.todomind.view.mind_map_create.MapView
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_create.nodes.*
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetScreen
+import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsViewModel
 import kotlinx.coroutines.launch
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -89,6 +90,7 @@ fun MindMapCreateScreen(
                     mainViewModel = mainViewModel,
                 )
             },
+            sheetPeekHeight = 0.dp,
             sheetBackgroundColor = colorResource(id = R.color.deep_purple),
             floatingActionButton = {
                 ZoomButtonsOverlay()
@@ -96,7 +98,6 @@ fun MindMapCreateScreen(
             backgroundColor = colorResource(id = R.color.deep_purple),
         ) {
             MindMapCreateContent(
-                navController,
                 mainViewModel,
                 initialLocation,
                 bottomSheetScaffoldState.bottomSheetState,
@@ -112,7 +113,6 @@ fun MindMapCreateScreen(
 @ExperimentalPagerApi
 @Composable
 fun MindMapCreateContent(
-    navController: NavController,
     mainViewModel: MainViewModel,
     initialLocation: Location?,
     bottomSheetState: BottomSheetState,
@@ -120,6 +120,7 @@ fun MindMapCreateContent(
     val context = LocalContext.current
     val mapView = MapView(context)
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
+    val sheetViewModel = hiltViewModel<MindMapOptionsViewModel>()
     val coroutineScope = rememberCoroutineScope()
 
     // Initial Scroll
@@ -145,6 +146,7 @@ fun MindMapCreateContent(
             onClickMindMapNode = {
                 // Reset Selected Node
                 mainViewModel.selectedNode = null
+                sheetViewModel.setNode(null)
                 coroutineScope.launch {
                     bottomSheetState.expand()
                 }
@@ -152,6 +154,7 @@ fun MindMapCreateContent(
             onClickTaskNode = { task ->
                 // Set selected Node
                 mainViewModel.selectedNode = task
+                sheetViewModel.setNode(task)
                 coroutineScope.launch {
                     bottomSheetState.expand()
                 }
