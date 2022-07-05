@@ -40,7 +40,8 @@ fun MindMapOptionsSheetScreen(bottomSheetState: BottomSheetState, mainViewModel:
     val sheetViewModel = hiltViewModel<MindMapOptionsSheetViewModel>()
 
     LaunchedEffect(bottomSheetState.isCollapsed) {
-        
+        // Set Sheet Mode as Edit
+        sheetViewModel.setMode(MindMapOptionsMode.EDIT_TASK)
         // Set mind map to addChildViewModel
         mainViewModel.editingMindMap?.let { addChildViewModel.setMindMap(it) }
         // Set parentTask to addChildViewModel
