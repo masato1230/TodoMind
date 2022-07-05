@@ -126,13 +126,12 @@ open class TaskEditableViewModel @Inject constructor(
             if (!isEditing) {
                 taskRepository.createTask(_task.value!!)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                    }, {
-                        Throwable("Error")
-                    })
+                    .doOnSuccess { clearData() }
+                    .subscribe()
             } else {
                 taskRepository.updateTask(_task.value!!)
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSuccess { clearData() }
                     .subscribe()
             }
         )
@@ -143,7 +142,11 @@ open class TaskEditableViewModel @Inject constructor(
             disposables.add(
                 taskRepository.deleteTask(task)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ onSuccess() }, {})
+                    .doOnSuccess {
+                        clearData()
+                        onSuccess()
+                    }
+                    .subscribe()
             )
         } else {
             onSuccess()
@@ -212,6 +215,11 @@ open class TaskEditableViewModel @Inject constructor(
                 .doFinally { _isLoading.value = false }
                 .subscribe()
         }
+    }
+
+    /** Clear editing/adding task data. */
+    private fun clearData() {
+        _task.value = Task()
     }
 
     override fun onCleared() {

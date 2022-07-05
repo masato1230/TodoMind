@@ -37,7 +37,7 @@ import com.jp_funda.todomind.view.mind_map_create.MapView
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_create.nodes.*
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetScreen
-import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsViewModel
+import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetViewModel
 import kotlinx.coroutines.launch
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -120,7 +120,7 @@ fun MindMapCreateContent(
     val context = LocalContext.current
     val mapView = MapView(context)
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
-    val sheetViewModel = hiltViewModel<MindMapOptionsViewModel>()
+    val sheetViewModel = hiltViewModel<MindMapOptionsSheetViewModel>()
     val coroutineScope = rememberCoroutineScope()
 
     // Initial Scroll

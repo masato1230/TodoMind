@@ -37,21 +37,22 @@ import kotlinx.coroutines.launch
 @Composable
 fun MindMapOptionsSheetScreen(bottomSheetState: BottomSheetState, mainViewModel: MainViewModel) {
     val addChildViewModel = hiltViewModel<AddChildViewModel>()
-    val sheetViewModel = hiltViewModel<MindMapOptionsViewModel>()
+    val sheetViewModel = hiltViewModel<MindMapOptionsSheetViewModel>()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(bottomSheetState.isCollapsed) {
+        
         // Set mind map to addChildViewModel
         mainViewModel.editingMindMap?.let { addChildViewModel.setMindMap(it) }
         // Set parentTask to addChildViewModel
-        mainViewModel.selectedNode?.let { addChildViewModel.initializeParentTask(it) }
+        sheetViewModel.selectedNode.value?.let { addChildViewModel.initializeParentTask(it) }
+        // Set up node at addChildViewModel
+        setUpAddingChildNode(sheetViewModel.selectedNode.value, mainViewModel, addChildViewModel)
         // Set addChildViewModel's new task status as open
         addChildViewModel.setStatus(TaskStatus.Open)
     }
 
     val observedNode = sheetViewModel.selectedNode.observeAsState()
     observedNode.value.run {
-        setUpAddingChildNode(this, mainViewModel, addChildViewModel)
-
         MindMapOptionsSheetContent(
             bottomSheetState = bottomSheetState,
             mainViewModel = mainViewModel,
@@ -64,7 +65,7 @@ fun MindMapOptionsSheetScreen(bottomSheetState: BottomSheetState, mainViewModel:
 @ExperimentalAnimationApi
 @Composable
 fun MindMapOptionsSheetContent(bottomSheetState: BottomSheetState, mainViewModel: MainViewModel) {
-    val sheetViewModel = hiltViewModel<MindMapOptionsViewModel>()
+    val sheetViewModel = hiltViewModel<MindMapOptionsSheetViewModel>()
     val addChildViewModel = hiltViewModel<AddChildViewModel>()
     val editTaskViewModel = hiltViewModel<EditTaskViewModel>()
     val mindMapCreteViewModel = hiltViewModel<MindMapCreateViewModel>()
