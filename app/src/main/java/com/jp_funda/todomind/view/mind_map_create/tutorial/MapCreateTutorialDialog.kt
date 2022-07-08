@@ -30,118 +30,120 @@ import com.jp_funda.todomind.R
 
 @Composable
 fun MapCreateTutorialDialog(isShowDialog: MutableState<Boolean>) {
-    Dialog(onDismissRequest = { isShowDialog.value = false }) {
-        Surface(
-            color = colorResource(id = R.color.light_purple),
-            shape = RoundedCornerShape(10.dp),
-        ) {
-            var currentindex by remember { mutableStateOf(0) }
-            val currentInfo = TutorialInfo.values()[currentindex]
-            val pageCount = TutorialInfo.values().size
+    if (isShowDialog.value) {
+        Dialog(onDismissRequest = { isShowDialog.value = false }) {
+            Surface(
+                color = colorResource(id = R.color.light_purple),
+                shape = RoundedCornerShape(10.dp),
+            ) {
+                var currentindex by remember { mutableStateOf(0) }
+                val currentInfo = TutorialInfo.values()[currentindex]
+                val pageCount = TutorialInfo.values().size
 
-            Column {
-                Row(
-                    modifier = Modifier
-                        .padding(start = 10.dp, top = 5.dp)
-                        .clip(RoundedCornerShape(5.dp))
-                        .background(Color.LightGray),
-                ) {
-                    Text(
-                        text = "How to use",
-                        color = Color.Black,
-                        style = MaterialTheme.typography.caption,
-                        modifier = Modifier.padding(horizontal = 5.dp),
-                    )
-                }
-
-                // Title
-                Text(
-                    text = currentInfo.title,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp, bottom = 15.dp),
-                    textAlign = TextAlign.Center,
-                    color = Color.White,
-                    style = MaterialTheme.typography.h5,
-                )
-
-                Divider(
-                    color = Color.LightGray,
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
-
-                // Video and Description
-                Row(
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .fillMaxWidth()
-                        .height(310.dp),
-                ) {
-                    VideoPlayer(currentInfo.rawResId)
-                    Column(
+                Column {
+                    Row(
                         modifier = Modifier
-                            .padding(10.dp)
-                            .fillMaxHeight(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
+                            .padding(start = 10.dp, top = 5.dp)
+                            .clip(RoundedCornerShape(5.dp))
+                            .background(Color.LightGray),
                     ) {
                         Text(
-                            text = currentInfo.description,
-                            color = Color.LightGray,
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.body1,
+                            text = "How to use",
+                            color = Color.Black,
+                            style = MaterialTheme.typography.caption,
+                            modifier = Modifier.padding(horizontal = 5.dp),
+                        )
+                    }
+
+                    // Title
+                    Text(
+                        text = currentInfo.title,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 10.dp, bottom = 15.dp),
+                        textAlign = TextAlign.Center,
+                        color = Color.White,
+                        style = MaterialTheme.typography.h5,
+                    )
+
+                    Divider(
+                        color = Color.LightGray,
+                        modifier = Modifier.padding(horizontal = 10.dp)
+                    )
+
+                    // Video and Description
+                    Row(
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .fillMaxWidth()
+                            .height(310.dp),
+                    ) {
+                        VideoPlayer(currentInfo.rawResId)
+                        Column(
                             modifier = Modifier
-                                .padding(horizontal = 5.dp)
-                                .width(150.dp)
-                        )
+                                .padding(10.dp)
+                                .fillMaxHeight(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center,
+                        ) {
+                            Text(
+                                text = currentInfo.description,
+                                color = Color.LightGray,
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.body1,
+                                modifier = Modifier
+                                    .padding(horizontal = 5.dp)
+                                    .width(150.dp)
+                            )
+                        }
                     }
-                }
 
-                Divider(
-                    color = Color.LightGray,
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
+                    Divider(
+                        color = Color.LightGray,
+                        modifier = Modifier.padding(horizontal = 10.dp)
+                    )
 
-                Spacer(modifier = Modifier.height(25.dp))
+                    Spacer(modifier = Modifier.height(25.dp))
 
-                // Next or Start button
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp)
-                        .widthIn(500.dp)
-                        .height(50.dp)
-                        .clip(RoundedCornerShape(1000.dp))
-                        .background(
-                            if (currentindex + 1 < pageCount) {
-                                Color.White
-                            } else {
-                                colorResource(id = R.color.teal_200)
-                            }
-                        )
-                        .clickable {
-                            if (currentindex + 1 < pageCount) {
-                                currentindex++
-                            } else isShowDialog.value = false
-                        },
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    if (currentindex + 1 < pageCount) {
-                        Text(
-                            text = "Next",
-                            color = Color.Black,
-                            style = MaterialTheme.typography.h6,
-                        )
-                    } else {
-                        Text(
-                            text = "Start",
-                            color = Color.Black,
-                            style = MaterialTheme.typography.h6,
-                        )
+                    // Next or Start button
+                    Row(
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp)
+                            .widthIn(500.dp)
+                            .height(50.dp)
+                            .clip(RoundedCornerShape(1000.dp))
+                            .background(
+                                if (currentindex + 1 < pageCount) {
+                                    Color.White
+                                } else {
+                                    colorResource(id = R.color.teal_200)
+                                }
+                            )
+                            .clickable {
+                                if (currentindex + 1 < pageCount) {
+                                    currentindex++
+                                } else isShowDialog.value = false
+                            },
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        if (currentindex + 1 < pageCount) {
+                            Text(
+                                text = "Next",
+                                color = Color.Black,
+                                style = MaterialTheme.typography.h6,
+                            )
+                        } else {
+                            Text(
+                                text = "Start",
+                                color = Color.Black,
+                                style = MaterialTheme.typography.h6,
+                            )
+                        }
                     }
-                }
 
-                Spacer(modifier = Modifier.height(15.dp))
+                    Spacer(modifier = Modifier.height(15.dp))
+                }
             }
         }
     }
