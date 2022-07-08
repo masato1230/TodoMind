@@ -9,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +36,9 @@ import com.jp_funda.todomind.view.mind_map_create.Location
 import com.jp_funda.todomind.view.mind_map_create.MapView
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_create.nodes.*
+import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetScreen
+import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetViewModel
+import kotlinx.coroutines.launch
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -49,6 +53,9 @@ fun MindMapCreateScreen(
     initialLocation: Location? = null,
 ) {
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed),
+    )
 
     LaunchedEffect(Unit) {
         // Set mind map data
@@ -61,7 +68,7 @@ fun MindMapCreateScreen(
     val isLoading = mindMapCreateViewModel.isLoading.observeAsState()
 
     if (isLoading.value == false) {
-        Scaffold(
+        BottomSheetScaffold(
             topBar = {
                 TopAppBar(
                     title = {
@@ -76,9 +83,25 @@ fun MindMapCreateScreen(
                     navigationIcon = { BackNavigationIcon(navController) },
                 )
             },
+            scaffoldState = bottomSheetScaffoldState,
+            sheetContent = {
+                MindMapOptionsSheetScreen(
+                    bottomSheetState = bottomSheetScaffoldState.bottomSheetState,
+                    mainViewModel = mainViewModel,
+                )
+            },
+            sheetPeekHeight = 0.dp,
+            sheetBackgroundColor = colorResource(id = R.color.deep_purple),
+            floatingActionButton = {
+                ZoomButtonsOverlay()
+            },
             backgroundColor = colorResource(id = R.color.deep_purple),
         ) {
-            MindMapCreateContent(navController, mainViewModel, initialLocation)
+            MindMapCreateContent(
+                mainViewModel,
+                initialLocation,
+                bottomSheetScaffoldState.bottomSheetState,
+            )
         }
     } else {
         LoadingView()
@@ -90,13 +113,15 @@ fun MindMapCreateScreen(
 @ExperimentalPagerApi
 @Composable
 fun MindMapCreateContent(
-    navController: NavController,
     mainViewModel: MainViewModel,
     initialLocation: Location?,
+    bottomSheetState: BottomSheetState,
 ) {
     val context = LocalContext.current
     val mapView = MapView(context)
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
+    val sheetViewModel = hiltViewModel<MindMapOptionsSheetViewModel>()
+    val coroutineScope = rememberCoroutineScope()
 
     // Initial Scroll
     LaunchedEffect(Unit) {
@@ -113,7 +138,6 @@ fun MindMapCreateContent(
     }
 
     AndroidView(factory = { mapView })
-    ZoomButtonsOverlay(mapView)
 
     // Node Graph
     mapView.composeView.setContent {
@@ -122,12 +146,18 @@ fun MindMapCreateContent(
             onClickMindMapNode = {
                 // Reset Selected Node
                 mainViewModel.selectedNode = null
-                // todo findNavController().navigate(R.id.navigation_mind_map_options_dialog)
+                sheetViewModel.setNode(null)
+                coroutineScope.launch {
+                    bottomSheetState.expand()
+                }
             },
             onClickTaskNode = { task ->
                 // Set selected Node
                 mainViewModel.selectedNode = task
-                // todo findNavController().navigate(R.id.navigation_mind_map_options_dialog)
+                sheetViewModel.setNode(task)
+                coroutineScope.launch {
+                    bottomSheetState.expand()
+                }
             }
         )
     }
@@ -210,60 +240,71 @@ fun LineView() {
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
-fun ZoomButtonsOverlay(mapView: MapView) {
+fun ZoomButtonsOverlay() {
     val context = LocalContext.current
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
 
     val screenWidth = context.resources.displayMetrics.widthPixels
     val screenHeight = context.resources.displayMetrics.heightPixels
+    val mapViewOriginalHeight = context.resources.getDimensionPixelSize(R.dimen.map_view_height)
+    val mapViewOriginalWidth = context.resources.getDimensionPixelSize(R.dimen.map_view_width)
 
     val minScale = min(
-        screenWidth.toFloat() / mapView.mapViewOriginalWidth.toFloat(),
-        screenHeight.toFloat() / mapView.mapViewOriginalHeight.toFloat()
+        screenWidth.toFloat() / mapViewOriginalWidth.toFloat(),
+        screenHeight.toFloat() / mapViewOriginalHeight.toFloat()
     )
 
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.BottomEnd,
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(10.dp)
-                .clip(RoundedCornerShape(50.dp))
-                .background(Color.White.copy(alpha = 0.1f)),
-            horizontalAlignment = Alignment.CenterHorizontally
+    val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
+
+    observedUpdateCount.value.run {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomEnd,
         ) {
-            IconButton(
-                onClick = {
-                    mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().plus(0.1f))
-                }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_zoom_24dp),
-                    contentDescription = "Zoom in",
-                    tint = Color.LightGray,
-                )
-            }
-            Box(modifier = Modifier.height(50.dp), contentAlignment = Alignment.Center) {
-                Text(
-                    text = "${(mindMapCreateViewModel.getScale() * 100).roundToInt()}%",
-                    color = Color.LightGray,
-                )
-            }
-            IconButton(onClick = {
-                if (mindMapCreateViewModel.getScale() - 0.1 <= minScale) {
-                    mindMapCreateViewModel.setScale(minScale)
-                } else {
-                    mindMapCreateViewModel.setScale(mindMapCreateViewModel.getScale().minus(0.1f))
+            Column(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(50.dp))
+                    .background(Color.White.copy(alpha = 0.1f)),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                IconButton(
+                    onClick = {
+                        mindMapCreateViewModel.setScale(
+                            mindMapCreateViewModel.getScale().plus(0.1f)
+                        )
+                    }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_zoom_24dp),
+                        contentDescription = "Zoom in",
+                        tint = Color.LightGray,
+                    )
                 }
-            }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_zoom_out_24dp),
-                    contentDescription = "Zoom out",
-                    tint = Color.LightGray,
-                )
+                Box(modifier = Modifier.height(50.dp), contentAlignment = Alignment.Center) {
+                    Text(
+                        text = "${(mindMapCreateViewModel.getScale() * 100).roundToInt()}%",
+                        color = Color.LightGray,
+                    )
+                }
+                IconButton(onClick = {
+                    if (mindMapCreateViewModel.getScale() - 0.1 <= minScale) {
+                        mindMapCreateViewModel.setScale(minScale)
+                    } else {
+                        mindMapCreateViewModel.setScale(
+                            mindMapCreateViewModel.getScale().minus(0.1f)
+                        )
+                    }
+                }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_zoom_out_24dp),
+                        contentDescription = "Zoom out",
+                        tint = Color.LightGray,
+                    )
+                }
             }
         }
     }
+
 }
 
 @ExperimentalPagerApi

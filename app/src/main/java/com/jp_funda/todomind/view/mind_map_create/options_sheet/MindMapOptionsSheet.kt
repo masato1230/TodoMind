@@ -40,7 +40,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MindMapOptionsSheet : BottomSheetDialogFragment() {
 
     // ViewModels
-    private val sheetViewModel by viewModels<MindMapOptionsViewModel>()
+    private val sheetViewModel by viewModels<MindMapOptionsSheetViewModel>()
     private val addChildViewModel by viewModels<AddChildViewModel>()
     private val editTaskViewModel by viewModels<EditTaskViewModel>()
     private val mindMapCreateViewModel by activityViewModels<MindMapCreateViewModel>()
