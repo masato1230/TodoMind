@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.mind_map_create.tutorial
+package com.jp_funda.todomind.view.mind_map_create
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -32,9 +32,6 @@ import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.LineContent
 import com.jp_funda.todomind.view.components.LoadingView
-import com.jp_funda.todomind.view.mind_map_create.Location
-import com.jp_funda.todomind.view.mind_map_create.MapView
-import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_create.nodes.*
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetScreen
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetViewModel
