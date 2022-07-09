@@ -22,6 +22,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.PlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.jp_funda.todomind.R
@@ -77,7 +78,7 @@ fun MapCreateTutorialDialog(isShowDialog: MutableState<Boolean>) {
                             .fillMaxWidth()
                             .height(310.dp),
                     ) {
-                        VideoPlayer(currentInfo.assetLink)
+                        VideoPlayer(currentInfo.assetLink, isShowDialog)
                         Column(
                             modifier = Modifier
                                 .padding(10.dp)
@@ -149,7 +150,7 @@ fun MapCreateTutorialDialog(isShowDialog: MutableState<Boolean>) {
 }
 
 @Composable
-fun VideoPlayer(assetLink: String) {
+fun VideoPlayer(assetLink: String, isShowDialog: MutableState<Boolean>) {
 
     // Implementing ExoPlayer
     AndroidView(
@@ -157,7 +158,9 @@ fun VideoPlayer(assetLink: String) {
             StyledPlayerView(it).apply {
                 player?.stop()
                 player?.release()
-                player = createPlayer(it, assetLink)
+                player = createPlayer(it, assetLink) {
+                    isShowDialog.value = false
+                }
                 useController = false
                 fitsSystemWindows = true
             }
@@ -166,7 +169,9 @@ fun VideoPlayer(assetLink: String) {
             // Declaring ExoPlayer
             it.player?.stop()
             it.player?.release()
-            it.player = createPlayer(it.context, assetLink)
+            it.player = createPlayer(it.context, assetLink) {
+                isShowDialog.value = false
+            }
         },
         modifier = Modifier
             .clip(RoundedCornerShape(10.dp))
@@ -175,7 +180,7 @@ fun VideoPlayer(assetLink: String) {
     )
 }
 
-private fun createPlayer(context: Context, assetLink: String): ExoPlayer {
+private fun createPlayer(context: Context, assetLink: String, onError: (e: Exception) -> Unit): ExoPlayer {
     val videoUri = Uri.parse(assetLink)
     val mediaItem = MediaItem.fromUri(videoUri)
 
@@ -184,6 +189,12 @@ private fun createPlayer(context: Context, assetLink: String): ExoPlayer {
         setMediaItem(mediaItem)
         playWhenReady = true
         repeatMode = Player.REPEAT_MODE_ALL
+        addListener(object : Player.Listener {
+            override fun onPlayerError(error: PlaybackException) {
+                super.onPlayerError(error)
+                onError(error)
+            }
+        })
 
         prepare()
     }
