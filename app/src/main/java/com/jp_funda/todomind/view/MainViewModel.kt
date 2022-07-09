@@ -11,6 +11,7 @@ import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
 import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -57,8 +58,8 @@ class MainViewModel
     /** Editing mind map - pass mind map data between MindMap, MindMapDetail, MindMapCreate */
     var editingMindMap: MindMap? = null
 
-    /** SelectedNode - node which is selected and showing options sheet.(when mind map is selected -> null) */
-    var selectedNode: Task? = null
+    /** Arguments for MindMapCreateScreen. */
+    lateinit var mindMapCreateArguments: MindMapCreateArguments
 
     /** Currently deleted task - show at task list snackbar to restore the task */
     var currentlyDeletedTask: Task? = null

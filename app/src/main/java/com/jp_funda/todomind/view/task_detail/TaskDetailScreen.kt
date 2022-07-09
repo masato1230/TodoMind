@@ -18,8 +18,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.navigation.NavigationKeys
 import com.jp_funda.todomind.navigation.NavigationRoutes
+import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.BannerAd
@@ -58,9 +58,9 @@ fun TaskDetailScreen(
                                 x = taskDetailViewModel.task.value?.x ?: 0f,
                                 y = taskDetailViewModel.task.value?.y ?: 0f,
                             )
-                            navController.currentBackStackEntry?.arguments?.putParcelable(
-                                NavigationKeys.InitialLocationKey,
-                                initialLocation,
+                            mainViewModel.mindMapCreateArguments = MindMapCreateArguments(
+                                editingMindMap = it,
+                                initialLocation = initialLocation,
                             )
                             navController.navigate(NavigationRoutes.MindMapCreate)
                         }

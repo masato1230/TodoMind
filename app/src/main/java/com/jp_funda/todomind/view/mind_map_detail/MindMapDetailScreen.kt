@@ -40,6 +40,7 @@ import com.jp_funda.todomind.data.getSize
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.extension.getProgressRate
 import com.jp_funda.todomind.navigation.NavigationRoutes
+import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
 import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
@@ -595,6 +596,9 @@ private fun navigateToMindMapCreate(
     mainViewModel: MainViewModel,
     mindMapDetailViewModel: MindMapDetailViewModel,
 ) {
-    mainViewModel.editingMindMap = mindMapDetailViewModel.mindMap.value
+    mainViewModel.mindMapCreateArguments = MindMapCreateArguments(
+        editingMindMap = mindMapDetailViewModel.mindMap.value!!,
+        initialLocation = null,
+    )
     navController.navigate(NavigationRoutes.MindMapCreate)
 }

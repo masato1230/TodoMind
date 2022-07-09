@@ -48,9 +48,9 @@ import kotlin.math.roundToInt
 fun MindMapCreateScreen(
     navController: NavController,
     mainViewModel: MainViewModel,
-    initialLocation: Location? = null,
 ) {
     val context = LocalContext.current
+    val arguments = mainViewModel.mindMapCreateArguments
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
     val sheetViewModel = hiltViewModel<MindMapOptionsSheetViewModel>()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
@@ -60,11 +60,11 @@ fun MindMapCreateScreen(
 
     LaunchedEffect(Unit) {
         // Set mind map data
-        mindMapCreateViewModel.mindMap = mainViewModel.editingMindMap!!
+        mindMapCreateViewModel.mindMap = arguments.editingMindMap
         // Load task data and refresh view
         mindMapCreateViewModel.refreshView()
         // Set editing  mind map to sheetViewModel
-        sheetViewModel.setEditingMindMap(mainViewModel.editingMindMap!!)
+        sheetViewModel.setEditingMindMap(arguments.editingMindMap)
 
         // Show tutorial dialog for first time
         val settingsPreferences = SettingsPreferences(context)
@@ -108,7 +108,7 @@ fun MindMapCreateScreen(
 
             // Main Content
             MindMapCreateContent(
-                initialLocation,
+                arguments.initialLocation,
                 bottomSheetScaffoldState.bottomSheetState,
             )
         }
