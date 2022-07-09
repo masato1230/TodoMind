@@ -38,9 +38,8 @@ fun TaskDetailScreen(
     val taskDetailViewModel = hiltViewModel<TaskDetailViewModel>()
 
     LaunchedEffect(Unit) {
-        mainViewModel.editingTask?.let { editingTask ->
-            taskDetailViewModel.setEditingTask(editingTask)
-            mainViewModel.editingTask = null
+        mainViewModel.taskDetailArguments.editingTask?.let {
+            taskDetailViewModel.setEditingTask(it)
         }
     }
 

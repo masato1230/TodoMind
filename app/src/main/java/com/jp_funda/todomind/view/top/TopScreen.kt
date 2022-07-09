@@ -23,6 +23,7 @@ import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.extension.getActivity
 import com.jp_funda.todomind.navigation.NavigationRoutes
+import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
@@ -137,7 +138,7 @@ fun TopContent(
                 }
             },
             onRowClick = { task ->
-                mainViewModel.editingTask = task
+                mainViewModel.taskDetailArguments = TaskDetailArguments(task)
                 navController.navigate(NavigationRoutes.TaskDetail)
             },
             isScrollToTopAtLaunch = true,
