@@ -52,6 +52,7 @@ fun MindMapCreateScreen(
 ) {
     val context = LocalContext.current
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
+    val sheetViewModel = hiltViewModel<MindMapOptionsSheetViewModel>()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed),
     )
@@ -62,6 +63,8 @@ fun MindMapCreateScreen(
         mindMapCreateViewModel.mindMap = mainViewModel.editingMindMap!!
         // Load task data and refresh view
         mindMapCreateViewModel.refreshView()
+        // TODO
+        sheetViewModel.setEditingMindMap(mainViewModel.editingMindMap!!)
 
         // Show tutorial dialog for first time
         val settingsPreferences = SettingsPreferences(context)
@@ -91,10 +94,7 @@ fun MindMapCreateScreen(
             },
             scaffoldState = bottomSheetScaffoldState,
             sheetContent = {
-                MindMapOptionsSheet(
-                    bottomSheetState = bottomSheetScaffoldState.bottomSheetState,
-                    mainViewModel = mainViewModel,
-                )
+                MindMapOptionsSheet(bottomSheetState = bottomSheetScaffoldState.bottomSheetState)
             },
             sheetPeekHeight = 0.dp,
             sheetBackgroundColor = colorResource(id = R.color.deep_purple),
