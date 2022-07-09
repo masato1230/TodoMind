@@ -33,9 +33,9 @@ import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.LineContent
 import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.mind_map_create.nodes.*
-import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetScreen
+import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheet
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetViewModel
-import com.jp_funda.todomind.view.mind_map_create.tutorial.MapCreateTutorialDialog
+import com.jp_funda.todomind.view.mind_map_create.tutorial.TutorialDialog
 import kotlinx.coroutines.launch
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -91,7 +91,7 @@ fun MindMapCreateScreen(
             },
             scaffoldState = bottomSheetScaffoldState,
             sheetContent = {
-                MindMapOptionsSheetScreen(
+                MindMapOptionsSheet(
                     bottomSheetState = bottomSheetScaffoldState.bottomSheetState,
                     mainViewModel = mainViewModel,
                 )
@@ -104,7 +104,7 @@ fun MindMapCreateScreen(
             backgroundColor = colorResource(id = R.color.deep_purple),
         ) {
             // Tutorial Dialog
-            MapCreateTutorialDialog(isShowDialog = isShowTutorialDialog)
+            TutorialDialog(isShowDialog = isShowTutorialDialog)
 
             // Main Content
             MindMapCreateContent(
