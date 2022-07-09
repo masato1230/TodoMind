@@ -6,10 +6,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,6 +26,8 @@ import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.getSize
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
+import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.LineContent
@@ -35,6 +35,7 @@ import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.mind_map_create.nodes.*
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetScreen
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetViewModel
+import com.jp_funda.todomind.view.mind_map_create.tutorial.MapCreateTutorialDialog
 import kotlinx.coroutines.launch
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -49,18 +50,26 @@ fun MindMapCreateScreen(
     mainViewModel: MainViewModel,
     initialLocation: Location? = null,
 ) {
+    val context = LocalContext.current
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed),
     )
+    val isShowTutorialDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         // Set mind map data
         mindMapCreateViewModel.mindMap = mainViewModel.editingMindMap!!
         // Load task data and refresh view
         mindMapCreateViewModel.refreshView()
+
+        // Show tutorial dialog for first time
+        val settingsPreferences = SettingsPreferences(context)
+        if (!settingsPreferences.getBoolean(PreferenceKeys.IS_NOT_FIRST_TIME_CREATE_SCREEN)) {
+            isShowTutorialDialog.value = true
+            settingsPreferences.setBoolean(PreferenceKeys.IS_NOT_FIRST_TIME_CREATE_SCREEN, true)
+        }
     }
-    // TODO Show tutorial dialog at first time
 
     val isLoading = mindMapCreateViewModel.isLoading.observeAsState()
 
@@ -94,6 +103,10 @@ fun MindMapCreateScreen(
             },
             backgroundColor = colorResource(id = R.color.deep_purple),
         ) {
+            // Tutorial Dialog
+            MapCreateTutorialDialog(isShowDialog = isShowTutorialDialog)
+
+            // Main Content
             MindMapCreateContent(
                 mainViewModel,
                 initialLocation,
