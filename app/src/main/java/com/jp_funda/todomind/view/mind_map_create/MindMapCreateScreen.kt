@@ -63,7 +63,7 @@ fun MindMapCreateScreen(
         mindMapCreateViewModel.mindMap = mainViewModel.editingMindMap!!
         // Load task data and refresh view
         mindMapCreateViewModel.refreshView()
-        // TODO
+        // Set editing  mind map to sheetViewModel
         sheetViewModel.setEditingMindMap(mainViewModel.editingMindMap!!)
 
         // Show tutorial dialog for first time
@@ -108,7 +108,6 @@ fun MindMapCreateScreen(
 
             // Main Content
             MindMapCreateContent(
-                mainViewModel,
                 initialLocation,
                 bottomSheetScaffoldState.bottomSheetState,
             )
@@ -123,7 +122,6 @@ fun MindMapCreateScreen(
 @ExperimentalPagerApi
 @Composable
 fun MindMapCreateContent(
-    mainViewModel: MainViewModel,
     initialLocation: Location?,
     bottomSheetState: BottomSheetState,
 ) {
@@ -155,7 +153,6 @@ fun MindMapCreateContent(
             modifier = Modifier.fillMaxSize(),
             onClickMindMapNode = {
                 // Reset Selected Node
-                mainViewModel.selectedNode = null
                 sheetViewModel.setNode(null)
                 coroutineScope.launch {
                     bottomSheetState.expand()
@@ -163,7 +160,6 @@ fun MindMapCreateContent(
             },
             onClickTaskNode = { task ->
                 // Set selected Node
-                mainViewModel.selectedNode = task
                 sheetViewModel.setNode(task)
                 coroutineScope.launch {
                     bottomSheetState.expand()
