@@ -1,6 +1,5 @@
 package com.jp_funda.todomind.view.mind_map_create.tutorial
 
-import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,12 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.DialogFragment
 import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.source.LoopingMediaSource
-import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.upstream.RawResourceDataSource
-import com.google.android.exoplayer2.util.Util
 import com.jp_funda.todomind.R
 
 class MindMapCreateTutorialDialog : DialogFragment() {
@@ -91,7 +85,7 @@ class MindMapCreateTutorialDialog : DialogFragment() {
                                 .fillMaxWidth()
                                 .height(310.dp),
                         ) {
-                            VideoPlayer(currentInfo.rawResId)
+//                            VideoPlayer(currentInfo.rawResId)
                             Column(
                                 modifier = Modifier
                                     .padding(10.dp)
@@ -173,8 +167,8 @@ class MindMapCreateTutorialDialog : DialogFragment() {
                 PlayerView(it).apply {
                     player?.release()
                     player = null
-                    exoPlayer = createPlayer(it, rawResId)
-                    player = exoPlayer
+//                    exoPlayer = createPlayer(it, rawResId)
+//                    player = exoPlayer
                     useController = false
                     fitsSystemWindows = true
                 }
@@ -183,8 +177,8 @@ class MindMapCreateTutorialDialog : DialogFragment() {
                 // Declaring ExoPlayer
                 it.player?.release()
                 it.player = null
-                exoPlayer = createPlayer(it.context, rawResId)
-                it.player = exoPlayer
+//                exoPlayer = createPlayer(it.context, rawResId)
+//                it.player = exoPlayer
             },
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
@@ -193,20 +187,20 @@ class MindMapCreateTutorialDialog : DialogFragment() {
         )
     }
 
-    private fun createPlayer(context: Context, rawResId: Int): ExoPlayer {
-        val videoUri = RawResourceDataSource.buildRawResourceUri(rawResId)
-        // Declaring ExoPlayer
-        val exoPlayer = ExoPlayer.Builder(context).build().apply {
-            val dataSourceFactory = DefaultDataSourceFactory(
-                context,
-                Util.getUserAgent(context, context.packageName)
-            )
-            val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(videoUri)
-            val loopingMediaSource = LoopingMediaSource(source)
-            prepare(loopingMediaSource)
-        }
-        exoPlayer.playWhenReady = true
-        return exoPlayer
-    }
+//    private fun createPlayer(context: Context, rawResId: Int): ExoPlayer {
+//        val videoUri = RawResourceDataSource.buildRawResourceUri(rawResId)
+//        // Declaring ExoPlayer
+//        val exoPlayer = ExoPlayer.Builder(context).build().apply {
+//            val dataSourceFactory = DefaultDataSourceFactory(
+//                context,
+//                Util.getUserAgent(context, context.packageName)
+//            )
+//            val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+//                .createMediaSource(layvideoUri)
+//            val loopingMediaSource = LoopingMediaSource(source)
+//            prepare(loopingMediaSource)
+//        }
+//        exoPlayer.playWhenReady = true
+//        return exoPlayer
+//    }
 }

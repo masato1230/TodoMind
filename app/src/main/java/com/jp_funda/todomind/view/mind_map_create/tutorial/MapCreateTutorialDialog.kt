@@ -1,6 +1,7 @@
 package com.jp_funda.todomind.view.mind_map_create.tutorial
 
 import android.content.Context
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,13 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
 import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.source.LoopingMediaSource
-import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.upstream.RawResourceDataSource
-import com.google.android.exoplayer2.util.Util
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.jp_funda.todomind.R
+
 
 @Composable
 fun MapCreateTutorialDialog(isShowDialog: MutableState<Boolean>) {
@@ -78,7 +77,7 @@ fun MapCreateTutorialDialog(isShowDialog: MutableState<Boolean>) {
                             .fillMaxWidth()
                             .height(310.dp),
                     ) {
-                        VideoPlayer(currentInfo.rawResId)
+                        VideoPlayer(currentInfo.assetLink)
                         Column(
                             modifier = Modifier
                                 .padding(10.dp)
@@ -150,28 +149,24 @@ fun MapCreateTutorialDialog(isShowDialog: MutableState<Boolean>) {
 }
 
 @Composable
-fun VideoPlayer(rawResId: Int) {
-    // Declaring ExoPlayer
-    var exoPlayer: ExoPlayer
+fun VideoPlayer(assetLink: String) {
 
     // Implementing ExoPlayer
     AndroidView(
         factory = {
-            PlayerView(it).apply {
+            StyledPlayerView(it).apply {
+                player?.stop()
                 player?.release()
-                player = null
-                exoPlayer = createPlayer(it, rawResId)
-                player = exoPlayer
+                player = createPlayer(it, assetLink)
                 useController = false
                 fitsSystemWindows = true
             }
         },
         update = {
             // Declaring ExoPlayer
+            it.player?.stop()
             it.player?.release()
-            it.player = null
-            exoPlayer = createPlayer(it.context, rawResId)
-            it.player = exoPlayer
+            it.player = createPlayer(it.context, assetLink)
         },
         modifier = Modifier
             .clip(RoundedCornerShape(10.dp))
@@ -180,19 +175,17 @@ fun VideoPlayer(rawResId: Int) {
     )
 }
 
-private fun createPlayer(context: Context, rawResId: Int): ExoPlayer {
-    val videoUri = RawResourceDataSource.buildRawResourceUri(rawResId)
+private fun createPlayer(context: Context, assetLink: String): ExoPlayer {
+    val videoUri = Uri.parse(assetLink)
+    val mediaItem = MediaItem.fromUri(videoUri)
+
     // Declaring ExoPlayer
     val exoPlayer = ExoPlayer.Builder(context).build().apply {
-        val dataSourceFactory = DefaultDataSourceFactory(
-            context,
-            Util.getUserAgent(context, context.packageName)
-        )
-        val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-            .createMediaSource(videoUri)
-        val loopingMediaSource = LoopingMediaSource(source)
-        prepare(loopingMediaSource)
+        setMediaItem(mediaItem)
+        playWhenReady = true
+        repeatMode = Player.REPEAT_MODE_ALL
+
+        prepare()
     }
-    exoPlayer.playWhenReady = true
     return exoPlayer
 }

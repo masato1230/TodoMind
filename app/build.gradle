@@ -140,5 +140,5 @@ dependencies {
     implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_version"
 
     // Exo Player
-    implementation "com.google.android.exoplayer:exoplayer:2.16.1"
+    implementation "com.google.android.exoplayer:exoplayer:2.18.0"
 }
