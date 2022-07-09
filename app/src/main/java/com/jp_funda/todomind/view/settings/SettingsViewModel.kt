@@ -13,8 +13,7 @@ class SettingsViewModel @Inject constructor(private val settingsPreferences: Set
 
     val defaultMindMapScale: Float
         get() {
-            val scale = settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE)
-            return if (scale < 0) 1f else scale
+            return settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE, 1f)
         }
 
     val isShowOgpThumbnail: Boolean
