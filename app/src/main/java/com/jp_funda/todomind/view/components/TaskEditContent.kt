@@ -80,7 +80,7 @@ fun TaskEditContent(
             cursorColor = colorResource(id = R.color.teal_200),
         )
 
-        LaunchedEffect(ogpResult) {
+        LaunchedEffect(task.description) {
             if (!task.description.isNullOrEmpty() && taskEditableViewModel.isShowOgpThumbnail) {
                 taskEditableViewModel.extractUrlAndFetchOgp(task.description!!)
             }
