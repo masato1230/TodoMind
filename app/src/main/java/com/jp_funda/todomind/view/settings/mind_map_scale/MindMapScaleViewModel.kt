@@ -10,7 +10,7 @@ import javax.inject.Inject
 class MindMapScaleViewModel @Inject constructor(
     private val settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
-    var scale = settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE)
+    var scale = settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE, 0f)
 
     override fun onCleared() {
         settingsPreferences.setFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE, scale)

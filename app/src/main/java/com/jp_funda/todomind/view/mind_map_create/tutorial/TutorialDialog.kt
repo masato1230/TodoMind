@@ -29,7 +29,7 @@ import com.jp_funda.todomind.R
 
 
 @Composable
-fun MapCreateTutorialDialog(isShowDialog: MutableState<Boolean>) {
+fun TutorialDialog(isShowDialog: MutableState<Boolean>) {
     if (isShowDialog.value) {
         Dialog(onDismissRequest = { isShowDialog.value = false }) {
             Surface(

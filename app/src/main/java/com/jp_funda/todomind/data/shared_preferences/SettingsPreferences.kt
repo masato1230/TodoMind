@@ -12,8 +12,8 @@ class SettingsPreferences @Inject constructor(context: Context) {
 
     private val preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
-    fun getFloat(key: PreferenceKeys): Float {
-        return preferences.getFloat(key.key, -1f)
+    fun getFloat(key: PreferenceKeys, default: Float = -1f): Float {
+        return preferences.getFloat(key.key, default)
     }
 
     fun setFloat(key: PreferenceKeys, value: Float) {
