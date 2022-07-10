@@ -12,9 +12,11 @@ import javax.inject.Inject
 class TaskRepositoryImpl @Inject constructor() : TaskRepository {
     // CREATE
     override suspend fun insertTasks(tasks: List<Task>) {
-        Realm.getDefaultInstance().use { realm ->
-            for (task in tasks) {
-                realm.insertOrUpdate(task)
+        Realm.getDefaultInstance().use {
+            it.executeTransaction { realm ->
+                for (task in tasks) {
+                    realm.insertOrUpdate(task)
+                }
             }
         }
     }
@@ -63,7 +65,9 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
     // UPDATE
     override suspend fun updateTask(updatedTask: Task) {
         Realm.getDefaultInstance().use { realm ->
-            realm.copyToRealmOrUpdate(updatedTask)
+            realm.executeTransaction {
+                it.copyToRealmOrUpdate(updatedTask)
+            }
         }
     }
 

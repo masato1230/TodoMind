@@ -5,20 +5,25 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
 import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
+import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
+import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
@@ -36,6 +41,8 @@ import javax.inject.Inject
 open class TaskEditableViewModel @Inject constructor(
     val taskRepository: TaskRepository,
     val ogpRepository: OgpRepository,
+    val createTasksUseCase: CreateTasksUseCase,
+    val updateTaskUseCase: UpdateTaskUseCase,
     settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
     protected var _task = MutableLiveData(Task())
@@ -120,21 +127,14 @@ open class TaskEditableViewModel @Inject constructor(
     }
 
     open fun saveTask() {
-        disposables.add(
-            // Not editing mode -> Add new task to DB
-            // Editing mode -> update task data in DB
+        viewModelScope.launch(Dispatchers.IO) {
             if (!isEditing) {
-                taskRepository.createTask(_task.value!!)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSuccess { clearData() }
-                    .subscribe()
+                createTasksUseCase(listOf(_task.value!!))
             } else {
-                taskRepository.updateTask(_task.value!!)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSuccess { clearData() }
-                    .subscribe()
+                updateTaskUseCase(_task.value!!)
             }
-        )
+            clearData()
+        }
     }
 
     fun deleteTask(task: Task, onSuccess: () -> Unit = {}) {
@@ -219,7 +219,7 @@ open class TaskEditableViewModel @Inject constructor(
 
     /** Clear editing/adding task data. */
     private fun clearData() {
-        _task.value = Task()
+        _task.postValue(Task())
     }
 
     override fun onCleared() {

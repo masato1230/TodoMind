@@ -64,7 +64,10 @@ fun TopScreen(
                 }
             )
         },
-        onClick = { navController.navigate(NavigationRoutes.TaskDetail) }) {
+        onClick = {
+            mainViewModel.taskDetailArguments = TaskDetailArguments(null)
+            navController.navigate(NavigationRoutes.TaskDetail)
+        }) {
         TopContent(navController, mainViewModel)
     }
 }
