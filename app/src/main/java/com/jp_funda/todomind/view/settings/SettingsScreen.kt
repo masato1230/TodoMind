@@ -2,14 +2,16 @@ package com.jp_funda.todomind.view.settings
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -17,8 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -30,6 +30,7 @@ import com.jp_funda.todomind.BuildConfig
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.navigation.NavigationRoutes
 import com.jp_funda.todomind.view.intro.IntroActivity
+import com.jp_funda.todomind.view.settings.components.*
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -201,205 +202,5 @@ fun SettingsContent(navController: NavController) {
     ) {
         // Status update Snackbar
         SnackbarHost(hostState = snackbarHostState)
-    }
-}
-
-@Composable
-fun SettingsGroup(
-    title: String,
-    content: @Composable () -> Unit,
-) {
-    Column {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.subtitle2,
-            color = Color.LightGray,
-            modifier = Modifier.padding(start = 20.dp, bottom = 10.dp),
-        )
-        Surface(
-            elevation = 8.dp,
-            shape = RoundedCornerShape(20.dp),
-            color = colorResource(id = R.color.steel_dark)
-        ) {
-            Column { content() }
-        }
-    }
-}
-
-/** SettingRow with only text info */
-@Composable
-fun SettingRowOnlyText(
-    icon: ImageVector? = null,
-    painter: Painter? = null,
-    title: String,
-    value: String,
-    onClick: () -> Unit = {},
-) {
-    Row(
-        modifier = Modifier
-            .height(50.dp)
-            .padding(horizontal = 15.dp)
-            .clickable { onClick() },
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        icon?.let {
-            Icon(
-                imageVector = it,
-                tint = colorResource(id = R.color.grey),
-                contentDescription = "Title",
-                modifier = Modifier.height(40.dp)
-            )
-        }
-        painter?.let {
-            Icon(
-                painter = it,
-                tint = colorResource(id = R.color.grey),
-                contentDescription = "Title",
-                modifier = Modifier.height(40.dp)
-            )
-        }
-        Spacer(modifier = Modifier.width(15.dp))
-        Text(
-            text = title,
-            color = Color.White,
-            style = MaterialTheme.typography.subtitle1,
-        )
-        Spacer(Modifier.weight(1f))
-        Text(text = value, color = Color.White)
-    }
-}
-
-/** SettingRow with next screen */
-@Composable
-fun SettingRowWithNext(
-    icon: ImageVector,
-    title: String,
-    selectedValue: String? = null,
-    onClick: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .height(50.dp)
-            .padding(horizontal = 15.dp)
-            .clickable { onClick() },
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            imageVector = icon,
-            tint = colorResource(id = R.color.grey),
-            contentDescription = "Title",
-            modifier = Modifier.height(40.dp)
-        )
-        Spacer(modifier = Modifier.width(15.dp))
-        Text(
-            text = title,
-            color = Color.White,
-            style = MaterialTheme.typography.subtitle1,
-        )
-        Spacer(Modifier.weight(1f))
-        selectedValue?.let { Text(text = it, color = Color.White) }
-        Spacer(modifier = Modifier.width(10.dp))
-        Icon(
-            imageVector = Icons.Default.ArrowForward,
-            tint = colorResource(id = R.color.grey),
-            contentDescription = "Next"
-        )
-    }
-}
-
-/** SettingRow with switch */
-@Composable
-fun SettingRowWithSwitch(
-    icon: ImageVector? = null,
-    painter: Painter? = null,
-    title: String,
-    initialValue: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-) {
-    val checkedState = remember { mutableStateOf(initialValue) }
-
-    Row(
-        modifier = Modifier
-            .height(50.dp)
-            .padding(horizontal = 15.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        icon?.let {
-            Icon(
-                imageVector = it,
-                tint = colorResource(id = R.color.grey),
-                contentDescription = "Title",
-                modifier = Modifier.height(40.dp)
-            )
-        }
-        painter?.let {
-            Icon(
-                painter = it,
-                tint = colorResource(id = R.color.grey),
-                contentDescription = "Title",
-                modifier = Modifier.height(40.dp)
-            )
-        }
-        Spacer(modifier = Modifier.width(15.dp))
-        Text(
-            text = title,
-            color = Color.White,
-            style = MaterialTheme.typography.subtitle1,
-        )
-        Spacer(Modifier.weight(1f))
-        Switch(
-            checked = checkedState.value,
-            onCheckedChange = {
-                checkedState.value = it
-                onCheckedChange(it)
-            },
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = colorResource(id = R.color.teal_200),
-                checkedTrackColor = colorResource(id = R.color.teal_200),
-                checkedTrackAlpha = 0.8f,
-            )
-        )
-    }
-}
-
-@Composable
-fun SettingRowComingSoon(
-    icon: ImageVector? = null,
-    painter: Painter? = null,
-    title: String,
-    subTitle: String,
-    onClick: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .height(50.dp)
-            .padding(horizontal = 15.dp)
-            .clickable { onClick() },
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        icon?.let {
-            Icon(
-                imageVector = it,
-                tint = colorResource(id = R.color.grey),
-                contentDescription = "Title",
-                modifier = Modifier.height(40.dp)
-            )
-        }
-        painter?.let {
-            Icon(
-                painter = it,
-                tint = colorResource(id = R.color.grey),
-                contentDescription = "Title",
-                modifier = Modifier.height(40.dp)
-            )
-        }
-        Spacer(modifier = Modifier.width(15.dp))
-        Text(
-            text = title,
-            color = Color.DarkGray,
-            style = MaterialTheme.typography.subtitle1,
-        )
-        Spacer(Modifier.weight(1f))
-        Text(text = subTitle, color = Color.White)
     }
 }

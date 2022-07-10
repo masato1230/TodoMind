@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.components
+package com.jp_funda.todomind.view.components.dialog
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable

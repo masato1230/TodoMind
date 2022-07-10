@@ -2,13 +2,8 @@ package com.jp_funda.todomind.view.mind_map_detail
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -17,19 +12,15 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -37,22 +28,23 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.getSize
-import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
-import com.jp_funda.todomind.extension.getProgressRate
 import com.jp_funda.todomind.navigation.NavigationRoutes
 import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
 import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.components.dialog.ColorPickerDialog
+import com.jp_funda.todomind.view.components.dialog.ConfirmDialog
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
+import com.jp_funda.todomind.view.mind_map_detail.components.ProgressSection
+import com.jp_funda.todomind.view.mind_map_detail.components.ThumbnailSection
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.roundToInt
 
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
@@ -297,7 +289,7 @@ fun MindMapDetailTopContent(
         )
 
         /** Thumbnail Section */
-        ThumbnailSection(arguments.editingMindMap == null, mindMap) {
+        ThumbnailSection(arguments.editingMindMap == null) {
             navigateToMindMapCreate(
                 navController = navController,
                 mainViewModel = mainViewModel,
@@ -431,144 +423,6 @@ fun MindMapDetailTopContent(
             text = "Tasks - ${mindMap.title ?: ""}",
             color = Color.White,
             style = MaterialTheme.typography.h6
-        )
-    }
-}
-
-// Mind Map Detail Components
-@ExperimentalMaterialApi
-@ExperimentalPagerApi
-@ExperimentalAnimationApi
-@Composable
-fun ThumbnailSection(
-    isFirstTime: Boolean,
-    mindMap: MindMap?,
-    onClick: () -> Unit,
-) {
-    val context = LocalContext.current
-    val mindMapThumbnailViewModel = hiltViewModel<MindMapCreateViewModel>()
-
-    if (!isFirstTime) {
-        val isLoadingState = mindMapThumbnailViewModel.isLoading.observeAsState()
-        isLoadingState.value?.let { isLoading ->
-            if (isLoading) {
-                Text("Loading...")
-            } else {
-                Box(modifier = Modifier
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(Color.Black)
-                    .height(200.dp)
-                    .fillMaxWidth()
-                    .onSizeChanged {
-                        // Adjust mind map scale to fit it to thumbnail
-                        val scale =
-                            it.width.toFloat() / context.resources.getDimensionPixelSize(R.dimen.map_view_width)
-                        mindMapThumbnailViewModel.setScale(scale)
-                    }
-                    .clickable { onClick() }) {
-                    LineContent(
-                        mindMapCreateViewModel = mindMapThumbnailViewModel,
-                        resources = context.resources,
-                    )
-                    MindMapCreateContent(
-                        modifier = Modifier.fillMaxSize(),
-                        mindMapCreateViewModel = mindMapThumbnailViewModel,
-                        onClickMindMapNode = { onClick() },
-                        onClickTaskNode = { onClick() },
-                    )
-                }
-            }
-        }
-    } else { // Thumbnail for first time
-        Column(
-            modifier = Modifier
-                .clip(RoundedCornerShape(20.dp))
-                .background(Color.Black)
-                .height(200.dp)
-                .fillMaxWidth()
-                .clickable { onClick() },
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.img_think_mind_map),
-                contentDescription = "Mind Map Image",
-                modifier = Modifier
-                    .height(130.dp)
-                    .fillMaxWidth(),
-            )
-            Text(
-                text = "Click here to start mind mapping!",
-                style = MaterialTheme.typography.caption,
-                color = Color.LightGray,
-            )
-        }
-    }
-}
-
-@ExperimentalPagerApi
-@ExperimentalMaterialApi
-@ExperimentalAnimationApi
-@Composable
-fun ProgressSection() {
-    val mindMapThumbnailViewModel = hiltViewModel<MindMapCreateViewModel>()
-
-    // observe task status update
-    val observedUpdateCount = mindMapThumbnailViewModel.updateCount.observeAsState()
-    observedUpdateCount.value?.let {
-        // Progress description
-        Row(
-            modifier = Modifier
-                .padding(start = 10.dp, bottom = 5.dp)
-                .fillMaxWidth(),
-        ) {
-            Text(
-                text = "Progress: ",
-                style = MaterialTheme.typography.body1,
-                color = Color.White
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(
-                text = "${mindMapThumbnailViewModel.tasks.getProgressRate().roundToInt()}%",
-                style = MaterialTheme.typography.body1,
-                color = Color.White
-            )
-        }
-        // Progress bar
-        RoundedProgressBar(
-            percent = mindMapThumbnailViewModel.tasks.getProgressRate().roundToInt()
-        )
-    }
-}
-
-@Composable
-fun RoundedProgressBar(
-    modifier: Modifier = Modifier,
-    percent: Int,
-    height: Dp = 10.dp,
-    backgroundColor: Color = colorResource(id = R.color.white_10),
-    foregroundColor: Brush = Brush.horizontalGradient(
-        listOf(colorResource(id = R.color.teal_200), colorResource(id = R.color.teal_200))
-    ),
-) {
-    BoxWithConstraints(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(height)
-            .clip(RoundedCornerShape(20.dp))
-    ) {
-        Box(
-            modifier = modifier
-                .background(backgroundColor)
-                .fillMaxWidth()
-                .height(height)
-        )
-        Box(
-            modifier = modifier
-                .animateContentSize(animationSpec = tween(durationMillis = 1500))
-                .background(foregroundColor)
-                .width(maxWidth * percent / 100)
-                .height(height)
         )
     }
 }
