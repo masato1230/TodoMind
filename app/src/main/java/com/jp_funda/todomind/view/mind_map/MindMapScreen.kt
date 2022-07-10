@@ -5,8 +5,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -23,14 +21,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.navigation.NavigationRoutes
 import com.jp_funda.todomind.navigation.arguments.MindMapDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.LoadingView
-import com.jp_funda.todomind.view.components.MindMapCard
 import com.jp_funda.todomind.view.components.RecentMindMapSection
+import com.jp_funda.todomind.view.mind_map.components.MindMapsRow
 import kotlinx.coroutines.delay
 
 @ExperimentalMaterialApi
@@ -111,11 +108,10 @@ fun MindMapContent(
                 color = Color.White,
                 style = MaterialTheme.typography.h6,
             )
-            MindMapsRow(
-                navController = navController,
-                mindMaps = yetCompletedMindMaps,
-                mainViewModel = mainViewModel,
-            )
+            MindMapsRow(mindMaps = yetCompletedMindMaps) { mindMap ->
+                mainViewModel.mindMapDetailArguments = MindMapDetailArguments(mindMap)
+                navController.navigate(NavigationRoutes.MindMapDetail)
+            }
 
             // Completed Section
             if (completedMindMaps.isNotEmpty()) {
@@ -125,33 +121,11 @@ fun MindMapContent(
                     color = Color.White,
                     style = MaterialTheme.typography.h6,
                 )
-                MindMapsRow(
-                    navController = navController,
-                    mindMaps = completedMindMaps,
-                    mainViewModel = mainViewModel,
-                )
+                MindMapsRow(mindMaps = completedMindMaps) { mindMap ->
+                    mainViewModel.mindMapDetailArguments = MindMapDetailArguments(mindMap)
+                    navController.navigate(NavigationRoutes.MindMapDetail)
+                }
             }
         }
     } ?: LoadingView()
-}
-
-@ExperimentalMaterialApi
-@ExperimentalPagerApi
-@ExperimentalAnimationApi
-@Composable
-fun MindMapsRow(
-    navController: NavController,
-    mindMaps: List<MindMap>,
-    mainViewModel: MainViewModel,
-) {
-    LazyRow(modifier = Modifier.padding(bottom = 20.dp)) {
-        items(items = mindMaps) { mindMap ->
-            MindMapCard(
-                mindMap = mindMap,
-                onClick = {
-                    mainViewModel.mindMapDetailArguments = MindMapDetailArguments(mindMap)
-                    navController.navigate(NavigationRoutes.MindMapDetail)
-                })
-        }
-    }
 }
