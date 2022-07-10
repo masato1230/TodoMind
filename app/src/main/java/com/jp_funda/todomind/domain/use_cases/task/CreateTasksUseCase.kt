@@ -1,10 +1,11 @@
-package com.jp_funda.todomind.domain.use_cases
+package com.jp_funda.todomind.domain.use_cases.task
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.domain.repositories.TaskRepository
+import com.jp_funda.todomind.domain.use_cases.SetNextReminderUseCase
 import java.util.*
 import javax.inject.Inject
 

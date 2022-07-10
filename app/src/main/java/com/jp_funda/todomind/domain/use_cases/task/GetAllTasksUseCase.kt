@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.domain.use_cases
+package com.jp_funda.todomind.domain.use_cases.task
 
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.domain.repositories.TaskRepository

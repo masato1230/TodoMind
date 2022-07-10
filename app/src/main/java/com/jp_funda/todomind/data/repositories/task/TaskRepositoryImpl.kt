@@ -37,67 +37,43 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
             return result?.let { realm.copyFromRealm(it) }
         }
     }
+
+    override suspend fun getNextRemindTask(lastRemindedTask: Task?): Task? {
+        Realm.getDefaultInstance().use { realm ->
+            val date = Date()
+            date.minutes -= 1
+            val result = realm.where<Task>()
+                .greaterThan("dueDate", date)
+                .greaterThan("updatedDate", lastRemindedTask?.updatedDate ?: Date(0))
+                .findFirst()
+            return result?.let { realm.copyFromRealm(it) }
+        }
+    }
+
+    override suspend fun getTasksInAMindMap(mindMap: MindMap): List<Task> {
+        Realm.getDefaultInstance().use { realm ->
+            val result1 = realm.where<Task>().equalTo("mindMap.id", mindMap.id).findAll()
+            return realm.copyFromRealm(result1)
+        }
+    }
+
+    override suspend fun getTasksFilteredByStatus(status: TaskStatus): List<Task> {
+        Realm.getDefaultInstance().use { realm ->
+            val result = realm.where<Task>().equalTo("status", status.state).findAll()
+            return realm.copyFromRealm(result)
+        }
+    }
+
+    // UPDATE
+    override suspend fun updateTask(updatedTask: Task) {
+        Realm.getDefaultInstance().use { realm ->
+            updatedTask.updatedDate = Date()
+            realm.copyToRealmOrUpdate(updatedTask)
+        }
+    }
 }
 
 // TODO old
-
-fun getNextRemindTask(lastRemindedTask: Task?): Single<Task> {
-    return Single.create { emitter ->
-        Realm.getDefaultInstance().use {
-            it.executeTransactionAsync { realm ->
-                val date = Date()
-                date.minutes -= 1
-                val result = realm.where<Task>()
-                    .greaterThan("dueDate", date)
-                    .greaterThan("updatedDate", lastRemindedTask?.updatedDate ?: Date(0))
-                    .findFirst()
-                if (result == null) emitter.onError(Throwable("No task to remind")) else {
-                    val copy = realm.copyFromRealm(result)
-                    emitter.onSuccess(copy)
-                }
-            }
-        }
-    }
-}
-
-fun getTasksInAMindMap(mindMap: MindMap): Single<List<Task>> {
-    return Single.create { emitter ->
-        Realm.getDefaultInstance().use {
-            it.executeTransactionAsync { realm ->
-                val result1 = realm.where<Task>().equalTo("mindMap.id", mindMap.id).findAll()
-                val result2 = Realm.getDefaultInstance().copyFromRealm(result1)
-                emitter.onSuccess(result2)
-            }
-        }
-    }
-}
-
-fun getTasksFilteredByStatus(status: TaskStatus): Single<List<Task>> {
-    return Single.create { emitter ->
-        Realm.getDefaultInstance().use {
-            it.executeTransactionAsync { realm ->
-                val result = realm.where<Task>().equalTo("status", status.state).findAll()
-                emitter.onSuccess(result)
-            }
-        }
-    }
-}
-
-// UPDATE
-fun updateTask(updatedTask: Task): Single<Task> {
-    return Single.create { emitter ->
-        Realm.getDefaultInstance().use {
-            it.executeTransactionAsync { realm ->
-                updatedTask.updatedDate = Date()
-                realm.copyToRealmOrUpdate(updatedTask)
-                emitter.onSuccess(updatedTask)
-
-                // set Reminder
-                setNextReminder(realm)
-            }
-        }
-    }
-}
 
 // DELETE
 fun deleteTask(task: Task): Single<Task> {
