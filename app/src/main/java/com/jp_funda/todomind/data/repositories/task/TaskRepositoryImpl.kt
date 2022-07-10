@@ -64,18 +64,20 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
 
     // UPDATE
     override suspend fun updateTask(updatedTask: Task) {
-        Realm.getDefaultInstance().use { realm ->
-            realm.executeTransaction {
-                it.copyToRealmOrUpdate(updatedTask)
+        Realm.getDefaultInstance().use {
+            it.executeTransaction { realm ->
+                realm.copyToRealmOrUpdate(updatedTask)
             }
         }
     }
 
     // DELETE
     override suspend fun deleteTask(task: Task) {
-        Realm.getDefaultInstance().use { realm ->
-            val deletingTask = realm.where<Task>().equalTo("id", task.id).findFirst()
-            deletingTask?.deleteFromRealm()
+        Realm.getDefaultInstance().use {
+            it.executeTransaction { realm ->
+                val deletingTask = realm.where<Task>().equalTo("id", task.id).findFirst()
+                deletingTask?.deleteFromRealm()
+            }
         }
     }
 }
