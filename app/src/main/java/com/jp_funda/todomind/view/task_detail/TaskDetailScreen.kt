@@ -53,7 +53,6 @@ fun TaskDetailScreen(
                 actions = {
                     taskDetailViewModel.task.value?.mindMap?.let {
                         val onClick = {
-                            mainViewModel.editingMindMap = it
                             val initialLocation = Location(
                                 x = taskDetailViewModel.task.value?.x ?: 0f,
                                 y = taskDetailViewModel.task.value?.y ?: 0f,
