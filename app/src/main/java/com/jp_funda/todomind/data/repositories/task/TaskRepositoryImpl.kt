@@ -30,39 +30,16 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
             return Realm.getDefaultInstance().copyFromRealm(result1)
         }
     }
+
+    override suspend fun getTask(id: UUID): Task? {
+        Realm.getDefaultInstance().use { realm ->
+            val result = realm.where<Task>().equalTo("id", id).findFirst()
+            return result?.let { realm.copyFromRealm(it) }
+        }
+    }
 }
 
 // TODO old
-fun restoreTask(task: Task): Single<Task> {
-    return Single.create { emitter ->
-        Realm.getDefaultInstance().use {
-            it.executeTransactionAsync { realm ->
-                task.updatedDate = Date()
-                realm.insertOrUpdate(task)
-                emitter.onSuccess(task)
-
-                // set Reminder
-                setNextReminder(realm)
-            }
-        }
-    }
-}
-
-fun getTask(id: UUID): Single<Task> {
-    return Single.create { emitter ->
-        Realm.getDefaultInstance().use {
-            it.executeTransactionAsync { realm ->
-                val result = realm.where<Task>().equalTo("id", id).findFirst()
-                if (result != null) {
-                    val resultCopy = realm.copyFromRealm(result)
-                    emitter.onSuccess(resultCopy)
-                } else {
-                    emitter.onError(Exception("No data"))
-                }
-            }
-        }
-    }
-}
 
 fun getNextRemindTask(lastRemindedTask: Task?): Single<Task> {
     return Single.create { emitter ->
