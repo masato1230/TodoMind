@@ -26,9 +26,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.NodeStyle
-import com.jp_funda.todomind.data.getSize
+import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.data.repositories.task.entity.getSize
 import com.jp_funda.todomind.navigation.NavigationRoutes
 import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
 import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
