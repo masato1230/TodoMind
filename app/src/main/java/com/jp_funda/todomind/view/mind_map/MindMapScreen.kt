@@ -25,6 +25,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.navigation.NavigationRoutes
+import com.jp_funda.todomind.navigation.arguments.MindMapDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.LoadingView
@@ -91,11 +92,14 @@ fun MindMapContent(
             RecentMindMapSection(
                 mindMap = yetCompletedMindMaps.firstOrNull(),
                 onRecentMindMapClick = {
-                    mainViewModel.editingMindMap = yetCompletedMindMaps.firstOrNull()
+                    mainViewModel.mindMapDetailArguments = MindMapDetailArguments(
+                        editingMindMap = yetCompletedMindMaps.firstOrNull()
+                    )
                     navController.navigate(NavigationRoutes.MindMapDetail)
                 },
                 onNewMindMapClick = {
-                    mainViewModel.editingMindMap = null
+                    mainViewModel.mindMapDetailArguments =
+                        MindMapDetailArguments(editingMindMap = null)
                     navController.navigate(NavigationRoutes.MindMapDetail)
                 }
             )
@@ -145,7 +149,7 @@ fun MindMapsRow(
             MindMapCard(
                 mindMap = mindMap,
                 onClick = {
-                    mainViewModel.editingMindMap = mindMap
+                    mainViewModel.mindMapDetailArguments = MindMapDetailArguments(mindMap)
                     navController.navigate(NavigationRoutes.MindMapDetail)
                 })
         }

@@ -16,6 +16,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.navigation.NavigationRoutes
+import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
@@ -43,7 +44,10 @@ fun TaskScreen(
                 contentColor = Color.White,
             )
         },
-        onClick = { navController.navigate(NavigationRoutes.TaskDetail) }
+        onClick = {
+            mainViewModel.taskDetailArguments = TaskDetailArguments(null)
+            navController.navigate(NavigationRoutes.TaskDetail)
+        }
     ) {
         TaskContent(navController, mainViewModel)
     }
@@ -111,7 +115,7 @@ fun TaskContent(
                     }
                 },
                 onRowClick = { task ->
-                    mainViewModel.editingTask = task
+                    mainViewModel.taskDetailArguments = TaskDetailArguments(task)
                     navController.navigate(NavigationRoutes.TaskDetail)
                 }
             ) {

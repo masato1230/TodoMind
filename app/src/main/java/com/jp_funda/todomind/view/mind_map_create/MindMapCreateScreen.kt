@@ -48,10 +48,11 @@ import kotlin.math.roundToInt
 fun MindMapCreateScreen(
     navController: NavController,
     mainViewModel: MainViewModel,
-    initialLocation: Location? = null,
 ) {
     val context = LocalContext.current
+    val arguments = mainViewModel.mindMapCreateArguments
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
+    val sheetViewModel = hiltViewModel<MindMapOptionsSheetViewModel>()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(initialValue = BottomSheetValue.Collapsed),
     )
@@ -59,9 +60,11 @@ fun MindMapCreateScreen(
 
     LaunchedEffect(Unit) {
         // Set mind map data
-        mindMapCreateViewModel.mindMap = mainViewModel.editingMindMap!!
+        mindMapCreateViewModel.mindMap = arguments.editingMindMap
         // Load task data and refresh view
         mindMapCreateViewModel.refreshView()
+        // Set editing  mind map to sheetViewModel
+        sheetViewModel.setEditingMindMap(arguments.editingMindMap)
 
         // Show tutorial dialog for first time
         val settingsPreferences = SettingsPreferences(context)
@@ -91,10 +94,7 @@ fun MindMapCreateScreen(
             },
             scaffoldState = bottomSheetScaffoldState,
             sheetContent = {
-                MindMapOptionsSheet(
-                    bottomSheetState = bottomSheetScaffoldState.bottomSheetState,
-                    mainViewModel = mainViewModel,
-                )
+                MindMapOptionsSheet(bottomSheetState = bottomSheetScaffoldState.bottomSheetState)
             },
             sheetPeekHeight = 0.dp,
             sheetBackgroundColor = colorResource(id = R.color.deep_purple),
@@ -108,8 +108,7 @@ fun MindMapCreateScreen(
 
             // Main Content
             MindMapCreateContent(
-                mainViewModel,
-                initialLocation,
+                arguments.initialLocation,
                 bottomSheetScaffoldState.bottomSheetState,
             )
         }
@@ -123,7 +122,6 @@ fun MindMapCreateScreen(
 @ExperimentalPagerApi
 @Composable
 fun MindMapCreateContent(
-    mainViewModel: MainViewModel,
     initialLocation: Location?,
     bottomSheetState: BottomSheetState,
 ) {
@@ -155,7 +153,6 @@ fun MindMapCreateContent(
             modifier = Modifier.fillMaxSize(),
             onClickMindMapNode = {
                 // Reset Selected Node
-                mainViewModel.selectedNode = null
                 sheetViewModel.setNode(null)
                 coroutineScope.launch {
                     bottomSheetState.expand()
@@ -163,7 +160,6 @@ fun MindMapCreateContent(
             },
             onClickTaskNode = { task ->
                 // Set selected Node
-                mainViewModel.selectedNode = task
                 sheetViewModel.setNode(task)
                 coroutineScope.launch {
                     bottomSheetState.expand()

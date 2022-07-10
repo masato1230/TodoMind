@@ -6,11 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepository
-import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
+import com.jp_funda.todomind.navigation.arguments.MindMapDetailArguments
+import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -50,14 +52,14 @@ class MainViewModel
         )
     }
 
-    /** Editing task at TaskDetailView - if this field is null, user is creating new task */
-    var editingTask: Task? = null
+    /** Arguments for TaskDetailScreen - if editingTask is null, user is creating a new task */
+    var taskDetailArguments = TaskDetailArguments(null)
 
-    /** Editing mind map - pass mind map data between MindMap, MindMapDetail, MindMapCreate */
-    var editingMindMap: MindMap? = null
+    /** Arguments for MindMapDetailScreen - if editingMindMap is null, user is creating a new mind map. */
+    lateinit var mindMapDetailArguments: MindMapDetailArguments
 
-    /** SelectedNode - node which is selected and showing options sheet.(when mind map is selected -> null) */
-    var selectedNode: Task? = null
+    /** Arguments for MindMapCreateScreen. */
+    lateinit var mindMapCreateArguments: MindMapCreateArguments
 
     /** Currently deleted task - show at task list snackbar to restore the task */
     var currentlyDeletedTask: Task? = null

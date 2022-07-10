@@ -23,6 +23,8 @@ import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.extension.getActivity
 import com.jp_funda.todomind.navigation.NavigationRoutes
+import com.jp_funda.todomind.navigation.arguments.MindMapDetailArguments
+import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
@@ -137,7 +139,7 @@ fun TopContent(
                 }
             },
             onRowClick = { task ->
-                mainViewModel.editingTask = task
+                mainViewModel.taskDetailArguments = TaskDetailArguments(task)
                 navController.navigate(NavigationRoutes.TaskDetail)
             },
             isScrollToTopAtLaunch = true,
@@ -147,11 +149,12 @@ fun TopContent(
             RecentMindMapSection(
                 mindMap = mostRecentlyUpdatedMindMap,
                 onRecentMindMapClick = {
-                    mainViewModel.editingMindMap = mostRecentlyUpdatedMindMap
+                    mainViewModel.mindMapDetailArguments =
+                        MindMapDetailArguments(editingMindMap = mostRecentlyUpdatedMindMap)
                     navController.navigate(NavigationRoutes.MindMapDetail)
                 },
                 onNewMindMapClick = {
-                    mainViewModel.editingMindMap = null
+                    mainViewModel.mindMapDetailArguments = MindMapDetailArguments(null)
                     navController.navigate(NavigationRoutes.MindMapDetail)
                 })
 
