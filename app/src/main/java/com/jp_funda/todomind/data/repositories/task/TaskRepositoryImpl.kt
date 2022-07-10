@@ -1,14 +1,10 @@
 package com.jp_funda.todomind.data.repositories.task
 
-import android.util.Log
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.domain.repositories.TaskRepository
-import com.jp_funda.todomind.notification.TaskReminder
-import io.reactivex.rxjava3.core.Single
 import io.realm.Realm
-import io.realm.Sort
 import io.realm.kotlin.where
 import java.util.*
 import javax.inject.Inject
@@ -67,44 +63,15 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
     // UPDATE
     override suspend fun updateTask(updatedTask: Task) {
         Realm.getDefaultInstance().use { realm ->
-            updatedTask.updatedDate = Date()
             realm.copyToRealmOrUpdate(updatedTask)
         }
     }
-}
 
-// TODO old
-
-// DELETE
-fun deleteTask(task: Task): Single<Task> {
-    return Single.create { emitter ->
-        Realm.getDefaultInstance().use {
-            it.executeTransactionAsync { realm ->
-                val realmTask = realm.where<Task>().equalTo("id", task.id).findFirst()
-                realmTask?.let { deletingTask ->
-                    deletingTask.deleteFromRealm()
-                    emitter.onSuccess(task)
-                    // set reminder
-                    setNextReminder(realm)
-                } ?: run {
-                    emitter.onError(Throwable("Error at deleteTask"))
-                }
-            }
+    // DELETE
+    override suspend fun deleteTask(task: Task) {
+        Realm.getDefaultInstance().use { realm ->
+            val deletingTask = realm.where<Task>().equalTo("id", task.id).findFirst()
+            deletingTask?.deleteFromRealm()
         }
     }
-}
-
-private fun setNextReminder(realm: Realm) {
-    // set Reminder
-    val date = Date()
-    date.minutes -= 1
-    val result = realm.where<Task>()
-        .greaterThan("dueDate", date)
-        .sort("dueDate", Sort.ASCENDING)
-        .findFirst()
-    result?.let { nextRemindTask ->
-        Log.d("Next", nextRemindTask.toString())
-        TaskReminder.setTaskReminder(nextRemindTask, context)
-    }
-}
 }

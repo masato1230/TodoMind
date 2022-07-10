@@ -18,5 +18,7 @@ interface TaskRepository {
 
     suspend fun getTasksFilteredByStatus(status: TaskStatus): List<Task>
 
-    suspend fun updateTask(updated: Task)
+    suspend fun updateTask(updatedTask: Task)
+
+    suspend fun deleteTask(task: Task)
 }
