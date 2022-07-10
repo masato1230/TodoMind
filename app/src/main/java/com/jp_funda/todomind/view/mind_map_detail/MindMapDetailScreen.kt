@@ -35,6 +35,8 @@ import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.components.dialog.ColorPickerDialog
+import com.jp_funda.todomind.view.components.dialog.ConfirmDialog
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_detail.components.ProgressSection
 import com.jp_funda.todomind.view.mind_map_detail.components.ThumbnailSection

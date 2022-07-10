@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.mind_map_detail
+package com.jp_funda.todomind.view.components.dialog
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.AlertDialog

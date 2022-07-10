@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.components
+package com.jp_funda.todomind.view.components.dialog
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
@@ -19,6 +19,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.task_detail.TaskEditableViewModel
 
 @ExperimentalAnimationApi
@@ -60,7 +61,7 @@ fun ParentSelectDialog(
 
                     // mind map option
                     mindMap?.let {
-                        RadioButton(
+                        com.jp_funda.todomind.view.components.RadioButton(
                             isSelected = selectedOption == null,
                             title = it.title ?: "",
                             color = it.color?.let { color -> Color(color) }
@@ -74,7 +75,7 @@ fun ParentSelectDialog(
                     // task option
                     LazyColumn(modifier = Modifier.height(300.dp)) {
                         items(viewModel.tasksInSameMindMap) { task ->
-                            RadioButton(
+                            com.jp_funda.todomind.view.components.RadioButton(
                                 isSelected = task.id == selectedOption?.id,
                                 title = task.title ?: "",
                                 color = task.color?.let { Color(it) }

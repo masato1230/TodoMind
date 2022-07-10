@@ -25,6 +25,10 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
+import com.jp_funda.todomind.view.components.dialog.ColorPickerDialog
+import com.jp_funda.todomind.view.components.dialog.DatePickerDialog
+import com.jp_funda.todomind.view.components.dialog.ParentSelectDialog
+import com.jp_funda.todomind.view.components.dialog.TimePickerDialog
 import com.jp_funda.todomind.view.task_detail.TaskEditableViewModel
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.text.SimpleDateFormat
