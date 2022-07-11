@@ -23,9 +23,13 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
 
     // READ
     override suspend fun getAllTasks(): List<Task> {
-        Realm.getDefaultInstance().use { realm ->
-            val result1 = realm.where<Task>().findAll()
-            return Realm.getDefaultInstance().copyFromRealm(result1)
+        Realm.getDefaultInstance().use {
+            var result = emptyList<Task>()
+            it.executeTransaction { realm ->
+                val result1 = realm.where<Task>().findAll()
+                 result = Realm.getDefaultInstance().copyFromRealm(result1)
+            }
+            return result
         }
     }
 

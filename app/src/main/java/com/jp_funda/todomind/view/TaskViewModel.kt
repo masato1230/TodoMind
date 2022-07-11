@@ -12,6 +12,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.domain.use_cases.task.GetAllTasksUseCase
 import com.jp_funda.todomind.domain.use_cases.task.RestoreTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -28,6 +29,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TaskViewModel @Inject constructor(
     private val repository: TaskRepository,
+    private val getAllTasksUseCase: GetAllTasksUseCase,
     private val restoreTaskUseCase: RestoreTaskUseCase,
 ) : ViewModel() {
     // All Task Data
@@ -42,19 +44,12 @@ class TaskViewModel @Inject constructor(
     private val disposables = CompositeDisposable()
 
     fun refreshTaskListData() {
-        disposables.add(
-            repository.getAllTasks()
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    // sort taskList by order column
-                    val sortedList = it.sortedBy { task -> task.reversedOrder }.reversed()
-                    _taskList.value = emptyList() // Change list length to notify data change to UI
-                    _taskList.value = sortedList
-                }, {
-                    Throwable("Error at taskViewModel getAllTask")
-                })
-        )
+        _taskList.value = emptyList()
+        viewModelScope.launch(Dispatchers.IO) {
+            // TODO move sort logic to use case
+            val sortedList = getAllTasksUseCase().sortedByDescending { task -> task.reversedOrder }
+            _taskList.postValue(sortedList)
+        }
     }
 
     fun setSelectedStatusTab(status: TaskStatus) {
