@@ -54,7 +54,7 @@ open class MindMapCreateViewModel @Inject constructor(
 
     private val disposables = CompositeDisposable()
 
-    private fun initializeScale() {
+    fun initializeScale() {
         scale = if (settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE) < 0f) 1f
         else settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE)
     }
@@ -117,14 +117,6 @@ open class MindMapCreateViewModel @Inject constructor(
                 }
                 .subscribe({}, { it.printStackTrace() })
         )
-    }
-
-    /** Clear cached data */
-    fun clearData() {
-        tasks = emptyList()
-        initializeScale()
-        _isLoading.value = false
-        disposables.clear()
     }
 
     override fun onCleared() {

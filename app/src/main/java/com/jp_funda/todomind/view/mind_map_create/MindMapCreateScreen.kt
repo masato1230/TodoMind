@@ -55,6 +55,7 @@ fun MindMapCreateScreen(
     LaunchedEffect(Unit) {
         // Set mind map data
         mindMapCreateViewModel.mindMap = arguments.editingMindMap
+        mindMapCreateViewModel.initializeScale()
         // Load task data and refresh view
         mindMapCreateViewModel.refreshView()
         // Set editing  mind map to sheetViewModel
