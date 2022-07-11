@@ -14,13 +14,12 @@ import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.domain.use_cases.task.GetAllTasksUseCase
 import com.jp_funda.todomind.domain.use_cases.task.RestoreTaskUseCase
+import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @ExperimentalAnimationApi
@@ -31,6 +30,7 @@ class TaskViewModel @Inject constructor(
     private val repository: TaskRepository,
     private val getAllTasksUseCase: GetAllTasksUseCase,
     private val restoreTaskUseCase: RestoreTaskUseCase,
+    private val updateTaskUseCase: UpdateTaskUseCase,
 ) : ViewModel() {
     // All Task Data
     private val _taskList = MutableLiveData<List<Task>>(null) // do not set null in other place
@@ -44,7 +44,6 @@ class TaskViewModel @Inject constructor(
     private val disposables = CompositeDisposable()
 
     fun refreshTaskListData() {
-        _taskList.value = emptyList()
         viewModelScope.launch(Dispatchers.IO) {
             // TODO move sort logic to use case
             val sortedList = getAllTasksUseCase().sortedByDescending { task -> task.reversedOrder }
@@ -57,28 +56,17 @@ class TaskViewModel @Inject constructor(
     }
 
     private fun updateDbWithTask(task: Task) {
-        disposables.add(
-            repository.updateTask(task)
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({}, {
-                    Throwable("Error at taskViewModel updateTask")
-                })
-        )
+        viewModelScope.launch(Dispatchers.IO) {
+            updateTaskUseCase(task)
+        }
     }
 
     fun updateTaskWithDelay(task: Task) {
-        disposables.add(
-            repository.updateTask(task)
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .delay(500, TimeUnit.MILLISECONDS)
-                .subscribe({
-                    refreshTaskListData()
-                }, {
-                    Throwable("Error at taskViewModel updateTask")
-                })
-        )
+        viewModelScope.launch(Dispatchers.IO) {
+            delay(500)
+            updateTaskUseCase(task)
+            refreshTaskListData()
+        }
     }
 
     fun replaceReversedOrderOfTasks(task1: Task, task2: Task) {

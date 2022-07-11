@@ -11,11 +11,11 @@ import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepository
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
 import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
-import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.use_cases.task.GetTasksInAMindMapUseCase
+import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -30,8 +30,8 @@ import javax.inject.Inject
 @HiltViewModel
 open class MindMapCreateViewModel @Inject constructor(
     private val getTasksInAMindMapUseCase: GetTasksInAMindMapUseCase,
+    private val updateTaskUseCase: UpdateTaskUseCase,
     private val mindMapRepository: MindMapRepository,
-    private val taskRepository: TaskRepository,
     private val ogpRepository: OgpRepository,
     private val settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
@@ -94,11 +94,9 @@ open class MindMapCreateViewModel @Inject constructor(
 
     /** Update task data in DB */
     fun updateTask(task: Task) {
-        disposables.add(
-            taskRepository.updateTask(task)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
-        )
+        viewModelScope.launch(Dispatchers.IO) {
+            updateTaskUseCase(task)
+        }
     }
 
     /** OGP */
