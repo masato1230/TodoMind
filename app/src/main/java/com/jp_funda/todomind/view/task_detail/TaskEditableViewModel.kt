@@ -16,6 +16,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
+import com.jp_funda.todomind.domain.use_cases.task.GetTasksInAMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,6 +46,9 @@ open class TaskEditableViewModel @Inject constructor(
     val updateTaskUseCase: UpdateTaskUseCase,
     settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
+    @Inject
+    lateinit var getTasksInAMindMapUseCase: GetTasksInAMindMapUseCase
+
     protected var _task = MutableLiveData(Task())
     val task: LiveData<Task> = _task
     var isEditing: Boolean = false
@@ -205,15 +209,12 @@ open class TaskEditableViewModel @Inject constructor(
 
     fun loadTasksInSameMindMap() {
         _isLoading.value = true
-        _task.value?.mindMap?.let {
-            taskRepository.getTasksInAMindMap(mindMap = it)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnSuccess {
-                    tasksInSameMindMap = it
-                }
-                .doFinally { _isLoading.value = false }
-                .subscribe()
+
+        viewModelScope.launch(Dispatchers.IO) {
+            _task.value?.mindMap?.let {
+                tasksInSameMindMap = getTasksInAMindMapUseCase(mindMap = it)
+            }
+            _isLoading.postValue(false)
         }
     }
 

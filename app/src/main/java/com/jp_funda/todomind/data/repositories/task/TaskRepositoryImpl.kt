@@ -38,7 +38,7 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
             var resultTask: Task? = null
             it.executeTransaction { realm ->
                 val result = realm.where<Task>().equalTo("id", id).findFirst()
-                resultTask = result?.let { realm.copyFromRealm(it) }
+                resultTask = result?.let { task -> realm.copyFromRealm(task) }
             }
             return resultTask
         }
@@ -63,9 +63,13 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
     }
 
     override suspend fun getTasksInAMindMap(mindMap: MindMap): List<Task> {
-        Realm.getDefaultInstance().use { realm ->
-            val result1 = realm.where<Task>().equalTo("mindMap.id", mindMap.id).findAll()
-            return realm.copyFromRealm(result1)
+        Realm.getDefaultInstance().use {
+            var tasks = emptyList<Task>()
+            it.executeTransaction { realm ->
+                val result1 = realm.where<Task>().equalTo("mindMap.id", mindMap.id).findAll()
+                tasks = realm.copyFromRealm(result1)
+            }
+            return tasks
         }
     }
 
