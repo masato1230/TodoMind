@@ -22,11 +22,15 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.domain.use_cases.SetNextReminderUseCase
+import com.jp_funda.todomind.domain.use_cases.task.GetNextRemindTaskUseCase
+import com.jp_funda.todomind.domain.use_cases.task.GetTaskUseCase
 import com.jp_funda.todomind.extension.extractFirstFiveDigits
 import com.jp_funda.todomind.view.task_reminder.TaskReminderActivity
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.abs
@@ -39,6 +43,15 @@ class TaskReminder : BroadcastReceiver() {
 
     @Inject
     lateinit var taskRepository: TaskRepository
+
+    @Inject
+    lateinit var getTaskUseCase: GetTaskUseCase
+
+    @Inject
+    lateinit var getNextReminderUseCase: GetNextRemindTaskUseCase
+
+    @Inject
+    lateinit var setReminderUseCase: SetNextReminderUseCase
 
     @Inject
     lateinit var notificationPreferences: NotificationPreferences
@@ -89,36 +102,30 @@ class TaskReminder : BroadcastReceiver() {
         val taskId = intent.getStringExtra(ID_KEY)
         Log.d("id", taskId.toString())
         taskId?.let {
-            taskRepository.getTask(UUID.fromString(it))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess { task ->
-                    try {
-                        if (
-                            settingsPreferences.getBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE) &&
-                            task.dueDate != null &&
-                            abs(task.dueDate!!.time - Date().time) < 1000 * 120 &&
-                            task.statusEnum != TaskStatus.Complete
-                        ) {
-                            showNotification(
-                                context,
-                                task.title ?: "",
-                                task.description ?: "",
-                                task.id.toString(),
-                            )
-                        }
-                        // set next reminder
-                        taskRepository.getNextRemindTask(task)
-                            .doOnSuccess { nextTask ->
-                                setTaskReminder(nextTask, context)
-                            }
-                            .subscribe()
-
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+            CoroutineScope(Dispatchers.Default).launch {
+                val task = getTaskUseCase(UUID.fromString(it))!! // TODO remove forced unwrap
+                try {
+                    if (
+                        settingsPreferences.getBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE) &&
+                        task.dueDate != null &&
+                        abs(task.dueDate!!.time - Date().time) < 1000 * 120 &&
+                        task.statusEnum != TaskStatus.Complete
+                    ) {
+                        showNotification(
+                            context,
+                            task.title ?: "",
+                            task.description ?: "",
+                            task.id.toString(),
+                        )
                     }
+                    // Set nextReminder
+                    getNextReminderUseCase(task)?.let { nextTask ->
+                        setTaskReminder(nextTask, context)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-                .subscribe()
+            }
         }
     }
 

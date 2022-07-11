@@ -58,7 +58,7 @@ open class TaskEditableViewModel @Inject constructor(
     private val disposables = CompositeDisposable()
 
     fun setEditingTask(editingTask: Task) {
-        _task.value = editingTask
+        _task.postValue(editingTask)
         isEditing = true
     }
 

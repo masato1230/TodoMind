@@ -27,28 +27,38 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
             var result = emptyList<Task>()
             it.executeTransaction { realm ->
                 val result1 = realm.where<Task>().findAll()
-                 result = Realm.getDefaultInstance().copyFromRealm(result1)
+                result = Realm.getDefaultInstance().copyFromRealm(result1)
             }
             return result
         }
     }
 
     override suspend fun getTask(id: UUID): Task? {
-        Realm.getDefaultInstance().use { realm ->
-            val result = realm.where<Task>().equalTo("id", id).findFirst()
-            return result?.let { realm.copyFromRealm(it) }
+        Realm.getDefaultInstance().use {
+            var resultTask: Task? = null
+            it.executeTransaction { realm ->
+                val result = realm.where<Task>().equalTo("id", id).findFirst()
+                resultTask = result?.let { realm.copyFromRealm(it) }
+            }
+            return resultTask
         }
     }
 
     override suspend fun getNextRemindTask(lastRemindedTask: Task?): Task? {
-        Realm.getDefaultInstance().use { realm ->
-            val date = Date()
-            date.minutes -= 1
-            val result = realm.where<Task>()
-                .greaterThan("dueDate", date)
-                .greaterThan("updatedDate", lastRemindedTask?.updatedDate ?: Date(0))
-                .findFirst()
-            return result?.let { realm.copyFromRealm(it) }
+        Realm.getDefaultInstance().use {
+            var nextRemindTask: Task? = null
+            it.executeTransaction { realm ->
+                val date = Date()
+                date.minutes -= 1
+                val result = realm.where<Task>()
+                    .greaterThan("dueDate", date)
+                    .greaterThan("updatedDate", lastRemindedTask?.updatedDate ?: Date(0))
+                    .findFirst()
+                result?.let { task ->
+                    nextRemindTask = realm.copyFromRealm(task)
+                }
+            }
+            return nextRemindTask
         }
     }
 
