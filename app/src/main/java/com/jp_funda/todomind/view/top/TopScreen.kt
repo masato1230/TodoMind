@@ -94,12 +94,12 @@ fun TopContent(
     // Show Undo snackbar if currentlyDeletedTask is not null
     LaunchedEffect(snackbarHostState) {
         mainViewModel.currentlyDeletedTask?.let {
+            mainViewModel.currentlyDeletedTask = null
             taskViewModel.showUndoDeleteSnackbar(
                 snackbarHostState = snackbarHostState,
                 deletedTask = it
             )
         }
-        mainViewModel.currentlyDeletedTask = null
     }
 
     // Main Contents

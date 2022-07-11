@@ -378,14 +378,13 @@ fun TaskEditContent(
                         text = "Delete",
                         leadingIcon = Icons.Default.Delete,
                     ) {
-                        // Delete task from DB(Edit mode) or Only Pop fragment(Create mode)
-                        taskEditableViewModel.deleteTask(
-                            task = task,
-                            onSuccess = { onComplete() })
                         // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
                         if (taskEditableViewModel.isEditing) {
                             mainViewModel?.currentlyDeletedTask = task
                         }
+                        // Delete task from DB(Edit mode) or Only Pop fragment(Create mode)
+                        taskEditableViewModel.deleteTask(task = task)
+                        onComplete()
                     }
                 }
                 

@@ -16,12 +16,13 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
+import com.jp_funda.todomind.domain.use_cases.task.DeleteTaskUseCase
 import com.jp_funda.todomind.domain.use_cases.task.GetTasksInAMindMapUseCase
-import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.internal.util.HalfSerializer.onComplete
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,12 +43,19 @@ import javax.inject.Inject
 open class TaskEditableViewModel @Inject constructor(
     val taskRepository: TaskRepository,
     val ogpRepository: OgpRepository,
-    val createTasksUseCase: CreateTasksUseCase,
-    val updateTaskUseCase: UpdateTaskUseCase,
     settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
     @Inject
+    lateinit var createTasksUseCase: CreateTasksUseCase
+
+    @Inject
+    lateinit var updateTaskUseCase: DeleteTaskUseCase
+
+    @Inject
     lateinit var getTasksInAMindMapUseCase: GetTasksInAMindMapUseCase
+
+    @Inject
+    lateinit var deleteTaskUseCase: DeleteTaskUseCase
 
     protected var _task = MutableLiveData(Task())
     val task: LiveData<Task> = _task
@@ -141,19 +149,12 @@ open class TaskEditableViewModel @Inject constructor(
         }
     }
 
-    fun deleteTask(task: Task, onSuccess: () -> Unit = {}) {
+    fun deleteTask(task: Task) {
         if (isEditing) {
-            disposables.add(
-                taskRepository.deleteTask(task)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSuccess {
-                        clearData()
-                        onSuccess()
-                    }
-                    .subscribe()
-            )
-        } else {
-            onSuccess()
+            viewModelScope.launch(Dispatchers.IO) {
+                deleteTaskUseCase(task)
+                clearData()
+            }
         }
     }
 

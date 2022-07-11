@@ -9,9 +9,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
-import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
 import com.jp_funda.todomind.domain.use_cases.task.GetTaskUseCase
-import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
 import com.jp_funda.todomind.view.task_detail.TaskEditableViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,14 +25,10 @@ class TaskReminderViewModel @Inject constructor(
     private val getTaskUseCase: GetTaskUseCase,
     taskRepository: TaskRepository,
     ogpRepository: OgpRepository,
-    createTasksUseCase: CreateTasksUseCase,
-    updateTaskUseCase: UpdateTaskUseCase,
     settingsPreferences: SettingsPreferences,
 ) : TaskEditableViewModel(
     taskRepository = taskRepository,
     ogpRepository = ogpRepository,
-    createTasksUseCase = createTasksUseCase,
-    updateTaskUseCase = updateTaskUseCase,
     settingsPreferences = settingsPreferences,
 ) {
     private val _loading = MutableLiveData(true)
