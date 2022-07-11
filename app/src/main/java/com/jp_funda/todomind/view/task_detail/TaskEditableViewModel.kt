@@ -17,6 +17,7 @@ import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
 import com.jp_funda.todomind.domain.use_cases.task.DeleteTaskUseCase
 import com.jp_funda.todomind.domain.use_cases.task.GetTasksInAMindMapUseCase
+import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -46,7 +47,7 @@ open class TaskEditableViewModel @Inject constructor(
     lateinit var createTasksUseCase: CreateTasksUseCase
 
     @Inject
-    lateinit var updateTaskUseCase: DeleteTaskUseCase
+    lateinit var updateTaskUseCase: UpdateTaskUseCase
 
     @Inject
     lateinit var getTasksInAMindMapUseCase: GetTasksInAMindMapUseCase
