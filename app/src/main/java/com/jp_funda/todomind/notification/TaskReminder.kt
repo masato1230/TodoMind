@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
@@ -40,9 +39,6 @@ import kotlin.math.abs
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class TaskReminder : BroadcastReceiver() {
-
-    @Inject
-    lateinit var taskRepository: TaskRepository
 
     @Inject
     lateinit var getTaskUseCase: GetTaskUseCase

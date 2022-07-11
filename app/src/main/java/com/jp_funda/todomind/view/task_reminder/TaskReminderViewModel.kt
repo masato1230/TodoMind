@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
-import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.use_cases.task.GetTaskUseCase
 import com.jp_funda.todomind.view.task_detail.TaskEditableViewModel
@@ -23,11 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class TaskReminderViewModel @Inject constructor(
     private val getTaskUseCase: GetTaskUseCase,
-    taskRepository: TaskRepository,
     ogpRepository: OgpRepository,
     settingsPreferences: SettingsPreferences,
 ) : TaskEditableViewModel(
-    taskRepository = taskRepository,
     ogpRepository = ogpRepository,
     settingsPreferences = settingsPreferences,
 ) {

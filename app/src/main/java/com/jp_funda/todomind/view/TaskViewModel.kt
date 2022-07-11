@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.domain.use_cases.task.GetAllTasksUseCase
@@ -27,7 +26,6 @@ import javax.inject.Inject
 @ExperimentalPagerApi
 @HiltViewModel
 class TaskViewModel @Inject constructor(
-    private val repository: TaskRepository,
     private val getAllTasksUseCase: GetAllTasksUseCase,
     private val restoreTaskUseCase: RestoreTaskUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
