@@ -4,14 +4,15 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
-import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.domain.use_cases.task.GetTaskUseCase
 import com.jp_funda.todomind.view.task_detail.TaskEditableViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
@@ -20,25 +21,21 @@ import javax.inject.Inject
 @ExperimentalPagerApi
 @HiltViewModel
 class TaskReminderViewModel @Inject constructor(
-    taskRepository: TaskRepository,
+    private val getTaskUseCase: GetTaskUseCase,
     ogpRepository: OgpRepository,
     settingsPreferences: SettingsPreferences,
 ) : TaskEditableViewModel(
-    taskRepository = taskRepository,
     ogpRepository = ogpRepository,
-    settingsPreferences = settingsPreferences
+    settingsPreferences = settingsPreferences,
 ) {
     private val _loading = MutableLiveData(true)
     val loading: LiveData<Boolean> = _loading
 
     fun getTask(id: UUID) {
-        taskRepository.getTask(id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess {
-                _loading.value = false
-                setEditingTask(it)
-            }
-            .subscribe()
+        viewModelScope.launch(Dispatchers.IO) {
+            val task = getTaskUseCase(id)
+            setEditingTask(task!!) // TODO remove forced unwrap
+            _loading.postValue(false)
+        }
     }
 }

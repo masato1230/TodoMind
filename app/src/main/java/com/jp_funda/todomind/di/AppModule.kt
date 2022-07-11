@@ -4,11 +4,10 @@ import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepository
-import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
-import com.jp_funda.todomind.data.repositories.task.TaskRepository
+import com.jp_funda.todomind.data.repositories.task.TaskRepositoryImpl
 import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.domain.use_cases.SetNextReminderUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,16 +32,16 @@ class AppModule {
     fun provideNotificationPreferences(@ApplicationContext appContext: Context) =
         NotificationPreferences(appContext)
 
-    @Provides
-    @Singleton
-    fun provideTaskRepository(@ApplicationContext appContext: Context) =
-        TaskRepository(appContext)
+    // TODO Delete
 
     @Provides
     @Singleton
-    fun provideMindMapRepository() = MindMapRepository()
+    fun provideTaskRepository(): com.jp_funda.todomind.domain.repositories.TaskRepository {
+        return TaskRepositoryImpl()
+    }
 
     @Provides
     @Singleton
-    fun provideOgpRepository() = OgpRepository()
+    fun provideSetNextReminderUseCase(@ApplicationContext appContext: Context) =
+        SetNextReminderUseCase(appContext)
 }

@@ -17,9 +17,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.NodeStyle
-import com.jp_funda.todomind.data.getSize
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
+import com.jp_funda.todomind.data.repositories.task.entity.getSize
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.view.MainViewModel
@@ -55,6 +55,7 @@ fun MindMapCreateScreen(
     LaunchedEffect(Unit) {
         // Set mind map data
         mindMapCreateViewModel.mindMap = arguments.editingMindMap
+        mindMapCreateViewModel.initializeScale()
         // Load task data and refresh view
         mindMapCreateViewModel.refreshView()
         // Set editing  mind map to sheetViewModel

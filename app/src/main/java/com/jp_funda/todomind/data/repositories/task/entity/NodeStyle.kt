@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.data
+package com.jp_funda.todomind.data.repositories.task.entity
 
 import android.content.res.Resources
 import androidx.compose.material.MaterialTheme

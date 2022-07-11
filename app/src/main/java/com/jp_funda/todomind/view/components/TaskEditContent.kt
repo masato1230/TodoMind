@@ -22,7 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.NodeStyle
+import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.dialog.ColorPickerDialog
@@ -378,14 +378,13 @@ fun TaskEditContent(
                         text = "Delete",
                         leadingIcon = Icons.Default.Delete,
                     ) {
-                        // Delete task from DB(Edit mode) or Only Pop fragment(Create mode)
-                        taskEditableViewModel.deleteTask(
-                            task = task,
-                            onSuccess = { onComplete() })
                         // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
                         if (taskEditableViewModel.isEditing) {
                             mainViewModel?.currentlyDeletedTask = task
                         }
+                        // Delete task from DB(Edit mode) or Only Pop fragment(Create mode)
+                        taskEditableViewModel.deleteTask(task = task)
+                        onComplete()
                     }
                 }
                 

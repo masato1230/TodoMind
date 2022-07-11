@@ -5,19 +5,23 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepository
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
 import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
-import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.domain.use_cases.task.GetTasksInAMindMapUseCase
+import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @ExperimentalAnimationApi
@@ -25,8 +29,9 @@ import javax.inject.Inject
 @ExperimentalPagerApi
 @HiltViewModel
 open class MindMapCreateViewModel @Inject constructor(
+    private val getTasksInAMindMapUseCase: GetTasksInAMindMapUseCase,
+    private val updateTaskUseCase: UpdateTaskUseCase,
     private val mindMapRepository: MindMapRepository,
-    private val taskRepository: TaskRepository,
     private val ogpRepository: OgpRepository,
     private val settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
@@ -49,16 +54,14 @@ open class MindMapCreateViewModel @Inject constructor(
 
     private val disposables = CompositeDisposable()
 
-    private fun initializeScale() {
+    fun initializeScale() {
         scale = if (settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE) < 0f) 1f
         else settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE)
     }
 
     /** Refresh MapView and scale percentage text */
-    fun refreshView() {
-        loadTaskData {
-            _updateCount.value = _updateCount.value!! + 1
-        }
+    fun refreshView() { // TODO rename
+        loadTaskData()
     }
 
     fun setScale(scale: Float) {
@@ -71,20 +74,12 @@ open class MindMapCreateViewModel @Inject constructor(
     }
 
     /** Load all data from db which is needed for drawing selected mind map */
-    private fun loadTaskData(onSuccess: () -> Unit = {}) {
-        disposables.add(
-            taskRepository
-                .getTasksInAMindMap(mindMap)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess {
-                    tasks = it
-                    _isLoading.value = false
-                    onSuccess()
-                }
-                .subscribe({}, {
-                    it.printStackTrace()
-                })
-        )
+    private fun loadTaskData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            tasks = getTasksInAMindMapUseCase(mindMap)
+            _isLoading.postValue(false)
+            _updateCount.postValue(_updateCount.value?.plus(1))
+        }
     }
 
     /** Update mindMap data in DB */
@@ -99,11 +94,9 @@ open class MindMapCreateViewModel @Inject constructor(
 
     /** Update task data in DB */
     fun updateTask(task: Task) {
-        disposables.add(
-            taskRepository.updateTask(task)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
-        )
+        viewModelScope.launch(Dispatchers.IO) {
+            updateTaskUseCase(task)
+        }
     }
 
     /** OGP */
@@ -124,14 +117,6 @@ open class MindMapCreateViewModel @Inject constructor(
                 }
                 .subscribe({}, { it.printStackTrace() })
         )
-    }
-
-    /** Clear cached data */
-    fun clearData() {
-        tasks = emptyList()
-        initializeScale()
-        _isLoading.value = false
-        disposables.clear()
     }
 
     override fun onCleared() {

@@ -7,15 +7,18 @@ import androidx.compose.material.SnackbarResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.domain.use_cases.task.GetAllTasksUseCase
+import com.jp_funda.todomind.domain.use_cases.task.RestoreTaskUseCase
+import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @ExperimentalAnimationApi
@@ -23,7 +26,9 @@ import javax.inject.Inject
 @ExperimentalPagerApi
 @HiltViewModel
 class TaskViewModel @Inject constructor(
-    private val repository: TaskRepository
+    private val getAllTasksUseCase: GetAllTasksUseCase,
+    private val restoreTaskUseCase: RestoreTaskUseCase,
+    private val updateTaskUseCase: UpdateTaskUseCase,
 ) : ViewModel() {
     // All Task Data
     private val _taskList = MutableLiveData<List<Task>>(null) // do not set null in other place
@@ -37,19 +42,11 @@ class TaskViewModel @Inject constructor(
     private val disposables = CompositeDisposable()
 
     fun refreshTaskListData() {
-        disposables.add(
-            repository.getAllTasks()
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    // sort taskList by order column
-                    val sortedList = it.sortedBy { task -> task.reversedOrder }.reversed()
-                    _taskList.value = emptyList() // Change list length to notify data change to UI
-                    _taskList.value = sortedList
-                }, {
-                    Throwable("Error at taskViewModel getAllTask")
-                })
-        )
+        viewModelScope.launch(Dispatchers.IO) {
+            // TODO move sort logic to use case
+            val sortedList = getAllTasksUseCase().sortedByDescending { task -> task.reversedOrder }
+            _taskList.postValue(sortedList)
+        }
     }
 
     fun setSelectedStatusTab(status: TaskStatus) {
@@ -57,28 +54,17 @@ class TaskViewModel @Inject constructor(
     }
 
     private fun updateDbWithTask(task: Task) {
-        disposables.add(
-            repository.updateTask(task)
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({}, {
-                    Throwable("Error at taskViewModel updateTask")
-                })
-        )
+        viewModelScope.launch(Dispatchers.IO) {
+            updateTaskUseCase(task)
+        }
     }
 
     fun updateTaskWithDelay(task: Task) {
-        disposables.add(
-            repository.updateTask(task)
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .delay(500, TimeUnit.MILLISECONDS)
-                .subscribe({
-                    refreshTaskListData()
-                }, {
-                    Throwable("Error at taskViewModel updateTask")
-                })
-        )
+        viewModelScope.launch(Dispatchers.IO) {
+            delay(500)
+            updateTaskUseCase(task)
+            refreshTaskListData()
+        }
     }
 
     fun replaceReversedOrderOfTasks(task1: Task, task2: Task) {
@@ -133,11 +119,10 @@ class TaskViewModel @Inject constructor(
 
         // When Undo button is Clicked - Restore deleted data
         if (snackbarResult == SnackbarResult.ActionPerformed) {
-            repository.restoreTask(deletedTask)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    refreshTaskListData()
-                }, {})
+            viewModelScope.launch(Dispatchers.IO) {
+                restoreTaskUseCase(deletedTask)
+                refreshTaskListData()
+            }
         }
     }
 
