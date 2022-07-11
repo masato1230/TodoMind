@@ -7,14 +7,18 @@ import androidx.compose.material.SnackbarResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.task.TaskRepository
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.domain.use_cases.task.RestoreTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -23,7 +27,8 @@ import javax.inject.Inject
 @ExperimentalPagerApi
 @HiltViewModel
 class TaskViewModel @Inject constructor(
-    private val repository: TaskRepository
+    private val repository: TaskRepository,
+    private val restoreTaskUseCase: RestoreTaskUseCase,
 ) : ViewModel() {
     // All Task Data
     private val _taskList = MutableLiveData<List<Task>>(null) // do not set null in other place
@@ -133,11 +138,10 @@ class TaskViewModel @Inject constructor(
 
         // When Undo button is Clicked - Restore deleted data
         if (snackbarResult == SnackbarResult.ActionPerformed) {
-            repository.restoreTask(deletedTask)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    refreshTaskListData()
-                }, {})
+            viewModelScope.launch(Dispatchers.IO) {
+                restoreTaskUseCase(deletedTask)
+                refreshTaskListData()
+            }
         }
     }
 
