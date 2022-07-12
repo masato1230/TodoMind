@@ -7,13 +7,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepository
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
 import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.domain.use_cases.mind_map.UpdateMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.task.GetTasksInAMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,9 +29,9 @@ import javax.inject.Inject
 @ExperimentalPagerApi
 @HiltViewModel
 open class MindMapCreateViewModel @Inject constructor(
+    private val updateMindMapUseCase: UpdateMindMapUseCase,
     private val getTasksInAMindMapUseCase: GetTasksInAMindMapUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
-    private val mindMapRepository: MindMapRepository,
     private val ogpRepository: OgpRepository,
     private val settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
@@ -85,11 +85,9 @@ open class MindMapCreateViewModel @Inject constructor(
     /** Update mindMap data in DB */
     fun updateMindMap(mindMap: MindMap) {
         this.mindMap = mindMap
-        disposables.add(
-            mindMapRepository.updateMindMap(mindMap)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
-        )
+        viewModelScope.launch(Dispatchers.IO) {
+            updateMindMapUseCase(mindMap)
+        }
     }
 
     /** Update task data in DB */

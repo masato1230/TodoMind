@@ -11,6 +11,7 @@ import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
+import com.jp_funda.todomind.domain.use_cases.mind_map.UpdateMindMapUseCase
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -25,6 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MindMapDetailViewModel @Inject constructor(
     private val createMindMapUseCase: CreateMindMapUseCase,
+    private val updateMindMapUseCase: UpdateMindMapUseCase,
     private val mindMapRepository: MindMapRepository,
     private val ogpRepository: OgpRepository,
     settingsPreferences: SettingsPreferences,
@@ -76,16 +78,12 @@ class MindMapDetailViewModel @Inject constructor(
     }
 
     fun saveMindMapAndClearDisposables() {
-        if (!isEditing) {
-            viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (!isEditing) {
                 createMindMapUseCase(_mindMap.value!!)
+            } else {
+                updateMindMapUseCase(_mindMap.value!!)
             }
-        } else {
-            disposables.add(
-                mindMapRepository.updateMindMap(_mindMap.value!!)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doFinally { disposables.clear() }
-                    .subscribe())
         }
     }
 
