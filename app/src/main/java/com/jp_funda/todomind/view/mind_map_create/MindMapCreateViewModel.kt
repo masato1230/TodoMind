@@ -77,7 +77,7 @@ open class MindMapCreateViewModel @Inject constructor(
     /** Load all data from db which is needed for drawing selected mind map */
     private fun loadTaskData() {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(200)
+            delay(100) // Delay for keep consistency between view and db
             tasks = getTasksInAMindMapUseCase(mindMap)
             _isLoading.postValue(false)
             _updateCount.postValue(_updateCount.value?.plus(1))
