@@ -86,7 +86,7 @@ fun MindMapDetailScreen(
     DisposableEffect(key1 = LocalLifecycleOwner.current) {
         onDispose {
             if (mindMapDetailViewModel.isAutoSaveNeeded) {
-                mindMapDetailViewModel.saveMindMapAndClearDisposables()
+                mindMapDetailViewModel.saveMindMap()
             }
         }
     }
@@ -129,7 +129,8 @@ fun MindMapDetailScreen(
                 isShowDialog = isShowConfirmDeleteDialog,
                 isShowNegativeButton = true,
                 onClickPositive = {
-                    mindMapDetailViewModel.deleteMindMapAndClearDisposables { navController.popBackStack() }
+                    mindMapDetailViewModel.deleteMindMap()
+                    navController.popBackStack()
                 },
             )
         }

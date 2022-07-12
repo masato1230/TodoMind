@@ -1,29 +1,41 @@
 package com.jp_funda.todomind.view.mind_map_detail
 
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepository
+import androidx.lifecycle.viewModelScope
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
 import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
+import com.jp_funda.todomind.domain.use_cases.mind_map.DeleteMindMapUseCase
+import com.jp_funda.todomind.domain.use_cases.mind_map.UpdateMindMapUseCase
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@ExperimentalAnimationApi
+@ExperimentalPagerApi
+@ExperimentalMaterialApi
 @HiltViewModel
 class MindMapDetailViewModel @Inject constructor(
-    private val mindMapRepository: MindMapRepository,
+    private val createMindMapUseCase: CreateMindMapUseCase,
+    private val updateMindMapUseCase: UpdateMindMapUseCase,
+    private val deleteMindMapUseCase: DeleteMindMapUseCase,
     private val ogpRepository: OgpRepository,
     settingsPreferences: SettingsPreferences,
-    ) : ViewModel() {
+) : ViewModel() {
     private var _mindMap = MutableLiveData(MindMap())
     val mindMap: LiveData<MindMap> = _mindMap
 
@@ -70,57 +82,23 @@ class MindMapDetailViewModel @Inject constructor(
         notifyChangeToView()
     }
 
-    fun saveMindMapAndClearDisposables() {
-        disposables.add(
+    fun saveMindMap() {
+        CoroutineScope(Dispatchers.IO).launch {
             if (!isEditing) {
-                mindMapRepository.createMindMap(_mindMap.value!!)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doFinally { disposables.clear() }
-                    .subscribe()
+                createMindMapUseCase(_mindMap.value!!)
             } else {
-                mindMapRepository.updateMindMap(_mindMap.value!!)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doFinally { disposables.clear() }
-                    .subscribe()
-            }
-        )
-    }
-
-    fun deleteMindMapAndClearDisposables(onSuccess: () -> Unit = {}) {
-        isAutoSaveNeeded = false
-        if (isEditing) {
-            disposables.add(
-                mindMapRepository.deleteMindMap(_mindMap.value!!)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSuccess {
-                        delay { // delay to wait dismissing dialog
-                            onSuccess()
-                            disposables.clear()
-                        }
-                    }
-                    .subscribe()
-            )
-        } else {
-            delay {
-                onSuccess()
+                updateMindMapUseCase(_mindMap.value!!)
             }
         }
     }
 
-    private fun delay(onFinally: () -> Unit = {}) {
-        disposables.add(
-            Completable
-                .timer(50, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.io()) // where the work should be done
-                .observeOn(AndroidSchedulers.mainThread()) // where the data stream should be delivered
-                .subscribe({
-                    // do something after 1 second
-                    onFinally()
-                    disposables.clear()
-                }, {
-                    // do something on error
-                })
-        )
+    fun deleteMindMap() {
+        isAutoSaveNeeded = false
+        if (isEditing) {
+            viewModelScope.launch(Dispatchers.IO) {
+                deleteMindMapUseCase(_mindMap.value!!)
+            }
+        }
     }
 
     private fun notifyChangeToView() {
