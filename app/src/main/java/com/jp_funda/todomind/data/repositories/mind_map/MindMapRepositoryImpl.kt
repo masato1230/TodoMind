@@ -53,4 +53,14 @@ class MindMapRepositoryImpl : MindMapRepository {
             }
         }
     }
+
+    // Delete
+    override suspend fun deleteMindMap(mindMap: MindMap) {
+        Realm.getDefaultInstance().use {
+            it.executeTransaction { realm ->
+                val realmMindMap = realm.where<MindMap>().equalTo("id", mindMap.id).findFirst()
+                realmMindMap?.deleteFromRealm()
+            }
+        }
+    }
 }

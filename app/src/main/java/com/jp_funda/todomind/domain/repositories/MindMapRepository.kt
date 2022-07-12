@@ -10,4 +10,6 @@ interface MindMapRepository {
     suspend fun getMostRecentlyUpdatedMindMap(): MindMap?
 
     suspend fun updateMindMap(mindMap: MindMap)
+
+    suspend fun deleteMindMap(mindMap: MindMap)
 }

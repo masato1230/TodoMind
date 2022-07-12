@@ -21,4 +21,6 @@ interface TaskRepository {
     suspend fun updateTask(updatedTask: Task)
 
     suspend fun deleteTask(task: Task)
+
+    suspend fun deleteTasksInAMindMap(mindMap: MindMap)
 }

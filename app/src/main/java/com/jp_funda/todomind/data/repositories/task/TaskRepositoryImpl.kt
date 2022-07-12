@@ -98,4 +98,12 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
             }
         }
     }
+
+    override suspend fun deleteTasksInAMindMap(mindMap: MindMap) {
+        Realm.getDefaultInstance().use {
+            it.executeTransaction { realm ->
+                realm.where<Task>().equalTo("mindMap.id", mindMap.id).findAll().deleteAllFromRealm()
+            }
+        }
+    }
 }
