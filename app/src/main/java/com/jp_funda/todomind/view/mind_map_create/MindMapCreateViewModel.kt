@@ -21,6 +21,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -76,6 +77,7 @@ open class MindMapCreateViewModel @Inject constructor(
     /** Load all data from db which is needed for drawing selected mind map */
     private fun loadTaskData() {
         viewModelScope.launch(Dispatchers.IO) {
+            delay(200)
             tasks = getTasksInAMindMapUseCase(mindMap)
             _isLoading.postValue(false)
             _updateCount.postValue(_updateCount.value?.plus(1))
