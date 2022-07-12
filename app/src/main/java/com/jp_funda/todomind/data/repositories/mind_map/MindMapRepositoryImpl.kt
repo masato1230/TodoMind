@@ -44,4 +44,13 @@ class MindMapRepositoryImpl : MindMapRepository {
             return mindMap
         }
     }
+
+    // UPDATE
+    override suspend fun updateMindMap(mindMap: MindMap) {
+        Realm.getDefaultInstance().use {
+            it.executeTransaction { realm ->
+                realm.copyToRealmOrUpdate(mindMap)
+            }
+        }
+    }
 }

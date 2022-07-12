@@ -8,4 +8,6 @@ interface MindMapRepository {
     suspend fun getAllMindMaps(): List<MindMap>
 
     suspend fun getMostRecentlyUpdatedMindMap(): MindMap?
+
+    suspend fun updateMindMap(mindMap: MindMap)
 }
