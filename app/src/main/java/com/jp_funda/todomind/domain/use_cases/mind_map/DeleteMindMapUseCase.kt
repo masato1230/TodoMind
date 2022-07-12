@@ -18,8 +18,8 @@ class DeleteMindMapUseCase @Inject constructor(
     private val setNextReminderUseCase: SetNextReminderUseCase,
 ) {
     suspend operator fun invoke(mindMap: MindMap) {
-        repository.deleteMindMap(mindMap)
         deleteTasksInAMindMapUseCase(mindMap)
+        repository.deleteMindMap(mindMap)
         setNextReminderUseCase()
     }
 }
