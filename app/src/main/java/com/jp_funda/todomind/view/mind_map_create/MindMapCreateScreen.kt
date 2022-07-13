@@ -136,11 +136,14 @@ fun MindMapCreateContent(
     }
 
     val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
-    observedUpdateCount.value?.let {
-        mapView.onScaleChange(mindMapCreateViewModel.getScale())
-    }
+    AndroidView(
+        factory = { mapView },
+        update = {
+            observedUpdateCount.value // Include update count state to call this callback
+            it.onScaleChange(mindMapCreateViewModel.getScale())
+        }
+    )
 
-    AndroidView(factory = { mapView })
 
     // Node Graph
     mapView.composeView.setContent {

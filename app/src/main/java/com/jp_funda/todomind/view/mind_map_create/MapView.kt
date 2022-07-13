@@ -41,14 +41,10 @@ class MapView @JvmOverloads constructor(
     /** Properties for diagonalScroll */
     private var scrollAnimator: ObjectAnimator? = null
     private var horizontalScrollAnimator: ObjectAnimator? = null
-    private var startX = 0f
-    private var startY = 0f
-    private var twoBeforeX = 0f
-    private var twoBeforeY = 0f
-    private var beforeX = 0f
-    private var beforeY = 0f
-    private var currentX = 0f
-    private var currentY = 0f
+    private var twoBeforeX: Float? = null
+    private var twoBeforeY: Float? = null
+    private var beforeX: Float? = null
+    private var beforeY: Float? = null
 
     /** Properties for scale */
     private var scale: Float = 1f
@@ -77,32 +73,29 @@ class MapView @JvmOverloads constructor(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        currentX = event.x
-        currentY = event.y
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 scrollAnimator?.pause()
                 horizontalScrollAnimator?.pause()
                 scrollView.performClick()
-                startX = event.x
-                startY = event.y
                 beforeX = event.x
                 beforeY = event.y
             }
             MotionEvent.ACTION_MOVE -> {
-                horizontalScrollView.scrollBy((beforeX - currentX).toInt(), 0)
-                scrollView.scrollBy(0, (beforeY - currentY).toInt())
+                beforeX?.let { horizontalScrollView.scrollBy((it - event.x).toInt(), 0) }
+                beforeY?.let { scrollView.scrollBy(0, (it - event.y).toInt()) }
                 twoBeforeX = beforeX
                 twoBeforeY = beforeY
-                beforeX = currentX
-                beforeY = currentY
+                beforeX = event.x
+                beforeY = event.y
             }
             MotionEvent.ACTION_UP -> {
+                if (twoBeforeX == null || twoBeforeY == null) return true
                 scrollAnimator = ObjectAnimator.ofInt(
                     scrollView,
                     "ScrollY",
                     scrollView.scrollY,
-                    scrollView.scrollY - (currentY - twoBeforeY).toInt() * 40,
+                    scrollView.scrollY - (event.y - twoBeforeY!!).toInt() * 40,
                 ).setDuration(700)
                 scrollAnimator?.let {
                     it.apply {
@@ -114,7 +107,7 @@ class MapView @JvmOverloads constructor(
                     horizontalScrollView,
                     "ScrollX",
                     horizontalScrollView.scrollX,
-                    horizontalScrollView.scrollX - (currentX - twoBeforeX).toInt() * 40
+                    horizontalScrollView.scrollX - (event.x - twoBeforeX!!).toInt() * 40
                 ).setDuration(700)
                 horizontalScrollAnimator?.let {
                     it.apply {
@@ -122,6 +115,11 @@ class MapView @JvmOverloads constructor(
                         start()
                     }
                 }
+
+                twoBeforeX = null
+                twoBeforeY = null
+                beforeX = null
+                beforeY = null
             }
         }
         return true
