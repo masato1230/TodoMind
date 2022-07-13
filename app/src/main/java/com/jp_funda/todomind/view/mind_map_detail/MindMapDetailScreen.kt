@@ -76,10 +76,12 @@ fun MindMapDetailScreen(
 
         // Set up Thumbnail - set scale and Load task data for drawing mindMap thumbnail
         delay(1000) // todo delete
-        arguments.editingMindMap?.let {
-            mindMapThumbnailViewModel.mindMap = it
-            mindMapThumbnailViewModel.setScale(0.05f)
-            mindMapThumbnailViewModel.refreshView()
+        if (mindMapDetailViewModel.isEditing) {
+            mindMapDetailViewModel.mindMap.value?.let {
+                mindMapThumbnailViewModel.mindMap = it
+                mindMapThumbnailViewModel.setScale(0.05f)
+                mindMapThumbnailViewModel.refreshView()
+            }
         }
     }
 
@@ -88,6 +90,7 @@ fun MindMapDetailScreen(
             if (mindMapDetailViewModel.isAutoSaveNeeded) {
                 mindMapDetailViewModel.saveMindMap()
             }
+            mindMapDetailViewModel.isEditing = true
         }
     }
 
@@ -290,7 +293,7 @@ fun MindMapDetailTopContent(
         )
 
         /** Thumbnail Section */
-        ThumbnailSection(arguments.editingMindMap == null) {
+        ThumbnailSection(!mindMapDetailViewModel.isEditing) {
             navigateToMindMapCreate(
                 navController = navController,
                 mainViewModel = mainViewModel,
