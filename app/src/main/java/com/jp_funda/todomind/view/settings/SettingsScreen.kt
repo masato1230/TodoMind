@@ -28,7 +28,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.BuildConfig
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.navigation.NavigationRoutes
+import com.jp_funda.todomind.navigation.NavigationRoute
 import com.jp_funda.todomind.view.intro.IntroActivity
 import com.jp_funda.todomind.view.settings.components.*
 import kotlinx.coroutines.launch
@@ -76,7 +76,7 @@ fun SettingsContent(navController: NavController) {
                 icon = Icons.Default.LocationOn,
                 title = "Default Mind Map Scale",
                 selectedValue = "${(viewModel.defaultMindMapScale * 100).roundToInt()} %"
-            ) { navController.navigate(NavigationRoutes.MindMapScale) }
+            ) { navController.navigate(NavigationRoute.MindMapScale) }
 
             Divider(color = colorResource(id = R.color.white_1))
 
@@ -107,7 +107,7 @@ fun SettingsContent(navController: NavController) {
             SettingRowWithNext(
                 icon = Icons.Default.List,
                 title = "Open source licenses"
-            ) { navController.navigate(NavigationRoutes.OssLicenses) }
+            ) { navController.navigate(NavigationRoute.OssLicenses) }
 
             Divider(color = colorResource(id = R.color.white_1))
 

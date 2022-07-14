@@ -15,7 +15,6 @@ import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
 import com.jp_funda.todomind.navigation.arguments.MindMapDetailArguments
 import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,9 +29,6 @@ class MainViewModel
     private val createMindMapUseCase: CreateMindMapUseCase,
     private val settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
-
-    private val disposables = CompositeDisposable()
-
     fun addSampleData() {
         viewModelScope.launch(Dispatchers.IO) {
             createMindMapUseCase(SampleData.mindMap)
@@ -55,8 +51,4 @@ class MainViewModel
 
     /** Currently deleted task - show at task list snackbar to restore the task */
     var currentlyDeletedTask: Task? = null
-
-    override fun onCleared() {
-        disposables.clear()
-    }
 }

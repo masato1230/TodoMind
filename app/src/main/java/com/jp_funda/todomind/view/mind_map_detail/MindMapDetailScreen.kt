@@ -29,7 +29,7 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.repositories.task.entity.getSize
-import com.jp_funda.todomind.navigation.NavigationRoutes
+import com.jp_funda.todomind.navigation.NavigationRoute
 import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
 import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
@@ -208,8 +208,7 @@ fun MindMapDetailContent(
                     }
                 },
                 onRowClick = { task ->
-                    mainViewModel.taskDetailArguments = TaskDetailArguments(task)
-                    navController.navigate(NavigationRoutes.TaskDetail)
+                    navController.navigate("${NavigationRoute.TaskDetail}?${task.id}")
                 }
             ) {
                 Column(modifier = Modifier.padding(horizontal = 20.dp)) {
@@ -443,5 +442,5 @@ private fun navigateToMindMapCreate(
         editingMindMap = mindMapDetailViewModel.mindMap.value!!,
         initialLocation = null,
     )
-    navController.navigate(NavigationRoutes.MindMapCreate)
+    navController.navigate(NavigationRoute.MindMapCreate)
 }

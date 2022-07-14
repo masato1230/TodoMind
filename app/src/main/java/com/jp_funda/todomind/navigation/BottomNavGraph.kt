@@ -7,6 +7,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -39,12 +40,12 @@ fun BottomNavGraph(
 
     AnimatedNavHost(
         navController = navController,
-        startDestination = NavigationRoutes.Top,
+        startDestination = NavigationRoute.Top,
         modifier = modifier,
     ) {
         /** Top Screen. */
         composable(
-            route = NavigationRoutes.Top,
+            route = NavigationRoute.Top,
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
         ) {
@@ -57,7 +58,7 @@ fun BottomNavGraph(
 
         /** Task Screen. */
         composable(
-            route = NavigationRoutes.Task,
+            route = NavigationRoute.Task,
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
         ) {
@@ -70,7 +71,7 @@ fun BottomNavGraph(
 
         /** MindMap Screen. */
         composable(
-            route = NavigationRoutes.MindMap,
+            route = NavigationRoute.MindMap,
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
         ) {
@@ -82,14 +83,14 @@ fun BottomNavGraph(
         }
 
         /** Record Screen. */
-        composable(route = NavigationRoutes.Record) {
+        composable(route = NavigationRoute.Record) {
             bottomBarState.value = true
             RecordScreen()
         }
 
         /** Settings Screen. */
         composable(
-            route = NavigationRoutes.Settings,
+            route = NavigationRoute.Settings,
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
         ) {
@@ -98,24 +99,27 @@ fun BottomNavGraph(
         }
 
         /** TaskDetail Screen. */
+        val taskIdKey = "task id"
         composable(
-            route = NavigationRoutes.TaskDetail,
+            route = "${NavigationRoute.TaskDetail}?{$taskIdKey}",
+            arguments = listOf(navArgument(taskIdKey) { nullable = true }),
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
-        ) {
+        ) { backStackEntry ->
             bottomBarState.value = false
             TaskDetailScreen(
                 navController = navController,
                 mainViewModel = mainViewModel,
+                taskId = backStackEntry.arguments?.getString(taskIdKey),
             )
         }
 
         // Screens - MindMap
         /** MindMapDetail Screen. */
         composable(
-            route = NavigationRoutes.MindMapDetail,
+            route = NavigationRoute.MindMapDetail,
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },
@@ -127,7 +131,7 @@ fun BottomNavGraph(
 
         /** MindMapCreate Screen. */
         composable(
-            route = NavigationRoutes.MindMapCreate,
+            route = NavigationRoute.MindMapCreate,
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },
@@ -143,7 +147,7 @@ fun BottomNavGraph(
         // Screens - Settings
         /** MindMapScale Screen. */
         composable(
-            route = NavigationRoutes.MindMapScale,
+            route = NavigationRoute.MindMapScale,
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },
@@ -155,7 +159,7 @@ fun BottomNavGraph(
 
         /** OssLicenses Screen. */
         composable(
-            route = NavigationRoutes.OssLicenses,
+            route = NavigationRoute.OssLicenses,
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },

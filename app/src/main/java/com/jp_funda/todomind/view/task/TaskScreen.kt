@@ -15,7 +15,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
-import com.jp_funda.todomind.navigation.NavigationRoutes
+import com.jp_funda.todomind.navigation.NavigationRoute
 import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
@@ -45,8 +45,7 @@ fun TaskScreen(
             )
         },
         onClick = {
-            mainViewModel.taskDetailArguments = TaskDetailArguments(null)
-            navController.navigate(NavigationRoutes.TaskDetail)
+            navController.navigate(NavigationRoute.TaskDetail)
         }
     ) {
         TaskContent(navController, mainViewModel)
@@ -115,8 +114,7 @@ fun TaskContent(
                     }
                 },
                 onRowClick = { task ->
-                    mainViewModel.taskDetailArguments = TaskDetailArguments(task)
-                    navController.navigate(NavigationRoutes.TaskDetail)
+                    navController.navigate("${NavigationRoute.TaskDetail}?${task.id}")
                 }
             ) {
                 // Advertisement

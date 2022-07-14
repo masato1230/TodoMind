@@ -21,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.navigation.NavigationRoutes
+import com.jp_funda.todomind.navigation.NavigationRoute
 import com.jp_funda.todomind.navigation.arguments.MindMapDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BannerAd
@@ -92,12 +92,12 @@ fun MindMapContent(
                     mainViewModel.mindMapDetailArguments = MindMapDetailArguments(
                         editingMindMap = yetCompletedMindMaps.firstOrNull()
                     )
-                    navController.navigate(NavigationRoutes.MindMapDetail)
+                    navController.navigate(NavigationRoute.MindMapDetail)
                 },
                 onNewMindMapClick = {
                     mainViewModel.mindMapDetailArguments =
                         MindMapDetailArguments(editingMindMap = null)
-                    navController.navigate(NavigationRoutes.MindMapDetail)
+                    navController.navigate(NavigationRoute.MindMapDetail)
                 }
             )
 
@@ -110,7 +110,7 @@ fun MindMapContent(
             )
             MindMapsRow(mindMaps = yetCompletedMindMaps) { mindMap ->
                 mainViewModel.mindMapDetailArguments = MindMapDetailArguments(mindMap)
-                navController.navigate(NavigationRoutes.MindMapDetail)
+                navController.navigate(NavigationRoute.MindMapDetail)
             }
 
             // Completed Section
@@ -123,7 +123,7 @@ fun MindMapContent(
                 )
                 MindMapsRow(mindMaps = completedMindMaps) { mindMap ->
                     mainViewModel.mindMapDetailArguments = MindMapDetailArguments(mindMap)
-                    navController.navigate(NavigationRoutes.MindMapDetail)
+                    navController.navigate(NavigationRoute.MindMapDetail)
                 }
             }
         }

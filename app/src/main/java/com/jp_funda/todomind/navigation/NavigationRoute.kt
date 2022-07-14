@@ -1,6 +1,6 @@
 package com.jp_funda.todomind.navigation
 
-object NavigationRoutes {
+object NavigationRoute {
     // Bottom navigation
     const val Top = "top"
     const val Task = "task"
