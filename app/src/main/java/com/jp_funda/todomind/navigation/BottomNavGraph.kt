@@ -99,7 +99,7 @@ fun BottomNavGraph(
         }
 
         /** TaskDetail Screen. */
-        val taskIdKey = "task id"
+        val taskIdKey = "task_id"
         composable(
             route = "${NavigationRoute.TaskDetail}?{$taskIdKey}",
             arguments = listOf(navArgument(taskIdKey) { nullable = true }),
@@ -118,15 +118,20 @@ fun BottomNavGraph(
 
         // Screens - MindMap
         /** MindMapDetail Screen. */
+        val mindMapIdKey = "mind_map_id"
         composable(
-            route = NavigationRoute.MindMapDetail,
+            route = "${NavigationRoute.MindMapDetail}?${mindMapIdKey}",
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
-        ) {
+        ) { backStackEntry ->
             bottomBarState.value = false
-            MindMapDetailScreen(navController = navController, mainViewModel = mainViewModel)
+            MindMapDetailScreen(
+                navController = navController,
+                mainViewModel = mainViewModel,
+                mindMapId = backStackEntry.arguments?.getString(mindMapIdKey)
+            )
         }
 
         /** MindMapCreate Screen. */

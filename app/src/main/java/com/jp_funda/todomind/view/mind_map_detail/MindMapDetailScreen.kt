@@ -53,6 +53,7 @@ import java.util.*
 fun MindMapDetailScreen(
     navController: NavController,
     mainViewModel: MainViewModel,
+    mindMapId: String?,
 ) {
     val context = LocalContext.current
     val arguments = mainViewModel.mindMapDetailArguments

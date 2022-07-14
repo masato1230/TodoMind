@@ -92,7 +92,7 @@ fun MindMapContent(
                     mainViewModel.mindMapDetailArguments = MindMapDetailArguments(
                         editingMindMap = yetCompletedMindMaps.firstOrNull()
                     )
-                    navController.navigate(NavigationRoute.MindMapDetail)
+                    navController.navigate("${NavigationRoute.MindMapDetail}?${yetCompletedMindMaps.firstOrNull()?.id}")
                 },
                 onNewMindMapClick = {
                     mainViewModel.mindMapDetailArguments =
@@ -110,7 +110,7 @@ fun MindMapContent(
             )
             MindMapsRow(mindMaps = yetCompletedMindMaps) { mindMap ->
                 mainViewModel.mindMapDetailArguments = MindMapDetailArguments(mindMap)
-                navController.navigate(NavigationRoute.MindMapDetail)
+                navController.navigate("${NavigationRoute.MindMapDetail}?${mindMap.id}")
             }
 
             // Completed Section
@@ -123,7 +123,7 @@ fun MindMapContent(
                 )
                 MindMapsRow(mindMaps = completedMindMaps) { mindMap ->
                     mainViewModel.mindMapDetailArguments = MindMapDetailArguments(mindMap)
-                    navController.navigate(NavigationRoute.MindMapDetail)
+                    navController.navigate("${NavigationRoute.MindMapDetail}?${mindMap.id}")
                 }
             }
         }

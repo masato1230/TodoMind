@@ -151,7 +151,7 @@ fun TopContent(
                 onRecentMindMapClick = {
                     mainViewModel.mindMapDetailArguments =
                         MindMapDetailArguments(editingMindMap = mostRecentlyUpdatedMindMap)
-                    navController.navigate(NavigationRoute.MindMapDetail)
+                    navController.navigate("${NavigationRoute.MindMapDetail}?${mostRecentlyUpdatedMindMap?.id}")
                 },
                 onNewMindMapClick = {
                     mainViewModel.mindMapDetailArguments = MindMapDetailArguments(null)
