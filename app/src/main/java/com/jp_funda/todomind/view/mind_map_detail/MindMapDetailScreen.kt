@@ -31,7 +31,6 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.repositories.task.entity.getSize
 import com.jp_funda.todomind.navigation.NavigationRoute
 import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
-import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*

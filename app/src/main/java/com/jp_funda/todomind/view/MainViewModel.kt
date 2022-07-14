@@ -13,7 +13,6 @@ import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
 import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
 import com.jp_funda.todomind.navigation.arguments.MindMapDetailArguments
-import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,9 +38,6 @@ class MainViewModel
             )
         }
     }
-
-    /** Arguments for TaskDetailScreen - if editingTask is null, user is creating a new task */
-    var taskDetailArguments = TaskDetailArguments(null)
 
     /** Arguments for MindMapDetailScreen - if editingMindMap is null, user is creating a new mind map. */
     lateinit var mindMapDetailArguments: MindMapDetailArguments
