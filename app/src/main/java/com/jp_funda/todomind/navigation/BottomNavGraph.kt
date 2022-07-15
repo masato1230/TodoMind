@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.navigation
 
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import com.jp_funda.todomind.extension.getRightSlideInTransaction
 import com.jp_funda.todomind.extension.getRightSlideOutTransaction
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.mind_map.MindMapScreen
+import com.jp_funda.todomind.view.mind_map_create.Location
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateScreen
 import com.jp_funda.todomind.view.mind_map_detail.MindMapDetailScreen
 import com.jp_funda.todomind.view.record.RecordScreen
@@ -26,6 +28,7 @@ import com.jp_funda.todomind.view.settings.oss_licenses.OssLicensesScreen
 import com.jp_funda.todomind.view.task.TaskScreen
 import com.jp_funda.todomind.view.task_detail.TaskDetailScreen
 import com.jp_funda.todomind.view.top.TopScreen
+import java.util.*
 
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
@@ -118,9 +121,9 @@ fun BottomNavGraph(
 
         // Screens - MindMap
         /** MindMapDetail Screen. */
-        val mindMapIdKey = "mind_map_id"
+        val mindMapIdKeyDetail = "mind_map_id"
         composable(
-            route = "${NavigationRoute.MindMapDetail}?{$mindMapIdKey}",
+            route = "${NavigationRoute.MindMapDetail}?{$mindMapIdKeyDetail}",
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },
@@ -130,22 +133,34 @@ fun BottomNavGraph(
             MindMapDetailScreen(
                 navController = navController,
                 mainViewModel = mainViewModel,
-                mindMapId = backStackEntry.arguments?.getString(mindMapIdKey)
+                mindMapId = backStackEntry.arguments?.getString(mindMapIdKeyDetail),
             )
         }
 
         /** MindMapCreate Screen. */
+        val mindMapIdKeyCreate = "mind_map_id"
+        val locationXKey = "location_x"
+        val locationYKey = "location_y"
         composable(
-            route = NavigationRoute.MindMapCreate,
+            route = "${NavigationRoute.MindMapCreate}/{${mindMapIdKeyCreate}}?$locationXKey={$locationXKey}?$locationYKey={${locationYKey}}",
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
-        ) {
+        ) { backStackEntry ->
             bottomBarState.value = false
+            val locationX = backStackEntry.arguments?.getFloat(locationXKey)
+            val locationY = backStackEntry.arguments?.getFloat(locationYKey)
+            val location =
+                if (locationX == null || locationY == null) null else Location(locationX, locationY)
+            Log.d("id", backStackEntry.arguments?.getString(mindMapIdKeyCreate)!!)
+            Log.d("X", backStackEntry.arguments?.getString(locationXKey).toString())
+            Log.d("Y", backStackEntry.arguments?.getString(locationYKey).toString())
             MindMapCreateScreen(
                 navController = navController,
                 mainViewModel = mainViewModel,
+                mindMapId = UUID.fromString(backStackEntry.arguments?.getString(mindMapIdKeyCreate)),
+                location = location,
             )
         }
 

@@ -63,7 +63,7 @@ fun TaskDetailScreen(
                                 editingMindMap = it,
                                 initialLocation = initialLocation,
                             )
-                            navController.navigate(NavigationRoute.MindMapCreate)
+                            navController.navigate("${NavigationRoute.MindMapCreate}/${it.id}?location_x=${taskDetailViewModel.task.value?.x ?: 0f}?location_y=${taskDetailViewModel.task.value?.y ?: 0f}")
                         }
                         val color = it.color?.let { color -> Color(color) }
                             ?: run { colorResource(id = R.color.crimson) }

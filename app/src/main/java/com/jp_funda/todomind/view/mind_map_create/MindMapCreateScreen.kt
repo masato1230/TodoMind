@@ -32,6 +32,7 @@ import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSh
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetViewModel
 import com.jp_funda.todomind.view.mind_map_create.tutorial.TutorialDialog
 import kotlinx.coroutines.launch
+import java.util.*
 import kotlin.math.roundToInt
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -42,6 +43,8 @@ import kotlin.math.roundToInt
 fun MindMapCreateScreen(
     navController: NavController,
     mainViewModel: MainViewModel,
+    mindMapId: UUID?,
+    location: Location?,
 ) {
     val context = LocalContext.current
     val arguments = mainViewModel.mindMapCreateArguments

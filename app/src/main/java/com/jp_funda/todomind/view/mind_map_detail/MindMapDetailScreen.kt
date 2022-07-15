@@ -440,5 +440,5 @@ private fun navigateToMindMapCreate(
         editingMindMap = mindMapDetailViewModel.mindMap.value!!,
         initialLocation = null,
     )
-    navController.navigate(NavigationRoute.MindMapCreate)
+    navController.navigate("${NavigationRoute.MindMapCreate}/${mindMapDetailViewModel.mindMap.value!!.id}")
 }
