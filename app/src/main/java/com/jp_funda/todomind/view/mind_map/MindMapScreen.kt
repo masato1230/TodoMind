@@ -22,7 +22,6 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.navigation.NavigationRoute
-import com.jp_funda.todomind.navigation.arguments.MindMapDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.LoadingView
@@ -89,14 +88,9 @@ fun MindMapContent(
             RecentMindMapSection(
                 mindMap = yetCompletedMindMaps.firstOrNull(),
                 onRecentMindMapClick = {
-                    mainViewModel.mindMapDetailArguments = MindMapDetailArguments(
-                        editingMindMap = yetCompletedMindMaps.firstOrNull()
-                    )
                     navController.navigate("${NavigationRoute.MindMapDetail}?${yetCompletedMindMaps.firstOrNull()?.id}")
                 },
                 onNewMindMapClick = {
-                    mainViewModel.mindMapDetailArguments =
-                        MindMapDetailArguments(editingMindMap = null)
                     navController.navigate(NavigationRoute.MindMapDetail)
                 }
             )
@@ -109,7 +103,6 @@ fun MindMapContent(
                 style = MaterialTheme.typography.h6,
             )
             MindMapsRow(mindMaps = yetCompletedMindMaps) { mindMap ->
-                mainViewModel.mindMapDetailArguments = MindMapDetailArguments(mindMap)
                 navController.navigate("${NavigationRoute.MindMapDetail}?${mindMap.id}")
             }
 
@@ -122,7 +115,6 @@ fun MindMapContent(
                     style = MaterialTheme.typography.h6,
                 )
                 MindMapsRow(mindMaps = completedMindMaps) { mindMap ->
-                    mainViewModel.mindMapDetailArguments = MindMapDetailArguments(mindMap)
                     navController.navigate("${NavigationRoute.MindMapDetail}?${mindMap.id}")
                 }
             }

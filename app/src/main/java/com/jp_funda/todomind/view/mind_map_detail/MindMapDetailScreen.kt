@@ -56,16 +56,15 @@ fun MindMapDetailScreen(
     mindMapId: String?,
 ) {
     val context = LocalContext.current
-    val arguments = mainViewModel.mindMapDetailArguments
     val mindMapDetailViewModel = hiltViewModel<MindMapDetailViewModel>()
     val mindMapThumbnailViewModel = hiltViewModel<MindMapCreateViewModel>()
     val taskViewModel = hiltViewModel<TaskViewModel>()
     val isShowConfirmDeleteDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        // Check whether to edit or create new mind map by mainViewModel editingMindMap
-        arguments.editingMindMap?.let { editingMindMap ->
-            mindMapDetailViewModel.setEditingMindMap(editingMindMap)
+        // Check whether to edit or create new mind map by mindMapId
+        mindMapId?.let { id ->
+            mindMapDetailViewModel.loadEditingMindMap(UUID.fromString(id))
         } ?: run { // Create new mind map -> set initial position to horizontal center of mapView
             val mapViewWidth = context.resources.getDimensionPixelSize(R.dimen.map_view_width)
             mindMapDetailViewModel.setX(mapViewWidth.toFloat() / 2 - NodeStyle.HEADLINE_1.getSize().width / 2)
@@ -242,7 +241,6 @@ fun MindMapDetailTopContent(
     mainViewModel: MainViewModel,
 ) {
     val context = LocalContext.current
-    val arguments = mainViewModel.mindMapDetailArguments
     val mindMapDetailViewModel = hiltViewModel<MindMapDetailViewModel>()
 
     // Set up data

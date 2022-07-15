@@ -120,7 +120,7 @@ fun BottomNavGraph(
         /** MindMapDetail Screen. */
         val mindMapIdKey = "mind_map_id"
         composable(
-            route = "${NavigationRoute.MindMapDetail}?${mindMapIdKey}",
+            route = "${NavigationRoute.MindMapDetail}?{$mindMapIdKey}",
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },

@@ -5,6 +5,7 @@ import com.jp_funda.todomind.domain.repositories.MindMapRepository
 import io.realm.Realm
 import io.realm.Sort
 import io.realm.kotlin.where
+import java.util.*
 
 class MindMapRepositoryImpl : MindMapRepository {
     // CREATE
@@ -17,6 +18,17 @@ class MindMapRepositoryImpl : MindMapRepository {
     }
 
     // READ
+    override suspend fun getMindMap(id: UUID): MindMap? {
+        Realm.getDefaultInstance().use {
+            var mindMap: MindMap? = null
+            it.executeTransaction { realm ->
+                val result = realm.where<MindMap>().equalTo("id", id).findFirst()
+                mindMap = result?.let { resultMindMap -> realm.copyFromRealm(resultMindMap) }
+            }
+            return mindMap
+        }
+    }
+
     override suspend fun getAllMindMaps(): List<MindMap> {
         Realm.getDefaultInstance().use {
             var mindMaps = emptyList<MindMap>()
