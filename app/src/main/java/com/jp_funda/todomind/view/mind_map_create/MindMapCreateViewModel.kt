@@ -13,6 +13,7 @@ import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.domain.use_cases.mind_map.GetMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.mind_map.UpdateMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.task.GetTasksInAMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
@@ -23,6 +24,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @ExperimentalAnimationApi
@@ -30,6 +32,7 @@ import javax.inject.Inject
 @ExperimentalPagerApi
 @HiltViewModel
 open class MindMapCreateViewModel @Inject constructor(
+    private val getMindMapUseCase: GetMindMapUseCase,
     private val updateMindMapUseCase: UpdateMindMapUseCase,
     private val getTasksInAMindMapUseCase: GetTasksInAMindMapUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
@@ -47,6 +50,9 @@ open class MindMapCreateViewModel @Inject constructor(
     /** Scale factor */
     private var scale = 1f
 
+    /** Id of mind map. */
+    private lateinit var mindMapId: UUID
+
     /** MindMap - initialize at Fragment's onCreate */
     lateinit var mindMap: MindMap
 
@@ -55,6 +61,10 @@ open class MindMapCreateViewModel @Inject constructor(
 
     private val disposables = CompositeDisposable()
 
+    fun setMindMapId(id: UUID) {
+        mindMapId = id
+    }
+
     fun initializeScale() {
         scale = if (settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE) < 0f) 1f
         else settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE)
@@ -62,7 +72,15 @@ open class MindMapCreateViewModel @Inject constructor(
 
     /** Refresh MapView and scale percentage text */
     fun refreshView() { // TODO rename
-        loadTaskData()
+        viewModelScope.launch(Dispatchers.IO) {
+            // Delay for keep consistency between view and db
+            delay(100)
+            mindMap = getMindMapUseCase(mindMapId)!!
+            // Load all data from db which is needed for drawing selected mind map
+            tasks = getTasksInAMindMapUseCase(mindMap)
+            _isLoading.postValue(false)
+            _updateCount.postValue(_updateCount.value?.plus(1))
+        }
     }
 
     fun setScale(scale: Float) {
@@ -72,16 +90,6 @@ open class MindMapCreateViewModel @Inject constructor(
 
     fun getScale(): Float {
         return scale
-    }
-
-    /** Load all data from db which is needed for drawing selected mind map */
-    private fun loadTaskData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            delay(100) // Delay for keep consistency between view and db
-            tasks = getTasksInAMindMapUseCase(mindMap)
-            _isLoading.postValue(false)
-            _updateCount.postValue(_updateCount.value?.plus(1))
-        }
     }
 
     /** Update mindMap data in DB */

@@ -11,7 +11,6 @@ import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
-import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,9 +36,6 @@ class MainViewModel
             )
         }
     }
-
-    /** Arguments for MindMapCreateScreen. */
-    lateinit var mindMapCreateArguments: MindMapCreateArguments
 
     /** Currently deleted task - show at task list snackbar to restore the task */
     var currentlyDeletedTask: Task? = null

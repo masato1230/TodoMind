@@ -30,7 +30,6 @@ import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.repositories.task.entity.getSize
 import com.jp_funda.todomind.navigation.NavigationRoute
-import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
@@ -77,7 +76,7 @@ fun MindMapDetailScreen(
         delay(1000) // todo delete
         if (mindMapDetailViewModel.isEditing) {
             mindMapDetailViewModel.mindMap.value?.let {
-                mindMapThumbnailViewModel.mindMap = it
+                mindMapThumbnailViewModel.setMindMapId(it.id)
                 mindMapThumbnailViewModel.setScale(0.05f)
                 mindMapThumbnailViewModel.refreshView()
             }
@@ -211,7 +210,7 @@ fun MindMapDetailContent(
                 }
             ) {
                 Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-                    MindMapDetailTopContent(navController, mainViewModel)
+                    MindMapDetailTopContent(navController)
                 }
             }
         }
@@ -236,10 +235,7 @@ fun MindMapDetailContent(
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
 @Composable
-fun MindMapDetailTopContent(
-    navController: NavController,
-    mainViewModel: MainViewModel,
-) {
+fun MindMapDetailTopContent(navController: NavController) {
     val context = LocalContext.current
     val mindMapDetailViewModel = hiltViewModel<MindMapDetailViewModel>()
 
@@ -293,7 +289,6 @@ fun MindMapDetailTopContent(
         ThumbnailSection(!mindMapDetailViewModel.isEditing) {
             navigateToMindMapCreate(
                 navController = navController,
-                mainViewModel = mainViewModel,
                 mindMapDetailViewModel = mindMapDetailViewModel,
             )
         }
@@ -319,7 +314,7 @@ fun MindMapDetailTopContent(
                 text = "Mind Map",
                 leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_mind_map)
             ) {
-                navigateToMindMapCreate(navController, mainViewModel, mindMapDetailViewModel)
+                navigateToMindMapCreate(navController, mindMapDetailViewModel)
             }
         }
 
@@ -433,12 +428,13 @@ fun MindMapDetailTopContent(
 @ExperimentalAnimationApi
 private fun navigateToMindMapCreate(
     navController: NavController,
-    mainViewModel: MainViewModel,
     mindMapDetailViewModel: MindMapDetailViewModel,
 ) {
-    mainViewModel.mindMapCreateArguments = MindMapCreateArguments(
-        editingMindMap = mindMapDetailViewModel.mindMap.value!!,
-        initialLocation = null,
+    val mindMap = mindMapDetailViewModel.mindMap.value!!
+    navController.navigate(
+        "${NavigationRoute.MindMapCreate}/" +
+                "${mindMap.id}?" +
+                "location_x=${mindMap.x ?: 0f}?" +
+                "location_y=${mindMap.y ?: 0f}"
     )
-    navController.navigate("${NavigationRoute.MindMapCreate}/${mindMapDetailViewModel.mindMap.value!!.id}")
 }

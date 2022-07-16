@@ -20,12 +20,10 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.navigation.NavigationRoute
-import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.TaskEditContent
-import com.jp_funda.todomind.view.mind_map_create.Location
 import java.util.*
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -55,14 +53,6 @@ fun TaskDetailScreen(
                 actions = {
                     taskDetailViewModel.task.value?.mindMap?.let {
                         val onClick = {
-                            val initialLocation = Location(
-                                x = taskDetailViewModel.task.value?.x ?: 0f,
-                                y = taskDetailViewModel.task.value?.y ?: 0f,
-                            )
-                            mainViewModel.mindMapCreateArguments = MindMapCreateArguments(
-                                editingMindMap = it,
-                                initialLocation = initialLocation,
-                            )
                             navController.navigate("${NavigationRoute.MindMapCreate}/${it.id}?location_x=${taskDetailViewModel.task.value?.x ?: 0f}?location_y=${taskDetailViewModel.task.value?.y ?: 0f}")
                         }
                         val color = it.color?.let { color -> Color(color) }
