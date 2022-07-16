@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
 import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
@@ -34,10 +33,7 @@ import javax.inject.Inject
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @HiltViewModel
-open class TaskEditableViewModel @Inject constructor(
-    val ogpRepository: OgpRepository,
-    settingsPreferences: SettingsPreferences,
-) : ViewModel() {
+open class TaskEditableViewModel @Inject constructor() : ViewModel() {
     @Inject
     lateinit var getTaskUseCase: GetTaskUseCase
 
@@ -56,10 +52,16 @@ open class TaskEditableViewModel @Inject constructor(
     @Inject
     lateinit var getOgpUseCase: GetOgpUseCase
 
+    @Inject
+    lateinit var settingsPreferences: SettingsPreferences
+
     protected var _task = MutableLiveData(Task())
     val task: LiveData<Task> = _task
     var isEditing: Boolean = false
-    val isShowOgpThumbnail = settingsPreferences.getBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL)
+    val isShowOgpThumbnail: Boolean
+        get() {
+            return settingsPreferences.getBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL)
+        }
 
     // ogp
     private val _ogpResult = MutableLiveData<OpenGraphResult?>()
