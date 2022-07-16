@@ -124,11 +124,14 @@ open class TaskEditableViewModel @Inject constructor() : ViewModel() {
         notifyChangeToView()
     }
 
-    fun initializeParentTask(parentTask: Task) {
-        _task.value!!.parentTask = parentTask
+    fun setParentNode(parentNode: Task?) {
+        _task.value!!.parentTask = parentNode
         _task.value!!.styleEnum =
-            if (parentTask.styleEnum.ordinal < NodeStyle.values().size - 1) NodeStyle.values()[parentTask.styleEnum.ordinal + 1]
-            else NodeStyle.HEADLINE_2
+            when (parentNode?.styleEnum?.ordinal) {
+                null -> NodeStyle.HEADLINE_2
+                in 0..NodeStyle.BODY_1.ordinal -> NodeStyle.values()[parentNode.styleEnum.ordinal + 1]
+                else -> NodeStyle.BODY_2
+            }
     }
 
     fun setX(x: Float) {

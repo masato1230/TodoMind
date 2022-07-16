@@ -43,9 +43,9 @@ fun MindMapOptionsSheet(bottomSheetState: BottomSheetState) {
         sheetViewModel.setMode(MindMapOptionsMode.EDIT_TASK)
         // Set mind map to addChildViewModel
         addChildViewModel.setMindMap(sheetViewModel.editingMindMap)
-        // Set parentTask to addChildViewModel
-        sheetViewModel.selectedNode.value?.let { addChildViewModel.initializeParentTask(it) }
-        // Set up node at addChildViewModel
+        // Set parentNode to addChildViewModel
+        addChildViewModel.setParentNode(sheetViewModel.selectedNode.value)
+        // Set up node position of addChildViewModel
         setUpAddingChildNode(sheetViewModel.selectedNode.value, sheetViewModel, addChildViewModel)
         // Set addChildViewModel's new task status as open
         addChildViewModel.setStatus(TaskStatus.Open)
