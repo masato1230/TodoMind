@@ -68,6 +68,7 @@ open class TaskEditableViewModel @Inject constructor(
     private val disposables = CompositeDisposable()
 
     fun loadEditingTask(uuid: UUID) {
+        isEditing = true
         viewModelScope.launch(Dispatchers.IO) {
             _task.postValue(getTaskUseCase(uuid))
         }

@@ -207,7 +207,7 @@ fun MindMapDetailContent(
                     }
                 },
                 onRowClick = { task ->
-                    navController.navigate("${NavigationRoute.TaskDetail}?${task.id}")
+                    navController.navigate(RouteGenerator.TaskDetail(task.id)())
                 }
             ) {
                 Column(modifier = Modifier.padding(horizontal = 20.dp)) {
