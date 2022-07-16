@@ -23,7 +23,6 @@ import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.extension.getActivity
 import com.jp_funda.todomind.navigation.NavigationRoute
-import com.jp_funda.todomind.navigation.arguments.MindMapDetailArguments
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*

@@ -19,7 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.navigation.NavigationRoute
+import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.BannerAd
@@ -54,10 +54,11 @@ fun TaskDetailScreen(
                     taskDetailViewModel.task.value?.mindMap?.let {
                         val onClick = {
                             navController.navigate(
-                                "${NavigationRoute.MindMapCreate}/" +
-                                        "${it.id}/" +
-                                        "${taskDetailViewModel.task.value?.x ?: 0f}/" +
-                                        "${taskDetailViewModel.task.value?.y ?: 0f}"
+                                RouteGenerator.MindMapCreate(
+                                    mindMapId = it.id,
+                                    locationX = taskDetailViewModel.task.value?.x ?: 0f,
+                                    locationY = taskDetailViewModel.task.value?.y ?: 0f,
+                                )()
                             )
                         }
                         val color = it.color?.let { color -> Color(color) }

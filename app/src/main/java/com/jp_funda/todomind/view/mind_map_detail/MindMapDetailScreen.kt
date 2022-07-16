@@ -30,6 +30,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.repositories.task.entity.getSize
 import com.jp_funda.todomind.navigation.NavigationRoute
+import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
@@ -432,9 +433,10 @@ private fun navigateToMindMapCreate(
 ) {
     val mindMap = mindMapDetailViewModel.mindMap.value!!
     navController.navigate(
-        "${NavigationRoute.MindMapCreate}/" +
-                "${mindMap.id}/" +
-                "${mindMap.x ?: 0f}/" +
-                "${mindMap.y ?: 0f}"
+        RouteGenerator.MindMapCreate(
+            mindMapId = mindMap.id,
+            locationX = mindMap.x ?: 0f,
+            locationY = mindMap.y ?: 0f,
+        )()
     )
 }
