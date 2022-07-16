@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.view.components.LineContent
-import com.jp_funda.todomind.view.components.MindMapCreateContent
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
+import com.jp_funda.todomind.view.mind_map_create.compoents.LineView
+import com.jp_funda.todomind.view.mind_map_create.compoents.NodeGraph
 
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
@@ -55,16 +55,18 @@ fun ThumbnailSection(
                         mindMapThumbnailViewModel.setScale(scale)
                     }
                     .clickable { onClick() }) {
-                    LineContent(
-                        mindMapCreateViewModel = mindMapThumbnailViewModel,
-                        resources = context.resources,
-                    )
-                    MindMapCreateContent(
+                    // Line View
+                    LineView()
+                    // Node Graph
+                    NodeGraph(
                         modifier = Modifier.fillMaxSize(),
-                        mindMapCreateViewModel = mindMapThumbnailViewModel,
                         onClickMindMapNode = { onClick() },
                         onClickTaskNode = { onClick() },
                     )
+                    // Overlay for restricting map create operation by thumbnail
+                    Box(modifier = Modifier
+                        .fillMaxSize()
+                        .clickable { onClick() })
                 }
             }
         }

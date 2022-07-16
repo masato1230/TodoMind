@@ -159,7 +159,7 @@ fun MindMapDetailContent(
         mainViewModel.currentlyDeletedTask?.let {
             taskViewModel.showUndoDeleteSnackbar(
                 snackbarHostState = snackbarHostState,
-                deletedTask = it
+                deletedTask = it,
             )
         }
         mainViewModel.currentlyDeletedTask = null
