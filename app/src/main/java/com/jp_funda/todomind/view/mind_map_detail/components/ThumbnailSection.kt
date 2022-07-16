@@ -54,14 +54,14 @@ fun ThumbnailSection(
                             it.width.toFloat() / context.resources.getDimensionPixelSize(R.dimen.map_view_width)
                         mindMapThumbnailViewModel.setScale(scale)
                     }
-                    .clickable { onClick() }) {
+                ) {
                     // Line View
                     LineView()
                     // Node Graph
                     NodeGraph(
                         modifier = Modifier.fillMaxSize(),
-                        onClickMindMapNode = { onClick() },
-                        onClickTaskNode = { onClick() },
+                        onClickMindMapNode = {},
+                        onClickTaskNode = {},
                     )
                     // Overlay for restricting map create operation by thumbnail
                     Box(modifier = Modifier
