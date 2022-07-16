@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.data.repositories.ogp.entity
+package com.jp_funda.todomind.domain.use_cases.ogp.entity
 
 data class OpenGraphResult(
     var title: String? = null,

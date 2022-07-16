@@ -134,12 +134,9 @@ fun MindMapCreateContent(
 
     // Initial Scroll
     LaunchedEffect(Unit) {
-        if (initialLocation == null) {
-            scrollToMindMapNode(mapView, mindMapCreateViewModel.mindMap, mindMapCreateViewModel)
-        } else {
-            scrollToLocation(mapView, initialLocation, mindMapCreateViewModel)
-        }
+        initialLocation?.let { scrollToLocation(mapView, it, mindMapCreateViewModel) }
     }
+
     val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
     AndroidView(
         factory = { mapView },

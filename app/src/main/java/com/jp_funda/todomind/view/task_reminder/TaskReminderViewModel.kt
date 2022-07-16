@@ -6,8 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.view.task_detail.TaskEditableViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,13 +17,7 @@ import javax.inject.Inject
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @HiltViewModel
-class TaskReminderViewModel @Inject constructor(
-    ogpRepository: OgpRepository,
-    settingsPreferences: SettingsPreferences,
-) : TaskEditableViewModel(
-    ogpRepository = ogpRepository,
-    settingsPreferences = settingsPreferences,
-) {
+class TaskReminderViewModel @Inject constructor() : TaskEditableViewModel() {
     private val _loading = MutableLiveData(true)
     val loading: LiveData<Boolean> = _loading
 

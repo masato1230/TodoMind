@@ -8,19 +8,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
-import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.mind_map.DeleteMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.mind_map.GetMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.mind_map.UpdateMindMapUseCase
+import com.jp_funda.todomind.domain.use_cases.ogp.GetOgpUseCase
+import com.jp_funda.todomind.domain.use_cases.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +33,7 @@ class MindMapDetailViewModel @Inject constructor(
     private val getMindMapUseCase: GetMindMapUseCase,
     private val updateMindMapUseCase: UpdateMindMapUseCase,
     private val deleteMindMapUseCase: DeleteMindMapUseCase,
-    private val ogpRepository: OgpRepository,
+    private val getOgpUseCase: GetOgpUseCase,
     settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
     private var _mindMap = MutableLiveData(MindMap())
@@ -52,8 +49,6 @@ class MindMapDetailViewModel @Inject constructor(
 
     /** isShowOgpThumbnail */
     val isShowOgpThumbnail = settingsPreferences.getBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL)
-
-    private val disposables = CompositeDisposable()
 
     fun loadEditingMindMap(id: UUID) {
         isEditing = true
@@ -117,23 +112,16 @@ class MindMapDetailViewModel @Inject constructor(
     // OGP
     private fun fetchOgp(siteUrl: String) {
         cachedSiteUrl = siteUrl // cash site url to reduce extra async task call
-        disposables.add(
-            ogpRepository.fetchOgp(siteUrl)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnSuccess {
-                    if (it.image != null) { // Only when image url has been detected update data
-                        _ogpResult.value = it
-                    }
-                }
-                .doOnError {
-                    cachedSiteUrl = null
-                    _ogpResult.value = null
-                }
-                .subscribe({}, {
-                    it.printStackTrace()
-                })
-        )
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val ogpResult = getOgpUseCase(siteUrl)
+            ogpResult?.let {
+                _ogpResult.postValue(it)
+            } ?: run {
+                cachedSiteUrl = null
+                _ogpResult.postValue(null)
+            }
+        }
     }
 
     fun extractUrlAndFetchOgp(text: String) {
