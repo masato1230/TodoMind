@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.getSize
 import com.jp_funda.todomind.data.repositories.task.entity.getTextSize
 import com.jp_funda.todomind.extension.getLuminance
@@ -48,6 +48,8 @@ fun MindMapNode(
 
     var offsetX by remember { mutableStateOf(mindMap.x ?: 0f) }
     var offsetY by remember { mutableStateOf(mindMap.y ?: 0f) }
+    offsetX = mindMap.x ?: 0f
+    offsetY = mindMap.y ?: 0f
 
     val scale = viewModel.getScale()
 
