@@ -30,6 +30,7 @@ import com.jp_funda.todomind.view.mind_map_create.compoents.ZoomButtons
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheet
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetViewModel
 import com.jp_funda.todomind.view.mind_map_create.tutorial.TutorialDialog
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.math.roundToInt
@@ -59,6 +60,7 @@ fun MindMapCreateScreen(
             // Set mind map data
             mindMapCreateViewModel.initializeScale()
             // Load data and refresh view
+            delay(1000) // delay for wait db update at previous screen
             mindMapCreateViewModel.refreshView()
         }
 
