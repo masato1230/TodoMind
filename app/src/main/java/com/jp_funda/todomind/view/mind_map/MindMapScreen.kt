@@ -21,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.navigation.NavigationRoute
+import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.LoadingView
@@ -88,10 +88,12 @@ fun MindMapContent(
             RecentMindMapSection(
                 mindMap = yetCompletedMindMaps.firstOrNull(),
                 onRecentMindMapClick = {
-                    navController.navigate("${NavigationRoute.MindMapDetail}?${yetCompletedMindMaps.firstOrNull()?.id}")
+                    navController.navigate(
+                        RouteGenerator.MindMapDetail(yetCompletedMindMaps.firstOrNull()?.id)()
+                    )
                 },
                 onNewMindMapClick = {
-                    navController.navigate(NavigationRoute.MindMapDetail)
+                    navController.navigate(RouteGenerator.MindMapDetail(null)())
                 }
             )
 
@@ -103,7 +105,7 @@ fun MindMapContent(
                 style = MaterialTheme.typography.h6,
             )
             MindMapsRow(mindMaps = yetCompletedMindMaps) { mindMap ->
-                navController.navigate("${NavigationRoute.MindMapDetail}?${mindMap.id}")
+                navController.navigate(RouteGenerator.MindMapDetail(mindMap.id)())
             }
 
             // Completed Section
@@ -115,7 +117,7 @@ fun MindMapContent(
                     style = MaterialTheme.typography.h6,
                 )
                 MindMapsRow(mindMaps = completedMindMaps) { mindMap ->
-                    navController.navigate("${NavigationRoute.MindMapDetail}?${mindMap.id}")
+                    navController.navigate(RouteGenerator.MindMapDetail(mindMap.id)())
                 }
             }
         }

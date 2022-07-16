@@ -11,10 +11,10 @@ sealed class RouteGenerator(val routeBase: String) {
         }
     }
 
-    class MindMapDetail(private val mindMapId: UUID) :
+    class MindMapDetail(private val mindMapId: UUID?) :
         RouteGenerator(NavigationRoute.MindMapDetail) {
         override operator fun invoke(): String {
-            return "${routeBase}?${mindMapId}" // TODO use path parameter
+            return if (mindMapId == null) routeBase else "${routeBase}?${mindMapId}"
         }
     }
 
