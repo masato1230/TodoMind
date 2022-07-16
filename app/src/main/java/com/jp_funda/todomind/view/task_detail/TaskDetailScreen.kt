@@ -53,7 +53,12 @@ fun TaskDetailScreen(
                 actions = {
                     taskDetailViewModel.task.value?.mindMap?.let {
                         val onClick = {
-                            navController.navigate("${NavigationRoute.MindMapCreate}/${it.id}?location_x=${taskDetailViewModel.task.value?.x ?: 0f}?location_y=${taskDetailViewModel.task.value?.y ?: 0f}")
+                            navController.navigate(
+                                "${NavigationRoute.MindMapCreate}/" +
+                                        "${it.id}/" +
+                                        "${taskDetailViewModel.task.value?.x ?: 0f}/" +
+                                        "${taskDetailViewModel.task.value?.y ?: 0f}"
+                            )
                         }
                         val color = it.color?.let { color -> Color(color) }
                             ?: run { colorResource(id = R.color.crimson) }

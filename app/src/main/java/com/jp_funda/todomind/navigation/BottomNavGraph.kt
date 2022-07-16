@@ -8,6 +8,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -142,15 +143,19 @@ fun BottomNavGraph(
         val locationXKey = "location_x"
         val locationYKey = "location_y"
         composable(
-            route = "${NavigationRoute.MindMapCreate}/{${mindMapIdKeyCreate}}?$locationXKey={$locationXKey}?$locationYKey={${locationYKey}}",
+            route = "${NavigationRoute.MindMapCreate}/{${mindMapIdKeyCreate}}/{$locationXKey}/{${locationYKey}}",
+            arguments = listOf(
+                navArgument(locationXKey) { type = NavType.FloatType },
+                navArgument(locationYKey) { type = NavType.FloatType }
+            ),
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
         ) { backStackEntry ->
             bottomBarState.value = false
-            val locationX = backStackEntry.arguments?.getString(locationXKey)?.toFloatOrNull() ?: 0f
-            val locationY = backStackEntry.arguments?.getString(locationYKey)?.toFloatOrNull() ?: 0f
+            val locationX = backStackEntry.arguments?.getFloat(locationXKey) ?: 0f
+            val locationY = backStackEntry.arguments?.getFloat(locationYKey) ?: 0f
             val location = Location(locationX, locationY)
             Log.d("LocationX", locationX.toString())
             Log.d("LocationY", locationY.toString())

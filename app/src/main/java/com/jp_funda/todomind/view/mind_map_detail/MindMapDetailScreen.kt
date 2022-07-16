@@ -416,7 +416,7 @@ fun MindMapDetailTopContent(navController: NavController) {
 
         /** Task list Section */
         Text(
-            text = "Tasks - ${mindMap.title ?: ""}",
+            text = "Tasks - ${mindMap.title}",
             color = Color.White,
             style = MaterialTheme.typography.h6
         )
@@ -433,8 +433,8 @@ private fun navigateToMindMapCreate(
     val mindMap = mindMapDetailViewModel.mindMap.value!!
     navController.navigate(
         "${NavigationRoute.MindMapCreate}/" +
-                "${mindMap.id}?" +
-                "location_x=${mindMap.x ?: 0f}?" +
-                "location_y=${mindMap.y ?: 0f}"
+                "${mindMap.id}/" +
+                "${mindMap.x ?: 0f}/" +
+                "${mindMap.y ?: 0f}"
     )
 }
