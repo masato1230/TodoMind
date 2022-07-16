@@ -17,9 +17,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
-import com.jp_funda.todomind.data.repositories.task.entity.getSize
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.view.components.BackNavigationIcon
@@ -170,30 +167,6 @@ fun MindMapCreateContent(
 
     // Line View
     mapView.lineComposeView.setContent { LineView() }
-}
-
-@ExperimentalPagerApi
-@ExperimentalMaterialApi
-@ExperimentalAnimationApi
-private fun scrollToMindMapNode(
-    mapView: MapView,
-    mindMap: MindMap,
-    mindMapCreateViewModel: MindMapCreateViewModel,
-) {
-    val context = mapView.context
-
-    val screenWidth = context.resources.displayMetrics.widthPixels
-    val scrollX = ((mindMap.x) ?: 0f) * mindMapCreateViewModel.getScale() -
-            screenWidth / 2 + NodeStyle.HEADLINE_1.getSize().width * mindMapCreateViewModel.getScale()
-    val screenHeight = context.resources.displayMetrics.heightPixels
-    val scrollY = ((mindMap.y) ?: 0f) * mindMapCreateViewModel.getScale() -
-            screenHeight / 2 + NodeStyle.HEADLINE_1.getSize().height * mindMapCreateViewModel.getScale()
-    mapView.horizontalScrollView.post {
-        mapView.horizontalScrollView.smoothScrollTo(scrollX.roundToInt(), 0)
-    }
-    mapView.scrollView.post {
-        mapView.scrollView.smoothScrollTo(0, scrollY.roundToInt())
-    }
 }
 
 @ExperimentalPagerApi

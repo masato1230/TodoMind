@@ -57,11 +57,6 @@ class MindMapDetailViewModel @Inject constructor(
         }
     }
 
-    fun setEditingMindMap(editingMindMap: MindMap) {
-        _mindMap.value = editingMindMap
-        isEditing = true
-    }
-
     fun setTitle(title: String) {
         _mindMap.value!!.title = title
         notifyChangeToView()
@@ -90,6 +85,7 @@ class MindMapDetailViewModel @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             if (!isEditing) {
                 createMindMapUseCase(_mindMap.value!!)
+                isEditing = true
             } else {
                 updateMindMapUseCase(_mindMap.value!!)
             }
