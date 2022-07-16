@@ -23,7 +23,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.navigation.BottomBarMenuItem
 import com.jp_funda.todomind.navigation.BottomNavGraph
-import com.jp_funda.todomind.navigation.NavigationRoutes
+import com.jp_funda.todomind.navigation.NavigationRoute
 
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
@@ -96,7 +96,7 @@ fun RowScope.AddItem(
         selected = currentDestination?.hierarchy?.any { it.route == menuItem.route } == true,
         onClick = {
             if (navController.currentDestination?.route != menuItem.route) {
-                navController.navigate(menuItem.route) { popUpTo(NavigationRoutes.Top) }
+                navController.navigate(menuItem.route) { popUpTo(NavigationRoute.Top) }
             }
         },
         selectedContentColor = colorResource(id = R.color.teal_200),

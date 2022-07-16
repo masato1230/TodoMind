@@ -21,8 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.navigation.NavigationRoutes
-import com.jp_funda.todomind.navigation.arguments.MindMapDetailArguments
+import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.LoadingView
@@ -89,15 +88,12 @@ fun MindMapContent(
             RecentMindMapSection(
                 mindMap = yetCompletedMindMaps.firstOrNull(),
                 onRecentMindMapClick = {
-                    mainViewModel.mindMapDetailArguments = MindMapDetailArguments(
-                        editingMindMap = yetCompletedMindMaps.firstOrNull()
+                    navController.navigate(
+                        RouteGenerator.MindMapDetail(yetCompletedMindMaps.firstOrNull()?.id)()
                     )
-                    navController.navigate(NavigationRoutes.MindMapDetail)
                 },
                 onNewMindMapClick = {
-                    mainViewModel.mindMapDetailArguments =
-                        MindMapDetailArguments(editingMindMap = null)
-                    navController.navigate(NavigationRoutes.MindMapDetail)
+                    navController.navigate(RouteGenerator.MindMapDetail(null)())
                 }
             )
 
@@ -109,8 +105,7 @@ fun MindMapContent(
                 style = MaterialTheme.typography.h6,
             )
             MindMapsRow(mindMaps = yetCompletedMindMaps) { mindMap ->
-                mainViewModel.mindMapDetailArguments = MindMapDetailArguments(mindMap)
-                navController.navigate(NavigationRoutes.MindMapDetail)
+                navController.navigate(RouteGenerator.MindMapDetail(mindMap.id)())
             }
 
             // Completed Section
@@ -122,8 +117,7 @@ fun MindMapContent(
                     style = MaterialTheme.typography.h6,
                 )
                 MindMapsRow(mindMaps = completedMindMaps) { mindMap ->
-                    mainViewModel.mindMapDetailArguments = MindMapDetailArguments(mindMap)
-                    navController.navigate(NavigationRoutes.MindMapDetail)
+                    navController.navigate(RouteGenerator.MindMapDetail(mindMap.id)())
                 }
             }
         }

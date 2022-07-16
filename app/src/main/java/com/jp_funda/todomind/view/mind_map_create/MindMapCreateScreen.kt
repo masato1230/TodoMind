@@ -22,7 +22,6 @@ import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.getSize
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
-import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.mind_map_create.compoents.LineView
@@ -31,7 +30,9 @@ import com.jp_funda.todomind.view.mind_map_create.compoents.ZoomButtons
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheet
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetViewModel
 import com.jp_funda.todomind.view.mind_map_create.tutorial.TutorialDialog
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 import kotlin.math.roundToInt
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -41,10 +42,10 @@ import kotlin.math.roundToInt
 @Composable
 fun MindMapCreateScreen(
     navController: NavController,
-    mainViewModel: MainViewModel,
+    mindMapId: UUID,
+    location: Location,
 ) {
     val context = LocalContext.current
-    val arguments = mainViewModel.mindMapCreateArguments
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
     val sheetViewModel = hiltViewModel<MindMapOptionsSheetViewModel>()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
@@ -53,13 +54,15 @@ fun MindMapCreateScreen(
     val isShowTutorialDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        // Set mind map data
-        mindMapCreateViewModel.mindMap = arguments.editingMindMap
-        mindMapCreateViewModel.initializeScale()
-        // Load task data and refresh view
-        mindMapCreateViewModel.refreshView()
-        // Set editing  mind map to sheetViewModel
-        sheetViewModel.setEditingMindMap(arguments.editingMindMap)
+        mindMapCreateViewModel.run {
+            // Set mind map id
+            setMindMapId(mindMapId)
+            // Set mind map data
+            mindMapCreateViewModel.initializeScale()
+            // Load data and refresh view
+            delay(1000) // delay for wait db update at previous screen
+            mindMapCreateViewModel.refreshView()
+        }
 
         // Show tutorial dialog for first time
         val settingsPreferences = SettingsPreferences(context)
@@ -89,6 +92,9 @@ fun MindMapCreateScreen(
             },
             scaffoldState = bottomSheetScaffoldState,
             sheetContent = {
+                LaunchedEffect(Unit) {
+                    sheetViewModel.setEditingMindMap(mindMapCreateViewModel.mindMap)
+                }
                 MindMapOptionsSheet(bottomSheetState = bottomSheetScaffoldState.bottomSheetState)
             },
             sheetPeekHeight = 0.dp,
@@ -103,8 +109,8 @@ fun MindMapCreateScreen(
 
             // Main Content
             MindMapCreateContent(
-                arguments.initialLocation,
-                bottomSheetScaffoldState.bottomSheetState,
+                initialLocation = location,
+                bottomSheetState = bottomSheetScaffoldState.bottomSheetState,
             )
         }
     } else {
@@ -134,7 +140,6 @@ fun MindMapCreateContent(
             scrollToLocation(mapView, initialLocation, mindMapCreateViewModel)
         }
     }
-
     val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
     AndroidView(
         factory = { mapView },

@@ -14,10 +14,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
-import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
-import com.jp_funda.todomind.domain.use_cases.task.DeleteTaskUseCase
-import com.jp_funda.todomind.domain.use_cases.task.GetTasksInAMindMapUseCase
-import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
+import com.jp_funda.todomind.domain.use_cases.task.*
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -44,6 +41,9 @@ open class TaskEditableViewModel @Inject constructor(
     settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
     @Inject
+    lateinit var getTaskUseCase: GetTaskUseCase
+
+    @Inject
     lateinit var createTasksUseCase: CreateTasksUseCase
 
     @Inject
@@ -66,6 +66,13 @@ open class TaskEditableViewModel @Inject constructor(
     private var cachedSiteUrl: String? = null
 
     private val disposables = CompositeDisposable()
+
+    fun loadEditingTask(uuid: UUID) {
+        isEditing = true
+        viewModelScope.launch(Dispatchers.IO) {
+            _task.postValue(getTaskUseCase(uuid))
+        }
+    }
 
     fun setEditingTask(editingTask: Task) {
         _task.postValue(editingTask)

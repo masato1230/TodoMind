@@ -1,5 +1,6 @@
 package com.jp_funda.todomind.navigation
 
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -7,6 +8,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -16,6 +19,7 @@ import com.jp_funda.todomind.extension.getRightSlideInTransaction
 import com.jp_funda.todomind.extension.getRightSlideOutTransaction
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.mind_map.MindMapScreen
+import com.jp_funda.todomind.view.mind_map_create.Location
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateScreen
 import com.jp_funda.todomind.view.mind_map_detail.MindMapDetailScreen
 import com.jp_funda.todomind.view.record.RecordScreen
@@ -25,6 +29,7 @@ import com.jp_funda.todomind.view.settings.oss_licenses.OssLicensesScreen
 import com.jp_funda.todomind.view.task.TaskScreen
 import com.jp_funda.todomind.view.task_detail.TaskDetailScreen
 import com.jp_funda.todomind.view.top.TopScreen
+import java.util.*
 
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
@@ -39,12 +44,12 @@ fun BottomNavGraph(
 
     AnimatedNavHost(
         navController = navController,
-        startDestination = NavigationRoutes.Top,
+        startDestination = NavigationRoute.Top,
         modifier = modifier,
     ) {
         /** Top Screen. */
         composable(
-            route = NavigationRoutes.Top,
+            route = NavigationRoute.Top,
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
         ) {
@@ -57,7 +62,7 @@ fun BottomNavGraph(
 
         /** Task Screen. */
         composable(
-            route = NavigationRoutes.Task,
+            route = NavigationRoute.Task,
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
         ) {
@@ -70,7 +75,7 @@ fun BottomNavGraph(
 
         /** MindMap Screen. */
         composable(
-            route = NavigationRoutes.MindMap,
+            route = NavigationRoute.MindMap,
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
         ) {
@@ -82,14 +87,14 @@ fun BottomNavGraph(
         }
 
         /** Record Screen. */
-        composable(route = NavigationRoutes.Record) {
+        composable(route = NavigationRoute.Record) {
             bottomBarState.value = true
             RecordScreen()
         }
 
         /** Settings Screen. */
         composable(
-            route = NavigationRoutes.Settings,
+            route = NavigationRoute.Settings,
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
         ) {
@@ -98,52 +103,73 @@ fun BottomNavGraph(
         }
 
         /** TaskDetail Screen. */
+        val taskIdKey = "task_id"
         composable(
-            route = NavigationRoutes.TaskDetail,
+            route = "${NavigationRoute.TaskDetail}?{$taskIdKey}",
+            arguments = listOf(navArgument(taskIdKey) { nullable = true }),
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
-        ) {
+        ) { backStackEntry ->
             bottomBarState.value = false
             TaskDetailScreen(
                 navController = navController,
                 mainViewModel = mainViewModel,
+                taskId = backStackEntry.arguments?.getString(taskIdKey),
             )
         }
 
         // Screens - MindMap
         /** MindMapDetail Screen. */
+        val mindMapIdKeyDetail = "mind_map_id"
         composable(
-            route = NavigationRoutes.MindMapDetail,
+            route = "${NavigationRoute.MindMapDetail}?{$mindMapIdKeyDetail}",
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
-        ) {
+        ) { backStackEntry ->
             bottomBarState.value = false
-            MindMapDetailScreen(navController = navController, mainViewModel = mainViewModel)
+            MindMapDetailScreen(
+                navController = navController,
+                mainViewModel = mainViewModel,
+                mindMapId = backStackEntry.arguments?.getString(mindMapIdKeyDetail),
+            )
         }
 
         /** MindMapCreate Screen. */
+        val mindMapIdKeyCreate = "mind_map_id"
+        val locationXKey = "location_x"
+        val locationYKey = "location_y"
         composable(
-            route = NavigationRoutes.MindMapCreate,
+            route = "${NavigationRoute.MindMapCreate}/{${mindMapIdKeyCreate}}/{$locationXKey}/{${locationYKey}}",
+            arguments = listOf(
+                navArgument(locationXKey) { type = NavType.FloatType },
+                navArgument(locationYKey) { type = NavType.FloatType }
+            ),
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },
             popExitTransition = { getRightSlideOutTransaction() },
-        ) {
+        ) { backStackEntry ->
             bottomBarState.value = false
+            val locationX = backStackEntry.arguments?.getFloat(locationXKey) ?: 0f
+            val locationY = backStackEntry.arguments?.getFloat(locationYKey) ?: 0f
+            val location = Location(locationX, locationY)
+            Log.d("LocationX", locationX.toString())
+            Log.d("LocationY", locationY.toString())
             MindMapCreateScreen(
                 navController = navController,
-                mainViewModel = mainViewModel,
+                mindMapId = UUID.fromString(backStackEntry.arguments?.getString(mindMapIdKeyCreate)),
+                location = location,
             )
         }
 
         // Screens - Settings
         /** MindMapScale Screen. */
         composable(
-            route = NavigationRoutes.MindMapScale,
+            route = NavigationRoute.MindMapScale,
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },
@@ -155,7 +181,7 @@ fun BottomNavGraph(
 
         /** OssLicenses Screen. */
         composable(
-            route = NavigationRoutes.OssLicenses,
+            route = NavigationRoute.OssLicenses,
             enterTransition = { getLeftSlideInTransaction() },
             exitTransition = { getLeftSlideOutTransaction() },
             popEnterTransition = { getRightSlideInTransaction() },

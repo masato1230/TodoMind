@@ -22,9 +22,7 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.extension.getActivity
-import com.jp_funda.todomind.navigation.NavigationRoutes
-import com.jp_funda.todomind.navigation.arguments.MindMapDetailArguments
-import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
+import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
@@ -65,8 +63,7 @@ fun TopScreen(
             )
         },
         onClick = {
-            mainViewModel.taskDetailArguments = TaskDetailArguments(null)
-            navController.navigate(NavigationRoutes.TaskDetail)
+            navController.navigate(RouteGenerator.TaskDetail(null)())
         }) {
         TopContent(navController, mainViewModel)
     }
@@ -142,8 +139,7 @@ fun TopContent(
                 }
             },
             onRowClick = { task ->
-                mainViewModel.taskDetailArguments = TaskDetailArguments(task)
-                navController.navigate(NavigationRoutes.TaskDetail)
+                navController.navigate(RouteGenerator.TaskDetail(task.id)())
             },
             isScrollToTopAtLaunch = true,
         ) {
@@ -152,13 +148,12 @@ fun TopContent(
             RecentMindMapSection(
                 mindMap = mostRecentlyUpdatedMindMap,
                 onRecentMindMapClick = {
-                    mainViewModel.mindMapDetailArguments =
-                        MindMapDetailArguments(editingMindMap = mostRecentlyUpdatedMindMap)
-                    navController.navigate(NavigationRoutes.MindMapDetail)
+                    navController.navigate(
+                        RouteGenerator.MindMapDetail(mostRecentlyUpdatedMindMap?.id)()
+                    )
                 },
                 onNewMindMapClick = {
-                    mainViewModel.mindMapDetailArguments = MindMapDetailArguments(null)
-                    navController.navigate(NavigationRoutes.MindMapDetail)
+                    navController.navigate(RouteGenerator.MindMapDetail(null)())
                 })
 
             // Advertisement

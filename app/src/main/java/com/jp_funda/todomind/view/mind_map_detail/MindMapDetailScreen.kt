@@ -29,9 +29,8 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.repositories.task.entity.getSize
-import com.jp_funda.todomind.navigation.NavigationRoutes
-import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
-import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
+import com.jp_funda.todomind.navigation.NavigationRoute
+import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
@@ -54,18 +53,18 @@ import java.util.*
 fun MindMapDetailScreen(
     navController: NavController,
     mainViewModel: MainViewModel,
+    mindMapId: String?,
 ) {
     val context = LocalContext.current
-    val arguments = mainViewModel.mindMapDetailArguments
     val mindMapDetailViewModel = hiltViewModel<MindMapDetailViewModel>()
     val mindMapThumbnailViewModel = hiltViewModel<MindMapCreateViewModel>()
     val taskViewModel = hiltViewModel<TaskViewModel>()
     val isShowConfirmDeleteDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        // Check whether to edit or create new mind map by mainViewModel editingMindMap
-        arguments.editingMindMap?.let { editingMindMap ->
-            mindMapDetailViewModel.setEditingMindMap(editingMindMap)
+        // Check whether to edit or create new mind map by mindMapId
+        mindMapId?.let { id ->
+            mindMapDetailViewModel.loadEditingMindMap(UUID.fromString(id))
         } ?: run { // Create new mind map -> set initial position to horizontal center of mapView
             val mapViewWidth = context.resources.getDimensionPixelSize(R.dimen.map_view_width)
             mindMapDetailViewModel.setX(mapViewWidth.toFloat() / 2 - NodeStyle.HEADLINE_1.getSize().width / 2)
@@ -78,7 +77,7 @@ fun MindMapDetailScreen(
         delay(1000) // todo delete
         if (mindMapDetailViewModel.isEditing) {
             mindMapDetailViewModel.mindMap.value?.let {
-                mindMapThumbnailViewModel.mindMap = it
+                mindMapThumbnailViewModel.setMindMapId(it.id)
                 mindMapThumbnailViewModel.setScale(0.05f)
                 mindMapThumbnailViewModel.refreshView()
             }
@@ -208,12 +207,11 @@ fun MindMapDetailContent(
                     }
                 },
                 onRowClick = { task ->
-                    mainViewModel.taskDetailArguments = TaskDetailArguments(task)
-                    navController.navigate(NavigationRoutes.TaskDetail)
+                    navController.navigate(RouteGenerator.TaskDetail(task.id)())
                 }
             ) {
                 Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-                    MindMapDetailTopContent(navController, mainViewModel)
+                    MindMapDetailTopContent(navController)
                 }
             }
         }
@@ -238,12 +236,8 @@ fun MindMapDetailContent(
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
 @Composable
-fun MindMapDetailTopContent(
-    navController: NavController,
-    mainViewModel: MainViewModel,
-) {
+fun MindMapDetailTopContent(navController: NavController) {
     val context = LocalContext.current
-    val arguments = mainViewModel.mindMapDetailArguments
     val mindMapDetailViewModel = hiltViewModel<MindMapDetailViewModel>()
 
     // Set up data
@@ -296,7 +290,6 @@ fun MindMapDetailTopContent(
         ThumbnailSection(!mindMapDetailViewModel.isEditing) {
             navigateToMindMapCreate(
                 navController = navController,
-                mainViewModel = mainViewModel,
                 mindMapDetailViewModel = mindMapDetailViewModel,
             )
         }
@@ -322,7 +315,7 @@ fun MindMapDetailTopContent(
                 text = "Mind Map",
                 leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_mind_map)
             ) {
-                navigateToMindMapCreate(navController, mainViewModel, mindMapDetailViewModel)
+                navigateToMindMapCreate(navController, mindMapDetailViewModel)
             }
         }
 
@@ -424,7 +417,7 @@ fun MindMapDetailTopContent(
 
         /** Task list Section */
         Text(
-            text = "Tasks - ${mindMap.title ?: ""}",
+            text = "Tasks - ${mindMap.title}",
             color = Color.White,
             style = MaterialTheme.typography.h6
         )
@@ -436,12 +429,14 @@ fun MindMapDetailTopContent(
 @ExperimentalAnimationApi
 private fun navigateToMindMapCreate(
     navController: NavController,
-    mainViewModel: MainViewModel,
     mindMapDetailViewModel: MindMapDetailViewModel,
 ) {
-    mainViewModel.mindMapCreateArguments = MindMapCreateArguments(
-        editingMindMap = mindMapDetailViewModel.mindMap.value!!,
-        initialLocation = null,
+    val mindMap = mindMapDetailViewModel.mindMap.value!!
+    navController.navigate(
+        RouteGenerator.MindMapCreate(
+            mindMapId = mindMap.id,
+            locationX = mindMap.x ?: 0f,
+            locationY = mindMap.y ?: 0f,
+        )()
     )
-    navController.navigate(NavigationRoutes.MindMapCreate)
 }

@@ -14,6 +14,7 @@ import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.mind_map.DeleteMindMapUseCase
+import com.jp_funda.todomind.domain.use_cases.mind_map.GetMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.mind_map.UpdateMindMapUseCase
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +24,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @ExperimentalAnimationApi
@@ -31,6 +33,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MindMapDetailViewModel @Inject constructor(
     private val createMindMapUseCase: CreateMindMapUseCase,
+    private val getMindMapUseCase: GetMindMapUseCase,
     private val updateMindMapUseCase: UpdateMindMapUseCase,
     private val deleteMindMapUseCase: DeleteMindMapUseCase,
     private val ogpRepository: OgpRepository,
@@ -50,8 +53,14 @@ class MindMapDetailViewModel @Inject constructor(
     /** isShowOgpThumbnail */
     val isShowOgpThumbnail = settingsPreferences.getBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL)
 
-
     private val disposables = CompositeDisposable()
+
+    fun loadEditingMindMap(id: UUID) {
+        isEditing = true
+        viewModelScope.launch(Dispatchers.IO) {
+            _mindMap.postValue(getMindMapUseCase(id))
+        }
+    }
 
     fun setEditingMindMap(editingMindMap: MindMap) {
         _mindMap.value = editingMindMap

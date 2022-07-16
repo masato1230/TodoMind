@@ -11,11 +11,7 @@ import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
-import com.jp_funda.todomind.navigation.arguments.MindMapCreateArguments
-import com.jp_funda.todomind.navigation.arguments.MindMapDetailArguments
-import com.jp_funda.todomind.navigation.arguments.TaskDetailArguments
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,9 +26,6 @@ class MainViewModel
     private val createMindMapUseCase: CreateMindMapUseCase,
     private val settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
-
-    private val disposables = CompositeDisposable()
-
     fun addSampleData() {
         viewModelScope.launch(Dispatchers.IO) {
             createMindMapUseCase(SampleData.mindMap)
@@ -44,19 +37,6 @@ class MainViewModel
         }
     }
 
-    /** Arguments for TaskDetailScreen - if editingTask is null, user is creating a new task */
-    var taskDetailArguments = TaskDetailArguments(null)
-
-    /** Arguments for MindMapDetailScreen - if editingMindMap is null, user is creating a new mind map. */
-    lateinit var mindMapDetailArguments: MindMapDetailArguments
-
-    /** Arguments for MindMapCreateScreen. */
-    lateinit var mindMapCreateArguments: MindMapCreateArguments
-
     /** Currently deleted task - show at task list snackbar to restore the task */
     var currentlyDeletedTask: Task? = null
-
-    override fun onCleared() {
-        disposables.clear()
-    }
 }
