@@ -8,18 +8,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
-import com.jp_funda.todomind.domain.use_cases.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.domain.use_cases.ogp.GetOgpUseCase
+import com.jp_funda.todomind.domain.use_cases.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.domain.use_cases.task.*
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -55,6 +53,9 @@ open class TaskEditableViewModel @Inject constructor(
     @Inject
     lateinit var deleteTaskUseCase: DeleteTaskUseCase
 
+    @Inject
+    lateinit var getOgpUseCase: GetOgpUseCase
+
     protected var _task = MutableLiveData(Task())
     val task: LiveData<Task> = _task
     var isEditing: Boolean = false
@@ -64,8 +65,6 @@ open class TaskEditableViewModel @Inject constructor(
     private val _ogpResult = MutableLiveData<OpenGraphResult?>()
     val ogpResult: LiveData<OpenGraphResult?> = _ogpResult
     private var cachedSiteUrl: String? = null
-
-    private val disposables = CompositeDisposable()
 
     fun loadEditingTask(uuid: UUID) {
         isEditing = true
@@ -170,23 +169,16 @@ open class TaskEditableViewModel @Inject constructor(
     // OGP
     private fun fetchOgp(siteUrl: String) {
         cachedSiteUrl = siteUrl // cash site url to reduce extra async task call
-        disposables.add(
-            ogpRepository.fetchOgp(siteUrl)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnSuccess {
-                    if (it.image != null) { // Only when image url has been detected update data
-                        _ogpResult.value = it
-                    }
-                }
-                .doOnError {
-                    cachedSiteUrl = null
-                    _ogpResult.value = null
-                }
-                .subscribe({}, {
-                    it.printStackTrace()
-                })
-        )
+        viewModelScope.launch(Dispatchers.IO) {
+            val ogpResult = getOgpUseCase(siteUrl)
+
+            ogpResult?.let {
+                _ogpResult.postValue(it)
+            } ?: run {
+                cachedSiteUrl = null
+                _ogpResult.postValue(null)
+            }
+        }
     }
 
     fun extractUrlAndFetchOgp(text: String) {
@@ -227,9 +219,5 @@ open class TaskEditableViewModel @Inject constructor(
     /** Clear editing/adding task data. */
     private fun clearData() {
         _task.postValue(Task())
-    }
-
-    override fun onCleared() {
-        disposables.clear()
     }
 }

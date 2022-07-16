@@ -8,19 +8,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
-import com.jp_funda.todomind.domain.use_cases.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.use_cases.mind_map.GetMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.mind_map.UpdateMindMapUseCase
+import com.jp_funda.todomind.domain.use_cases.ogp.GetOgpUseCase
+import com.jp_funda.todomind.domain.use_cases.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.domain.use_cases.task.GetTasksInAMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -36,7 +33,7 @@ open class MindMapCreateViewModel @Inject constructor(
     private val updateMindMapUseCase: UpdateMindMapUseCase,
     private val getTasksInAMindMapUseCase: GetTasksInAMindMapUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
-    private val ogpRepository: OgpRepository,
+    private val getOgpUseCase: GetOgpUseCase,
     private val settingsPreferences: SettingsPreferences,
 ) : ViewModel() {
     /** UpdateCount - count of view update. To update view count up this. */
@@ -58,8 +55,6 @@ open class MindMapCreateViewModel @Inject constructor(
 
     /** Tasks - all tasks in mind map. initialize at Fragment's onCreate */
     var tasks: List<Task> = emptyList()
-
-    private val disposables = CompositeDisposable()
 
     fun setMindMapId(id: UUID) {
         mindMapId = id
@@ -113,22 +108,9 @@ open class MindMapCreateViewModel @Inject constructor(
         onSuccess: (ogpResult: OpenGraphResult) -> Unit,
         onError: () -> Unit
     ) {
-        disposables.add(
-            ogpRepository.fetchOgp(siteUrl)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnSuccess {
-                    onSuccess(it)
-                }
-                .doOnError {
-                    onError()
-                }
-                .subscribe({}, { it.printStackTrace() })
-        )
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disposables.clear()
+        viewModelScope.launch(Dispatchers.IO) {
+            val ogpResult =  getOgpUseCase(siteUrl)
+            ogpResult?.let(onSuccess) ?: run(onError)
+        }
     }
 }
