@@ -15,7 +15,6 @@ import com.jp_funda.todomind.domain.use_cases.task.GetAllTasksUseCase
 import com.jp_funda.todomind.domain.use_cases.task.RestoreTaskUseCase
 import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -37,9 +36,6 @@ class TaskViewModel @Inject constructor(
     // selected tab
     private val _selectedStatusTab = MutableLiveData(TaskStatus.InProgress)
     val selectedStatusTab: LiveData<TaskStatus> = _selectedStatusTab
-
-    // Dispose
-    private val disposables = CompositeDisposable()
 
     fun refreshTaskListData() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -124,9 +120,5 @@ class TaskViewModel @Inject constructor(
                 refreshTaskListData()
             }
         }
-    }
-
-    override fun onCleared() {
-        disposables.clear()
     }
 }
