@@ -65,22 +65,26 @@ open class MindMapCreateViewModel @Inject constructor(
         else settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE)
     }
 
-    /** Refresh MapView and scale percentage text */
-    fun refreshView() { // TODO rename
+    /** Get new data and Refresh MapView and scale percentage text. */
+    fun refreshView() {
         viewModelScope.launch(Dispatchers.IO) {
             // Delay for keep consistency between view and db
             delay(100)
-            mindMap = getMindMapUseCase(mindMapId)!!
-            // Load all data from db which is needed for drawing selected mind map
-            tasks = getTasksInAMindMapUseCase(mindMap)
-            _isLoading.postValue(false)
-            _updateCount.postValue(_updateCount.value?.plus(1))
+            getMindMapUseCase(mindMapId)?.let {
+                mindMap = it
+                // Load all data from db which is needed for drawing selected mind map
+                tasks = getTasksInAMindMapUseCase(mindMap)
+                _isLoading.postValue(false)
+                _updateCount.postValue(_updateCount.value?.plus(1))
+            }
         }
     }
 
     fun setScale(scale: Float) {
-        this.scale = scale
-        refreshView()
+        if (this.scale != scale) {
+            this.scale = scale
+            refreshView()
+        }
     }
 
     fun getScale(): Float {
@@ -109,7 +113,7 @@ open class MindMapCreateViewModel @Inject constructor(
         onError: () -> Unit
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val ogpResult =  getOgpUseCase(siteUrl)
+            val ogpResult = getOgpUseCase(siteUrl)
             ogpResult?.let(onSuccess) ?: run(onError)
         }
     }

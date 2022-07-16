@@ -29,7 +29,6 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.repositories.task.entity.getSize
-import com.jp_funda.todomind.navigation.NavigationRoute
 import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
@@ -78,7 +77,6 @@ fun MindMapDetailScreen(
         if (mindMapDetailViewModel.isEditing) {
             mindMapDetailViewModel.mindMap.value?.let {
                 mindMapThumbnailViewModel.setMindMapId(it.id)
-                mindMapThumbnailViewModel.setScale(0.05f)
                 mindMapThumbnailViewModel.refreshView()
             }
         }

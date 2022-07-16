@@ -41,7 +41,7 @@ fun ThumbnailSection(
         val isLoadingState = mindMapThumbnailViewModel.isLoading.observeAsState()
         isLoadingState.value?.let { isLoading ->
             if (isLoading) {
-                Text("Loading...")
+                Text(text = "Loading...", color = Color.White)
             } else {
                 Box(modifier = Modifier
                     .clip(RoundedCornerShape(20.dp))
