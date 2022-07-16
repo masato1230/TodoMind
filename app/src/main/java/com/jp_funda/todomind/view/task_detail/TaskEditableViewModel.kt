@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.ogp.OgpRepository
-import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
+import com.jp_funda.todomind.domain.use_cases.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus

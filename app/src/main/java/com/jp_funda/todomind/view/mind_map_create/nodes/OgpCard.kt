@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.ogp.entity.OpenGraphResult
+import com.jp_funda.todomind.domain.use_cases.ogp.entity.OpenGraphResult
 import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.getSize

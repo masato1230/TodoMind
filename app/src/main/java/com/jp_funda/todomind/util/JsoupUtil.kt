@@ -1,6 +1,6 @@
-package com.jp_funda.todomind.data.repositories.ogp
+package com.jp_funda.todomind.util
 
-object JsoupSettings {
+object JsoupUtil {
     const val AGENT = "Mozilla"
     const val REFERRER = "http://www.google.com"
     const val TIMEOUT = 10000
