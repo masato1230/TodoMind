@@ -5,7 +5,6 @@ buildscript {
         hilt_version = '2.40'
         compose_version = '1.2.0-beta02' // check date picker is correctly working when upgrade compose version
         licence_tools_version = "1.2.8"
-        nav_version = "2.4.2"
     }
     repositories {
         google()
@@ -18,7 +17,6 @@ buildscript {
         classpath 'com.android.tools.build:gradle:7.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.realm:realm-gradle-plugin:10.10.1"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
 
         // Hilt
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
