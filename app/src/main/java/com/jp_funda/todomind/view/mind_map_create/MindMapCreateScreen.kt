@@ -186,6 +186,7 @@ fun MindMapCreateContent(
     mapView.lineComposeView.setContent { LineView() }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi

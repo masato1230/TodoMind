@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -26,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.data.repositories.task.entity.getSize
@@ -44,6 +46,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
@@ -138,6 +141,7 @@ fun MindMapDetailScreen(
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
@@ -229,6 +233,7 @@ fun MindMapDetailContent(
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
@@ -287,7 +292,7 @@ fun MindMapDetailTopContent(navController: NavController) {
         ThumbnailSection(!mindMapDetailViewModel.isEditing) {
             navigateToMindMapCreate(
                 navController = navController,
-                mindMapDetailViewModel = mindMapDetailViewModel,
+                mindMap = mindMap,
             )
         }
 
@@ -312,7 +317,7 @@ fun MindMapDetailTopContent(navController: NavController) {
                 text = "Mind Map",
                 leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_mind_map)
             ) {
-                navigateToMindMapCreate(navController, mindMapDetailViewModel)
+                navigateToMindMapCreate(navController, mindMap)
             }
         }
 
@@ -426,9 +431,8 @@ fun MindMapDetailTopContent(navController: NavController) {
 @ExperimentalAnimationApi
 private fun navigateToMindMapCreate(
     navController: NavController,
-    mindMapDetailViewModel: MindMapDetailViewModel,
+    mindMap: MindMap,
 ) {
-    val mindMap = mindMapDetailViewModel.mindMap.value!!
     navController.navigate(
         RouteGenerator.MindMapCreate(
             mindMapId = mindMap.id,

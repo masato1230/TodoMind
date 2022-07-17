@@ -82,10 +82,7 @@ fun NavGraph(
             popExitTransition = { getRightSlideOutTransaction() },
         ) {
             bottomBarState.value = true
-            MindMapScreen(
-                navController = navController,
-                mainViewModel = mainViewModel,
-            )
+            MindMapScreen(navController = navController)
         }
 
         /** Record Screen. */
