@@ -16,6 +16,7 @@ import androidx.core.view.updateLayoutParams
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.custom_view.DiagonalHorizontalScrollView
 import com.jp_funda.todomind.view.custom_view.DiagonalScrollView
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 class MapView @JvmOverloads constructor(
@@ -48,6 +49,11 @@ class MapView @JvmOverloads constructor(
 
     /** Properties for scale */
     private var scale: Float = 1f
+
+    val minScale = min(
+        screenWidth.toFloat() / mapViewOriginalWidth.toFloat(),
+        screenHeight.toFloat() / mapViewOriginalHeight.toFloat()
+    )
 
     init {
         inflate(context, R.layout.view_map, this)
