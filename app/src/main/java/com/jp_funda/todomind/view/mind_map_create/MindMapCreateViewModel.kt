@@ -83,7 +83,7 @@ open class MindMapCreateViewModel @Inject constructor(
     fun setScale(scale: Float) {
         if (this.scale != scale) {
             this.scale = scale
-            refreshView()
+            _updateCount.postValue(_updateCount.value?.plus(1))
         }
     }
 

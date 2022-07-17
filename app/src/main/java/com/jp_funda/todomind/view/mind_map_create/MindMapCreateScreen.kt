@@ -143,11 +143,14 @@ fun MindMapCreateContent(
 
     var scale by remember { mutableStateOf(1f) }
     val state = rememberTransformableState { scaleChange, _, _ ->
-        scale *= scaleChange
-        Log.d("Scale", scale.toString())
+        val scaleAfter = scale * scaleChange
+        if (scaleAfter > 0.1f && scaleAfter < 2f) {
+            scale *= scaleChange
+            mindMapCreateViewModel.setScale(scale)
+            mapView.onScaleChange(scale)
+        }
     }
 
-    val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
     AndroidView(
         modifier = Modifier
             .fillMaxSize()
@@ -158,10 +161,6 @@ fun MindMapCreateContent(
                 return@pointerInteropFilter true
             },
         factory = { mapView },
-        update = {
-            observedUpdateCount.value // Include update count state to call this callback
-            it.onScaleChange(mindMapCreateViewModel.getScale())
-        }
     )
 
 
