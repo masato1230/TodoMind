@@ -1,13 +1,18 @@
 package com.jp_funda.todomind.view.mind_map_create
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.gestures.rememberTransformableState
+import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -32,6 +37,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.math.roundToInt
 
+@ExperimentalComposeUiApi
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
@@ -115,6 +121,7 @@ fun MindMapCreateScreen(
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
@@ -134,8 +141,22 @@ fun MindMapCreateContent(
         initialLocation?.let { scrollToLocation(mapView, it, mindMapCreateViewModel) }
     }
 
+    var scale by remember { mutableStateOf(1f) }
+    val state = rememberTransformableState { scaleChange, _, _ ->
+        scale *= scaleChange
+        Log.d("Scale", scale.toString())
+    }
+
     val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
     AndroidView(
+        modifier = Modifier
+            .fillMaxSize()
+            .transformable(state = state)
+            .pointerInteropFilter {
+                mapView.onTouchEvent(it)
+                Log.d("Event", it.action.toString())
+                return@pointerInteropFilter true
+            },
         factory = { mapView },
         update = {
             observedUpdateCount.value // Include update count state to call this callback

@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -22,9 +23,10 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.navigation.BottomBarMenuItem
-import com.jp_funda.todomind.navigation.BottomNavGraph
+import com.jp_funda.todomind.navigation.NavGraph
 import com.jp_funda.todomind.navigation.NavigationRoute
 
+@ExperimentalComposeUiApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
@@ -41,7 +43,7 @@ fun MainScreen() {
         },
         backgroundColor = colorResource(id = R.color.deep_purple),
     ) {
-        BottomNavGraph(
+        NavGraph(
             modifier = Modifier.padding(it),
             navController = navController,
             bottomBarState = bottomBarState,
