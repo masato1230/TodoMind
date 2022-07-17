@@ -130,8 +130,8 @@ fun MindMapCreateContent(
     bottomSheetState: BottomSheetState,
 ) {
     val context = LocalContext.current
-    val mapView = MapView(context)
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
+    val mapView = MapView(context).apply { onScaleChange(mindMapCreateViewModel.getScale()) }
     val sheetViewModel = hiltViewModel<MindMapOptionsSheetViewModel>()
     val coroutineScope = rememberCoroutineScope()
 
