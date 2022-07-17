@@ -11,6 +11,7 @@ import android.os.Build
 import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
@@ -34,6 +35,7 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.math.abs
 
+@ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi

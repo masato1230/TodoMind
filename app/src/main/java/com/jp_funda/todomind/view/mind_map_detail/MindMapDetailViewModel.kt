@@ -2,6 +2,7 @@ package com.jp_funda.todomind.view.mind_map_detail
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
+@ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi

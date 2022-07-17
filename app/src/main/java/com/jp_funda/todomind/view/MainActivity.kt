@@ -10,6 +10,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Surface
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -22,6 +23,7 @@ import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.view.intro.IntroActivity
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi

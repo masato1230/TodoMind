@@ -5,6 +5,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -31,11 +32,12 @@ import com.jp_funda.todomind.view.task_detail.TaskDetailScreen
 import com.jp_funda.todomind.view.top.TopScreen
 import java.util.*
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
 @Composable
-fun BottomNavGraph(
+fun NavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     bottomBarState: MutableState<Boolean>,
@@ -80,10 +82,7 @@ fun BottomNavGraph(
             popExitTransition = { getRightSlideOutTransaction() },
         ) {
             bottomBarState.value = true
-            MindMapScreen(
-                navController = navController,
-                mainViewModel = mainViewModel,
-            )
+            MindMapScreen(navController = navController)
         }
 
         /** Record Screen. */

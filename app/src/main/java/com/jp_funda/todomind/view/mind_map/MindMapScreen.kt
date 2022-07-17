@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -22,22 +23,19 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.navigation.RouteGenerator
-import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.components.RecentMindMapSection
 import com.jp_funda.todomind.view.mind_map.components.MindMapsRow
 import kotlinx.coroutines.delay
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MindMapScreen(
-    navController: NavController,
-    mainViewModel: MainViewModel,
-) {
+fun MindMapScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -48,7 +46,7 @@ fun MindMapScreen(
         },
         backgroundColor = colorResource(id = R.color.deep_purple),
     ) {
-        MindMapContent(navController, mainViewModel)
+        MindMapContent(navController)
     }
 }
 
@@ -56,10 +54,7 @@ fun MindMapScreen(
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
 @Composable
-fun MindMapContent(
-    navController: NavController,
-    mainViewModel: MainViewModel,
-) {
+fun MindMapContent(navController: NavController) {
     val mindMapViewModel = hiltViewModel<MindMapViewModel>()
 
     LaunchedEffect(Unit) {

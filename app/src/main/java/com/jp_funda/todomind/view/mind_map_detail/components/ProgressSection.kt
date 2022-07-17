@@ -7,6 +7,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -17,6 +18,7 @@ import com.jp_funda.todomind.view.components.RoundedProgressBar
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import kotlin.math.roundToInt
 
+@ExperimentalComposeUiApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi

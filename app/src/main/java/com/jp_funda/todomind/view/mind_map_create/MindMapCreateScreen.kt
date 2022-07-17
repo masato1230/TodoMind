@@ -2,12 +2,16 @@ package com.jp_funda.todomind.view.mind_map_create
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.gestures.rememberTransformableState
+import androidx.compose.foundation.gestures.transformable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -23,7 +27,7 @@ import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.mind_map_create.compoents.LineView
 import com.jp_funda.todomind.view.mind_map_create.compoents.NodeGraph
-import com.jp_funda.todomind.view.mind_map_create.compoents.ZoomButtons
+import com.jp_funda.todomind.view.mind_map_create.compoents.ZoomLevelIndicator
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheet
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetViewModel
 import com.jp_funda.todomind.view.mind_map_create.tutorial.TutorialDialog
@@ -32,6 +36,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.math.roundToInt
 
+@ExperimentalComposeUiApi
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
@@ -97,7 +102,7 @@ fun MindMapCreateScreen(
             sheetPeekHeight = 0.dp,
             sheetBackgroundColor = colorResource(id = R.color.deep_purple),
             floatingActionButton = {
-                ZoomButtons()
+                ZoomLevelIndicator()
             },
             backgroundColor = colorResource(id = R.color.deep_purple),
         ) {
@@ -115,6 +120,7 @@ fun MindMapCreateScreen(
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
@@ -124,8 +130,8 @@ fun MindMapCreateContent(
     bottomSheetState: BottomSheetState,
 ) {
     val context = LocalContext.current
-    val mapView = MapView(context)
     val mindMapCreateViewModel = hiltViewModel<MindMapCreateViewModel>()
+    val mapView = MapView(context).apply { onScaleChange(mindMapCreateViewModel.getScale()) }
     val sheetViewModel = hiltViewModel<MindMapOptionsSheetViewModel>()
     val coroutineScope = rememberCoroutineScope()
 
@@ -134,13 +140,24 @@ fun MindMapCreateContent(
         initialLocation?.let { scrollToLocation(mapView, it, mindMapCreateViewModel) }
     }
 
-    val observedUpdateCount = mindMapCreateViewModel.updateCount.observeAsState()
-    AndroidView(
-        factory = { mapView },
-        update = {
-            observedUpdateCount.value // Include update count state to call this callback
-            it.onScaleChange(mindMapCreateViewModel.getScale())
+    val state = rememberTransformableState { scaleChange, _, _ ->
+        val currentScale = mindMapCreateViewModel.getScale()
+        val scaleAfter = currentScale * scaleChange
+        if (scaleAfter > mapView.minScale && scaleAfter < 2f) {
+            mindMapCreateViewModel.setScale(scaleAfter)
+            mapView.onScaleChange(scaleAfter)
         }
+    }
+
+    AndroidView(
+        modifier = Modifier
+            .fillMaxSize()
+            .transformable(state = state)
+            .pointerInteropFilter {
+                mapView.onTouchEvent(it)
+                return@pointerInteropFilter false
+            },
+        factory = { mapView },
     )
 
 
@@ -169,6 +186,7 @@ fun MindMapCreateContent(
     mapView.lineComposeView.setContent { LineView() }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi

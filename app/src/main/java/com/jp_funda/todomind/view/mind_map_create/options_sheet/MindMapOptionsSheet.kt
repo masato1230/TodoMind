@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -30,6 +31,7 @@ import com.jp_funda.todomind.view.components.TaskEditContent
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import kotlinx.coroutines.launch
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
@@ -54,6 +56,7 @@ fun MindMapOptionsSheet(bottomSheetState: BottomSheetState) {
     MindMapOptionsSheetContent(bottomSheetState = bottomSheetState)
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
@@ -164,6 +167,7 @@ fun MindMapOptionsSheetContent(bottomSheetState: BottomSheetState) {
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi

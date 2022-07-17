@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.ui.ExperimentalComposeUiApi
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.notification.TaskReminder
@@ -13,6 +14,7 @@ import io.realm.kotlin.where
 import java.util.*
 import javax.inject.Inject
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi

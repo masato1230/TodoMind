@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -21,6 +22,7 @@ import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
 import kotlinx.coroutines.launch
 
+@ExperimentalComposeUiApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
@@ -51,6 +53,7 @@ fun TaskScreen(
     }
 }
 
+@ExperimentalComposeUiApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi

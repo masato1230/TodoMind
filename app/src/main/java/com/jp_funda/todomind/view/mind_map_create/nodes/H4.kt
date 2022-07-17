@@ -3,6 +3,7 @@ package com.jp_funda.todomind.view.mind_map_create.nodes
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
@@ -14,6 +15,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.getSize
 import com.jp_funda.todomind.data.repositories.task.entity.getTextSize
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 
+@ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
