@@ -1,7 +1,6 @@
 package com.jp_funda.todomind.view.mind_map_create
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
@@ -28,7 +27,7 @@ import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.mind_map_create.compoents.LineView
 import com.jp_funda.todomind.view.mind_map_create.compoents.NodeGraph
-import com.jp_funda.todomind.view.mind_map_create.compoents.ZoomButtons
+import com.jp_funda.todomind.view.mind_map_create.compoents.ZoomLevelIndicator
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheet
 import com.jp_funda.todomind.view.mind_map_create.options_sheet.MindMapOptionsSheetViewModel
 import com.jp_funda.todomind.view.mind_map_create.tutorial.TutorialDialog
@@ -103,7 +102,7 @@ fun MindMapCreateScreen(
             sheetPeekHeight = 0.dp,
             sheetBackgroundColor = colorResource(id = R.color.deep_purple),
             floatingActionButton = {
-                ZoomButtons()
+                ZoomLevelIndicator()
             },
             backgroundColor = colorResource(id = R.color.deep_purple),
         ) {
@@ -156,8 +155,7 @@ fun MindMapCreateContent(
             .transformable(state = state)
             .pointerInteropFilter {
                 mapView.onTouchEvent(it)
-                Log.d("Event", it.action.toString())
-                return@pointerInteropFilter true
+                return@pointerInteropFilter false
             },
         factory = { mapView },
     )

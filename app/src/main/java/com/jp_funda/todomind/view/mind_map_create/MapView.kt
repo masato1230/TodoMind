@@ -24,8 +24,8 @@ class MapView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : RelativeLayout(context, attrs, defStyle) {
-    val mapViewOriginalHeight = resources.getDimensionPixelSize(R.dimen.map_view_height)
-    val mapViewOriginalWidth = resources.getDimensionPixelSize(R.dimen.map_view_width)
+    private val mapViewOriginalHeight = resources.getDimensionPixelSize(R.dimen.map_view_height)
+    private val mapViewOriginalWidth = resources.getDimensionPixelSize(R.dimen.map_view_width)
     private val screenHeight = resources.displayMetrics.heightPixels
     private val screenWidth = resources.displayMetrics.widthPixels
 
