@@ -97,7 +97,7 @@ fun TopContent(
             mainViewModel.currentlyDeletedTask = null
             taskViewModel.showUndoDeleteSnackbar(
                 snackbarHostState = snackbarHostState,
-                deletedTask = it
+                deletedTask = it,
             )
         }
     }
@@ -127,7 +127,7 @@ fun TopContent(
                 scope.launch {
                     taskViewModel.showCheckBoxChangedSnackbar(
                         task,
-                        snackbarHostState
+                        snackbarHostState,
                     )
                 }
             },
@@ -157,7 +157,8 @@ fun TopContent(
                 },
                 onNewMindMapClick = {
                     navController.navigate(RouteGenerator.MindMapDetail(null)())
-                })
+                },
+            )
 
             // Advertisement
             BannerAd(
@@ -183,27 +184,27 @@ fun TopContent(
             // Status update Snackbar
             SnackbarHost(
                 hostState = snackbarHostState,
-                modifier = Modifier.padding(bottom = 70.dp)
+                modifier = Modifier.padding(bottom = 70.dp),
             )
         }
     } ?: run {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             CircularProgressIndicator(
                 modifier = Modifier
                     .width(150.dp)
                     .height(150.dp),
                 color = colorResource(id = R.color.teal_200),
-                strokeWidth = 10.dp
+                strokeWidth = 10.dp,
             )
             Spacer(modifier = Modifier.height(30.dp))
             Text(
                 text = "Loading...",
                 style = MaterialTheme.typography.h5,
-                color = Color.White
+                color = Color.White,
             )
         }
     }

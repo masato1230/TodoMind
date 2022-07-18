@@ -3,14 +3,14 @@ package com.jp_funda.todomind.view.components
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.data.repositories.task.entity.Task
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 fun ColumnWithTaskList(
     modifier: Modifier = Modifier,
     selectedTabStatus: TaskStatus?,
-    onTabChange: (TaskStatus) -> Unit = {}, // set if selectedTabStatus is not null
+    onTabChange: (TaskStatus) -> Unit = {},
     showingTasks: List<Task>,
     onCheckChanged: (Task) -> Unit,
     onRowMove: (Int, Int) -> Unit,
@@ -38,6 +38,7 @@ fun ColumnWithTaskList(
     var overScrollJob by remember { mutableStateOf<Job?>(null) }
     val dragDropListState = rememberDragDropListState(ignoreCount = ignoreCount, onMove = onRowMove)
     val haptic = LocalHapticFeedback.current
+    val screenHeightDp = LocalConfiguration.current.screenHeightDp
 
     if (isScrollToTopAtLaunch) {
         LaunchedEffect(dragDropListState) {
@@ -50,7 +51,7 @@ fun ColumnWithTaskList(
             .pointerInput(Unit) {
                 detectDragGesturesAfterLongPress(
                     onDrag = { change, offset ->
-                        change.consumeAllChanges()
+                        change.consume()
                         dragDropListState.onDrag(offset = offset)
 
                         if (overScrollJob?.isActive == true)
@@ -92,13 +93,12 @@ fun ColumnWithTaskList(
             Column(
                 modifier = Modifier
                     .padding(horizontal = listPadding.dp)
-                    .composed {
+                    .graphicsLayer {
                         val offsetOrNull = dragDropListState.elementDisplacement.takeIf {
-                            index == dragDropListState.currentIndexOfDraggedItem?.minus(ignoreCount) ?: 0
+                            index == (dragDropListState.currentIndexOfDraggedItem?.minus(ignoreCount)
+                                ?: 0)
                         } // lazyColumn counts other than items, so minus 2 from index
-                        Modifier.graphicsLayer {
-                            translationY = offsetOrNull ?: 0f
-                        }
+                        translationY = offsetOrNull ?: 0f
                     }
                     .fillMaxWidth()
             ) {
@@ -110,7 +110,9 @@ fun ColumnWithTaskList(
         }
 
         item {
-            Spacer(modifier = Modifier.height(100.dp))
+            // Spacer height - if number of showing task is too small then set big spacer height to prevent forced scroll at tab change
+            val spacerHeight = if (showingTasks.size >= 3) 100 else screenHeightDp / 2
+            Spacer(modifier = Modifier.height(spacerHeight.dp))
         }
     }
 }

@@ -84,7 +84,7 @@ class TaskViewModel @Inject constructor(
     // Show Undo Status Snackbar
     suspend fun showCheckBoxChangedSnackbar(
         beforeUndoTask: Task,
-        snackbarHostState: SnackbarHostState
+        snackbarHostState: SnackbarHostState,
     ) {
         val snackbarResult = snackbarHostState.showSnackbar(
             "Move ${beforeUndoTask.title ?: ""} to ${beforeUndoTask.statusEnum.name}",
@@ -108,7 +108,7 @@ class TaskViewModel @Inject constructor(
     // Show Undo delete Snackbar
     suspend fun showUndoDeleteSnackbar(
         deletedTask: Task,
-        snackbarHostState: SnackbarHostState
+        snackbarHostState: SnackbarHostState,
     ) {
         val snackbarResult = snackbarHostState.showSnackbar(
             message = "${deletedTask.title ?: ""} Deleted",
