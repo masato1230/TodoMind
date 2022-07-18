@@ -74,7 +74,7 @@ fun TaskContent(
         mainViewModel.currentlyDeletedTask?.let {
             taskViewModel.showUndoDeleteSnackbar(
                 snackbarHostState = snackbarHostState,
-                deletedTask = it
+                deletedTask = it,
             )
         }
         mainViewModel.currentlyDeletedTask = null
@@ -126,16 +126,16 @@ fun TaskContent(
                 )
             }
 
-            Column(
-                modifier = Modifier.fillMaxHeight(),
-                verticalArrangement = Arrangement.Bottom
-            ) {
-                // Status update Snackbar
-                SnackbarHost(
-                    hostState = snackbarHostState,
-                    modifier = Modifier.padding(bottom = 70.dp)
-                )
-            }
+        }
+        Column(
+            modifier = Modifier.fillMaxHeight(),
+            verticalArrangement = Arrangement.Bottom,
+        ) {
+            // Status update Snackbar
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.padding(bottom = 70.dp)
+            )
         }
     } ?: run {
         LoadingView()
