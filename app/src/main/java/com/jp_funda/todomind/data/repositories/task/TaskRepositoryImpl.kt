@@ -5,6 +5,7 @@ import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.domain.repositories.TaskRepository
 import io.realm.Realm
+import io.realm.Sort
 import io.realm.kotlin.where
 import java.util.*
 import javax.inject.Inject
@@ -44,6 +45,9 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
         }
     }
 
+    /**
+     * @param lastRemindedTask is needed only when set next reminder in a same minutes.
+     */
     override suspend fun getNextRemindTask(lastRemindedTask: Task?): Task? {
         Realm.getDefaultInstance().use {
             var nextRemindTask: Task? = null
@@ -52,6 +56,7 @@ class TaskRepositoryImpl @Inject constructor() : TaskRepository {
                 date.minutes -= 1
                 val result = realm.where<Task>()
                     .greaterThan("dueDate", date)
+                    .sort("dueDate", Sort.ASCENDING, "updatedDate", Sort.ASCENDING)
                     .greaterThan("updatedDate", lastRemindedTask?.updatedDate ?: Date(0))
                     .findFirst()
                 result?.let { task ->

@@ -13,7 +13,6 @@ import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.repositories.JsoupRepository
 import com.jp_funda.todomind.domain.repositories.MindMapRepository
 import com.jp_funda.todomind.domain.repositories.TaskRepository
-import com.jp_funda.todomind.domain.use_cases.SetNextReminderUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -56,9 +55,4 @@ class AppModule {
     fun provideJsoupRepository(): JsoupRepository {
         return JsoupRepositoryImpl()
     }
-
-    @Provides
-    @Singleton
-    fun provideSetNextReminderUseCase(@ApplicationContext appContext: Context) =
-        SetNextReminderUseCase(appContext)
 }
