@@ -1,38 +1,28 @@
 package com.jp_funda.todomind.domain.use_cases
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.domain.use_cases.task.GetNextRemindTaskUseCase
 import com.jp_funda.todomind.notification.TaskReminder
-import io.realm.Realm
-import io.realm.Sort
-import io.realm.kotlin.where
-import java.util.*
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @ExperimentalAnimationApi
-class SetNextReminderUseCase @Inject constructor(private val context: Context) {
-    suspend operator fun invoke() {
-        // TODO Change below
-        Realm.getDefaultInstance().use { realm ->
-            // set Reminder
-            val date = Date()
-            date.minutes -= 1
-            val result = realm.where<Task>()
-                .greaterThan("dueDate", date)
-                .sort("dueDate", Sort.ASCENDING)
-                .findFirst()
-            result?.let { nextRemindTask ->
-                Log.d("Next", nextRemindTask.toString())
-                TaskReminder.setTaskReminder(nextRemindTask, context)
-            }
+class SetNextReminderUseCase @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val getNextRemindTaskUseCase: GetNextRemindTaskUseCase,
+) {
+    suspend operator fun invoke(lastRemindedTask: Task? = null) {
+        val nextRemindTask = getNextRemindTaskUseCase.invoke(lastRemindedTask)
+        if (nextRemindTask != null) {
+            TaskReminder.setTaskReminder(nextRemindTask, context)
         }
     }
 }
