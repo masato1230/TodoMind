@@ -30,5 +30,8 @@ jobs:
       - name: Build Project
         run: ./gradlew assemble
 
+      - name: UnitTest
+        run: ./gradlew test --stacktrace
+
       - name: Check Lint
         run: ./gradlew lint
