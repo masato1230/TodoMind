@@ -26,7 +26,7 @@ class CreateMindMapUseCaseShould {
     }
 
     @Test
-    fun `set current date to created date`() = runTest {
+    fun `set current date to created date field`() = runTest {
         CreateMindMapUseCase(mockedRepository)(fakeMindMap)
 
         val now = Date()
@@ -34,7 +34,7 @@ class CreateMindMapUseCaseShould {
     }
 
     @Test
-    fun `set current date to updated date`() = runTest {
+    fun `set current date to updated date field`() = runTest {
         CreateMindMapUseCase(mockedRepository)(fakeMindMap)
 
         val now = Date()
