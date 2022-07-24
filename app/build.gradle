@@ -128,14 +128,17 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer:2.18.0"
 
     // Local Unit Test
+    // truth
     testImplementation "com.google.truth:truth:1.1.3"
+    // mockito
+    def mockito_version = '4.0.0'
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "org.mockito:mockito-inline:$mockito_version"
 
     // Instrumentation Test
     // Hilt
     androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
-    // mockito
-    testImplementation "org.mockito:mockito-core:4.0.0"
     // coroutines
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
 }
