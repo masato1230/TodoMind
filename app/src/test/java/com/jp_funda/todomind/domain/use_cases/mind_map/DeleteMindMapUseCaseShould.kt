@@ -31,7 +31,7 @@ class DeleteMindMapUseCaseShould {
     }
 
     @Test
-    fun `call deleteMindMap of MindMapRepository`() = runTest {
+    fun `call deleteMindMap function of MindMapRepository`() = runTest {
         invokeDeleteMindMapUseCase()
         verify(mockedRepository, times(1)).deleteMindMap(fakeMindMap)
     }
