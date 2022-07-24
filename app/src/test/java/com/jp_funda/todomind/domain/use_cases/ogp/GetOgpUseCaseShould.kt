@@ -10,7 +10,7 @@ import org.mockito.Mockito.*
 @ExperimentalCoroutinesApi
 class GetOgpUseCaseShould {
     private val fakeUrl = "example.com"
-    private val fakeJsoupRepository = mock(JsoupRepository::class.java)
+    private val mockedRepository = mock(JsoupRepository::class.java)
 
     @Test
     fun `call fetchJsoupRepository when invoked`() = runTest {
@@ -22,7 +22,7 @@ class GetOgpUseCaseShould {
             e.printStackTrace()
         }
 
-        verify(fakeJsoupRepository, times(1)).fetchConnectionResponse(fakeUrl)
+        verify(mockedRepository, times(1)).fetchConnectionResponse(fakeUrl)
     }
 
     @Test
@@ -32,7 +32,7 @@ class GetOgpUseCaseShould {
     }
 
     private suspend fun mockErrorCase(): GetOgpUseCase {
-        `when`(fakeJsoupRepository.fetchConnectionResponse(fakeUrl)).thenThrow()
-        return GetOgpUseCase(fakeJsoupRepository)
+        `when`(mockedRepository.fetchConnectionResponse(fakeUrl)).thenThrow()
+        return GetOgpUseCase(mockedRepository)
     }
 }
