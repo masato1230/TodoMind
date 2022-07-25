@@ -50,7 +50,7 @@ class MindMapRepositoryImpl : MindMapRepository {
                     .equalTo("isCompleted", false)
                     .findAll()
                     .sort("updatedDate", Sort.DESCENDING)
-                    .first()
+                    .firstOrNull()
                 mindMap = result?.let { found -> realm.copyFromRealm(found) }
             }
             return mindMap
