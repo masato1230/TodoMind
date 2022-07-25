@@ -14,34 +14,34 @@ import org.junit.Test
 import org.mockito.Mockito.*
 import java.util.*
 
+@ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
-@ExperimentalCoroutinesApi
-class RestoreTaskUseCaseShould {
+class UpdateTaskUseCaseShould {
     private val repository = mock(TaskRepository::class.java)
     private val setNextReminderUseCase = mock(SetNextReminderUseCase::class.java)
 
-    private val restoringTask = Task()
+    private val updatingTask = Task()
 
     @Test
     fun `set current date to updated date field`() = runTest {
-        RestoreTaskUseCase(repository, setNextReminderUseCase)(restoringTask)
+        UpdateTaskUseCase(repository, setNextReminderUseCase)(updatingTask)
 
         val now = Date()
-        assertThat(restoringTask.updatedDate.time).isIn(Date(now.time - 3000).time..now.time)
+        assertThat(updatingTask.updatedDate.time).isIn(Date(now.time - 3000).time..now.time)
     }
 
     @Test
-    fun `call insertTasks function of TaskRepository`() = runTest {
-        RestoreTaskUseCase(repository, setNextReminderUseCase)(restoringTask)
-        verify(repository, times(1)).insertTasks(listOf(restoringTask))
+    fun `call updateTask function of TaskRepository`() = runTest {
+        UpdateTaskUseCase(repository, setNextReminderUseCase)(updatingTask)
+        verify(repository, times(1)).updateTask(updatingTask)
     }
 
     @Test
     fun `invoke setNextReminderUseCase`() = runTest {
-        RestoreTaskUseCase(repository, setNextReminderUseCase)(restoringTask)
+        UpdateTaskUseCase(repository, setNextReminderUseCase)(updatingTask)
         verify(setNextReminderUseCase, times(1)).invoke()
     }
 }
