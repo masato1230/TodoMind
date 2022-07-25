@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -188,25 +187,7 @@ fun TopContent(
             )
         }
     } ?: run {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .width(150.dp)
-                    .height(150.dp),
-                color = colorResource(id = R.color.teal_200),
-                strokeWidth = 10.dp,
-            )
-            Spacer(modifier = Modifier.height(30.dp))
-            Text(
-                text = "Loading...",
-                style = MaterialTheme.typography.h5,
-                color = Color.White,
-            )
-        }
+        LoadingView()
     }
 }
 

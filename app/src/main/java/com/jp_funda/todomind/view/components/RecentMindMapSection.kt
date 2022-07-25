@@ -1,7 +1,9 @@
 package com.jp_funda.todomind.view.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -37,7 +39,9 @@ fun RecentMindMapSection(
             style = MaterialTheme.typography.h6,
         )
         Row(
-            modifier = Modifier.padding(bottom = 20.dp)
+            modifier = Modifier
+                .padding(bottom = 20.dp)
+                .horizontalScroll(rememberScrollState())
         ) {
             mindMap?.let {
                 MindMapCard(
@@ -45,12 +49,18 @@ fun RecentMindMapSection(
                     onClick = onRecentMindMapClick,
                 )
             } ?: run {
-                // TODO show something
+                AnimatedShimmer(
+                    modifier = Modifier
+                        .padding(start = 20.dp)
+                        .height(200.dp)
+                        .width(150.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                )
             }
             Button(
                 onClick = onNewMindMapClick,
                 modifier = Modifier
-                    .padding(start = 30.dp)
+                    .padding(start = 20.dp)
                     .height(200.dp)
                     .width(150.dp)
                     .clip(RoundedCornerShape(20.dp)),
