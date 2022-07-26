@@ -6,12 +6,13 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.navigation.NavBackStackEntry
+import com.jp_funda.todomind.Constant
 
 @ExperimentalAnimationApi
 fun AnimatedContentScope<NavBackStackEntry>.getLeftSlideInTransaction(): EnterTransition {
     return slideIntoContainer(
         towards = AnimatedContentScope.SlideDirection.Left,
-        animationSpec = tween(700),
+        animationSpec = tween(Constant.NAV_ANIM_DURATION),
     )
 }
 
@@ -19,7 +20,7 @@ fun AnimatedContentScope<NavBackStackEntry>.getLeftSlideInTransaction(): EnterTr
 fun AnimatedContentScope<NavBackStackEntry>.getLeftSlideOutTransaction(): ExitTransition {
     return slideOutOfContainer(
         towards = AnimatedContentScope.SlideDirection.Left,
-        animationSpec = tween(700),
+        animationSpec = tween(Constant.NAV_ANIM_DURATION),
     )
 }
 
@@ -27,7 +28,7 @@ fun AnimatedContentScope<NavBackStackEntry>.getLeftSlideOutTransaction(): ExitTr
 fun AnimatedContentScope<NavBackStackEntry>.getRightSlideInTransaction(): EnterTransition {
     return slideIntoContainer(
         towards = AnimatedContentScope.SlideDirection.Right,
-        animationSpec = tween(700),
+        animationSpec = tween(Constant.NAV_ANIM_DURATION),
     )
 }
 
@@ -35,6 +36,6 @@ fun AnimatedContentScope<NavBackStackEntry>.getRightSlideInTransaction(): EnterT
 fun AnimatedContentScope<NavBackStackEntry>.getRightSlideOutTransaction(): ExitTransition {
     return slideOutOfContainer(
         towards = AnimatedContentScope.SlideDirection.Right,
-        animationSpec = tween(700),
+        animationSpec = tween(Constant.NAV_ANIM_DURATION),
     )
 }
