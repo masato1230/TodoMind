@@ -18,12 +18,11 @@ import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.components.AnimatedShimmer
-import com.jp_funda.todomind.view.task.rememberDragDropListState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @Composable
-fun ColumnWithTaskList(
+fun TaskListColumn(
     modifier: Modifier = Modifier,
     selectedTabStatus: TaskStatus?,
     onTabChange: (TaskStatus) -> Unit = {},

@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.task
+package com.jp_funda.todomind.view.components.task_list
 
 import androidx.compose.foundation.lazy.LazyListItemInfo
 import androidx.compose.foundation.lazy.LazyListState

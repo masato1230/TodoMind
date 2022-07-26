@@ -28,7 +28,7 @@ import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.NewTaskFAB
 import com.jp_funda.todomind.view.components.RecentMindMapSection
-import com.jp_funda.todomind.view.components.task_list.ColumnWithTaskList
+import com.jp_funda.todomind.view.components.task_list.TaskListColumn
 import com.jp_funda.todomind.view.components.task_list.filterTasksByStatus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -116,13 +116,14 @@ fun TopContent(
     }
 
     // Main Contents
-    val showingTasks = observedTasks?.let {
+    var showingTasks by remember { mutableStateOf(observedTasks) }
+    showingTasks = observedTasks?.let { tasks ->
         filterTasksByStatus(
             status = TaskStatus.values().first { it == selectedTabStatus },
-            tasks = it
+            tasks = tasks,
         )
     }
-    ColumnWithTaskList(
+    TaskListColumn(
         selectedTabStatus = selectedTabStatus,
         onTabChange = { status ->
             taskViewModel.setSelectedStatusTab(status)
@@ -138,14 +139,16 @@ fun TopContent(
             }
         },
         onRowMove = { fromIndex, toIndex ->
-            if (showingTasks != null) {
-                // Replace task's reversedOrder property
-                if (Integer.max(fromIndex, toIndex) < showingTasks.size) {
-                    val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
-                        .reversed()[fromIndex]
-                    val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
-                        .reversed()[toIndex]
-                    taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
+            showingTasks?.let { tasks ->
+                if (showingTasks != null) {
+                    // Replace task's reversedOrder property
+                    if (Integer.max(fromIndex, toIndex) < tasks.size) {
+                        val fromTask = tasks.sortedBy { task -> task.reversedOrder }
+                            .reversed()[fromIndex]
+                        val toTask = tasks.sortedBy { task -> task.reversedOrder }
+                            .reversed()[toIndex]
+                        taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
+                    }
                 }
             }
         },

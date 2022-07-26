@@ -19,8 +19,10 @@ import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
-import com.jp_funda.todomind.view.components.*
-import com.jp_funda.todomind.view.components.task_list.ColumnWithTaskList
+import com.jp_funda.todomind.view.components.BannerAd
+import com.jp_funda.todomind.view.components.LoadingView
+import com.jp_funda.todomind.view.components.NewTaskFAB
+import com.jp_funda.todomind.view.components.task_list.TaskListColumn
 import com.jp_funda.todomind.view.components.task_list.filterTasksByStatus
 import kotlinx.coroutines.launch
 
@@ -92,7 +94,7 @@ fun TaskContent(
         )
 
         Column {
-            ColumnWithTaskList(
+            TaskListColumn(
                 selectedTabStatus = selectedTabStatus,
                 onTabChange = { status ->
                     taskViewModel.setSelectedStatusTab(status)
