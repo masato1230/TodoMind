@@ -25,7 +25,9 @@ import com.jp_funda.todomind.extension.getActivity
 import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
-import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.components.BannerAd
+import com.jp_funda.todomind.view.components.NewTaskFAB
+import com.jp_funda.todomind.view.components.RecentMindMapSection
 import com.jp_funda.todomind.view.components.task_list.ColumnWithTaskList
 import com.jp_funda.todomind.view.components.task_list.filterTasksByStatus
 import kotlinx.coroutines.delay
@@ -81,6 +83,7 @@ fun TopContent(
     navController: NavController,
     mainViewModel: MainViewModel,
 ) {
+    val context = LocalContext.current
     val topViewModel = hiltViewModel<TopViewModel>()
     val taskViewModel = hiltViewModel<TaskViewModel>()
 
@@ -103,36 +106,39 @@ fun TopContent(
         }
     }
 
-    // Main Contents
-    observedTasks?.let { tasks ->
+    LaunchedEffect(observedTasks) {
+        if (observedTasks == null) return@LaunchedEffect
         // Check whether to request review is needed
-        if (!topViewModel.isReviewRequested && tasks.size > 10 + SampleData.sampleTasks.size) {
-            requestAppReview(LocalContext.current)
+        if (!topViewModel.isReviewRequested && observedTasks!!.size > 10 + SampleData.sampleTasks.size) {
+            requestAppReview(context)
             topViewModel.setIsReviewRequested(true)
         }
-        var showingTasks by remember { mutableStateOf(tasks) }
+    }
 
-        showingTasks = filterTasksByStatus(
+    // Main Contents
+    val showingTasks = observedTasks?.let {
+        filterTasksByStatus(
             status = TaskStatus.values().first { it == selectedTabStatus },
-            tasks = tasks,
+            tasks = it
         )
-
-        ColumnWithTaskList(
-            selectedTabStatus = selectedTabStatus,
-            onTabChange = { status ->
-                taskViewModel.setSelectedStatusTab(status)
-            },
-            showingTasks = showingTasks,
-            onCheckChanged = { task ->
-                taskViewModel.updateTaskWithDelay(task)
-                scope.launch {
-                    taskViewModel.showCheckBoxChangedSnackbar(
-                        task,
-                        snackbarHostState,
-                    )
-                }
-            },
-            onRowMove = { fromIndex, toIndex ->
+    }
+    ColumnWithTaskList(
+        selectedTabStatus = selectedTabStatus,
+        onTabChange = { status ->
+            taskViewModel.setSelectedStatusTab(status)
+        },
+        showingTasks = showingTasks,
+        onCheckChanged = { task ->
+            taskViewModel.updateTaskWithDelay(task)
+            scope.launch {
+                taskViewModel.showCheckBoxChangedSnackbar(
+                    task,
+                    snackbarHostState,
+                )
+            }
+        },
+        onRowMove = { fromIndex, toIndex ->
+            if (showingTasks != null) {
                 // Replace task's reversedOrder property
                 if (Integer.max(fromIndex, toIndex) < showingTasks.size) {
                     val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
@@ -141,55 +147,53 @@ fun TopContent(
                         .reversed()[toIndex]
                     taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
                 }
+            }
+        },
+        onRowClick = { task ->
+            navController.navigate(RouteGenerator.TaskDetail(task.id)())
+        },
+        isScrollToTopAtLaunch = true,
+    ) {
+        // TOP ORIGINAL CONTENT
+        // Section Recent Mind Map
+        RecentMindMapSection(
+            mindMap = mostRecentlyUpdatedMindMap,
+            onRecentMindMapClick = {
+                navController.navigate(
+                    RouteGenerator.MindMapDetail(mostRecentlyUpdatedMindMap?.id)()
+                )
             },
-            onRowClick = { task ->
-                navController.navigate(RouteGenerator.TaskDetail(task.id)())
+            onNewMindMapClick = {
+                navController.navigate(RouteGenerator.MindMapDetail(null)())
             },
-            isScrollToTopAtLaunch = true,
-        ) {
-            // TOP ORIGINAL CONTENT
-            // Section Recent Mind Map
-            RecentMindMapSection(
-                mindMap = mostRecentlyUpdatedMindMap,
-                onRecentMindMapClick = {
-                    navController.navigate(
-                        RouteGenerator.MindMapDetail(mostRecentlyUpdatedMindMap?.id)()
-                    )
-                },
-                onNewMindMapClick = {
-                    navController.navigate(RouteGenerator.MindMapDetail(null)())
-                },
-            )
+        )
 
-            // Advertisement
-            BannerAd(
-                width = LocalConfiguration.current.screenWidthDp,
-                modifier = Modifier.heightIn(min = 60.dp),
-            )
+        // Advertisement
+        BannerAd(
+            width = LocalConfiguration.current.screenWidthDp,
+            modifier = Modifier.heightIn(min = 60.dp),
+        )
 
-            Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
-            // Section Tasks
-            Text(
-                text = "Tasks",
-                modifier = Modifier.padding(start = 20.dp),
-                color = Color.White,
-                style = MaterialTheme.typography.h6,
-            )
-        }
-        // Snackbar
-        Column(
-            modifier = Modifier.fillMaxHeight(),
-            verticalArrangement = Arrangement.Bottom
-        ) {
-            // Status update Snackbar
-            SnackbarHost(
-                hostState = snackbarHostState,
-                modifier = Modifier.padding(bottom = 70.dp),
-            )
-        }
-    } ?: run {
-        LoadingView()
+        // Section Tasks
+        Text(
+            text = "Tasks",
+            modifier = Modifier.padding(start = 20.dp),
+            color = Color.White,
+            style = MaterialTheme.typography.h6,
+        )
+    }
+
+    Column(
+        modifier = Modifier.fillMaxHeight(),
+        verticalArrangement = Arrangement.Bottom
+    ) {
+        // Status update Snackbar
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.padding(bottom = 70.dp),
+        )
     }
 }
 

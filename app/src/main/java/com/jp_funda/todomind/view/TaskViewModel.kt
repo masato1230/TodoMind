@@ -41,6 +41,7 @@ class TaskViewModel @Inject constructor(
 
     fun refreshTaskListData() {
         viewModelScope.launch(Dispatchers.IO) {
+            delay(10000)
             // TODO move sort logic to use case
             val sortedList = getAllTasksUseCase().sortedByDescending { task -> task.reversedOrder }
             _taskList.postValue(sortedList)
