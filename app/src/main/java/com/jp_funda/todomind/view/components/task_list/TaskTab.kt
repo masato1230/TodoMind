@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 
 @Composable
@@ -31,5 +32,19 @@ fun TaskTab(selectedTabStatus: TaskStatus, onTabChange: (clickedTabIndex: TaskSt
             onClick = { onTabChange(TaskStatus.Complete) },
             text = { Text("Complete") }
         )
+    }
+}
+
+fun filterTasksByStatus(status: TaskStatus, tasks: List<Task>): List<Task> {
+    return when (status) {
+        TaskStatus.Open -> {
+            tasks.filter { it.statusEnum == TaskStatus.Open }
+        }
+        TaskStatus.InProgress -> {
+            tasks.filter { it.statusEnum == TaskStatus.InProgress }
+        }
+        TaskStatus.Complete -> {
+            tasks.filter { it.statusEnum == TaskStatus.Complete }
+        }
     }
 }
