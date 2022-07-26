@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.components
+package com.jp_funda.todomind.view.components.task_list
 
 import android.content.res.ColorStateList
 import android.graphics.Paint

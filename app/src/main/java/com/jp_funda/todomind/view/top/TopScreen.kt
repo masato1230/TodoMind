@@ -26,6 +26,8 @@ import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
 import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.components.task_list.ColumnWithTaskList
+import com.jp_funda.todomind.view.components.task_list.filterTasksByStatus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
