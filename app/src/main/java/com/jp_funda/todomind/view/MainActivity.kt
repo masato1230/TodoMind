@@ -2,9 +2,9 @@ package com.jp_funda.todomind.view
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,8 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : ComponentActivity() {
     private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
