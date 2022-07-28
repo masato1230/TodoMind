@@ -21,4 +21,6 @@
     <string name="oss_licenses">OSS licenses</string>
     <string name="back">back</string>
     <string name="info">information</string>
+
+    <string name="desc_app_icon">TodoMind app icon</string>
 </resources>

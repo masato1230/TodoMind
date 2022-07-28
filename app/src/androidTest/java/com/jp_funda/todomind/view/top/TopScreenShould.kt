@@ -4,10 +4,13 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
+import androidx.test.platform.app.InstrumentationRegistry
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.jp_funda.todomind.R
 import com.jp_funda.todomind.di.AppModule
 import com.jp_funda.todomind.view.HiltActivity
 import com.jp_funda.todomind.view.MainViewModel
@@ -32,19 +35,30 @@ class TopScreenShould {
     @get:Rule(order = 1)
     val composeRule = createAndroidComposeRule<HiltActivity>()
 
+    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+
     @Before
     fun setUp() {
         hiltRule.inject()
         composeRule.setContent {
-        val navController = rememberNavController()
-        val mainViewModel = hiltViewModel<MainViewModel>()
+            val navController = rememberNavController()
+            val mainViewModel = hiltViewModel<MainViewModel>()
             TopScreen(navController, mainViewModel)
         }
     }
 
     @Test
-    fun show() {
-        composeRule.onNodeWithText("Tasks").assertExists()
-        composeRule.onNodeWithText("TodoMind").assertExists()
+    fun showAppIconAndAppName() {
+        composeRule
+            .onNodeWithContentDescription(appContext.getString(R.string.desc_app_icon))
+            .assertExists()
+        composeRule
+            .onNodeWithText(appContext.getString(R.string.app_name))
+            .assertExists()
+    }
+
+    @Test
+    fun showShimmerEffectForFirstLaunch() {
+        
     }
 }
