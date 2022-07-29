@@ -17,18 +17,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
 
 @Composable
 fun RecentMindMapSection(
+    modifier: Modifier = Modifier,
     mindMap: MindMap?,
     onRecentMindMapClick: () -> Unit,
     onNewMindMapClick: () -> Unit,
 ) {
-    Column {
+    Column(modifier = modifier.testTag(TestTag.RECENT_MIND_MAP_SECTION)) {
         // Recent Activity Section
         Text(
             text = "The Mind Map you are working on recently...",

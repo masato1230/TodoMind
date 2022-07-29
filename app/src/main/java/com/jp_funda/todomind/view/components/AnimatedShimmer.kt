@@ -8,6 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import com.jp_funda.todomind.TestTag
 
 @Composable
 fun AnimatedShimmer(modifier: Modifier) {
@@ -35,5 +37,9 @@ fun AnimatedShimmer(modifier: Modifier) {
         end = Offset(x = translateAnimation.value, y = translateAnimation.value),
     )
 
-    Box(modifier = modifier.background(brush))
+    Box(
+        modifier = modifier
+            .background(brush)
+            .testTag(TestTag.ANIMATED_SHIMMER)
+    )
 }

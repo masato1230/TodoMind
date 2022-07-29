@@ -3,14 +3,14 @@ package com.jp_funda.todomind.view.top
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithText
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.di.AppModule
 import com.jp_funda.todomind.view.HiltActivity
 import com.jp_funda.todomind.view.MainViewModel
@@ -58,7 +58,13 @@ class TopScreenShould {
     }
 
     @Test
-    fun showShimmerEffectForFirstLaunch() {
-        
+    fun showShimmerWhichHasRecentMindMapSectionAsAnAncestor() {
+        composeRule.onRoot().printToLog("TAG")
+        composeRule
+            .onAllNodesWithTag(TestTag.ANIMATED_SHIMMER)
+            .onFirst()
+            .onAncestors()
+            .filterToOne(hasTestTag(TestTag.RECENT_MIND_MAP_SECTION))
+            .assertExists()
     }
 }

@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -55,14 +56,14 @@ fun TopScreen(
     NewTaskFAB(
         topBar = {
             TopAppBar(
-                title = { Text(text = "TodoMind") },
+                title = { Text(text = stringResource(id = R.string.app_name)) },
                 backgroundColor = colorResource(id = R.color.deep_purple),
                 contentColor = Color.White,
                 navigationIcon = {
                     Spacer(modifier = Modifier.width(20.dp))
                     Icon(
                         painter = painterResource(id = R.drawable.ic_mind_map),
-                        contentDescription = "App Icon",
+                        contentDescription = stringResource(id = R.string.desc_app_icon),
                     )
                 }
             )

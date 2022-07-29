@@ -1,7 +1,7 @@
 package com.jp_funda.todomind.view
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HiltActivity : AppCompatActivity()
+class HiltActivity : ComponentActivity()
