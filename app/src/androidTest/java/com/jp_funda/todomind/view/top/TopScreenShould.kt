@@ -43,6 +43,7 @@ class TopScreenShould {
         composeRule.setContent {
             val navController = rememberNavController()
             val mainViewModel = hiltViewModel<MainViewModel>()
+            mainViewModel.addSampleData()
             TopScreen(navController, mainViewModel)
         }
     }
