@@ -47,14 +47,22 @@ class TopScreenShould {
         }
     }
 
+    // Tests which assert isDisplayed
     @Test
     fun showAppIconAndAppName() {
         composeRule
             .onNodeWithContentDescription(appContext.getString(R.string.desc_app_icon))
-            .assertExists()
+            .assertIsDisplayed()
         composeRule
             .onNodeWithText(appContext.getString(R.string.app_name))
-            .assertExists()
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun showNewTaskFAB() {
+        composeRule
+            .onNodeWithText(appContext.getString(R.string.task_new_task))
+            .assertIsDisplayed()
     }
 
     @Test
@@ -64,17 +72,33 @@ class TopScreenShould {
             .onFirst()
             .onAncestors()
             .filterToOne(hasTestTag(TestTag.RECENT_MIND_MAP_SECTION))
-            .assertExists()
+            .assertIsDisplayed()
     }
 
     @Test
     fun showNewMindMapButton() {
-        composeRule.onNodeWithTag(TestTag.NEW_MIND_MAP_BUTTON).assertExists()
+        composeRule.onNodeWithTag(TestTag.NEW_MIND_MAP_BUTTON).assertIsDisplayed()
     }
 
     @Test
     fun showBannerAd() {
-        composeRule.onNodeWithTag(TestTag.BANNER_AD).assertExists()
+        composeRule.onNodeWithTag(TestTag.BANNER_AD).assertIsDisplayed()
+    }
+
+    @Test
+    fun showTaskTab() {
+        // Is displayed "In Progress" tab
+        composeRule
+            .onNodeWithText(appContext.getString(R.string.task_in_progress))
+            .assertIsDisplayed()
+        // Is displayed "Open" tab
+        composeRule
+            .onNodeWithText(appContext.getString(R.string.task_open))
+            .assertIsDisplayed()
+        // Is displayed "Complete" tab
+        composeRule
+            .onNodeWithText(appContext.getString(R.string.task_complete))
+            .assertIsDisplayed()
     }
 
     @Test
@@ -84,6 +108,14 @@ class TopScreenShould {
             .onLast()
             .onAncestors()
             .filterToOne(hasTestTag(TestTag.TASK_LIST_COLUMN))
-            .assertExists()
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun showTaskRow() {
+        composeRule
+            .onAllNodesWithTag(TestTag.TASK_ROW)
+            .onFirst()
+            .assertIsDisplayed()
     }
 }

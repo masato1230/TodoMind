@@ -6,4 +6,5 @@ object TestTag {
     const val NEW_MIND_MAP_BUTTON = "NEW_MIND_MAP_BUTTON"
     const val BANNER_AD = "BANNER_AD"
     const val TASK_LIST_COLUMN = "TASK_LIST_COLUMN"
+    const val TASK_ROW = "TASK_ROW"
 }

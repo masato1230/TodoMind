@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
@@ -20,17 +21,17 @@ fun TaskTab(selectedTabStatus: TaskStatus, onTabChange: (clickedTabIndex: TaskSt
         Tab(
             selected = selectedTabStatus == TaskStatus.InProgress,
             onClick = { onTabChange(TaskStatus.InProgress) },
-            text = { Text("In Progress") }
+            text = { Text(stringResource(id = R.string.task_in_progress)) }
         )
         Tab(
             selected = selectedTabStatus == TaskStatus.Open,
             onClick = { onTabChange(TaskStatus.Open) },
-            text = { Text("Open") }
+            text = { Text(stringResource(id = R.string.task_open)) }
         )
         Tab(
             selected = selectedTabStatus == TaskStatus.Complete,
             onClick = { onTabChange(TaskStatus.Complete) },
-            text = { Text("Complete") }
+            text = { Text(stringResource(id = R.string.task_complete)) }
         )
     }
 }
