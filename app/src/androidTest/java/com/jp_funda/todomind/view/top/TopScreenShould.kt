@@ -59,12 +59,31 @@ class TopScreenShould {
 
     @Test
     fun showShimmerWhichHasRecentMindMapSectionAsAnAncestor() {
-        composeRule.onRoot().printToLog("TAG")
         composeRule
             .onAllNodesWithTag(TestTag.ANIMATED_SHIMMER)
             .onFirst()
             .onAncestors()
             .filterToOne(hasTestTag(TestTag.RECENT_MIND_MAP_SECTION))
+            .assertExists()
+    }
+
+    @Test
+    fun showNewMindMapButton() {
+        composeRule.onNodeWithTag(TestTag.NEW_MIND_MAP_BUTTON).assertExists()
+    }
+
+    @Test
+    fun showBannerAd() {
+        composeRule.onNodeWithTag(TestTag.BANNER_AD).assertExists()
+    }
+
+    @Test
+    fun showShimmerWhichHasTaskListAsAnAncestor() {
+        composeRule
+            .onAllNodesWithTag(TestTag.ANIMATED_SHIMMER)
+            .onLast()
+            .onAncestors()
+            .filterToOne(hasTestTag(TestTag.TASK_LIST_COLUMN))
             .assertExists()
     }
 }

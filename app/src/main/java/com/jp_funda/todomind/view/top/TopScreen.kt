@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -20,6 +21,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.extension.getActivity
@@ -175,7 +177,9 @@ fun TopContent(
         // Advertisement
         BannerAd(
             width = LocalConfiguration.current.screenWidthDp,
-            modifier = Modifier.heightIn(min = 60.dp),
+            modifier = Modifier
+                .heightIn(min = 60.dp)
+                .testTag(TestTag.BANNER_AD),
         )
 
         Spacer(modifier = Modifier.height(20.dp))

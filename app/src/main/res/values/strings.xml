@@ -24,4 +24,5 @@
 
     <!-- content descriptions -->
     <string name="desc_app_icon">TodoMind app icon</string>
+    <string name="desc_add">Add</string>
 </resources>

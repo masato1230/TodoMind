@@ -14,7 +14,9 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.data.repositories.task.entity.Task
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.components.AnimatedShimmer
@@ -75,7 +77,8 @@ fun TaskListColumn(
                     onDragEnd = { dragDropListState.onDragInterrupted() },
                     onDragCancel = { dragDropListState.onDragInterrupted() }
                 )
-            },
+            }
+            .testTag(TestTag.TASK_LIST_COLUMN),
         state = dragDropListState.lazyListState
     ) {
         // Content
