@@ -24,14 +24,20 @@ jobs:
         with:
           java-version: '11'
 
-      #      - name: Run Tests
-      #        run: ./gradlew test
-
       - name: Build Project
         run: ./gradlew assemble
 
       - name: UnitTest
         run: ./gradlew test --stacktrace
+
+      - name: Instrumentation Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          target: default
+          arch: x86
+          profile: Nexus 6
+          script: ./gradlew connectedCheck --stacktrace
 
       - name: Check Lint
         run: ./gradlew lint
