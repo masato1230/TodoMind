@@ -30,14 +30,13 @@ jobs:
       - name: UnitTest
         run: ./gradlew test --stacktrace
 
-      - name: Instrumentation Tests
-        uses: reactivecircus/android-emulator-runner@v2
+      - name: Run instrumentation tests
+        uses: malinskiy/action-android/emulator-run-cmd@release/0.0.5
         with:
-          api-level: 29
-          target: default
-          arch: x86
-          profile: Nexus 6
-          script: ./gradlew connectedCheck --stacktrace
+          cmd: ./gradlew connectedCheck --stacktrace
+          api: 25
+          tag: default
+          abi: x86
 
       - name: Check Lint
         run: ./gradlew lint
