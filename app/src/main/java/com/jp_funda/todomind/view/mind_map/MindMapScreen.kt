@@ -24,8 +24,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.components.BannerAd
-import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.components.RecentMindMapSection
+import com.jp_funda.todomind.view.mind_map.components.MindMapLoadingContent
 import com.jp_funda.todomind.view.mind_map.components.MindMapsRow
 import kotlinx.coroutines.delay
 
@@ -64,20 +64,16 @@ fun MindMapContent(navController: NavController) {
 
     val observedMindMapList by mindMapViewModel.mindMapList.observeAsState()
 
-    val scrollState = rememberScrollState()
+    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+        // Banner Advertisement
+        BannerAd(
+            width = LocalConfiguration.current.screenWidthDp,
+            modifier = Modifier.heightIn(min = 60.dp),
+        )
 
-    observedMindMapList?.let { mindMapList ->
-        val yetCompletedMindMaps = mindMapList.filter { !it.isCompleted }
-        val completedMindMaps = mindMapList.filter { it.isCompleted }
-
-        Column(
-            modifier = Modifier.verticalScroll(scrollState)
-        ) {
-            // Banner Advertisement
-            BannerAd(
-                width = LocalConfiguration.current.screenWidthDp,
-                modifier = Modifier.heightIn(min = 60.dp),
-            )
+        observedMindMapList?.let { mindMapList ->
+            val yetCompletedMindMaps = mindMapList.filter { !it.isCompleted }
+            val completedMindMaps = mindMapList.filter { it.isCompleted }
 
             // Recent mind map section
             RecentMindMapSection(
@@ -115,6 +111,10 @@ fun MindMapContent(navController: NavController) {
                     navController.navigate(RouteGenerator.MindMapDetail(mindMap.id)())
                 }
             }
+        } ?: run { // Show Shimmer
+            MindMapLoadingContent {
+                navController.navigate(RouteGenerator.MindMapDetail(null)())
+            }
         }
-    } ?: LoadingView()
+    }
 }

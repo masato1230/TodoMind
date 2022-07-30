@@ -21,4 +21,14 @@
     <string name="oss_licenses">OSS licenses</string>
     <string name="back">back</string>
     <string name="info">information</string>
+
+    <!-- task -->
+    <string name="task_in_progress">In Progress</string>
+    <string name="task_open">Open</string>
+    <string name="task_complete">Complete</string>
+    <string name="task_new_task">New task</string>
+
+    <!-- content descriptions -->
+    <string name="desc_app_icon">TodoMind app icon</string>
+    <string name="desc_add">Add</string>
 </resources>

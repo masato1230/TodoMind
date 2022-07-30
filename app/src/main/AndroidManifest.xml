@@ -47,6 +47,10 @@
             android:theme="@style/Theme.TodoMind"
             tools:ignore="LockedOrientationActivity" />
 
+        <activity
+            android:name=".view.HiltActivity"
+            android:theme="@style/Theme.TodoMind" />
+
         <receiver
             android:name=".notification.TaskReminder"
             android:enabled="true"
