@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "379293373516",
+    "project_id": "todomind-7f560",
+    "storage_bucket": "todomind-7f560.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379293373516:android:6ba6bbb8077b8a86a790e9",
+        "android_client_info": {
+          "package_name": "com.jp_funda.todomind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379293373516-4m022sbrpmjpj98as7kocnfrjp4ir8ua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLTG3moAa82BzSe_F5WXzXuEfBsGOsyI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379293373516-4m022sbrpmjpj98as7kocnfrjp4ir8ua.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
