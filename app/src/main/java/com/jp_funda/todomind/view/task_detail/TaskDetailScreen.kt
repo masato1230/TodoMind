@@ -26,7 +26,6 @@ import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.TaskEditContent
-import kotlinx.coroutines.delay
 import java.util.*
 
 @ExperimentalComposeUiApi
@@ -44,12 +43,7 @@ fun TaskDetailScreen(
 
     LaunchedEffect(Unit) {
         Log.d("TaskID", taskId.toString())
-        taskId?.let {
-            delay(1000)
-            taskDetailViewModel.loadEditingTask(UUID.fromString(it))
-        } ?: run {
-            taskDetailViewModel.setEmptyTask()
-        }
+        taskId?.let { taskDetailViewModel.loadEditingTask(UUID.fromString(it)) }
     }
 
     Scaffold(
