@@ -6,14 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
@@ -47,7 +45,7 @@ class TaskReminderActivity : AppCompatActivity() {
 
         // Get reminding task id from shared preference
         val taskId = notificationPreferences.getString(PreferenceKeys.REMINDING_TASK_ID)
-        taskId?.let { viewModel.getTask(UUID.fromString(it)) }
+        taskId?.let { viewModel.loadEditingTask(UUID.fromString(it)) }
 
         setContentView(ComposeView(this)).apply {
             setContent {
@@ -69,16 +67,15 @@ class TaskReminderActivity : AppCompatActivity() {
                     },
                     backgroundColor = colorResource(id = R.color.deep_purple),
                 ) {
-                    val loading by viewModel.loading.observeAsState(true)
+                    val observedTask by viewModel.task.observeAsState()
 
-                    if (!loading) {
+                    observedTask?.let {
                         TaskEditContent(
-                            modifier = Modifier.padding(it),
                             taskEditableViewModel = viewModel,
                             mainViewModel = mainViewModel,
                             isReminder = true,
                         ) { navigateToMainActivity() }
-                    } else {
+                    } ?: run {
                         LoadingView()
                     }
                 }
