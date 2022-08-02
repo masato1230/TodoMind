@@ -5,6 +5,7 @@ plugins {
     id 'realm-android'
     id 'dagger.hilt.android.plugin'
     id "com.cookpad.android.plugin.license-tools"
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -141,4 +142,8 @@ dependencies {
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
     // coroutines
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }

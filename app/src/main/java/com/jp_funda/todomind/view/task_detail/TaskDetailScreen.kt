@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,7 +54,7 @@ fun TaskDetailScreen(
                 contentColor = Color.White,
                 navigationIcon = { BackNavigationIcon(navController) },
                 actions = {
-                    taskDetailViewModel.task.value?.mindMap?.let {
+                    taskDetailViewModel.task.observeAsState().value?.mindMap?.let {
                         val onClick = {
                             navController.navigate(
                                 RouteGenerator.MindMapCreate(

@@ -22,6 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.analytics.FirebaseEvent
 import com.jp_funda.todomind.navigation.BottomBarMenuItem
 import com.jp_funda.todomind.navigation.NavGraph
 import com.jp_funda.todomind.navigation.NavigationRoute
@@ -32,7 +33,11 @@ import com.jp_funda.todomind.navigation.NavigationRoute
 @ExperimentalAnimationApi
 @Composable
 fun MainScreen() {
-    val navController = rememberAnimatedNavController()
+    val navController = rememberAnimatedNavController().apply {
+        addOnDestinationChangedListener { _, destination, _ ->
+            destination.route?.let { FirebaseEvent.screenView(it) }
+        }
+    }
     val bottomBarState = remember { mutableStateOf(true) }
 
     Scaffold(
