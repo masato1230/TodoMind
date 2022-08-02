@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +26,7 @@ import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.TaskEditContent
+import kotlinx.coroutines.delay
 import java.util.*
 
 @ExperimentalComposeUiApi
@@ -42,7 +44,12 @@ fun TaskDetailScreen(
 
     LaunchedEffect(Unit) {
         Log.d("TaskID", taskId.toString())
-        taskId?.let { taskDetailViewModel.loadEditingTask(UUID.fromString(it)) }
+        taskId?.let {
+            delay(1000)
+            taskDetailViewModel.loadEditingTask(UUID.fromString(it))
+        } ?: run {
+            taskDetailViewModel.setEmptyTask()
+        }
     }
 
     Scaffold(
@@ -53,7 +60,7 @@ fun TaskDetailScreen(
                 contentColor = Color.White,
                 navigationIcon = { BackNavigationIcon(navController) },
                 actions = {
-                    taskDetailViewModel.task.value?.mindMap?.let {
+                    taskDetailViewModel.task.observeAsState().value?.mindMap?.let {
                         val onClick = {
                             navController.navigate(
                                 RouteGenerator.MindMapCreate(

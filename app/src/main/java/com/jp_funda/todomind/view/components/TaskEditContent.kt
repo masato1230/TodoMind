@@ -393,5 +393,8 @@ fun TaskEditContent(
                 Spacer(modifier = Modifier.height(50.dp))
             }
         }
+    } ?: run {
+        // TODO
+        LoadingView()
     }
 }
