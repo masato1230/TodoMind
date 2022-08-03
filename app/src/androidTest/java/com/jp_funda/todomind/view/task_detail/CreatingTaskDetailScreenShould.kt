@@ -3,15 +3,16 @@ package com.jp_funda.todomind.view.task_detail
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
-import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.di.AppModule
 import com.jp_funda.todomind.view.HiltActivity
 import com.jp_funda.todomind.view.MainViewModel
@@ -28,8 +29,7 @@ import org.junit.Test
 @ExperimentalComposeUiApi
 @UninstallModules(AppModule::class)
 @HiltAndroidTest
-class EditingTaskDetailScreenShould {
-
+class CreatingTaskDetailScreenShould {
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
@@ -38,20 +38,16 @@ class EditingTaskDetailScreenShould {
 
     private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
-    private val task = SampleData.sampleTasks[0]
-    private val mindMap = SampleData.mindMap
-
     @Before
     fun setUp() {
         hiltRule.inject()
         composeRule.setContent {
             val navController = rememberNavController()
             val mainViewModel = hiltViewModel<MainViewModel>()
-            mainViewModel.addSampleData()
             TaskDetailScreen(
                 navController = navController,
                 mainViewModel = mainViewModel,
-                taskId = task.id.toString(),
+                taskId = null,
             )
         }
     }
@@ -60,23 +56,14 @@ class EditingTaskDetailScreenShould {
     @Test
     fun showHeaderCorrectly() {
         composeRule
-            .onNodeWithContentDescription(appContext.getString(R.string.back))
-        composeRule
-            .onNodeWithText(appContext.getString(R.string.task_detail_editing_title))
+            .onNodeWithText(appContext.getString(R.string.task_detail_creating_title))
             .assertIsDisplayed()
-        composeRule
-            .onNodeWithContentDescription(appContext.getString(R.string.mind_map))
-            .assertIsDisplayed()
-        composeRule
-            .onNodeWithText(mindMap.title.toString())
-            .assertExists()
     }
 
     @Test
-    fun showShowShimmerComponents() {
+    fun doNotShowShimmerComponents() {
         composeRule
-            .onAllNodesWithTag(TestTag.ANIMATED_SHIMMER)
-            .onFirst()
-            .assertIsDisplayed()
+            .onNodeWithTag(TestTag.ANIMATED_SHIMMER)
+            .assertDoesNotExist()
     }
 }

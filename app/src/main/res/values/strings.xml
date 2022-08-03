@@ -22,14 +22,15 @@
     <string name="back">back</string>
     <string name="info">information</string>
 
-    <!-- task -->
+    <!-- task screen -->
     <string name="task_in_progress">In Progress</string>
     <string name="task_open">Open</string>
     <string name="task_complete">Complete</string>
     <string name="task_new_task">New task</string>
 
-    <!-- task detail -->
+    <!-- task detail screen -->
     <string name="task_detail_editing_title">Task Detail</string>
+    <string name="task_detail_creating_title">New Task</string>
 
     <!-- content descriptions -->
     <string name="desc_app_icon">TodoMind app icon</string>

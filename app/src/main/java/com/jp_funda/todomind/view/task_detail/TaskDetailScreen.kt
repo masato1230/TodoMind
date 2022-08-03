@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -57,8 +58,11 @@ fun TaskDetailScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = if (taskId != null) "Task Detail" else "New Task")
-                        },
+                    val title =
+                        if (taskId != null) stringResource(id = R.string.task_detail_editing_title)
+                        else stringResource(id = R.string.task_detail_creating_title)
+                    Text(title)
+                },
                 backgroundColor = colorResource(id = R.color.deep_purple),
                 contentColor = Color.White,
                 navigationIcon = { BackNavigationIcon(navController) },
@@ -78,7 +82,7 @@ fun TaskDetailScreen(
                         IconButton(onClick = onClick) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_mind_map),
-                                contentDescription = "Mind Map",
+                                contentDescription = stringResource(id = R.string.mind_map),
                                 tint = color,
                             )
                         }
