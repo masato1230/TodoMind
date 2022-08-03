@@ -48,7 +48,7 @@ class TopScreenShould {
         }
     }
 
-    // Tests which assert isDisplayed
+    // Tests which asserts isDisplayed
     @Test
     fun showAppIconAndAppName() {
         composeRule

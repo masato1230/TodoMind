@@ -28,6 +28,9 @@
     <string name="task_complete">Complete</string>
     <string name="task_new_task">New task</string>
 
+    <!-- task detail -->
+    <string name="task_detail_editing_title">Task Detail</string>
+
     <!-- content descriptions -->
     <string name="desc_app_icon">TodoMind app icon</string>
     <string name="desc_add">Add</string>

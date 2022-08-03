@@ -56,7 +56,9 @@ fun TaskDetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = if (taskId != null) "Task Detail" else "New Task") },
+                title = {
+                    Text(text = if (taskId != null) "Task Detail" else "New Task")
+                        },
                 backgroundColor = colorResource(id = R.color.deep_purple),
                 contentColor = Color.White,
                 navigationIcon = { BackNavigationIcon(navController) },
