@@ -31,6 +31,7 @@ import com.jp_funda.todomind.view.components.dialog.DatePickerDialog
 import com.jp_funda.todomind.view.components.dialog.ParentSelectDialog
 import com.jp_funda.todomind.view.components.dialog.TimePickerDialog
 import com.jp_funda.todomind.view.task_detail.TaskEditableViewModel
+import com.jp_funda.todomind.view.task_detail.components.TaskEditLoadingContent
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.text.SimpleDateFormat
 import java.util.*
@@ -393,5 +394,7 @@ fun TaskEditContent(
                 Spacer(modifier = Modifier.height(50.dp))
             }
         }
+    } ?: run {
+        TaskEditLoadingContent()
     }
 }
