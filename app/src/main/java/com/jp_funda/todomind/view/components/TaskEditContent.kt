@@ -18,11 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
@@ -101,7 +104,9 @@ fun TaskEditContent(
             // Title TextField
             TextField(
                 colors = colors,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag(TestTag.TASK_DETAIL_TITLE),
                 value = task.title ?: "",
                 onValueChange = taskEditableViewModel::setTitle,
                 textStyle = MaterialTheme.typography.h6,
@@ -118,7 +123,9 @@ fun TaskEditContent(
             val isLinkNode = task.styleEnum == NodeStyle.LINK
             TextField(
                 colors = colors,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag(TestTag.TASK_DETAIL_DESCRIPTION),
                 value = task.description ?: "",
                 onValueChange = {
                     taskEditableViewModel.setDescription(it)
@@ -155,7 +162,8 @@ fun TaskEditContent(
                         colors = colors,
                         modifier = Modifier
                             .fillMaxWidth(0.5f)
-                            .clickable { dateDialogState.show() },
+                            .clickable { dateDialogState.show() }
+                            .testTag(TestTag.TASK_DETAIL_DATE),
                         value = if (task.dueDate != null)
                             SimpleDateFormat(
                                 "EEE MM/dd",
@@ -183,7 +191,8 @@ fun TaskEditContent(
                             .fillMaxWidth()
                             .clickable {
                                 timeDialogState.show()
-                            },
+                            }
+                            .testTag(TestTag.TASK_DETAIL_TIME),
                         value = if (task.dueDate != null)
                             SimpleDateFormat(
                                 "hh:mm aaa",
@@ -367,7 +376,7 @@ fun TaskEditContent(
             // Buttons
             Row(modifier = Modifier.fillMaxWidth()) {
                 WhiteButton(
-                    text = "Save",
+                    text = stringResource(id = R.string.save),
                     leadingIcon = Icons.Default.Check,
                 ) {
                     taskEditableViewModel.saveTask()
@@ -378,7 +387,7 @@ fun TaskEditContent(
 
                 if (taskEditableViewModel.isEditing) {
                     WhiteButton(
-                        text = "Delete",
+                        text = stringResource(id = R.string.delete),
                         leadingIcon = Icons.Default.Delete,
                     ) {
                         // Set CurrentlyDeletedTask at MainViewModel for undo snackbar
@@ -390,7 +399,7 @@ fun TaskEditContent(
                         onComplete()
                     }
                 }
-                
+
                 Spacer(modifier = Modifier.height(50.dp))
             }
         }

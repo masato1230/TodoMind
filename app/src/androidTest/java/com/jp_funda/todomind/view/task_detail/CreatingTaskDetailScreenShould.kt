@@ -66,4 +66,18 @@ class CreatingTaskDetailScreenShould {
             .onNodeWithTag(TestTag.ANIMATED_SHIMMER)
             .assertDoesNotExist()
     }
+
+    @Test
+    fun showSaveButton() {
+        composeRule
+            .onNodeWithText(appContext.getString(R.string.save))
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun doNotContainDeleteButton() {
+        composeRule
+            .onNodeWithText(appContext.getString(R.string.delete))
+            .assertDoesNotExist()
+    }
 }

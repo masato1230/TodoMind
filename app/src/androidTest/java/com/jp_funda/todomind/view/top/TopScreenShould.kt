@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.jp_funda.todomind.Constant
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.di.AppModule
@@ -114,6 +115,7 @@ class TopScreenShould {
 
     @Test
     fun showTaskRow() {
+        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
         composeRule
             .onAllNodesWithTag(TestTag.TASK_ROW)
             .onFirst()

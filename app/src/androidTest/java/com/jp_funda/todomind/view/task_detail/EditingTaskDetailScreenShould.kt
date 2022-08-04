@@ -9,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.jp_funda.todomind.Constant
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.data.SampleData
@@ -58,12 +59,19 @@ class EditingTaskDetailScreenShould {
 
     // Tests which assert isDisplayed
     @Test
-    fun showHeaderCorrectly() {
+    fun showHeaderTitle() {
+        // Screen Title
         composeRule
             .onNodeWithContentDescription(appContext.getString(R.string.back))
         composeRule
             .onNodeWithText(appContext.getString(R.string.task_detail_editing_title))
             .assertIsDisplayed()
+    }
+
+    @Test
+    fun showMindMapIcon() {
+        // Mind Map
+        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
         composeRule
             .onNodeWithContentDescription(appContext.getString(R.string.mind_map))
             .assertIsDisplayed()
@@ -77,6 +85,75 @@ class EditingTaskDetailScreenShould {
         composeRule
             .onAllNodesWithTag(TestTag.ANIMATED_SHIMMER)
             .onFirst()
+            .assertIsDisplayed()
+    }
+
+    // Tests which assert initial state and input
+    @Test
+    fun haveTaskTitleTextField() {
+        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
+        composeRule.onNodeWithTag(TestTag.TASK_DETAIL_TITLE).run {
+            // initial state assertions
+            assertIsDisplayed()
+            assertTextEquals(task.title.toString())
+            // assert editable
+            performTextClearance()
+            performTextInput("test")
+            assertTextEquals("test")
+        }
+    }
+
+    @Test
+    fun haveTaskDescriptionTextField() {
+        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
+        composeRule.onNodeWithTag(TestTag.TASK_DETAIL_DESCRIPTION).run {
+            // initial state assertions
+            assertIsDisplayed()
+            assertTextEquals(task.description.toString())
+            // assert editable
+            performTextClearance()
+            performTextInput("test")
+            assertTextEquals("test")
+        }
+    }
+
+    @Test
+    fun haveDateTextField() {
+        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
+        composeRule.onNodeWithTag(TestTag.TASK_DETAIL_DATE).run {
+            // initial state assertion
+            assertIsDisplayed()
+            performClick()
+        }
+        // assert dialog is shown
+        composeRule.onNodeWithText("SELECT DATE").assertIsDisplayed()
+    }
+
+    @Test
+    fun haveTimeTextField() {
+        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
+        composeRule.onNodeWithTag(TestTag.TASK_DETAIL_TIME).run {
+            // initial state assertion
+            assertIsDisplayed()
+            performClick()
+        }
+        // assert dialog is shown
+        composeRule.onNodeWithText("SELECT TIME").assertIsDisplayed()
+    }
+
+    @Test
+    fun showSaveButton() {
+        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 3)
+        composeRule
+            .onNodeWithText(appContext.getString(R.string.save))
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun showDeleteButton() {
+        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
+        composeRule
+            .onNodeWithText(appContext.getString(R.string.delete))
             .assertIsDisplayed()
     }
 }
