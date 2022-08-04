@@ -44,6 +44,7 @@ fun MindMapOptionsSheet(bottomSheetState: BottomSheetState) {
         // Set Sheet Mode as Edit
         sheetViewModel.setMode(MindMapOptionsMode.EDIT_TASK)
         // Set mind map to addChildViewModel
+        addChildViewModel.setNewEmptyTask()
         addChildViewModel.setMindMap(sheetViewModel.editingMindMap)
         // Set parentNode to addChildViewModel
         addChildViewModel.setParentNode(sheetViewModel.selectedNode.value)

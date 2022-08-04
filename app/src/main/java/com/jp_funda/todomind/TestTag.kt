@@ -1,10 +1,17 @@
 package com.jp_funda.todomind
 
 object TestTag {
-    const val RECENT_MIND_MAP_SECTION = "RECENT_MIND_MAP_SECTION"
+    // components
     const val ANIMATED_SHIMMER = "ANIMATED_SHIMMER"
+    const val RECENT_MIND_MAP_SECTION = "RECENT_MIND_MAP_SECTION"
     const val NEW_MIND_MAP_BUTTON = "NEW_MIND_MAP_BUTTON"
     const val BANNER_AD = "BANNER_AD"
+    // task
     const val TASK_LIST_COLUMN = "TASK_LIST_COLUMN"
     const val TASK_ROW = "TASK_ROW"
+    // task detail
+    const val TASK_DETAIL_TITLE = "TASK_DETAIL_TITLE"
+    const val TASK_DETAIL_DESCRIPTION = "TASK_DETAIL_DESCRIPTION"
+    const val TASK_DETAIL_DATE = "TASK_DETAIL_DATE"
+    const val TASK_DETAIL_TIME = "TASK_DETAIL_TIME"
 }

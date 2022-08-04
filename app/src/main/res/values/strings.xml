@@ -7,6 +7,7 @@
     <string name="top">Top</string>
     <string name="detail">Detail</string>
     <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
     <string name="delete">Delete</string>
     <string name="question_confirm_delete">Are you sure you want to delete this mind map?</string>
     <string name="notify_tasks_delete">Tasks in this mind map will also be deleted.</string>
@@ -22,11 +23,15 @@
     <string name="back">back</string>
     <string name="info">information</string>
 
-    <!-- task -->
+    <!-- task screen -->
     <string name="task_in_progress">In Progress</string>
     <string name="task_open">Open</string>
     <string name="task_complete">Complete</string>
     <string name="task_new_task">New task</string>
+
+    <!-- task detail screen -->
+    <string name="task_detail_editing_title">Task Detail</string>
+    <string name="task_detail_creating_title">New Task</string>
 
     <!-- content descriptions -->
     <string name="desc_app_icon">TodoMind app icon</string>

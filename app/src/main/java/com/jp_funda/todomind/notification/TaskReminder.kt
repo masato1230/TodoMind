@@ -117,9 +117,7 @@ class TaskReminder : BroadcastReceiver() {
                         )
                     }
                     // Set nextReminder todo replace with invoking setNextReminderUseCase
-                    getNextReminderUseCase(task)?.let { nextTask ->
-                        setTaskReminder(nextTask, context)
-                    }
+                    setReminderUseCase(task)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

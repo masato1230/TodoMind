@@ -57,8 +57,8 @@ open class TaskEditableViewModel @Inject constructor() : ViewModel() {
     @Inject
     lateinit var settingsPreferences: SettingsPreferences
 
-    protected var _task = MutableLiveData(Task())
-    val task: LiveData<Task> = _task
+    protected var _task = MutableLiveData<Task?>(null)
+    val task: LiveData<Task?> = _task
     var isEditing: Boolean = false
     val isShowOgpThumbnail: Boolean
         get() {
@@ -75,6 +75,11 @@ open class TaskEditableViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             _task.postValue(getTaskUseCase(uuid))
         }
+    }
+
+    fun setNewEmptyTask() {
+        _task.value = Task()
+        isEditing = false
     }
 
     fun setEditingTask(editingTask: Task) {

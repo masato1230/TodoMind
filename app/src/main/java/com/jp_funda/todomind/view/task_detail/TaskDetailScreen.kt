@@ -15,17 +15,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.jp_funda.todomind.Constant
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.TaskEditContent
+import kotlinx.coroutines.delay
 import java.util.*
 
 @ExperimentalComposeUiApi
@@ -43,13 +46,23 @@ fun TaskDetailScreen(
 
     LaunchedEffect(Unit) {
         Log.d("TaskID", taskId.toString())
-        taskId?.let { taskDetailViewModel.loadEditingTask(UUID.fromString(it)) }
+        taskId?.let {
+            delay(Constant.NAV_ANIM_DURATION.toLong())
+            taskDetailViewModel.loadEditingTask(UUID.fromString(it))
+        } ?: run {
+            taskDetailViewModel.setNewEmptyTask()
+        }
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = if (taskDetailViewModel.isEditing) "Task Detail" else "New Task") },
+                title = {
+                    val title =
+                        if (taskId != null) stringResource(id = R.string.task_detail_editing_title)
+                        else stringResource(id = R.string.task_detail_creating_title)
+                    Text(title)
+                },
                 backgroundColor = colorResource(id = R.color.deep_purple),
                 contentColor = Color.White,
                 navigationIcon = { BackNavigationIcon(navController) },
@@ -69,7 +82,7 @@ fun TaskDetailScreen(
                         IconButton(onClick = onClick) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_mind_map),
-                                contentDescription = "Mind Map",
+                                contentDescription = stringResource(id = R.string.mind_map),
                                 tint = color,
                             )
                         }
