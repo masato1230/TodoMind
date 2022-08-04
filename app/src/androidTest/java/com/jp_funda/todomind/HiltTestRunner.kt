@@ -15,7 +15,8 @@ class HiltTestRunner : AndroidJUnitRunner() {
     ): Application {
         // Set up in memory realm
         Realm.init(context)
-        RealmConfiguration.Builder().inMemory().name("test-realm").build()
+        val testConfig = RealmConfiguration.Builder().inMemory().name("test-realm").build()
+        Realm.setDefaultConfiguration(testConfig)
         return super.newApplication(cl, HiltTestApplication::class.java.name, context)
     }
 }
