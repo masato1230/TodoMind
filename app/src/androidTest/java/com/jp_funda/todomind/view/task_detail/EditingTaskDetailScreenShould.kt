@@ -142,14 +142,6 @@ class EditingTaskDetailScreenShould {
     }
 
     @Test
-    fun showSaveButton() {
-        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 3)
-        composeRule
-            .onNodeWithText(appContext.getString(R.string.save))
-            .assertIsDisplayed()
-    }
-
-    @Test
     fun showDeleteButton() {
         Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
         composeRule
