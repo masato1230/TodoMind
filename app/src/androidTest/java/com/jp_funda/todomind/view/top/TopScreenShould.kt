@@ -9,19 +9,25 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.Constant
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
+import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.di.AppModule
+import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
+import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
 import com.jp_funda.todomind.view.HiltActivity
 import com.jp_funda.todomind.view.MainViewModel
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
@@ -29,23 +35,31 @@ import org.junit.Test
 @UninstallModules(AppModule::class)
 @HiltAndroidTest
 class TopScreenShould {
-
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
     val composeRule = createAndroidComposeRule<HiltActivity>()
 
+    @Inject
+    lateinit var createMindMapUseCase: CreateMindMapUseCase
+
+    @Inject
+    lateinit var createTasksUseCase: CreateTasksUseCase
+
     private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Before
-    fun setUp() {
+    fun setUp() = runTest {
         hiltRule.inject()
+
+        createMindMapUseCase(SampleData.mindMap)
+        createTasksUseCase(SampleData.sampleTasks)
+
         composeRule.setContent {
             val navController = rememberNavController()
             val mainViewModel = hiltViewModel<MainViewModel>()
-            mainViewModel.addSampleData()
-            TopScreen(navController, mainViewModel)
+            TopScreen(navController = navController, mainViewModel = mainViewModel)
         }
     }
 
@@ -115,7 +129,6 @@ class TopScreenShould {
 
     @Test
     fun showTaskRow() {
-        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
         composeRule
             .onAllNodesWithTag(TestTag.TASK_ROW)
             .onFirst()

@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.Constant
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.navigation.RouteGenerator
@@ -25,7 +24,6 @@ import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.NewTaskFAB
 import com.jp_funda.todomind.view.components.task_list.TaskListColumn
 import com.jp_funda.todomind.view.components.task_list.filterTasksByStatus
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @ExperimentalComposeUiApi
@@ -40,7 +38,6 @@ fun TaskScreen(
     val taskViewModel = hiltViewModel<TaskViewModel>()
 
     LaunchedEffect(Unit) {
-        delay(Constant.NAV_ANIM_DURATION.toLong())
         taskViewModel.refreshTaskListData()
     }
 
@@ -90,10 +87,10 @@ fun TaskContent(
     // Main Contents
     var showingTasks by remember { mutableStateOf(observedTasks) }
 
-    showingTasks = observedTasks?.let {
+    showingTasks = observedTasks?.let { tasks ->
         filterTasksByStatus(
             status = TaskStatus.values().first { it == selectedTabStatus },
-            tasks = it,
+            tasks = tasks,
         )
     }
 
