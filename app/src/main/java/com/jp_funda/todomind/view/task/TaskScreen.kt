@@ -10,10 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.jp_funda.todomind.Constant
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.navigation.RouteGenerator
@@ -23,6 +25,7 @@ import com.jp_funda.todomind.view.components.BannerAd
 import com.jp_funda.todomind.view.components.NewTaskFAB
 import com.jp_funda.todomind.view.components.task_list.TaskListColumn
 import com.jp_funda.todomind.view.components.task_list.filterTasksByStatus
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @ExperimentalComposeUiApi
@@ -37,13 +40,14 @@ fun TaskScreen(
     val taskViewModel = hiltViewModel<TaskViewModel>()
 
     LaunchedEffect(Unit) {
+        delay(Constant.NAV_ANIM_DURATION.toLong())
         taskViewModel.refreshTaskListData()
     }
 
     NewTaskFAB(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Task") },
+                title = { Text(text = stringResource(id = R.string.task)) },
                 backgroundColor = colorResource(id = R.color.deep_purple),
                 contentColor = Color.White,
             )

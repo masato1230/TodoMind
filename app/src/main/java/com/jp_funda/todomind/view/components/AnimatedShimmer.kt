@@ -25,7 +25,7 @@ fun AnimatedShimmer(modifier: Modifier) {
         targetValue = 1000f,
         animationSpec = infiniteRepeatable(
             animation = tween(
-                durationMillis = 1000,
+                durationMillis = 500,
                 easing = FastOutSlowInEasing,
             )
         ),
