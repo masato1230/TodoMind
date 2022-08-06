@@ -1,11 +1,6 @@
 name: Check PR
 
-on:
-  # Triggers the workflow on every pull request to master branch
-  pull_request
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+on: pull_request
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
