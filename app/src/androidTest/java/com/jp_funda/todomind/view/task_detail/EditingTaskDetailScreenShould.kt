@@ -93,15 +93,6 @@ class EditingTaskDetailScreenShould {
             .assertExists()
     }
 
-    @Test
-    fun showShowShimmerComponents() {
-        composeRule.mainClock.autoAdvance = false
-        composeRule
-            .onAllNodesWithTag(TestTag.ANIMATED_SHIMMER)
-            .onFirst()
-            .assertIsDisplayed()
-    }
-
     // Tests which assert initial state and input
     @Test
     fun haveTaskTitleTextField() {
