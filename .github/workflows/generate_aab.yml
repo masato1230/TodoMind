@@ -41,5 +41,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: aab
-          path: app/build/outputs/bundle/release/app-release.aab
+          path: app/product/release/app-product-release.aab
           if-no-files-found: error
