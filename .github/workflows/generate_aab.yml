@@ -1,0 +1,45 @@
+name: Generate AAB
+
+on:
+  push:
+    branches:
+      - develop/phase2
+  pull_request:
+    branches:
+      - develop/phase2
+
+jobs:
+  generate-aab:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - uses: actions/checkout@v2
+
+      # JDK
+      - name: Set Up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+
+      # Output dependencies
+      - name: Displays the Android dependencies of the project
+        run: ./gradlew androidDependencies
+
+      # Decode keystore
+      - name: Decode Keystore
+        run: echo ${{ secrets.ENCODED_RELEASE_KEYSTORE }} | base64 --decode > ./app/release.keystore
+
+      # Generate aab
+      - name: Generate AAB
+        run: ./gradlew :app:bundleRelease
+        env:
+          RELEASE_KEYSTORE_STORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_STORE_PASSWORD }}
+          RELEASE_KEYSTORE_KEY_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_KEY_PASSWORD }}
+
+      # Upload aab
+      - name: Upload AAB Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: aab
+          path: app/product/release/app-product-release.aab
+          if-no-files-found: error
