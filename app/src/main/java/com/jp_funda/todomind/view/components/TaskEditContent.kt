@@ -269,6 +269,7 @@ fun TaskEditContent(
                             )
                         },
                         readOnly = true,
+                        enabled = false,
                     )
                     ExposedDropdownMenu(
                         expanded = styleExpanded,
@@ -314,6 +315,7 @@ fun TaskEditContent(
                         )
                     },
                     readOnly = true,
+                    enabled = false,
                 )
                 ExposedDropdownMenu(
                     expanded = expanded,
