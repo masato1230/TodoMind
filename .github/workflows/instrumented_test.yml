@@ -5,6 +5,8 @@ on: pull_request
 jobs:
   test:
     runs-on: macos-latest
+    env:
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx4g -XX:MaxMetaspaceSize=2g -Dkotlin.daemon.jvm.options=-Xmx1500m"
     steps:
       - name: checkout
         uses: actions/checkout@v3
