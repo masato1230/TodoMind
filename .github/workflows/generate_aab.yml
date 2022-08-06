@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - develop/phase2
-  # TODO delete
-  pull_request
+  pull_request:
+    branches:
+      - develop/phase2
 
 jobs:
   generate-aab:
