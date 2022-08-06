@@ -220,7 +220,8 @@ fun TaskEditContent(
                     colors = colors,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { colorDialogState.show() },
+                        .clickable { colorDialogState.show() }
+                        .testTag(TestTag.TASK_DETAIL_COLOR),
                     value = task.colorHex ?: "",
                     onValueChange = {},
                     placeholder = { Text(text = "Set color", color = Color.Gray) },
@@ -248,6 +249,7 @@ fun TaskEditContent(
                 ) {
                     TextField(
                         colors = colors,
+                        modifier = Modifier.testTag(TestTag.TASK_DETAIL_STYLE),
                         value = "Style - ${task.styleEnum.title}",
                         onValueChange = {},
                         leadingIcon = {
@@ -290,6 +292,7 @@ fun TaskEditContent(
             ) {
                 TextField(
                     colors = colors,
+                    modifier = Modifier.testTag(TestTag.TASK_DETAIL_STATUS),
                     value = "Status - ${task.statusEnum.name}",
                     onValueChange = {},
                     leadingIcon = {
@@ -329,7 +332,8 @@ fun TaskEditContent(
                     colors = colors,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { parentSelectDialogState = true },
+                        .clickable { parentSelectDialogState = true }
+                        .testTag(TestTag.TASK_DETAIL_PARENT_TASK),
                     value =
                     "Parent - " + if (task.parentTask?.title != null) task.parentTask!!.title!!
                     else task.mindMap?.title ?: "",
