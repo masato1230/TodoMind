@@ -9,20 +9,25 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.Constant
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.di.AppModule
+import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
+import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
 import com.jp_funda.todomind.view.HiltActivity
 import com.jp_funda.todomind.view.MainViewModel
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
@@ -37,18 +42,26 @@ class EditingTaskDetailScreenShould {
     @get:Rule(order = 1)
     val composeRule = createAndroidComposeRule<HiltActivity>()
 
+    @Inject
+    lateinit var createMindMapUseCase: CreateMindMapUseCase
+
+    @Inject
+    lateinit var createTasksUseCase: CreateTasksUseCase
+
     private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
     private val task = SampleData.sampleTasks[0]
     private val mindMap = SampleData.mindMap
 
     @Before
-    fun setUp() {
+    fun setUp() = runTest {
         hiltRule.inject()
+        createMindMapUseCase(SampleData.mindMap)
+        createTasksUseCase(SampleData.sampleTasks)
+
         composeRule.setContent {
             val navController = rememberNavController()
             val mainViewModel = hiltViewModel<MainViewModel>()
-            mainViewModel.addSampleData()
             TaskDetailScreen(
                 navController = navController,
                 mainViewModel = mainViewModel,
@@ -70,8 +83,8 @@ class EditingTaskDetailScreenShould {
 
     @Test
     fun showMindMapIcon() {
+        composeRule.waitForIdle()
         // Mind Map
-        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
         composeRule
             .onNodeWithContentDescription(appContext.getString(R.string.mind_map))
             .assertIsDisplayed()
@@ -82,6 +95,7 @@ class EditingTaskDetailScreenShould {
 
     @Test
     fun showShowShimmerComponents() {
+        composeRule.mainClock.autoAdvance = false
         composeRule
             .onAllNodesWithTag(TestTag.ANIMATED_SHIMMER)
             .onFirst()
@@ -91,7 +105,7 @@ class EditingTaskDetailScreenShould {
     // Tests which assert initial state and input
     @Test
     fun haveTaskTitleTextField() {
-        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
+        composeRule.waitForIdle()
         composeRule.onNodeWithTag(TestTag.TASK_DETAIL_TITLE).run {
             // initial state assertions
             assertIsDisplayed()
@@ -105,8 +119,8 @@ class EditingTaskDetailScreenShould {
 
     @Test
     fun haveTaskDescriptionTextField() {
-        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
-        composeRule.onNodeWithTag(TestTag.TASK_DETAIL_DESCRIPTION).run {
+        composeRule.waitForIdle()
+        composeRule.onNodeWithTag(TestTag.TASK_DETAIL_DESCRIPTION, true).run {
             // initial state assertions
             assertIsDisplayed()
             assertTextEquals(task.description.toString())
@@ -119,7 +133,7 @@ class EditingTaskDetailScreenShould {
 
     @Test
     fun haveDateTextField() {
-        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
+        composeRule.waitForIdle()
         composeRule.onNodeWithTag(TestTag.TASK_DETAIL_DATE).run {
             // initial state assertion
             assertIsDisplayed()
@@ -131,7 +145,7 @@ class EditingTaskDetailScreenShould {
 
     @Test
     fun haveTimeTextField() {
-        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
+        composeRule.waitForIdle()
         composeRule.onNodeWithTag(TestTag.TASK_DETAIL_TIME).run {
             // initial state assertion
             assertIsDisplayed()
@@ -143,7 +157,7 @@ class EditingTaskDetailScreenShould {
 
     @Test
     fun showDeleteButton() {
-        Thread.sleep(Constant.NAV_ANIM_DURATION.toLong() * 2)
+        composeRule.waitForIdle()
         composeRule
             .onNodeWithText(appContext.getString(R.string.delete))
             .assertIsDisplayed()
