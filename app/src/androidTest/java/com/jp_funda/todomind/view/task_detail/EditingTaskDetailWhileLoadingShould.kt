@@ -9,7 +9,6 @@ import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onFirst
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import androidx.test.platform.app.InstrumentationRegistry
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.data.SampleData
@@ -48,8 +47,6 @@ class EditingTaskDetailWhileLoadingShould {
     @Inject
     lateinit var createTasksUseCase: CreateTasksUseCase
 
-    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-
     private val task = SampleData.sampleTasks[0]
 
     @Before
@@ -58,6 +55,7 @@ class EditingTaskDetailWhileLoadingShould {
         createMindMapUseCase(SampleData.mindMap)
         createTasksUseCase(SampleData.sampleTasks)
 
+        composeRule.mainClock.autoAdvance = false
         composeRule.setContent {
             val navController = rememberNavController()
             val mainViewModel = hiltViewModel<MainViewModel>()
@@ -67,7 +65,6 @@ class EditingTaskDetailWhileLoadingShould {
                 taskId = task.id.toString(),
             )
         }
-        composeRule.mainClock.autoAdvance = false
     }
 
     @Test
