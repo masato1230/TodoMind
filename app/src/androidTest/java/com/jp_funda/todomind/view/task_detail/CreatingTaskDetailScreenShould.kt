@@ -88,13 +88,6 @@ class CreatingTaskDetailScreenShould {
     }
 
     @Test
-    fun doNotContainDeleteButton() {
-        composeRule
-            .onNodeWithText(appContext.getString(R.string.delete))
-            .assertDoesNotExist()
-    }
-
-    @Test
     fun showBannerAd() {
         composeRule.onNodeWithTag(TestTag.BANNER_AD).assertIsDisplayed()
     }
