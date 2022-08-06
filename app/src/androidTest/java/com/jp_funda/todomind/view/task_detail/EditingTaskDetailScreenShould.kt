@@ -12,6 +12,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.data.SampleData
+import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.di.AppModule
 import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
@@ -144,6 +145,45 @@ class EditingTaskDetailScreenShould {
         }
         // assert dialog is shown
         composeRule.onNodeWithText("SELECT TIME").assertIsDisplayed()
+    }
+
+    @Test
+    fun haveColorTextField() {
+        composeRule.waitForIdle()
+        composeRule.onNodeWithTag(TestTag.TASK_DETAIL_COLOR).run {
+            // initial state assertion
+            assertIsDisplayed()
+            performClick()
+        }
+        // assert dialog is shown
+        composeRule.onNodeWithText("OK").assertIsDisplayed()
+        composeRule.onNodeWithText("CANCEL").assertIsDisplayed()
+    }
+
+    @Test
+    fun haveStyleTextField() {
+        composeRule.waitForIdle()
+        composeRule.onNodeWithTag(TestTag.TASK_DETAIL_STYLE).run {
+            // initial state assertion
+            assertIsDisplayed()
+            performClick()
+        }
+        // assert dialog is shown
+        composeRule.onNodeWithText(NodeStyle.HEADLINE_1.title).assertIsDisplayed()
+    }
+
+    @Test
+    fun haveParentTaskTextField() {
+        composeRule.waitForIdle()
+        composeRule.onNodeWithTag(TestTag.TASK_DETAIL_PARENT_TASK).run {
+            // initial state assertion
+            assertIsDisplayed()
+            performClick()
+        }
+        // assert dialog is shown
+        composeRule
+            .onNodeWithText(appContext.getString(R.string.task_detail_parent_select_title), true)
+            .assertIsDisplayed()
     }
 
     @Test

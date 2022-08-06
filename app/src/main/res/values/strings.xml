@@ -32,6 +32,7 @@
     <!-- task detail screen -->
     <string name="task_detail_editing_title">Task Detail</string>
     <string name="task_detail_creating_title">New Task</string>
+    <string name="task_detail_parent_select_title">Select Parent Node</string>
 
     <!-- content descriptions -->
     <string name="desc_app_icon">TodoMind app icon</string>

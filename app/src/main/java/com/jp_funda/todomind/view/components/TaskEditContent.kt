@@ -17,7 +17,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -52,6 +54,7 @@ fun TaskEditContent(
     onComplete: () -> Unit,
 ) {
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
     // Set up data
     val observedTask by taskEditableViewModel.task.observeAsState()
     val ogpResult by taskEditableViewModel.ogpResult.observeAsState()
@@ -100,6 +103,10 @@ fun TaskEditContent(
             modifier = modifier
                 .padding(horizontal = 20.dp)
                 .verticalScroll(rememberScrollState())
+                .pointerInteropFilter {
+                    focusManager.clearFocus()
+                    false
+                }
         ) {
             // Title TextField
             TextField(
@@ -138,21 +145,19 @@ fun TaskEditContent(
                 placeholder = {
                     Text(
                         text = if (!isLinkNode) "Add description" else "Add Url",
-                        color = Color.Gray
+                        color = Color.Gray,
                     )
                 },
                 leadingIcon = {
                     Icon(
                         painter = painterResource(id = if (!isLinkNode) R.drawable.ic_notes_24dp else R.drawable.ic_link_24),
                         contentDescription = "Description",
-                        tint = Color.White
+                        tint = Color.White,
                     )
                 })
 
             // OGP thumbnail
-            ogpResult?.image?.let {
-                OgpThumbnail(ogpResult = ogpResult!!, context = context)
-            }
+            ogpResult?.image?.let { OgpThumbnail(ogpResult = ogpResult!!, context = context) }
 
             // Date & Time
             if (!isReminder) { // when called from reminder, don't show this section
@@ -170,9 +175,7 @@ fun TaskEditContent(
                                 Locale.getDefault()
                             ).format(task.dueDate!!) else "",
                         onValueChange = {},
-                        placeholder = {
-                            Text("Add date/time", color = Color.Gray)
-                        },
+                        placeholder = { Text("Add date/time", color = Color.Gray) },
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Default.DateRange,
@@ -189,9 +192,7 @@ fun TaskEditContent(
                         colors = colors,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable {
-                                timeDialogState.show()
-                            }
+                            .clickable { timeDialogState.show() }
                             .testTag(TestTag.TASK_DETAIL_TIME),
                         value = if (task.dueDate != null)
                             SimpleDateFormat(
@@ -199,9 +200,7 @@ fun TaskEditContent(
                                 Locale.getDefault()
                             ).format(task.dueDate!!) else "",
                         onValueChange = {},
-                        placeholder = {
-                            Text(text = "Add time", color = Color.Gray)
-                        },
+                        placeholder = { Text(text = "Add time", color = Color.Gray) },
                         leadingIcon = {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_alarm_24dp),
@@ -221,12 +220,11 @@ fun TaskEditContent(
                     colors = colors,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { colorDialogState.show() },
+                        .clickable { colorDialogState.show() }
+                        .testTag(TestTag.TASK_DETAIL_COLOR),
                     value = task.colorHex ?: "",
                     onValueChange = {},
-                    placeholder = {
-                        Text(text = "Set color", color = Color.Gray)
-                    },
+                    placeholder = { Text(text = "Set color", color = Color.Gray) },
                     leadingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_color_24dp),
@@ -247,12 +245,11 @@ fun TaskEditContent(
 
                 ExposedDropdownMenuBox(
                     expanded = styleExpanded,
-                    onExpandedChange = {
-                        styleExpanded = !styleExpanded
-                    }
+                    onExpandedChange = { styleExpanded = !styleExpanded }
                 ) {
                     TextField(
                         colors = colors,
+                        modifier = Modifier.testTag(TestTag.TASK_DETAIL_STYLE),
                         value = "Style - ${task.styleEnum.title}",
                         onValueChange = {},
                         leadingIcon = {
@@ -264,17 +261,15 @@ fun TaskEditContent(
                             )
                         },
                         trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(
-                                expanded = styleExpanded
-                            )
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = styleExpanded)
                         },
                         readOnly = true,
+                        enabled = false,
                     )
                     ExposedDropdownMenu(
                         expanded = styleExpanded,
-                        onDismissRequest = {
-                            styleExpanded = false
-                        }) {
+                        onDismissRequest = { styleExpanded = false },
+                    ) {
                         styleOptions.forEach { option ->
                             DropdownMenuItem(onClick = {
                                 taskEditableViewModel.setStyle(option)
@@ -293,12 +288,11 @@ fun TaskEditContent(
 
             ExposedDropdownMenuBox(
                 expanded = expanded,
-                onExpandedChange = {
-                    expanded = !expanded
-                }
+                onExpandedChange = { expanded = !expanded },
             ) {
                 TextField(
                     colors = colors,
+                    modifier = Modifier.testTag(TestTag.TASK_DETAIL_STATUS),
                     value = "Status - ${task.statusEnum.name}",
                     onValueChange = {},
                     leadingIcon = {
@@ -309,17 +303,15 @@ fun TaskEditContent(
                         )
                     },
                     trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(
-                            expanded = expanded
-                        )
+                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                     },
                     readOnly = true,
+                    enabled = false,
                 )
                 ExposedDropdownMenu(
                     expanded = expanded,
-                    onDismissRequest = {
-                        expanded = false
-                    }) {
+                    onDismissRequest = { expanded = false },
+                ) {
                     statusOptions.forEach { option ->
                         DropdownMenuItem(onClick = {
                             taskEditableViewModel.setStatus(option)
@@ -340,7 +332,8 @@ fun TaskEditContent(
                     colors = colors,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { parentSelectDialogState = true },
+                        .clickable { parentSelectDialogState = true }
+                        .testTag(TestTag.TASK_DETAIL_PARENT_TASK),
                     value =
                     "Parent - " + if (task.parentTask?.title != null) task.parentTask!!.title!!
                     else task.mindMap?.title ?: "",
@@ -364,9 +357,7 @@ fun TaskEditContent(
                             taskEditableViewModel.setParentTask(it)
                             parentSelectDialogState = false
                         },
-                        onDismissRequest = {
-                            parentSelectDialogState = false
-                        }
+                        onDismissRequest = { parentSelectDialogState = false }
                     )
                 }
             }

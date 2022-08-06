@@ -7,12 +7,14 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
+import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.di.AppModule
 import com.jp_funda.todomind.view.HiltActivity
 import com.jp_funda.todomind.view.MainViewModel
@@ -68,17 +70,21 @@ class CreatingTaskDetailScreenShould {
     }
 
     @Test
+    fun haveStatusTextField() {
+        composeRule.onNodeWithTag(TestTag.TASK_DETAIL_STATUS).run {
+            // initial state assertion
+            assertIsDisplayed()
+            performClick()
+        }
+        // assert dialog is shown
+        composeRule.onNodeWithText(TaskStatus.InProgress.name).assertIsDisplayed()
+    }
+
+    @Test
     fun showSaveButton() {
         composeRule
             .onNodeWithText(appContext.getString(R.string.save))
             .assertIsDisplayed()
-    }
-
-    @Test
-    fun doNotContainDeleteButton() {
-        composeRule
-            .onNodeWithText(appContext.getString(R.string.delete))
-            .assertDoesNotExist()
     }
 
     @Test
