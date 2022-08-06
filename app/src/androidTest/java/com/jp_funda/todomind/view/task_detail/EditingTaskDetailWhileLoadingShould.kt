@@ -5,84 +5,73 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onFirst
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
-import androidx.test.platform.app.InstrumentationRegistry
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
+import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.di.AppModule
+import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
+import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
 import com.jp_funda.todomind.view.HiltActivity
 import com.jp_funda.todomind.view.MainViewModel
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @UninstallModules(AppModule::class)
 @HiltAndroidTest
-class CreatingTaskDetailScreenShould {
+class EditingTaskDetailWhileLoadingShould {
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
     val composeRule = createAndroidComposeRule<HiltActivity>()
 
-    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    @Inject
+    lateinit var createMindMapUseCase: CreateMindMapUseCase
+
+    @Inject
+    lateinit var createTasksUseCase: CreateTasksUseCase
+
+    private val task = SampleData.sampleTasks[0]
 
     @Before
-    fun setUp() {
+    fun setUp() = runTest {
         hiltRule.inject()
+        createMindMapUseCase(SampleData.mindMap)
+        createTasksUseCase(SampleData.sampleTasks)
+
+        composeRule.mainClock.autoAdvance = false
         composeRule.setContent {
             val navController = rememberNavController()
             val mainViewModel = hiltViewModel<MainViewModel>()
             TaskDetailScreen(
                 navController = navController,
                 mainViewModel = mainViewModel,
-                taskId = null,
+                taskId = task.id.toString(),
             )
         }
     }
 
-    // Tests which assert isDisplayed
     @Test
-    fun showHeaderCorrectly() {
+    fun showShowShimmerComponents() {
         composeRule
-            .onNodeWithText(appContext.getString(R.string.task_detail_creating_title))
+            .onAllNodesWithTag(TestTag.ANIMATED_SHIMMER)
+            .onFirst()
             .assertIsDisplayed()
-    }
-
-    @Test
-    fun doNotShowShimmerComponents() {
-        composeRule
-            .onNodeWithTag(TestTag.ANIMATED_SHIMMER)
-            .assertDoesNotExist()
-    }
-
-    @Test
-    fun showSaveButton() {
-        composeRule
-            .onNodeWithText(appContext.getString(R.string.save))
-            .assertIsDisplayed()
-    }
-
-    @Test
-    fun doNotContainDeleteButton() {
-        composeRule
-            .onNodeWithText(appContext.getString(R.string.delete))
-            .assertDoesNotExist()
-    }
-
-    @Test
-    fun showBannerAd() {
-        composeRule.onNodeWithTag(TestTag.BANNER_AD).assertIsDisplayed()
     }
 }

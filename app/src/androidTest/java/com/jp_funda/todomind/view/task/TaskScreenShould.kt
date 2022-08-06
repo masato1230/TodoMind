@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.top
+package com.jp_funda.todomind.view.task
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -34,7 +34,7 @@ import javax.inject.Inject
 @ExperimentalComposeUiApi
 @UninstallModules(AppModule::class)
 @HiltAndroidTest
-class TopScreenShould {
+class TaskScreenShould {
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
@@ -59,19 +59,19 @@ class TopScreenShould {
         composeRule.setContent {
             val navController = rememberNavController()
             val mainViewModel = hiltViewModel<MainViewModel>()
-            TopScreen(navController = navController, mainViewModel = mainViewModel)
+            TaskScreen(navController = navController, mainViewModel = mainViewModel)
         }
     }
 
-    // Tests which asserts isDisplayed
+    // Tests which assert isDisplayed
     @Test
-    fun showAppIconAndAppName() {
-        composeRule
-            .onNodeWithContentDescription(appContext.getString(R.string.desc_app_icon))
-            .assertIsDisplayed()
-        composeRule
-            .onNodeWithText(appContext.getString(R.string.app_name))
-            .assertIsDisplayed()
+    fun showScreenTitle() {
+        composeRule.onNodeWithText(appContext.getString(R.string.task))
+    }
+
+    @Test
+    fun showBannerAd() {
+        composeRule.onNodeWithTag(TestTag.BANNER_AD).assertIsDisplayed()
     }
 
     @Test
@@ -82,53 +82,31 @@ class TopScreenShould {
     }
 
     @Test
-    fun showShimmerWhichHasRecentMindMapSectionAsAnAncestor() {
+    fun showSomeTasksWhenInProgressTabWasSelected() {
         composeRule
-            .onAllNodesWithTag(TestTag.ANIMATED_SHIMMER)
+            .onAllNodesWithTag(TestTag.TASK_ROW)
             .onFirst()
-            .onAncestors()
-            .filterToOne(hasTestTag(TestTag.RECENT_MIND_MAP_SECTION))
             .assertIsDisplayed()
     }
 
     @Test
-    fun showNewMindMapButton() {
-        composeRule.onNodeWithTag(TestTag.NEW_MIND_MAP_BUTTON).assertIsDisplayed()
-    }
-
-    @Test
-    fun showBannerAd() {
-        composeRule.onNodeWithTag(TestTag.BANNER_AD).assertIsDisplayed()
-    }
-
-    @Test
-    fun showTaskTab() {
-        // Is displayed "In Progress" tab
-        composeRule
-            .onNodeWithText(appContext.getString(R.string.task_in_progress))
-            .assertIsDisplayed()
-        // Is displayed "Open" tab
+    fun showSomeTasksWhenOpenTabWasSelected() {
         composeRule
             .onNodeWithText(appContext.getString(R.string.task_open))
+            .performClick()
+
+        composeRule
+            .onAllNodesWithTag(TestTag.TASK_ROW)
+            .onFirst()
             .assertIsDisplayed()
-        // Is displayed "Complete" tab
+    }
+
+    @Test
+    fun showSomeTasksWhenCompleteTabWasSelected() {
         composeRule
             .onNodeWithText(appContext.getString(R.string.task_complete))
-            .assertIsDisplayed()
-    }
+            .performClick()
 
-    @Test
-    fun showShimmerWhichHasTaskListAsAnAncestor() {
-        composeRule
-            .onAllNodesWithTag(TestTag.ANIMATED_SHIMMER)
-            .onLast()
-            .onAncestors()
-            .filterToOne(hasTestTag(TestTag.TASK_LIST_COLUMN))
-            .assertIsDisplayed()
-    }
-
-    @Test
-    fun showTaskRow() {
         composeRule
             .onAllNodesWithTag(TestTag.TASK_ROW)
             .onFirst()

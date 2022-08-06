@@ -177,9 +177,7 @@ fun TopContent(
         // Advertisement
         BannerAd(
             width = LocalConfiguration.current.screenWidthDp,
-            modifier = Modifier
-                .heightIn(min = 60.dp)
-                .testTag(TestTag.BANNER_AD),
+            modifier = Modifier.heightIn(min = 60.dp),
         )
 
         Spacer(modifier = Modifier.height(20.dp))
