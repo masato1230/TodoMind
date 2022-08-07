@@ -1,6 +1,6 @@
 package com.jp_funda.todomind.domain.repositories
 
-import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.database.repositories.mind_map.entity.MindMap
 import java.util.*
 
 interface MindMapRepository {

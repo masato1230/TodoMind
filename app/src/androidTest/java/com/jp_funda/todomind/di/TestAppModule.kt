@@ -1,9 +1,9 @@
 package com.jp_funda.todomind.di
 
 import androidx.test.platform.app.InstrumentationRegistry
-import com.jp_funda.todomind.data.repositories.jsonp.JsoupRepositoryImpl
-import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepositoryImpl
-import com.jp_funda.todomind.data.repositories.task.TaskRepositoryImpl
+import com.jp_funda.todomind.data.repositories.jsoup.JsoupRepositoryImpl
+import com.jp_funda.todomind.database.repositories.mind_map.MindMapRepositoryImpl
+import com.jp_funda.todomind.database.repositories.task.TaskRepositoryImpl
 import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.repositories.JsoupRepository

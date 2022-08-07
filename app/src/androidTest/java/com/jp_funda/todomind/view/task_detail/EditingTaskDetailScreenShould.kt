@@ -12,7 +12,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.data.SampleData
-import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
+import com.jp_funda.todomind.database.repositories.task.entity.NodeStyle
 import com.jp_funda.todomind.di.AppModule
 import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
 import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase

@@ -10,8 +10,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.task.entity.Task
-import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.database.repositories.task.entity.Task
+import com.jp_funda.todomind.database.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.domain.use_cases.task.GetAllTasksUseCase
 import com.jp_funda.todomind.domain.use_cases.task.RestoreTaskUseCase
 import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase

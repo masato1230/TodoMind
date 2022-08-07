@@ -5,7 +5,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.database.repositories.task.entity.Task
 import com.jp_funda.todomind.domain.use_cases.task.GetNextRemindTaskUseCase
 import com.jp_funda.todomind.notification.TaskReminder
 import dagger.hilt.android.qualifiers.ApplicationContext

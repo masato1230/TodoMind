@@ -5,9 +5,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.jsonp.JsoupRepositoryImpl
-import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepositoryImpl
-import com.jp_funda.todomind.data.repositories.task.TaskRepositoryImpl
+import com.jp_funda.todomind.data.repositories.jsoup.JsoupRepositoryImpl
+import com.jp_funda.todomind.database.repositories.mind_map.MindMapRepositoryImpl
+import com.jp_funda.todomind.database.repositories.task.TaskRepositoryImpl
 import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
 import com.jp_funda.todomind.domain.repositories.JsoupRepository

@@ -17,8 +17,8 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.textview.MaterialTextView
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
-import com.jp_funda.todomind.data.repositories.task.entity.Task
-import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.database.repositories.task.entity.Task
+import com.jp_funda.todomind.database.repositories.task.entity.TaskStatus
 
 @Composable
 fun TaskRow(

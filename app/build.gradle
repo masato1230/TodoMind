@@ -147,5 +147,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // In project modules
-    implementation project(':data')
+    implementation project(':core')
+    implementation project(':data:database')
 }

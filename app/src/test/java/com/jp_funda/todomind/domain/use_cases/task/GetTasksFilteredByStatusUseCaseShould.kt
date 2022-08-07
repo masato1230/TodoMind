@@ -1,6 +1,6 @@
 package com.jp_funda.todomind.domain.use_cases.task
 
-import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.database.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.domain.repositories.TaskRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

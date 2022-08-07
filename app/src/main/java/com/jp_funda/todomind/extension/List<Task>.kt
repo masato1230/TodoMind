@@ -1,7 +1,7 @@
 package com.jp_funda.todomind.extension
 
-import com.jp_funda.todomind.data.repositories.task.entity.Task
-import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.database.repositories.task.entity.Task
+import com.jp_funda.todomind.database.repositories.task.entity.TaskStatus
 
 /** Calculate progress rate
  * @return progress rate in range of 0..100

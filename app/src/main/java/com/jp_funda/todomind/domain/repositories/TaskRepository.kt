@@ -1,8 +1,8 @@
 package com.jp_funda.todomind.domain.repositories
 
-import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.data.repositories.task.entity.Task
-import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.database.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.database.repositories.task.entity.Task
+import com.jp_funda.todomind.database.repositories.task.entity.TaskStatus
 import java.util.*
 
 interface TaskRepository {

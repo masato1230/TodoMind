@@ -1,7 +1,7 @@
 package com.jp_funda.todomind.domain.use_cases.mind_map
 
 import com.google.common.truth.Truth.assertThat
-import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.database.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.domain.repositories.MindMapRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

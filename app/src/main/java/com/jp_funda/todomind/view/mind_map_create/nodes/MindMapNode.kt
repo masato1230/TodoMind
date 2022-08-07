@@ -28,10 +28,10 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
-import com.jp_funda.todomind.data.repositories.task.entity.getSize
-import com.jp_funda.todomind.data.repositories.task.entity.getTextSize
+import com.jp_funda.todomind.database.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.database.repositories.task.entity.NodeStyle
+import com.jp_funda.todomind.database.repositories.task.entity.getSize
+import com.jp_funda.todomind.database.repositories.task.entity.getTextSize
 import com.jp_funda.todomind.extension.getLuminance
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import kotlin.math.roundToInt

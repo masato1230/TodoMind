@@ -3,8 +3,8 @@ package com.jp_funda.todomind.view.mind_map_create.options_sheet
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.todomind.database.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.database.repositories.task.entity.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

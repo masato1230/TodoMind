@@ -27,10 +27,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
-import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
-import com.jp_funda.todomind.data.repositories.task.entity.getSize
+import com.jp_funda.todomind.database.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.database.repositories.task.entity.NodeStyle
+import com.jp_funda.todomind.database.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.database.repositories.task.entity.getSize
 import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
