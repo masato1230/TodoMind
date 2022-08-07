@@ -14,7 +14,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
-import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.di.AppModule
 import com.jp_funda.todomind.view.HiltActivity
 import com.jp_funda.todomind.view.MainViewModel

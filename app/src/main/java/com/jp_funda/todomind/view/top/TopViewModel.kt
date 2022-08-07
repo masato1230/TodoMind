@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
-import com.jp_funda.todomind.domain.use_cases.mind_map.GetMostRecentlyUpdatedMindMapUseCase
+import com.jp_funda.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.sharedpreference.PreferenceKey
+import com.jp_funda.todomind.sharedpreference.SettingsPreference
+import com.jp_funda.todomind.use_case.mind_map.GetMostRecentlyUpdatedMindMapUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,13 +16,13 @@ import javax.inject.Inject
 @HiltViewModel
 class TopViewModel @Inject constructor(
     private val getMostRecentlyUpdatedMindMapUseCase: GetMostRecentlyUpdatedMindMapUseCase,
-    private val settingsPreferences: SettingsPreferences,
+    private val settingsPreferences: SettingsPreference,
 ) : ViewModel() {
     private var _mostRecentlyUpdatedMindMap = MutableLiveData<MindMap?>(null)
     val mostRecentlyUpdatedMindMap: LiveData<MindMap?> = _mostRecentlyUpdatedMindMap
 
     val isReviewRequested =
-        settingsPreferences.getBoolean(PreferenceKeys.IS_REVIEW_REQUESTED)
+        settingsPreferences.getBoolean(PreferenceKey.IS_REVIEW_REQUESTED)
 
     fun getMostRecentlyUpdatedMindMap() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -32,6 +32,6 @@ class TopViewModel @Inject constructor(
     }
 
     fun setIsReviewRequested(isRequested: Boolean) {
-        settingsPreferences.setBoolean(PreferenceKeys.IS_REVIEW_REQUESTED, isRequested)
+        settingsPreferences.setBoolean(PreferenceKey.IS_REVIEW_REQUESTED, isRequested)
     }
 }

@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import com.jp_funda.todomind.domain.use_cases.ogp.entity.OpenGraphResult
+import com.jp_funda.repositories.jsoup.entity.OpenGraphResult
 
 @Composable
 fun OgpThumbnail(ogpResult: OpenGraphResult, context: Context) {

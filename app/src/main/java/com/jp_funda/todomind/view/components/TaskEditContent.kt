@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
-import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
-import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.repositories.task.entity.NodeStyle
+import com.jp_funda.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.components.dialog.ColorPickerDialog
 import com.jp_funda.todomind.view.components.dialog.DatePickerDialog

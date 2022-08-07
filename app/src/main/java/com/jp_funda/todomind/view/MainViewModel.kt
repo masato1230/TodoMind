@@ -6,12 +6,12 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.SampleData
-import com.jp_funda.todomind.data.repositories.task.entity.Task
-import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
-import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
-import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
+import com.jp_funda.repositories.SampleData
+import com.jp_funda.repositories.task.entity.Task
+import com.jp_funda.todomind.sharedpreference.PreferenceKey
+import com.jp_funda.todomind.sharedpreference.SettingsPreference
+import com.jp_funda.todomind.use_case.mind_map.CreateMindMapUseCase
+import com.jp_funda.todomind.use_case.task.CreateTasksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,14 +26,14 @@ class MainViewModel
 @Inject constructor(
     private val createTasksUseCase: CreateTasksUseCase,
     private val createMindMapUseCase: CreateMindMapUseCase,
-    private val settingsPreferences: SettingsPreferences,
+    private val settingsPreference: SettingsPreference,
 ) : ViewModel() {
     fun addSampleData() {
         viewModelScope.launch(Dispatchers.IO) {
             createMindMapUseCase(SampleData.mindMap)
             createTasksUseCase(SampleData.sampleTasks)
-            settingsPreferences.setBoolean(
-                PreferenceKeys.IS_NOT_FIRST_TIME_LAUNCH,
+            settingsPreference.setBoolean(
+                PreferenceKey.IS_NOT_FIRST_TIME_LAUNCH,
                 true,
             )
         }

@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
-import com.jp_funda.todomind.data.repositories.task.entity.Task
-import com.jp_funda.todomind.data.repositories.task.entity.getSize
-import com.jp_funda.todomind.data.repositories.task.entity.getTextSize
-import com.jp_funda.todomind.domain.use_cases.ogp.entity.OpenGraphResult
+import com.jp_funda.repositories.task.entity.NodeStyle
+import com.jp_funda.repositories.task.entity.Task
+import com.jp_funda.todomind.extension.getSize
+import com.jp_funda.todomind.extension.getTextSize
+import com.jp_funda.repositories.jsoup.entity.OpenGraphResult
 import com.jp_funda.todomind.util.UrlUtil
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 

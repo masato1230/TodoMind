@@ -10,11 +10,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.task.entity.Task
-import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
-import com.jp_funda.todomind.domain.use_cases.task.GetAllTasksUseCase
-import com.jp_funda.todomind.domain.use_cases.task.RestoreTaskUseCase
-import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
+import com.jp_funda.repositories.task.entity.Task
+import com.jp_funda.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.use_case.task.GetAllTasksUseCase
+import com.jp_funda.todomind.use_case.task.RestoreTaskUseCase
+import com.jp_funda.todomind.use_case.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

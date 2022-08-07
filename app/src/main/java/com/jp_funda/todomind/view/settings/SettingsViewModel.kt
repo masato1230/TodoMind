@@ -2,36 +2,36 @@ package com.jp_funda.todomind.view.settings
 
 import androidx.compose.material.SnackbarHostState
 import androidx.lifecycle.ViewModel
-import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.sharedpreference.PreferenceKey
+import com.jp_funda.todomind.sharedpreference.SettingsPreference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(private val settingsPreferences: SettingsPreferences) :
+class SettingsViewModel @Inject constructor(private val settingsPreference: SettingsPreference) :
     ViewModel() {
 
     val defaultMindMapScale: Float
         get() {
-            return settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE, 1f)
+            return settingsPreference.getFloat(PreferenceKey.DEFAULT_MIND_MAP_SCALE, 1f)
         }
 
     val isShowOgpThumbnail: Boolean
         get() {
-            return settingsPreferences.getBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL)
+            return settingsPreference.getBoolean(PreferenceKey.IS_SHOW_OGP_THUMBNAIL)
         }
 
     val isRemindTaskDeadline: Boolean
         get() {
-            return settingsPreferences.getBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE)
+            return settingsPreference.getBoolean(PreferenceKey.IS_REMIND_TASK_DEADLINE)
         }
 
     fun setIsShowOgpThumbnail(isShow: Boolean) {
-        settingsPreferences.setBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL, isShow)
+        settingsPreference.setBoolean(PreferenceKey.IS_SHOW_OGP_THUMBNAIL, isShow)
     }
 
     fun setIsRemindTaskDeadline(isRemind: Boolean) {
-        settingsPreferences.setBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE, isRemind)
+        settingsPreference.setBoolean(PreferenceKey.IS_REMIND_TASK_DEADLINE, isRemind)
     }
 
     // snackbar

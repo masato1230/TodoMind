@@ -1,6 +1,7 @@
 package com.jp_funda.todomind.domain.use_cases.ogp
 
-import com.jp_funda.todomind.domain.repositories.JsoupRepository
+import com.jp_funda.repositories.jsoup.JsoupRepository
+import com.jp_funda.todomind.use_case.ogp.GetOgpUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

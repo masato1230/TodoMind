@@ -8,14 +8,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.task.entity.NodeStyle
-import com.jp_funda.todomind.data.repositories.task.entity.Task
-import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
-import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
-import com.jp_funda.todomind.domain.use_cases.ogp.GetOgpUseCase
-import com.jp_funda.todomind.domain.use_cases.ogp.entity.OpenGraphResult
-import com.jp_funda.todomind.domain.use_cases.task.*
+import com.jp_funda.repositories.task.entity.NodeStyle
+import com.jp_funda.repositories.task.entity.Task
+import com.jp_funda.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.sharedpreference.PreferenceKey
+import com.jp_funda.todomind.sharedpreference.SettingsPreference
+import com.jp_funda.todomind.use_case.ogp.GetOgpUseCase
+import com.jp_funda.repositories.jsoup.entity.OpenGraphResult
+import com.jp_funda.todomind.use_case.task.*
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -55,14 +55,14 @@ open class TaskEditableViewModel @Inject constructor() : ViewModel() {
     lateinit var getOgpUseCase: GetOgpUseCase
 
     @Inject
-    lateinit var settingsPreferences: SettingsPreferences
+    lateinit var settingsPreference: SettingsPreference
 
     protected var _task = MutableLiveData<Task?>(null)
     val task: LiveData<Task?> = _task
     var isEditing: Boolean = false
     val isShowOgpThumbnail: Boolean
         get() {
-            return settingsPreferences.getBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL)
+            return settingsPreference.getBoolean(PreferenceKey.IS_SHOW_OGP_THUMBNAIL)
         }
 
     // ogp

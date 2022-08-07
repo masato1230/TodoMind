@@ -1,18 +1,18 @@
 package com.jp_funda.todomind.view.settings.mind_map_scale
 
 import androidx.lifecycle.ViewModel
-import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.sharedpreference.PreferenceKey
+import com.jp_funda.todomind.sharedpreference.SettingsPreference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class MindMapScaleViewModel @Inject constructor(
-    private val settingsPreferences: SettingsPreferences,
+    private val settingsPreference: SettingsPreference,
 ) : ViewModel() {
-    var scale = settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE, 1f)
+    var scale = settingsPreference.getFloat(PreferenceKey.DEFAULT_MIND_MAP_SCALE, 1f)
 
     override fun onCleared() {
-        settingsPreferences.setFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE, scale)
+        settingsPreference.setFloat(PreferenceKey.DEFAULT_MIND_MAP_SCALE, scale)
     }
 }

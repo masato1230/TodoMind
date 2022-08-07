@@ -21,8 +21,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.sharedpreference.PreferenceKey
+import com.jp_funda.todomind.sharedpreference.SettingsPreference
 import com.jp_funda.todomind.view.components.BackNavigationIcon
 import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.mind_map_create.compoents.LineView
@@ -67,10 +67,10 @@ fun MindMapCreateScreen(
         }
 
         // Show tutorial dialog for first time
-        val settingsPreferences = SettingsPreferences(context)
-        if (!settingsPreferences.getBoolean(PreferenceKeys.IS_NOT_FIRST_TIME_CREATE_SCREEN)) {
+        val settingsPreferences = SettingsPreference(context)
+        if (!settingsPreferences.getBoolean(PreferenceKey.IS_NOT_FIRST_TIME_CREATE_SCREEN)) {
             isShowTutorialDialog.value = true
-            settingsPreferences.setBoolean(PreferenceKeys.IS_NOT_FIRST_TIME_CREATE_SCREEN, true)
+            settingsPreferences.setBoolean(PreferenceKey.IS_NOT_FIRST_TIME_CREATE_SCREEN, true)
         }
     }
 

@@ -1,14 +1,14 @@
 package com.jp_funda.todomind.di
 
 import androidx.test.platform.app.InstrumentationRegistry
-import com.jp_funda.todomind.data.repositories.jsonp.JsoupRepositoryImpl
-import com.jp_funda.todomind.data.repositories.mind_map.MindMapRepositoryImpl
-import com.jp_funda.todomind.data.repositories.task.TaskRepositoryImpl
-import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
-import com.jp_funda.todomind.domain.repositories.JsoupRepository
-import com.jp_funda.todomind.domain.repositories.MindMapRepository
-import com.jp_funda.todomind.domain.repositories.TaskRepository
+import com.jp_funda.repositories.jsoup.JsoupRepository
+import com.jp_funda.repositories.jsoup.JsoupRepositoryImpl
+import com.jp_funda.repositories.mind_map.MindMapRepository
+import com.jp_funda.repositories.mind_map.MindMapRepositoryImpl
+import com.jp_funda.repositories.task.TaskRepository
+import com.jp_funda.repositories.task.TaskRepositoryImpl
+import com.jp_funda.todomind.sharedpreference.NotificationPreference
+import com.jp_funda.todomind.sharedpreference.SettingsPreference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,11 +22,11 @@ class TestAppModule {
 
     @Provides
     @Singleton
-    fun provideSettingsPreference() = SettingsPreferences(appContext)
+    fun provideSettingsPreference() = SettingsPreference(appContext)
 
     @Provides
     @Singleton
-    fun provideNotificationPreferences() = NotificationPreferences(appContext)
+    fun provideNotificationPreference() = NotificationPreference(appContext)
 
     @Provides
     @Singleton

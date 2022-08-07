@@ -2,19 +2,18 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'realm-android'
     id 'dagger.hilt.android.plugin'
     id "com.cookpad.android.plugin.license-tools"
     id 'com.google.gms.google-services'
 }
 
 android {
-    compileSdk 32
+    compileSdk compile_sdk_version
 
     defaultConfig {
         applicationId "com.jp_funda.todomind"
-        minSdk 26
-        targetSdk 32
+        minSdk min_sdk_version
+        targetSdk compile_sdk_version
         versionCode 7
         versionName "1.3.4"
 
@@ -48,7 +47,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = '11'
-        useIR = true
     }
     buildFeatures {
         viewBinding true
@@ -69,13 +67,13 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "com.google.android.material:material:$material_version"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -84,7 +82,7 @@ dependencies {
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.0'
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation 'androidx.activity:activity-compose:1.5.0'
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
@@ -102,16 +100,13 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
 
     // Compose Navigation
-    implementation "androidx.navigation:navigation-compose:2.5.0"
-
-    // Jsoup
-    implementation 'org.jsoup:jsoup:1.14.3'
+    implementation "androidx.navigation:navigation-compose:$lifecycle_version"
 
     // Coil
     implementation 'io.coil-kt:coil-compose:2.1.0'
 
     // Splash
-    implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
+    implementation 'androidx.core:core-splashscreen:1.0.0'
 
     // Play Core
     implementation 'com.google.android.play:core:1.10.3'
@@ -146,4 +141,7 @@ dependencies {
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:30.2.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    // In project modules
+    implementation project(':repositories')
 }

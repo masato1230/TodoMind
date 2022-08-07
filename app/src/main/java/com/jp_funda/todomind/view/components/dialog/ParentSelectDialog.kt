@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.data.repositories.task.entity.Task
+import com.jp_funda.repositories.mind_map.entity.MindMap
+import com.jp_funda.repositories.task.entity.Task
 import com.jp_funda.todomind.view.components.LoadingView
 import com.jp_funda.todomind.view.task_detail.TaskEditableViewModel
 

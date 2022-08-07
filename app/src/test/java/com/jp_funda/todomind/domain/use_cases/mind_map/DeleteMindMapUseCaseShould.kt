@@ -4,10 +4,11 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.domain.repositories.MindMapRepository
-import com.jp_funda.todomind.domain.use_cases.SetNextReminderUseCase
-import com.jp_funda.todomind.domain.use_cases.task.DeleteTasksInAMindMapUseCase
+import com.jp_funda.repositories.mind_map.entity.MindMap
+import com.jp_funda.repositories.mind_map.MindMapRepository
+import com.jp_funda.todomind.use_case.SetNextReminderUseCase
+import com.jp_funda.todomind.use_case.mind_map.DeleteMindMapUseCase
+import com.jp_funda.todomind.use_case.task.DeleteTasksInAMindMapUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test

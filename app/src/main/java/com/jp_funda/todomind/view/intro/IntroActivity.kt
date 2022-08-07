@@ -24,8 +24,8 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.sharedpreference.PreferenceKey
+import com.jp_funda.todomind.sharedpreference.SettingsPreference
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -117,8 +117,8 @@ class IntroActivity : AppCompatActivity() {
                                 pagerState.animateScrollToPage(page = pagerState.currentPage + 1)
                             }
                         } else {
-                            SettingsPreferences(this@IntroActivity).setBoolean(
-                                PreferenceKeys.IS_SHOWED_INTRO,
+                            SettingsPreference(this@IntroActivity).setBoolean(
+                                PreferenceKey.IS_SHOWED_INTRO,
                                 true
                             )
                             onBackPressed()

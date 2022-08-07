@@ -17,8 +17,8 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.TestTag
-import com.jp_funda.todomind.data.repositories.task.entity.Task
-import com.jp_funda.todomind.data.repositories.task.entity.TaskStatus
+import com.jp_funda.repositories.task.entity.Task
+import com.jp_funda.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.components.AnimatedShimmer
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch

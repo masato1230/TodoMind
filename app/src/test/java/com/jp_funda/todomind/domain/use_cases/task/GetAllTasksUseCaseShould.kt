@@ -1,6 +1,7 @@
 package com.jp_funda.todomind.domain.use_cases.task
 
-import com.jp_funda.todomind.domain.repositories.TaskRepository
+import com.jp_funda.repositories.task.TaskRepository
+import com.jp_funda.todomind.use_case.task.GetAllTasksUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
