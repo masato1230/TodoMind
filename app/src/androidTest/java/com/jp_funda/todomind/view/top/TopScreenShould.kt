@@ -9,9 +9,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.jp_funda.repositories.SampleData
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
-import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.di.AppModule
 import com.jp_funda.todomind.use_case.mind_map.CreateMindMapUseCase
 import com.jp_funda.todomind.use_case.task.CreateTasksUseCase
