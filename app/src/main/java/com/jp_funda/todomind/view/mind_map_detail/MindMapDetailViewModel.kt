@@ -8,15 +8,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.database.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
-import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
-import com.jp_funda.todomind.domain.use_cases.mind_map.DeleteMindMapUseCase
-import com.jp_funda.todomind.domain.use_cases.mind_map.GetMindMapUseCase
-import com.jp_funda.todomind.domain.use_cases.mind_map.UpdateMindMapUseCase
-import com.jp_funda.todomind.domain.use_cases.ogp.GetOgpUseCase
-import com.jp_funda.todomind.domain.use_cases.ogp.entity.OpenGraphResult
+import com.jp_funda.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.sharedpreference.PreferenceKey
+import com.jp_funda.todomind.sharedpreference.SettingsPreference
+import com.jp_funda.todomind.use_case.mind_map.CreateMindMapUseCase
+import com.jp_funda.todomind.use_case.mind_map.DeleteMindMapUseCase
+import com.jp_funda.todomind.use_case.mind_map.GetMindMapUseCase
+import com.jp_funda.todomind.use_case.mind_map.UpdateMindMapUseCase
+import com.jp_funda.todomind.use_case.ogp.GetOgpUseCase
+import com.jp_funda.repositories.jsoup.entity.OpenGraphResult
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -36,7 +36,7 @@ class MindMapDetailViewModel @Inject constructor(
     private val updateMindMapUseCase: UpdateMindMapUseCase,
     private val deleteMindMapUseCase: DeleteMindMapUseCase,
     private val getOgpUseCase: GetOgpUseCase,
-    settingsPreferences: SettingsPreferences,
+    settingsPreference: SettingsPreference,
 ) : ViewModel() {
     private var _mindMap = MutableLiveData(MindMap())
     val mindMap: LiveData<MindMap> = _mindMap
@@ -50,7 +50,7 @@ class MindMapDetailViewModel @Inject constructor(
     var isAutoSaveNeeded: Boolean = true
 
     /** isShowOgpThumbnail */
-    val isShowOgpThumbnail = settingsPreferences.getBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL)
+    val isShowOgpThumbnail = settingsPreference.getBoolean(PreferenceKey.IS_SHOW_OGP_THUMBNAIL)
 
     fun loadEditingMindMap(id: UUID) {
         isEditing = true

@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'realm-android'
     id 'dagger.hilt.android.plugin'
     id "com.cookpad.android.plugin.license-tools"
     id 'com.google.gms.google-services'
@@ -103,9 +102,6 @@ dependencies {
     // Compose Navigation
     implementation "androidx.navigation:navigation-compose:$lifecycle_version"
 
-    // Jsoup
-    implementation 'org.jsoup:jsoup:1.14.3'
-
     // Coil
     implementation 'io.coil-kt:coil-compose:2.1.0'
 
@@ -147,6 +143,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // In project modules
-    implementation project(':core')
-    implementation project(':data:database')
+    implementation project(':repositories')
 }

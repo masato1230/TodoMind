@@ -18,8 +18,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
+import com.jp_funda.todomind.sharedpreference.PreferenceKey
+import com.jp_funda.todomind.sharedpreference.SettingsPreference
 import com.jp_funda.todomind.view.intro.IntroActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,15 +37,15 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
         // Show intro
-        if (!SettingsPreferences(this).getBoolean(PreferenceKeys.IS_SHOWED_INTRO)) {
+        if (!SettingsPreference(this).getBoolean(PreferenceKey.IS_SHOWED_INTRO)) {
             startActivity(Intent(this, IntroActivity::class.java))
         }
 
         // Add sample data and Settings for first time launch
-        SettingsPreferences(this).apply {
-            if (!getBoolean(PreferenceKeys.IS_NOT_FIRST_TIME_LAUNCH)) {
-                setBoolean(PreferenceKeys.IS_SHOW_OGP_THUMBNAIL, true)
-                setBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE, true)
+        SettingsPreference(this).apply {
+            if (!getBoolean(PreferenceKey.IS_NOT_FIRST_TIME_LAUNCH)) {
+                setBoolean(PreferenceKey.IS_SHOW_OGP_THUMBNAIL, true)
+                setBoolean(PreferenceKey.IS_REMIND_TASK_DEADLINE, true)
                 viewModel.addSampleData()
             }
         }

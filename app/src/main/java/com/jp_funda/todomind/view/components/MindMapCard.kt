@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.graphics.luminance
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.database.repositories.mind_map.entity.MindMap
+import com.jp_funda.repositories.mind_map.entity.MindMap
 
 @Composable
 fun MindMapCard(

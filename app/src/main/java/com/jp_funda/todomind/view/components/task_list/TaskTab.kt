@@ -8,8 +8,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.database.repositories.task.entity.Task
-import com.jp_funda.todomind.database.repositories.task.entity.TaskStatus
+import com.jp_funda.repositories.task.entity.Task
+import com.jp_funda.repositories.task.entity.TaskStatus
 
 @Composable
 fun TaskTab(selectedTabStatus: TaskStatus, onTabChange: (clickedTabIndex: TaskStatus) -> Unit) {

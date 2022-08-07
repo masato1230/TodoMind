@@ -1,14 +1,14 @@
 package com.jp_funda.todomind.di
 
 import androidx.test.platform.app.InstrumentationRegistry
-import com.jp_funda.todomind.data.repositories.jsoup.JsoupRepositoryImpl
-import com.jp_funda.todomind.database.repositories.mind_map.MindMapRepositoryImpl
-import com.jp_funda.todomind.database.repositories.task.TaskRepositoryImpl
+import com.jp_funda.repositories.jsoup.JsoupRepositoryImpl
+import com.jp_funda.repositories.mind_map.MindMapRepositoryImpl
+import com.jp_funda.repositories.task.TaskRepositoryImpl
 import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
 import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
-import com.jp_funda.todomind.domain.repositories.JsoupRepository
-import com.jp_funda.todomind.domain.repositories.MindMapRepository
-import com.jp_funda.todomind.domain.repositories.TaskRepository
+import com.jp_funda.repositories.jsoup.JsoupRepository
+import com.jp_funda.repositories.mind_map.MindMapRepository
+import com.jp_funda.repositories.task.TaskRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

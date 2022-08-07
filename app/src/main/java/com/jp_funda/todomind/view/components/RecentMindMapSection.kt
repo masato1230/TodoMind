@@ -23,7 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
-import com.jp_funda.todomind.database.repositories.mind_map.entity.MindMap
+import com.jp_funda.repositories.mind_map.entity.MindMap
 
 @Composable
 fun RecentMindMapSection(

@@ -7,5 +7,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "TodoMind"
 include ':app'
-include ':data:database'
-include ':core'
+include ':repositories'

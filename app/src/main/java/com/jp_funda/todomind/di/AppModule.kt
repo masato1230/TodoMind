@@ -5,14 +5,14 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.data.repositories.jsoup.JsoupRepositoryImpl
-import com.jp_funda.todomind.database.repositories.mind_map.MindMapRepositoryImpl
-import com.jp_funda.todomind.database.repositories.task.TaskRepositoryImpl
-import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
-import com.jp_funda.todomind.domain.repositories.JsoupRepository
-import com.jp_funda.todomind.domain.repositories.MindMapRepository
-import com.jp_funda.todomind.domain.repositories.TaskRepository
+import com.jp_funda.repositories.jsoup.JsoupRepository
+import com.jp_funda.repositories.jsoup.JsoupRepositoryImpl
+import com.jp_funda.repositories.mind_map.MindMapRepository
+import com.jp_funda.repositories.mind_map.MindMapRepositoryImpl
+import com.jp_funda.repositories.task.TaskRepository
+import com.jp_funda.repositories.task.TaskRepositoryImpl
+import com.jp_funda.todomind.sharedpreference.NotificationPreference
+import com.jp_funda.todomind.sharedpreference.SettingsPreference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,12 +31,12 @@ class AppModule {
     @Provides
     @Singleton
     fun provideSettingsPreferences(@ApplicationContext appContext: Context) =
-        SettingsPreferences(appContext)
+        SettingsPreference(appContext)
 
     @Provides
     @Singleton
     fun provideNotificationPreferences(@ApplicationContext appContext: Context) =
-        NotificationPreferences(appContext)
+        NotificationPreference(appContext)
 
     @Provides
     @Singleton

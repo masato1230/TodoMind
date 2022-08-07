@@ -19,9 +19,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.jp_funda.repositories.SampleData
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.data.SampleData
-import com.jp_funda.todomind.database.repositories.task.entity.TaskStatus
+import com.jp_funda.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.extension.getActivity
 import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel

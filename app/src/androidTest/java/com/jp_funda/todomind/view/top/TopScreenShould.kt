@@ -13,8 +13,8 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.data.SampleData
 import com.jp_funda.todomind.di.AppModule
-import com.jp_funda.todomind.domain.use_cases.mind_map.CreateMindMapUseCase
-import com.jp_funda.todomind.domain.use_cases.task.CreateTasksUseCase
+import com.jp_funda.todomind.use_case.mind_map.CreateMindMapUseCase
+import com.jp_funda.todomind.use_case.task.CreateTasksUseCase
 import com.jp_funda.todomind.view.HiltActivity
 import com.jp_funda.todomind.view.MainViewModel
 import dagger.hilt.android.testing.HiltAndroidRule

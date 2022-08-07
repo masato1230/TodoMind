@@ -14,9 +14,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.database.repositories.task.entity.NodeStyle
-import com.jp_funda.todomind.database.repositories.task.entity.TaskStatus
-import com.jp_funda.todomind.database.repositories.task.entity.getSizeOffsetForDrawLine
+import com.jp_funda.repositories.task.entity.NodeStyle
+import com.jp_funda.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.extension.getSizeOffsetForDrawLine
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 
 @ExperimentalComposeUiApi

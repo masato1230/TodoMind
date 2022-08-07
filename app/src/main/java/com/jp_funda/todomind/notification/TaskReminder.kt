@@ -16,16 +16,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.app.NotificationCompat
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.jp_funda.repositories.task.entity.Task
+import com.jp_funda.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.database.repositories.task.entity.Task
-import com.jp_funda.todomind.database.repositories.task.entity.TaskStatus
-import com.jp_funda.todomind.data.shared_preferences.NotificationPreferences
-import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
-import com.jp_funda.todomind.domain.use_cases.SetNextReminderUseCase
-import com.jp_funda.todomind.domain.use_cases.task.GetNextRemindTaskUseCase
-import com.jp_funda.todomind.domain.use_cases.task.GetTaskUseCase
 import com.jp_funda.todomind.extension.extractFirstFiveDigits
+import com.jp_funda.todomind.sharedpreference.NotificationPreference
+import com.jp_funda.todomind.sharedpreference.PreferenceKey
+import com.jp_funda.todomind.sharedpreference.SettingsPreference
+import com.jp_funda.todomind.use_case.SetNextReminderUseCase
+import com.jp_funda.todomind.use_case.task.GetNextRemindTaskUseCase
+import com.jp_funda.todomind.use_case.task.GetTaskUseCase
 import com.jp_funda.todomind.view.task_reminder.TaskReminderActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -52,10 +52,10 @@ class TaskReminder : BroadcastReceiver() {
     lateinit var setReminderUseCase: SetNextReminderUseCase
 
     @Inject
-    lateinit var notificationPreferences: NotificationPreferences
+    lateinit var notificationPreference: NotificationPreference
 
     @Inject
-    lateinit var settingsPreferences: SettingsPreferences
+    lateinit var settingsPreference: SettingsPreference
 
     companion object {
         const val CHANNEL_ID = "task_reminder_channel"
@@ -104,7 +104,7 @@ class TaskReminder : BroadcastReceiver() {
                 val task = getTaskUseCase(UUID.fromString(it))!! // TODO remove forced unwrap
                 try {
                     if (
-                        settingsPreferences.getBoolean(PreferenceKeys.IS_REMIND_TASK_DEADLINE) &&
+                        settingsPreference.getBoolean(PreferenceKey.IS_REMIND_TASK_DEADLINE) &&
                         task.dueDate != null &&
                         abs(task.dueDate!!.time - Date().time) < 1000 * 120 &&
                         task.statusEnum != TaskStatus.Complete
@@ -127,7 +127,7 @@ class TaskReminder : BroadcastReceiver() {
 
     private fun showNotification(context: Context, title: String, desc: String, taskId: String) {
         // set reminding task id to shared preference
-        notificationPreferences.setString(PreferenceKeys.REMINDING_TASK_ID, taskId)
+        notificationPreference.setString(PreferenceKey.REMINDING_TASK_ID, taskId)
 
         // notify
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

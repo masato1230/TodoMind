@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.database.repositories.task.entity.Task
-import com.jp_funda.todomind.database.repositories.task.entity.TaskStatus
+import com.jp_funda.repositories.task.entity.Task
+import com.jp_funda.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.view.components.MindMapOptionsTabRow
 import com.jp_funda.todomind.view.components.TaskEditContent
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel

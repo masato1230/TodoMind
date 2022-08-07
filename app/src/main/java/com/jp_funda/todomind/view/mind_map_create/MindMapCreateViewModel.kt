@@ -8,16 +8,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.database.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.database.repositories.task.entity.Task
-import com.jp_funda.todomind.data.shared_preferences.PreferenceKeys
-import com.jp_funda.todomind.data.shared_preferences.SettingsPreferences
-import com.jp_funda.todomind.domain.use_cases.mind_map.GetMindMapUseCase
-import com.jp_funda.todomind.domain.use_cases.mind_map.UpdateMindMapUseCase
-import com.jp_funda.todomind.domain.use_cases.ogp.GetOgpUseCase
-import com.jp_funda.todomind.domain.use_cases.ogp.entity.OpenGraphResult
-import com.jp_funda.todomind.domain.use_cases.task.GetTasksInAMindMapUseCase
-import com.jp_funda.todomind.domain.use_cases.task.UpdateTaskUseCase
+import com.jp_funda.repositories.mind_map.entity.MindMap
+import com.jp_funda.repositories.task.entity.Task
+import com.jp_funda.todomind.sharedpreference.PreferenceKey
+import com.jp_funda.todomind.sharedpreference.SettingsPreference
+import com.jp_funda.todomind.use_case.mind_map.GetMindMapUseCase
+import com.jp_funda.todomind.use_case.mind_map.UpdateMindMapUseCase
+import com.jp_funda.todomind.use_case.ogp.GetOgpUseCase
+import com.jp_funda.repositories.jsoup.entity.OpenGraphResult
+import com.jp_funda.todomind.use_case.task.GetTasksInAMindMapUseCase
+import com.jp_funda.todomind.use_case.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -36,7 +36,7 @@ open class MindMapCreateViewModel @Inject constructor(
     private val getTasksInAMindMapUseCase: GetTasksInAMindMapUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val getOgpUseCase: GetOgpUseCase,
-    private val settingsPreferences: SettingsPreferences,
+    private val settingsPreference: SettingsPreference,
 ) : ViewModel() {
     /** UpdateCount - count of view update. To update view count up this. */
     private val _updateCount = MutableLiveData(0)
@@ -63,8 +63,8 @@ open class MindMapCreateViewModel @Inject constructor(
     }
 
     fun initializeScale() {
-        scale = if (settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE) < 0f) 1f
-        else settingsPreferences.getFloat(PreferenceKeys.DEFAULT_MIND_MAP_SCALE)
+        scale = if (settingsPreference.getFloat(PreferenceKey.DEFAULT_MIND_MAP_SCALE) < 0f) 1f
+        else settingsPreference.getFloat(PreferenceKey.DEFAULT_MIND_MAP_SCALE)
     }
 
     /** Get new data and Refresh MapView and scale percentage text. */
