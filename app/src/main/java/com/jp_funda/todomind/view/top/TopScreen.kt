@@ -20,8 +20,8 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.jp_funda.repositories.SampleData
-import com.jp_funda.todomind.R
 import com.jp_funda.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.R
 import com.jp_funda.todomind.extension.getActivity
 import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
@@ -141,15 +141,13 @@ fun TopContent(
         },
         onRowMove = { fromIndex, toIndex ->
             showingTasks?.let { tasks ->
-                if (showingTasks != null) {
-                    // Replace task's reversedOrder property
-                    if (Integer.max(fromIndex, toIndex) < tasks.size) {
-                        val fromTask = tasks.sortedBy { task -> task.reversedOrder }
-                            .reversed()[fromIndex]
-                        val toTask = tasks.sortedBy { task -> task.reversedOrder }
-                            .reversed()[toIndex]
-                        taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
-                    }
+                // Replace task's reversedOrder property
+                if (Integer.max(fromIndex, toIndex) < tasks.size) {
+                    val fromTask = tasks.sortedBy { task -> task.reversedOrder }
+                        .reversed()[fromIndex]
+                    val toTask = tasks.sortedBy { task -> task.reversedOrder }
+                        .reversed()[toIndex]
+                    taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
                 }
             }
         },

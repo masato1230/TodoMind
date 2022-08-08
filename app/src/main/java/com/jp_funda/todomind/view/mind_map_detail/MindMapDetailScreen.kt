@@ -26,15 +26,17 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.R
 import com.jp_funda.repositories.mind_map.entity.MindMap
 import com.jp_funda.repositories.task.entity.NodeStyle
 import com.jp_funda.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.R
 import com.jp_funda.todomind.extension.getSize
 import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
-import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.components.BackNavigationIcon
+import com.jp_funda.todomind.view.components.OgpThumbnail
+import com.jp_funda.todomind.view.components.WhiteButton
 import com.jp_funda.todomind.view.components.dialog.ColorPickerDialog
 import com.jp_funda.todomind.view.components.dialog.ConfirmDialog
 import com.jp_funda.todomind.view.components.task_list.TaskListColumn
@@ -171,67 +173,67 @@ fun MindMapDetailContent(
         mainViewModel.currentlyDeletedTask = null
     }
 
-    observedTasks?.let { tasks ->
-        var showingTasks by remember { mutableStateOf(tasks) }
+    var showingTasks by remember { mutableStateOf(observedTasks) }
 
-        showingTasks = filterTasksByStatus(
+    showingTasks = observedTasks?.let { tasks ->
+        filterTasksByStatus(
             status = TaskStatus.values().first { it == selectedTabStatus },
             tasks = tasks.filter { task ->
                 (task.mindMap?.id == mindMapDetailViewModel.mindMap.value!!.id) &&
                         (task.statusEnum == selectedTabStatus)
             },
         )
+    }
 
-        // MainUI
-        Column {
-            TaskListColumn(
-                selectedTabStatus = selectedTabStatus,
-                onTabChange = { status ->
-                    taskViewModel.setSelectedStatusTab(status)
-                },
-                showingTasks = showingTasks,
-                onCheckChanged = { task ->
-                    taskViewModel.updateTaskWithDelay(task)
-                    scope.launch {
-                        taskViewModel.showCheckBoxChangedSnackbar(
-                            task,
-                            snackbarHostState
-                        )
-                    }
-                },
-                onRowMove = { fromIndex, toIndex ->
+    // MainUI
+    Column {
+        TaskListColumn(
+            selectedTabStatus = selectedTabStatus,
+            onTabChange = { status ->
+                taskViewModel.setSelectedStatusTab(status)
+            },
+            showingTasks = showingTasks,
+            onCheckChanged = { task ->
+                taskViewModel.updateTaskWithDelay(task)
+                scope.launch {
+                    taskViewModel.showCheckBoxChangedSnackbar(
+                        task,
+                        snackbarHostState
+                    )
+                }
+            },
+            onRowMove = { fromIndex, toIndex ->
+                showingTasks?.let { tasks ->
                     // Replace task's reversedOrder property
-                    if (Integer.max(fromIndex, toIndex) < showingTasks.size) {
-                        val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                    if (Integer.max(fromIndex, toIndex) < tasks.size) {
+                        val fromTask = tasks.sortedBy { task -> task.reversedOrder }
                             .reversed()[fromIndex]
-                        val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                        val toTask = tasks.sortedBy { task -> task.reversedOrder }
                             .reversed()[toIndex]
                         taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
                     }
-                },
-                onRowClick = { task ->
-                    navController.navigate(RouteGenerator.TaskDetail(task.id)())
                 }
-            ) {
-                Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-                    MindMapDetailTopContent(navController)
-                }
+            },
+            onRowClick = { task ->
+                navController.navigate(RouteGenerator.TaskDetail(task.id)())
+            }
+        ) {
+            Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+                MindMapDetailTopContent(navController)
             }
         }
+    }
 
-        // Snackbar
-        Column(
-            modifier = Modifier.fillMaxHeight(),
-            verticalArrangement = Arrangement.Bottom,
-        ) {
-            // Status update Snackbar
-            SnackbarHost(
-                hostState = snackbarHostState,
-                modifier = Modifier.padding(bottom = 10.dp),
-            )
-        }
-    } ?: run {
-        LoadingView()
+    // Snackbar
+    Column(
+        modifier = Modifier.fillMaxHeight(),
+        verticalArrangement = Arrangement.Bottom,
+    ) {
+        // Status update Snackbar
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.padding(bottom = 10.dp),
+        )
     }
 }
 
