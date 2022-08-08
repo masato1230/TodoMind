@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.mind_map_detail.components
+package com.jp_funda.todomind.view.mind_map_detail.components.thumbnailSection
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
@@ -43,7 +43,7 @@ fun ThumbnailSection(
         val isLoadingState = mindMapThumbnailViewModel.isLoading.observeAsState()
         isLoadingState.value?.let { isLoading ->
             if (isLoading) {
-                Text(text = "Loading...", color = Color.White)
+                ThumbnailSectionLoadingContent()
             } else {
                 Box(modifier = Modifier
                     .clip(RoundedCornerShape(20.dp))

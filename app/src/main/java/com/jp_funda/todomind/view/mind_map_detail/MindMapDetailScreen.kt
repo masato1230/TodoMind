@@ -43,7 +43,7 @@ import com.jp_funda.todomind.view.components.task_list.TaskListColumn
 import com.jp_funda.todomind.view.components.task_list.filterTasksByStatus
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_detail.components.ProgressSection
-import com.jp_funda.todomind.view.mind_map_detail.components.ThumbnailSection
+import com.jp_funda.todomind.view.mind_map_detail.components.thumbnailSection.ThumbnailSection
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

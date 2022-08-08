@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.jp_funda.repositories.jsoup.entity.OpenGraphResult
 import com.jp_funda.repositories.mind_map.entity.MindMap
 import com.jp_funda.repositories.task.entity.Task
 import com.jp_funda.todomind.sharedpreference.PreferenceKey
@@ -15,7 +16,6 @@ import com.jp_funda.todomind.sharedpreference.SettingsPreference
 import com.jp_funda.todomind.use_case.mind_map.GetMindMapUseCase
 import com.jp_funda.todomind.use_case.mind_map.UpdateMindMapUseCase
 import com.jp_funda.todomind.use_case.ogp.GetOgpUseCase
-import com.jp_funda.repositories.jsoup.entity.OpenGraphResult
 import com.jp_funda.todomind.use_case.task.GetTasksInAMindMapUseCase
 import com.jp_funda.todomind.use_case.task.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
