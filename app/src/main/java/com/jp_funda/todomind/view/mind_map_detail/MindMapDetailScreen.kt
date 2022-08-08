@@ -42,7 +42,6 @@ import com.jp_funda.todomind.view.components.dialog.ColorPickerDialog
 import com.jp_funda.todomind.view.components.dialog.ConfirmDialog
 import com.jp_funda.todomind.view.components.task_list.TaskListColumn
 import com.jp_funda.todomind.view.components.task_list.filterTasksByStatus
-import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_detail.components.MindMapDetailLoadingContent
 import com.jp_funda.todomind.view.mind_map_detail.components.ProgressSection
 import com.jp_funda.todomind.view.mind_map_detail.components.thumbnailSection.ThumbnailSection
@@ -65,7 +64,6 @@ fun MindMapDetailScreen(
 ) {
     val context = LocalContext.current
     val mindMapDetailViewModel = hiltViewModel<MindMapDetailViewModel>()
-    val mindMapThumbnailViewModel = hiltViewModel<MindMapCreateViewModel>()
     val taskViewModel = hiltViewModel<TaskViewModel>()
     val isShowConfirmDeleteDialog = remember { mutableStateOf(false) }
 
@@ -95,7 +93,13 @@ fun MindMapDetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = if (mindMapDetailViewModel.isEditing) "Mind Map Detail" else "New Mind Map") },
+                title = {
+                    Text(
+                        text =
+                        if (mindMapId != null) stringResource(id = R.string.mind_map_detail_editing_title)
+                        else stringResource(id = R.string.mind_map_detail_creating_title)
+                    )
+                },
                 backgroundColor = colorResource(id = R.color.deep_purple),
                 contentColor = Color.White,
                 navigationIcon = { BackNavigationIcon(navController) },
@@ -105,7 +109,7 @@ fun MindMapDetailScreen(
                     }) {
                         Icon(
                             imageVector = Icons.Default.Done,
-                            contentDescription = "Save"
+                            contentDescription = stringResource(id = R.string.save),
                         )
                     }
                     IconButton(onClick = {
@@ -114,7 +118,7 @@ fun MindMapDetailScreen(
                     }) {
                         Icon(
                             imageVector = Icons.Default.Delete,
-                            contentDescription = "Delete"
+                            contentDescription = stringResource(id = R.string.delete),
                         )
                     }
                 }
