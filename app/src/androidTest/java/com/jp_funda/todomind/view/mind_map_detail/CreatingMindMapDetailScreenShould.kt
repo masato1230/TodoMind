@@ -3,11 +3,8 @@ package com.jp_funda.todomind.view.mind_map_detail
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
@@ -75,5 +72,39 @@ class CreatingMindMapDetailScreenShould {
         composeRule
             .onNodeWithTag(TestTag.ANIMATED_SHIMMER)
             .assertDoesNotExist()
+    }
+
+    @Test
+    fun showToMindMapCreateButton() {
+        composeRule
+            .onNodeWithText(appContext.getString(R.string.mind_map))
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun haveColorTextField() {
+        composeRule.onNodeWithTag(TestTag.MIND_MAP_DETAIL_COLOR).run {
+            // initial state assertion
+            assertIsDisplayed()
+            performClick()
+        }
+        // assert dialog is shown
+        composeRule
+            .onNodeWithText("CANCEL", true)
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun showIsCompletedTextField() {
+        composeRule
+            .onNodeWithTag(TestTag.MIND_MAP_DETAIL_IS_COMPLETED)
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun showProgressSection() {
+        composeRule
+            .onNodeWithTag(TestTag.MIND_MAP_DETAIL_PROGRESS_SECTION)
+            .assertIsDisplayed()
     }
 }

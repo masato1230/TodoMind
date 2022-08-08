@@ -90,7 +90,7 @@ class EditingMindMapDetailScreenShould {
 
     @Test
     fun haveTitleTextField() {
-        composeRule.waitUntil { mindMapDetailViewModel.mindMap.value != null }
+        waitUntilDataLoaded()
         composeRule.onNodeWithTag(TestTag.MIND_MAP_DETAIL_TITLE).run {
             // initial state assertions
             assertIsDisplayed()
@@ -100,5 +100,31 @@ class EditingMindMapDetailScreenShould {
             performTextInput("test")
             assertTextEquals("test")
         }
+    }
+
+    @Test
+    fun showMindMapThumbnailSection() {
+        waitUntilDataLoaded()
+        composeRule
+            .onNodeWithTag(TestTag.MIND_MAP_DETAIL_THUMBNAIL)
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun haveDescriptionTextField() {
+        waitUntilDataLoaded()
+        composeRule.onNodeWithTag(TestTag.MIND_MAP_DETAIL_DESCRIPTION).run {
+            // initial state assertions
+            assertIsDisplayed()
+            assertTextEquals(mindMap.description.toString())
+            // assert editable
+            performTextClearance()
+            performTextInput("test")
+            assertTextEquals("test")
+        }
+    }
+
+    private fun waitUntilDataLoaded() {
+        composeRule.waitUntil { mindMapDetailViewModel.mindMap.value != null }
     }
 }

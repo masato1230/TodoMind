@@ -70,9 +70,9 @@ fun MindMapDetailScreen(
     val isShowConfirmDeleteDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        delay(Constant.NAV_ANIM_DURATION.toLong())
         // Check whether to edit or create new mind map by mindMapId
         mindMapId?.let { id ->
+            delay(Constant.NAV_ANIM_DURATION.toLong())
             mindMapDetailViewModel.loadEditingMindMap(UUID.fromString(id))
         } ?: run { // Create new mind map -> set initial position to horizontal center of mapView
             mindMapDetailViewModel.setEmptyMindMap()
@@ -324,7 +324,7 @@ fun MindMapDetailTopContent(navController: NavController) {
             )
             // Edit Mind Map Button
             WhiteButton(
-                text = "Mind Map",
+                text = stringResource(id = R.string.mind_map),
                 leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_mind_map)
             ) {
                 navigateToMindMapCreate(navController, mindMap)
@@ -338,7 +338,8 @@ fun MindMapDetailTopContent(navController: NavController) {
             colors = colors,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { colorDialogState.show() },
+                .clickable { colorDialogState.show() }
+                .testTag(TestTag.MIND_MAP_DETAIL_COLOR),
             value = mindMap.colorHex ?: "",
             onValueChange = {},
             placeholder = {
@@ -361,7 +362,9 @@ fun MindMapDetailTopContent(navController: NavController) {
         /** Description Section */
         TextField(
             colors = colors,
-            modifier = Modifier.padding(bottom = 10.dp),
+            modifier = Modifier
+                .padding(bottom = 10.dp)
+                .testTag(TestTag.MIND_MAP_DETAIL_DESCRIPTION),
             value = mindMap.description ?: "",
             onValueChange = {
                 mindMapDetailViewModel.setDescription(it)
@@ -402,7 +405,8 @@ fun MindMapDetailTopContent(navController: NavController) {
             colors = clickableColors,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { mindMapDetailViewModel.setIsCompleted(!(mindMap.isCompleted)) },
+                .clickable { mindMapDetailViewModel.setIsCompleted(!(mindMap.isCompleted)) }
+                .testTag(TestTag.MIND_MAP_DETAIL_IS_COMPLETED),
             value = if (!mindMap.isCompleted) "Mark ${mindMap.title ?: ""} as Completed"
             else "${mindMap.title ?: ""} Completed",
             onValueChange = {},
