@@ -29,6 +29,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.repositories.mind_map.entity.MindMap
 import com.jp_funda.repositories.task.entity.NodeStyle
 import com.jp_funda.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.Constant
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.extension.getSize
 import com.jp_funda.todomind.navigation.RouteGenerator
@@ -71,6 +72,7 @@ fun MindMapDetailScreen(
     LaunchedEffect(Unit) {
         // Check whether to edit or create new mind map by mindMapId
         mindMapId?.let { id ->
+            delay(Constant.NAV_ANIM_DURATION.toLong())
             mindMapDetailViewModel.loadEditingMindMap(UUID.fromString(id))
         } ?: run { // Create new mind map -> set initial position to horizontal center of mapView
             val mapViewWidth = context.resources.getDimensionPixelSize(R.dimen.map_view_width)
@@ -81,7 +83,7 @@ fun MindMapDetailScreen(
         taskViewModel.refreshTaskListData()
 
         // Set up Thumbnail - set scale and Load task data for drawing mindMap thumbnail
-        delay(1000) // todo delete
+        delay(1000)
         if (mindMapDetailViewModel.isEditing) {
             mindMapDetailViewModel.mindMap.value?.let {
                 mindMapThumbnailViewModel.setMindMapId(it.id)
@@ -429,7 +431,6 @@ fun MindMapDetailTopContent(navController: NavController) {
             style = MaterialTheme.typography.h6
         )
     } ?: run {
-        // todo
         MindMapDetailLoadingContent()
     }
 }
