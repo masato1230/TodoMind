@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.R
-import com.jp_funda.todomind.view.components.AnimatedShimmer
+import com.jp_funda.todomind.view.components.shimmer.AnimatedShimmer
 
 @Composable
 fun ThumbnailSectionLoadingContent() {

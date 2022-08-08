@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.TestTag
 import com.jp_funda.repositories.task.entity.Task
 import com.jp_funda.repositories.task.entity.TaskStatus
-import com.jp_funda.todomind.view.components.AnimatedShimmer
+import com.jp_funda.todomind.view.components.shimmer.AnimatedShimmer
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 

@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.jp_funda.todomind.R
 import com.jp_funda.todomind.TestTag
 import com.jp_funda.repositories.mind_map.entity.MindMap
+import com.jp_funda.todomind.view.components.shimmer.AnimatedShimmer
 
 @Composable
 fun RecentMindMapSection(

@@ -42,6 +42,7 @@ import com.jp_funda.todomind.view.components.dialog.ConfirmDialog
 import com.jp_funda.todomind.view.components.task_list.TaskListColumn
 import com.jp_funda.todomind.view.components.task_list.filterTasksByStatus
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
+import com.jp_funda.todomind.view.mind_map_detail.components.MindMapDetailLoadingContent
 import com.jp_funda.todomind.view.mind_map_detail.components.ProgressSection
 import com.jp_funda.todomind.view.mind_map_detail.components.thumbnailSection.ThumbnailSection
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
@@ -427,6 +428,9 @@ fun MindMapDetailTopContent(navController: NavController) {
             color = Color.White,
             style = MaterialTheme.typography.h6
         )
+    } ?: run {
+        // todo
+        MindMapDetailLoadingContent()
     }
 }
 
