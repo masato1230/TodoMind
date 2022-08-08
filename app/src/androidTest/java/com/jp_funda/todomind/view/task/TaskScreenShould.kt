@@ -82,7 +82,7 @@ class TaskScreenShould {
     }
 
     @Test
-    fun showSomeTasksWhenInProgressTabWasSelected() {
+    fun showSomeTasksWhenInProgressTabSelected() {
         composeRule
             .onAllNodesWithTag(TestTag.TASK_ROW)
             .onFirst()
@@ -90,7 +90,7 @@ class TaskScreenShould {
     }
 
     @Test
-    fun showSomeTasksWhenOpenTabWasSelected() {
+    fun showSomeTasksWhenOpenTabSelected() {
         composeRule
             .onNodeWithText(appContext.getString(R.string.task_open))
             .performClick()
@@ -102,7 +102,7 @@ class TaskScreenShould {
     }
 
     @Test
-    fun showSomeTasksWhenCompleteTabWasSelected() {
+    fun showSomeTasksWhenCompleteTabSelected() {
         composeRule
             .onNodeWithText(appContext.getString(R.string.task_complete))
             .performClick()

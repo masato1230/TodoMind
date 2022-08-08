@@ -90,7 +90,7 @@ class EditingMindMapDetailScreenShould {
 
     @Test
     fun haveTitleTextField() {
-        waitUntilDataLoaded()
+        waitUntilMindMapLoaded()
         composeRule.onNodeWithTag(TestTag.MIND_MAP_DETAIL_TITLE).run {
             // initial state assertions
             assertIsDisplayed()
@@ -104,7 +104,7 @@ class EditingMindMapDetailScreenShould {
 
     @Test
     fun showMindMapThumbnailSection() {
-        waitUntilDataLoaded()
+        waitUntilMindMapLoaded()
         composeRule
             .onNodeWithTag(TestTag.MIND_MAP_DETAIL_THUMBNAIL)
             .assertIsDisplayed()
@@ -112,7 +112,7 @@ class EditingMindMapDetailScreenShould {
 
     @Test
     fun haveDescriptionTextField() {
-        waitUntilDataLoaded()
+        waitUntilMindMapLoaded()
         composeRule.onNodeWithTag(TestTag.MIND_MAP_DETAIL_DESCRIPTION).run {
             // initial state assertions
             assertIsDisplayed()
@@ -124,7 +124,56 @@ class EditingMindMapDetailScreenShould {
         }
     }
 
-    private fun waitUntilDataLoaded() {
+    @Test
+    fun showSomeTasksWhenInProgressTabSelected() {
+        waitUntilMindMapLoaded()
+        // scroll to task list
+        composeRule
+            .onNodeWithTag(TestTag.TASK_LIST_COLUMN)
+            .performScrollToNode(hasTestTag(TestTag.TASK_ROW))
+        composeRule
+            .onAllNodesWithTag(TestTag.TASK_ROW)
+            .onFirst()
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun showSomeTasksWhenOpenTabSelected() {
+        waitUntilMindMapLoaded()
+        // scroll to task list
+        composeRule
+            .onNodeWithTag(TestTag.TASK_LIST_COLUMN)
+            .performScrollToNode(hasTestTag(TestTag.TASK_ROW))
+        // select open tab
+        composeRule
+            .onNodeWithText(appContext.getString(R.string.task_open))
+            .performClick()
+
+        composeRule
+            .onAllNodesWithTag(TestTag.TASK_ROW)
+            .onFirst()
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun showSomeTasksWhenCompleteTabSelected() {
+        waitUntilMindMapLoaded()
+        // scroll to task list
+        composeRule
+            .onNodeWithTag(TestTag.TASK_LIST_COLUMN)
+            .performScrollToNode(hasTestTag(TestTag.TASK_ROW))
+        // select complete tab
+        composeRule
+            .onNodeWithText(appContext.getString(R.string.task_complete))
+            .performClick()
+
+        composeRule
+            .onAllNodesWithTag(TestTag.TASK_ROW)
+            .onFirst()
+            .assertIsDisplayed()
+    }
+
+    private fun waitUntilMindMapLoaded() {
         composeRule.waitUntil { mindMapDetailViewModel.mindMap.value != null }
     }
 }
