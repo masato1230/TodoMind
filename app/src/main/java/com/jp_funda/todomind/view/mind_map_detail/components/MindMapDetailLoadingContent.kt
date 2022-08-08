@@ -18,10 +18,10 @@ fun MindMapDetailLoadingContent() {
     Column {
         AnimatedShimmer(
             modifier = Modifier
+                .padding(vertical = 10.dp)
                 .fillMaxWidth()
                 .height(50.dp)
                 .clip(RoundedCornerShape(10.dp))
-                .padding(vertical = 10.dp)
         )
         ThumbnailSectionLoadingContent()
         ShimmerRowWithIcon(

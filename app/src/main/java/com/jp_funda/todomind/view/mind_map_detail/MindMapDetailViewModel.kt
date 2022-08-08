@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.jp_funda.repositories.jsoup.entity.OpenGraphResult
 import com.jp_funda.repositories.mind_map.entity.MindMap
 import com.jp_funda.todomind.sharedpreference.PreferenceKey
 import com.jp_funda.todomind.sharedpreference.SettingsPreference
@@ -16,7 +17,6 @@ import com.jp_funda.todomind.use_case.mind_map.DeleteMindMapUseCase
 import com.jp_funda.todomind.use_case.mind_map.GetMindMapUseCase
 import com.jp_funda.todomind.use_case.mind_map.UpdateMindMapUseCase
 import com.jp_funda.todomind.use_case.ogp.GetOgpUseCase
-import com.jp_funda.repositories.jsoup.entity.OpenGraphResult
 import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -38,8 +38,8 @@ class MindMapDetailViewModel @Inject constructor(
     private val getOgpUseCase: GetOgpUseCase,
     settingsPreference: SettingsPreference,
 ) : ViewModel() {
-    private var _mindMap = MutableLiveData(MindMap())
-    val mindMap: LiveData<MindMap> = _mindMap
+    private var _mindMap = MutableLiveData<MindMap?>(null)
+    val mindMap: LiveData<MindMap?> = _mindMap
 
     // ogp
     private val _ogpResult = MutableLiveData<OpenGraphResult?>()
@@ -57,6 +57,10 @@ class MindMapDetailViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _mindMap.postValue(getMindMapUseCase(id))
         }
+    }
+
+    fun setEmptyMindMap() {
+        _mindMap.value = MindMap()
     }
 
     fun setTitle(title: String) {

@@ -10,6 +10,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -26,6 +27,7 @@ import com.jp_funda.todomind.R
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_create.compoents.LineView
 import com.jp_funda.todomind.view.mind_map_create.compoents.NodeGraph
+import java.util.*
 
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
@@ -33,11 +35,18 @@ import com.jp_funda.todomind.view.mind_map_create.compoents.NodeGraph
 @ExperimentalAnimationApi
 @Composable
 fun ThumbnailSection(
+    mindMapId: UUID,
     isFirstTime: Boolean,
     onClick: () -> Unit,
 ) {
     val context = LocalContext.current
     val mindMapThumbnailViewModel = hiltViewModel<MindMapCreateViewModel>()
+
+    LaunchedEffect(Unit) {
+        // Set up Thumbnail - set scale and Load task data for drawing mindMap thumbnail
+        mindMapThumbnailViewModel.setMindMapId(mindMapId)
+        mindMapThumbnailViewModel.refreshView()
+    }
 
     if (!isFirstTime) {
         val isLoadingState = mindMapThumbnailViewModel.isLoading.observeAsState()
