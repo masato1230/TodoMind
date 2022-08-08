@@ -10,7 +10,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.repositories.jsoup.entity.OpenGraphResult
 import com.jp_funda.repositories.mind_map.entity.MindMap
-import com.jp_funda.todomind.Constant
 import com.jp_funda.todomind.sharedpreference.PreferenceKey
 import com.jp_funda.todomind.sharedpreference.SettingsPreference
 import com.jp_funda.todomind.use_case.mind_map.CreateMindMapUseCase
@@ -22,7 +21,6 @@ import com.jp_funda.todomind.util.UrlUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -57,7 +55,6 @@ class MindMapDetailViewModel @Inject constructor(
     fun loadEditingMindMap(id: UUID) {
         isEditing = true
         viewModelScope.launch(Dispatchers.IO) {
-            delay(Constant.NAV_ANIM_DURATION.toLong())
             _mindMap.postValue(getMindMapUseCase(id))
         }
     }

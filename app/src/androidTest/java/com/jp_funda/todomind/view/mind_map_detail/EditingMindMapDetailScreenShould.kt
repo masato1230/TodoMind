@@ -47,6 +47,8 @@ class EditingMindMapDetailScreenShould {
     @Inject
     lateinit var createTasksUseCase: CreateTasksUseCase
 
+    private lateinit var mindMapDetailViewModel: MindMapDetailViewModel
+
     private val mindMap = SampleData.mindMap
 
     private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
@@ -60,6 +62,7 @@ class EditingMindMapDetailScreenShould {
         composeRule.setContent {
             val navController = rememberNavController()
             val mainViewModel = hiltViewModel<MainViewModel>()
+            mindMapDetailViewModel = hiltViewModel()
             MindMapDetailScreen(
                 navController = navController,
                 mainViewModel = mainViewModel,
@@ -87,7 +90,7 @@ class EditingMindMapDetailScreenShould {
 
     @Test
     fun haveTitleTextField() {
-        composeRule.waitForIdle()
+        composeRule.waitUntil { mindMapDetailViewModel.mindMap.value != null }
         composeRule.onNodeWithTag(TestTag.MIND_MAP_DETAIL_TITLE).run {
             // initial state assertions
             assertIsDisplayed()

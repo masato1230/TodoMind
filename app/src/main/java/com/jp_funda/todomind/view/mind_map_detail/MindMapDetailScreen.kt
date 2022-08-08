@@ -70,6 +70,7 @@ fun MindMapDetailScreen(
     val isShowConfirmDeleteDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
+        delay(Constant.NAV_ANIM_DURATION.toLong())
         // Check whether to edit or create new mind map by mindMapId
         mindMapId?.let { id ->
             mindMapDetailViewModel.loadEditingMindMap(UUID.fromString(id))
@@ -179,7 +180,7 @@ fun MindMapDetailContent(
         filterTasksByStatus(
             status = TaskStatus.values().first { it == selectedTabStatus },
             tasks = tasks.filter { task ->
-                (task.mindMap?.id == mindMapDetailViewModel.mindMap.value!!.id) &&
+                (task.mindMap?.id == mindMapDetailViewModel.mindMap.value?.id) &&
                         (task.statusEnum == selectedTabStatus)
             },
         )
