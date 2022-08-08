@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,6 +32,7 @@ import com.jp_funda.repositories.task.entity.NodeStyle
 import com.jp_funda.repositories.task.entity.TaskStatus
 import com.jp_funda.todomind.Constant
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.extension.getSize
 import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
@@ -70,7 +72,6 @@ fun MindMapDetailScreen(
     LaunchedEffect(Unit) {
         // Check whether to edit or create new mind map by mindMapId
         mindMapId?.let { id ->
-            delay(Constant.NAV_ANIM_DURATION.toLong())
             mindMapDetailViewModel.loadEditingMindMap(UUID.fromString(id))
         } ?: run { // Create new mind map -> set initial position to horizontal center of mapView
             mindMapDetailViewModel.setEmptyMindMap()
@@ -278,7 +279,9 @@ fun MindMapDetailTopContent(navController: NavController) {
         /** Title */
         TextField(
             colors = colors,
-            modifier = Modifier.padding(bottom = 10.dp),
+            modifier = Modifier
+                .padding(bottom = 10.dp)
+                .testTag(TestTag.MIND_MAP_DETAIL_TITLE),
             value = mindMap.title ?: "",
             onValueChange = mindMapDetailViewModel::setTitle,
             textStyle = MaterialTheme.typography.h5,

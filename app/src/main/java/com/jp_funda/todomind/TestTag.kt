@@ -18,4 +18,6 @@ object TestTag {
     const val TASK_DETAIL_STYLE = "TASK_DETAIL_STYLE"
     const val TASK_DETAIL_STATUS = "TASK_DETAIL_STATUS"
     const val TASK_DETAIL_PARENT_TASK = "TASK_DETAIL_PARENT_TASK"
+    // mind map detail
+    const val MIND_MAP_DETAIL_TITLE = "MIND_MAP_DETAIL_TITLE"
 }
