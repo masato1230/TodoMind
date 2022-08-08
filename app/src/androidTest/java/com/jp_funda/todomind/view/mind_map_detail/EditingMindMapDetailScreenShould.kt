@@ -17,6 +17,7 @@ import com.jp_funda.todomind.use_case.mind_map.CreateMindMapUseCase
 import com.jp_funda.todomind.use_case.task.CreateTasksUseCase
 import com.jp_funda.todomind.view.HiltActivity
 import com.jp_funda.todomind.view.MainViewModel
+import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
@@ -48,6 +49,7 @@ class EditingMindMapDetailScreenShould {
     lateinit var createTasksUseCase: CreateTasksUseCase
 
     private lateinit var mindMapDetailViewModel: MindMapDetailViewModel
+    private lateinit var mindMapThumbnailViewModel: MindMapCreateViewModel
 
     private val mindMap = SampleData.mindMap
 
@@ -63,6 +65,8 @@ class EditingMindMapDetailScreenShould {
             val navController = rememberNavController()
             val mainViewModel = hiltViewModel<MainViewModel>()
             mindMapDetailViewModel = hiltViewModel()
+            mindMapThumbnailViewModel = hiltViewModel()
+
             MindMapDetailScreen(
                 navController = navController,
                 mainViewModel = mainViewModel,
@@ -104,7 +108,7 @@ class EditingMindMapDetailScreenShould {
 
     @Test
     fun showMindMapThumbnailSection() {
-        waitUntilMindMapLoaded()
+        waitUntilTasksLoaded()
         composeRule
             .onNodeWithTag(TestTag.MIND_MAP_DETAIL_THUMBNAIL)
             .assertIsDisplayed()
@@ -175,5 +179,9 @@ class EditingMindMapDetailScreenShould {
 
     private fun waitUntilMindMapLoaded() {
         composeRule.waitUntil { mindMapDetailViewModel.mindMap.value != null }
+    }
+
+    private fun waitUntilTasksLoaded() {
+        composeRule.waitUntil(2_000) { mindMapThumbnailViewModel.tasks.isNotEmpty() }
     }
 }
