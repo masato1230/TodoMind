@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -26,22 +27,26 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.jp_funda.todomind.R
 import com.jp_funda.repositories.mind_map.entity.MindMap
 import com.jp_funda.repositories.task.entity.NodeStyle
 import com.jp_funda.repositories.task.entity.TaskStatus
+import com.jp_funda.todomind.Constant
+import com.jp_funda.todomind.R
+import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.extension.getSize
 import com.jp_funda.todomind.navigation.RouteGenerator
 import com.jp_funda.todomind.view.MainViewModel
 import com.jp_funda.todomind.view.TaskViewModel
-import com.jp_funda.todomind.view.components.*
+import com.jp_funda.todomind.view.components.BackNavigationIcon
+import com.jp_funda.todomind.view.components.OgpThumbnail
+import com.jp_funda.todomind.view.components.WhiteButton
 import com.jp_funda.todomind.view.components.dialog.ColorPickerDialog
 import com.jp_funda.todomind.view.components.dialog.ConfirmDialog
 import com.jp_funda.todomind.view.components.task_list.TaskListColumn
 import com.jp_funda.todomind.view.components.task_list.filterTasksByStatus
-import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
+import com.jp_funda.todomind.view.mind_map_detail.components.MindMapDetailLoadingContent
 import com.jp_funda.todomind.view.mind_map_detail.components.ProgressSection
-import com.jp_funda.todomind.view.mind_map_detail.components.ThumbnailSection
+import com.jp_funda.todomind.view.mind_map_detail.components.thumbnailSection.ThumbnailSection
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -61,30 +66,22 @@ fun MindMapDetailScreen(
 ) {
     val context = LocalContext.current
     val mindMapDetailViewModel = hiltViewModel<MindMapDetailViewModel>()
-    val mindMapThumbnailViewModel = hiltViewModel<MindMapCreateViewModel>()
     val taskViewModel = hiltViewModel<TaskViewModel>()
     val isShowConfirmDeleteDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         // Check whether to edit or create new mind map by mindMapId
         mindMapId?.let { id ->
+            delay(Constant.NAV_ANIM_DURATION.toLong())
             mindMapDetailViewModel.loadEditingMindMap(UUID.fromString(id))
         } ?: run { // Create new mind map -> set initial position to horizontal center of mapView
+            mindMapDetailViewModel.setEmptyMindMap()
             val mapViewWidth = context.resources.getDimensionPixelSize(R.dimen.map_view_width)
             mindMapDetailViewModel.setX(mapViewWidth.toFloat() / 2 - NodeStyle.HEADLINE_1.getSize().width / 2)
         }
 
         // Refresh TaskList
         taskViewModel.refreshTaskListData()
-
-        // Set up Thumbnail - set scale and Load task data for drawing mindMap thumbnail
-        delay(1000) // todo delete
-        if (mindMapDetailViewModel.isEditing) {
-            mindMapDetailViewModel.mindMap.value?.let {
-                mindMapThumbnailViewModel.setMindMapId(it.id)
-                mindMapThumbnailViewModel.refreshView()
-            }
-        }
     }
 
     DisposableEffect(key1 = LocalLifecycleOwner.current) {
@@ -98,7 +95,13 @@ fun MindMapDetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = if (mindMapDetailViewModel.isEditing) "Mind Map Detail" else "New Mind Map") },
+                title = {
+                    Text(
+                        text =
+                        if (mindMapId != null) stringResource(id = R.string.mind_map_detail_editing_title)
+                        else stringResource(id = R.string.mind_map_detail_creating_title)
+                    )
+                },
                 backgroundColor = colorResource(id = R.color.deep_purple),
                 contentColor = Color.White,
                 navigationIcon = { BackNavigationIcon(navController) },
@@ -108,7 +111,7 @@ fun MindMapDetailScreen(
                     }) {
                         Icon(
                             imageVector = Icons.Default.Done,
-                            contentDescription = "Save"
+                            contentDescription = stringResource(id = R.string.save),
                         )
                     }
                     IconButton(onClick = {
@@ -117,7 +120,7 @@ fun MindMapDetailScreen(
                     }) {
                         Icon(
                             imageVector = Icons.Default.Delete,
-                            contentDescription = "Delete"
+                            contentDescription = stringResource(id = R.string.delete),
                         )
                     }
                 }
@@ -171,67 +174,67 @@ fun MindMapDetailContent(
         mainViewModel.currentlyDeletedTask = null
     }
 
-    observedTasks?.let { tasks ->
-        var showingTasks by remember { mutableStateOf(tasks) }
+    var showingTasks by remember { mutableStateOf(observedTasks) }
 
-        showingTasks = filterTasksByStatus(
+    showingTasks = observedTasks?.let { tasks ->
+        filterTasksByStatus(
             status = TaskStatus.values().first { it == selectedTabStatus },
             tasks = tasks.filter { task ->
-                (task.mindMap?.id == mindMapDetailViewModel.mindMap.value!!.id) &&
+                (task.mindMap?.id == mindMapDetailViewModel.mindMap.value?.id) &&
                         (task.statusEnum == selectedTabStatus)
             },
         )
+    }
 
-        // MainUI
-        Column {
-            TaskListColumn(
-                selectedTabStatus = selectedTabStatus,
-                onTabChange = { status ->
-                    taskViewModel.setSelectedStatusTab(status)
-                },
-                showingTasks = showingTasks,
-                onCheckChanged = { task ->
-                    taskViewModel.updateTaskWithDelay(task)
-                    scope.launch {
-                        taskViewModel.showCheckBoxChangedSnackbar(
-                            task,
-                            snackbarHostState
-                        )
-                    }
-                },
-                onRowMove = { fromIndex, toIndex ->
+    // MainUI
+    Column {
+        TaskListColumn(
+            selectedTabStatus = selectedTabStatus,
+            onTabChange = { status ->
+                taskViewModel.setSelectedStatusTab(status)
+            },
+            showingTasks = showingTasks,
+            onCheckChanged = { task ->
+                taskViewModel.updateTaskWithDelay(task)
+                scope.launch {
+                    taskViewModel.showCheckBoxChangedSnackbar(
+                        task,
+                        snackbarHostState
+                    )
+                }
+            },
+            onRowMove = { fromIndex, toIndex ->
+                showingTasks?.let { tasks ->
                     // Replace task's reversedOrder property
-                    if (Integer.max(fromIndex, toIndex) < showingTasks.size) {
-                        val fromTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                    if (Integer.max(fromIndex, toIndex) < tasks.size) {
+                        val fromTask = tasks.sortedBy { task -> task.reversedOrder }
                             .reversed()[fromIndex]
-                        val toTask = showingTasks.sortedBy { task -> task.reversedOrder }
+                        val toTask = tasks.sortedBy { task -> task.reversedOrder }
                             .reversed()[toIndex]
                         taskViewModel.replaceReversedOrderOfTasks(fromTask, toTask)
                     }
-                },
-                onRowClick = { task ->
-                    navController.navigate(RouteGenerator.TaskDetail(task.id)())
                 }
-            ) {
-                Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-                    MindMapDetailTopContent(navController)
-                }
+            },
+            onRowClick = { task ->
+                navController.navigate(RouteGenerator.TaskDetail(task.id)())
+            }
+        ) {
+            Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+                MindMapDetailTopContent(navController)
             }
         }
+    }
 
-        // Snackbar
-        Column(
-            modifier = Modifier.fillMaxHeight(),
-            verticalArrangement = Arrangement.Bottom,
-        ) {
-            // Status update Snackbar
-            SnackbarHost(
-                hostState = snackbarHostState,
-                modifier = Modifier.padding(bottom = 10.dp),
-            )
-        }
-    } ?: run {
-        LoadingView()
+    // Snackbar
+    Column(
+        modifier = Modifier.fillMaxHeight(),
+        verticalArrangement = Arrangement.Bottom,
+    ) {
+        // Status update Snackbar
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.padding(bottom = 10.dp),
+        )
     }
 }
 
@@ -277,7 +280,9 @@ fun MindMapDetailTopContent(navController: NavController) {
         /** Title */
         TextField(
             colors = colors,
-            modifier = Modifier.padding(bottom = 10.dp),
+            modifier = Modifier
+                .padding(bottom = 10.dp)
+                .testTag(TestTag.MIND_MAP_DETAIL_TITLE),
             value = mindMap.title ?: "",
             onValueChange = mindMapDetailViewModel::setTitle,
             textStyle = MaterialTheme.typography.h5,
@@ -291,7 +296,10 @@ fun MindMapDetailTopContent(navController: NavController) {
         )
 
         /** Thumbnail Section */
-        ThumbnailSection(!mindMapDetailViewModel.isEditing) {
+        ThumbnailSection(
+            mindMapId = mindMap.id,
+            isFirstTime = !mindMapDetailViewModel.isEditing,
+        ) {
             navigateToMindMapCreate(
                 navController = navController,
                 mindMap = mindMap,
@@ -316,7 +324,7 @@ fun MindMapDetailTopContent(navController: NavController) {
             )
             // Edit Mind Map Button
             WhiteButton(
-                text = "Mind Map",
+                text = stringResource(id = R.string.mind_map),
                 leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_mind_map)
             ) {
                 navigateToMindMapCreate(navController, mindMap)
@@ -330,7 +338,8 @@ fun MindMapDetailTopContent(navController: NavController) {
             colors = colors,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { colorDialogState.show() },
+                .clickable { colorDialogState.show() }
+                .testTag(TestTag.MIND_MAP_DETAIL_COLOR),
             value = mindMap.colorHex ?: "",
             onValueChange = {},
             placeholder = {
@@ -353,7 +362,9 @@ fun MindMapDetailTopContent(navController: NavController) {
         /** Description Section */
         TextField(
             colors = colors,
-            modifier = Modifier.padding(bottom = 10.dp),
+            modifier = Modifier
+                .padding(bottom = 10.dp)
+                .testTag(TestTag.MIND_MAP_DETAIL_DESCRIPTION),
             value = mindMap.description ?: "",
             onValueChange = {
                 mindMapDetailViewModel.setDescription(it)
@@ -394,7 +405,8 @@ fun MindMapDetailTopContent(navController: NavController) {
             colors = clickableColors,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { mindMapDetailViewModel.setIsCompleted(!(mindMap.isCompleted)) },
+                .clickable { mindMapDetailViewModel.setIsCompleted(!(mindMap.isCompleted)) }
+                .testTag(TestTag.MIND_MAP_DETAIL_IS_COMPLETED),
             value = if (!mindMap.isCompleted) "Mark ${mindMap.title ?: ""} as Completed"
             else "${mindMap.title ?: ""} Completed",
             onValueChange = {},
@@ -425,6 +437,8 @@ fun MindMapDetailTopContent(navController: NavController) {
             color = Color.White,
             style = MaterialTheme.typography.h6
         )
+    } ?: run {
+        MindMapDetailLoadingContent()
     }
 }
 

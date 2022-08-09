@@ -10,9 +10,11 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.extension.getProgressRate
 import com.jp_funda.todomind.view.components.RoundedProgressBar
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
@@ -33,7 +35,8 @@ fun ProgressSection() {
         Row(
             modifier = Modifier
                 .padding(start = 10.dp, bottom = 5.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .testTag(TestTag.MIND_MAP_DETAIL_PROGRESS_SECTION),
         ) {
             Text(
                 text = "Progress: ",

@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.components
+package com.jp_funda.todomind.view.components.shimmer
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background

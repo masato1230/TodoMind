@@ -1,4 +1,4 @@
-package com.jp_funda.todomind.view.mind_map_detail.components
+package com.jp_funda.todomind.view.mind_map_detail.components.thumbnailSection
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
@@ -10,6 +10,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -18,14 +19,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.jp_funda.todomind.R
+import com.jp_funda.todomind.TestTag
 import com.jp_funda.todomind.view.mind_map_create.MindMapCreateViewModel
 import com.jp_funda.todomind.view.mind_map_create.compoents.LineView
 import com.jp_funda.todomind.view.mind_map_create.compoents.NodeGraph
+import java.util.*
 
 @ExperimentalComposeUiApi
 @ExperimentalMaterialApi
@@ -33,17 +37,24 @@ import com.jp_funda.todomind.view.mind_map_create.compoents.NodeGraph
 @ExperimentalAnimationApi
 @Composable
 fun ThumbnailSection(
+    mindMapId: UUID,
     isFirstTime: Boolean,
     onClick: () -> Unit,
 ) {
     val context = LocalContext.current
     val mindMapThumbnailViewModel = hiltViewModel<MindMapCreateViewModel>()
 
+    LaunchedEffect(Unit) {
+        // Set up Thumbnail - set scale and Load task data for drawing mindMap thumbnail
+        mindMapThumbnailViewModel.setMindMapId(mindMapId)
+        mindMapThumbnailViewModel.refreshView()
+    }
+
     if (!isFirstTime) {
         val isLoadingState = mindMapThumbnailViewModel.isLoading.observeAsState()
         isLoadingState.value?.let { isLoading ->
             if (isLoading) {
-                Text(text = "Loading...", color = Color.White)
+                ThumbnailSectionLoadingContent()
             } else {
                 Box(modifier = Modifier
                     .clip(RoundedCornerShape(20.dp))
@@ -56,6 +67,7 @@ fun ThumbnailSection(
                             it.width.toFloat() / context.resources.getDimensionPixelSize(R.dimen.map_view_width)
                         mindMapThumbnailViewModel.setScale(scale)
                     }
+                    .testTag(TestTag.MIND_MAP_DETAIL_THUMBNAIL)
                 ) {
                     // Line View
                     LineView()
