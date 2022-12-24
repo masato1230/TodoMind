@@ -1,7 +1,10 @@
 # Workflow name
 name: baseline-profiles
 
-on: pull_request
+on:
+  push:
+    branches:
+      - feature/baseline-profiles
 
 # Environment variables (Optional)
 # Small projects might have signingConfigs locally. This could lead to failures on GitHub Actions.
