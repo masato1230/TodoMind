@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 rootProject.name = "TodoMind"
 include ':app'
 include ':repositories'
+include ':benchmark'
