@@ -24,7 +24,7 @@ jobs:
       - name: Commit Baseline Profiles and create pull request
         env:
           TZ: 'Asia/Tokyo'
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name 'masato1230'
           git config --global user.email '0ht3851f11t426k@ezweb.ne.jp'
@@ -36,8 +36,7 @@ jobs:
           git commit --allow-empty -m "Generate baseline profiles"
           git push --set-upstream origin "$BRANCH_NAME"
           
-          gh run view 1 --log
-          gh auth login --with-token ${{ secrets.TOKEN }}
+          gh auth login --with-token ${{ secrets.GITHUB_TOKEN }}
           gh pr create -B develop/phase2 -t 'Generate Baseline Profiles $DATE' -b ''
 
       - name: Setup Gradle
