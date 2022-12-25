@@ -38,8 +38,6 @@ jobs:
           git commit --allow-empty -m "Generate baseline profiles"
           git push --set-upstream origin "$BRANCH_NAME"
           
-          gh run view 1 --log
-          gh auth login --with-token ${{ secrets.GITHUB_TOKEN }}
           gh pr create -B develop/phase2 -t 'Generate Baseline Profiles $DATE' -b ''
 
       - name: Setup Gradle
