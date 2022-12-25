@@ -54,4 +54,4 @@ jobs:
           git commit -m "Generate baseline profiles"
           git push
           
-          gh pr create -B develop/phase2 -t 'Generate Baseline Profiles $DATE'
+          gh pr create -B develop/phase2 -t 'Generate Baseline Profiles $DATE' -b ''
