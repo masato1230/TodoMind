@@ -1,14 +1,13 @@
 name: baseline-profiles
 
 on:
-  push:
-    branches:
-      - feature**
+  pull_request_review:
+    types: [submitted]
 
 jobs:
 
   generate-baseline-profiles:
-
+    if: github.event.review.state == 'approved'
     runs-on: macos-latest
 
     steps:
