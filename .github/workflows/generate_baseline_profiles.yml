@@ -31,11 +31,10 @@ jobs:
           DATE=`date +"%Y%m%d%H%M"`
           BRANCH_NAME="baseline_profiles/$DATE"
           git checkout -b "$BRANCH_NAME"
-          git push --set-upstream origin "$BRANCH_NAME"
           
           git add app/src/main/baseline-prof.txt
           git commit --allow-empty -m "Generate baseline profiles"
-          git push
+          git push --set-upstream origin "$BRANCH_NAME"
           
           gh auth login --with-token ${{ secrets.TOKEN }}
           gh pr create -B develop/phase2 -t 'Generate Baseline Profiles $DATE' -b ''
