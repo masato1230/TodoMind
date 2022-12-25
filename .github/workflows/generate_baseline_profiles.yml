@@ -36,16 +36,6 @@ jobs:
         run: |
           mv -f benchmark/build/outputs/managed_device_android_test_additional_output/pixel6Api31/BaselineProfileGenerator_startup-baseline-prof.txt app/src/main/baseline-prof.txt
 
-      - name: Create new Branch
-        env:
-          TZ: 'Asia/Tokyo'
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          DATE=`date +"%Y%m%d"`
-          BRANCH_NAME="baseline_profiles/$DATE"
-          git checkout -b "$BRANCH_NAME"
-          git push origin "$BRANCH_NAME"
-
       # Create pull request for adding baseline profiles
       - name: Commit Baseline Profiles and create pull request
         env:
