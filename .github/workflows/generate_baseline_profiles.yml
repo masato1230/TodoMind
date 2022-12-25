@@ -73,10 +73,5 @@ jobs:
           git commit --allow-empty -m "Generate baseline profiles"
           git push
           
-<<<<<<< HEAD
           gh auth login --with-token ${{ secrets.GITHUB_TOKEN }}
           gh pr create -B develop/phase2 -t 'Generate Baseline Profiles $DATE' -b ''
-=======
-          gh auth login --with-token ${{ secrets.TOKEN }}
-          gh pr create -B develop/phase2 -t 'Generate Baseline Profiles $DATE' -b ''
->>>>>>> 4277e44f4596aa137573319a10c921ceb1a45e04
