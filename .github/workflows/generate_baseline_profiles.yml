@@ -20,27 +20,6 @@ jobs:
           distribution: temurin
           java-version: 11
 
-      # Create pull request for adding baseline profiles
-      - name: Commit Baseline Profiles and create pull request
-        env:
-          TZ: 'Asia/Tokyo'
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        run: |
-          git config --global user.name 'masato1230'
-          git config --global user.email '0ht3851f11t426k@ezweb.ne.jp'
-          DATE=`date +"%Y%m%d%H%M"`
-          BRANCH_NAME="baseline_profiles/$DATE"
-          git checkout -b "$BRANCH_NAME"
-          git push --set-upstream origin "$BRANCH_NAME"
-          
-          git checkout baseline_profiles/$DATE
-          git add app/src/main/baseline-prof.txt
-          git commit -m "Generate baseline profiles"
-          git push
-          
-          gh auth login --with-token ${{ secret.TOKEN }}
-          gh pr create -B develop/phase2 -t 'Generate Baseline Profiles $DATE' -b ''
-
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
