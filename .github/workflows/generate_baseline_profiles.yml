@@ -1,13 +1,14 @@
 name: baseline-profiles
 
 on:
-  pull_request_review:
-    types: [submitted]
+  push:
+    branches:
+      - feature**
 
 jobs:
 
   generate-baseline-profiles:
-    if: github.event.review.state == 'approved'
+
     runs-on: macos-latest
 
     steps:
@@ -32,7 +33,7 @@ jobs:
         run: ./gradlew :benchmark:pixel6Api31BenchmarkAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect" -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile -Dorg.gradle.workers.max=4
 
       - name: Move & Rename Baseline Profiles
-        run:  |
+        run: |
           mv -f benchmark/build/outputs/managed_device_android_test_additional_output/pixel6Api31/BaselineProfileGenerator_startup-baseline-prof.txt app/src/main/baseline-prof.txt
 
       # Commits the generated Baseline Profile to your origin/remote
