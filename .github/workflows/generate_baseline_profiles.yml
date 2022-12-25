@@ -36,7 +36,7 @@ jobs:
           git commit --allow-empty -m "Generate baseline profiles"
           git push --set-upstream origin "$BRANCH_NAME"
           
-          gh view --log
+          gh run view --log
           gh auth login --with-token ${{ secrets.GITHUB_TOKEN }}
           gh pr create -B develop/phase2 -t 'Generate Baseline Profiles $DATE' -b ''
 
