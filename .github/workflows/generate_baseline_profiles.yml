@@ -3,7 +3,7 @@ name: baseline-profiles
 on:
   push:
     branches:
-      - feature**
+      - main
 
 jobs:
 
