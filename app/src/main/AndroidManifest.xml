@@ -19,6 +19,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppSplash"
         android:usesCleartextTraffic="true">
+        <profileable
+            android:shell="true"
+            tools:targetApi="29" />
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-8353659026777346~5287653957" />
@@ -30,23 +34,21 @@
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".view.intro.IntroActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.TodoMind"
             tools:ignore="LockedOrientationActivity" />
-
         <activity
             android:name=".view.task_reminder.TaskReminderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.TodoMind"
             tools:ignore="LockedOrientationActivity" />
-
         <activity
             android:name=".view.HiltActivity"
             android:screenOrientation="portrait"
@@ -63,6 +65,15 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+            android:permission="android.permission.DUMP"
+            android:exported="true">
+            <intent-filter>
+                <action
+                    android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

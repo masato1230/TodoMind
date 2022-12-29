@@ -1,0 +1,55 @@
+name: baseline-profiles
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  generate-baseline-profiles:
+
+    runs-on: macos-latest
+
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 11
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Grant Permissions to gradlew
+        run: chmod +x gradlew
+
+      - name: Clean Managed Devices
+        run: ./gradlew cleanManagedDevices --unused-only
+
+      - name: Generate Baseline Profile
+        run: ./gradlew :benchmark:pixel6Api31BenchmarkAndroidTest -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect" -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile -Dorg.gradle.workers.max=4
+
+      - name: Move & Rename Baseline Profiles
+        run: |
+          mv -f benchmark/build/outputs/managed_device_android_test_additional_output/pixel6Api31/BaselineProfileGenerator_startup-baseline-prof.txt app/src/main/baseline-prof.txt
+
+      # Create pull request for adding baseline profiles
+      - name: Commit Baseline Profiles and create pull request
+        env:
+          TZ: 'Asia/Tokyo'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+        run: |
+          DATE=`date +"%Y%m%d%H%M"`
+          BRANCH_NAME="baseline_profiles/$DATE"
+          git checkout -b "$BRANCH_NAME"
+          
+          git add app/src/main/baseline-prof.txt
+          git commit --allow-empty -m "Generate baseline profiles"
+          git push --set-upstream origin "$BRANCH_NAME"
+          
+          gh pr create -B develop/phase2 -t "Generate Baseline Profiles $DATE" -b ''
